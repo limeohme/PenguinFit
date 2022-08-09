@@ -27,7 +27,8 @@
         "no-redeclare": 2,
         "no-shadow": 2, 
         "no-shadow-restricted-names": 2,
-        "no-unused-vars": ["error", { "varsIgnorePattern": "_" }]
+        "no-unused-vars": ["error", { "varsIgnorePattern": "_" }],
+        "comma-dangle": ["warn", {"objects": "always-multiline"}]
     },
     "parserOptions": {
         "sourceType": "module"
