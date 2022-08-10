@@ -1,0 +1,9 @@
+.not-found {
+  font-family: var(--main-font);
+  font-size: 20em;
+  color: var(--btn-background-color);
+  border: 0.01em solid var(--btn-hover-color);
+  padding: 6rem;
+  border-radius: 3rem;
+  border-style: solid dashed dotted double;
+}

@@ -1,0 +1,104 @@
+/* :root {
+  --box-shadow-inset: 0px -25px 20px -20px #00000040 inset;
+  --box-shadow: 15px 15px 40px #00000020, 15px 15px 40px #00000020,
+    var(--box-shadow-inset);
+  --text-shadow-title: 1px 1px #00000050, 2px 2px #00000030, 3px 3px #00000010;
+  --text-shadow-hover: 2px 2px 6px rgba(0, 0, 0, 0.3);
+  --text-shadow-active: 2px 2px 6px rgba(0, 0, 0, 0.6);
+} */
+
+nav {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  height: var(--navbar-height);
+  font-size: 1.2em;
+  font-weight: lighter;
+  font-family: var(--main-font);
+  border-bottom-left-radius: var(--element-radius);
+  border-bottom-right-radius: var(--element-radius);
+}
+
+nav a {
+  color: var(--text-color);
+  text-decoration: none;
+  border-bottom-right-radius: var(--element-radius);
+}
+
+.nav-element,
+.app-title {
+  display: flex;
+  height: var(--navbar-height);
+  background-color: var(--element-background-color);
+  border-bottom-right-radius: var(--element-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.app-title {
+  width: 100%;
+  padding: 0 calc(var(--navbar-height) / 1.5);
+  border-bottom-left-radius: var(--element-radius);
+  font-weight: bold;
+  letter-spacing: 0.2em;
+}
+
+.app-title > .text-link {
+  color: var(--text-color);
+  text-shadow: var(--text-shadow-title);
+}
+
+.nav-element {
+  position: relative;
+  padding-right: calc(var(--navbar-height) / 1.5);
+}
+
+.nav-element::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: calc((var(--navbar-height) / 1.5) * -1);
+  width: calc(var(--navbar-height) / 1.5);
+  height: var(--navbar-height);
+  background-color: var(--element-background-color);
+  box-shadow: var(--box-shadow-inset);
+}
+
+.text-link {
+  display: inline;
+  text-align: center;
+  align-self: center;
+  padding: 0 calc((var(--navbar-height) / 1.5) - 1.5rem);
+  margin: 0;
+}
+
+.nav-element:hover .text-link {
+  text-shadow: var(--text-shadow-hover);
+}
+
+a.active > .nav-element {
+  color: var(--text-color-hover);
+  background-color: transparent;
+  box-shadow: none;
+}
+
+a.active > .nav-element > .text-link {
+  text-shadow: var(--text-shadow-active);
+}
+
+a.active > .nav-element::before {
+  background-color: var(--element-background-color);
+  border-bottom-right-radius: var(--element-radius);
+}
+
+a.active + a > .nav-element::before {
+  background-color: var(--element-background-color);
+  border-bottom-left-radius: var(--element-radius);
+}
+
+#create-post {
+  width: 7em;
+}
+
+#x {
+  color: var(--btn-background-color);
+}

@@ -1,0 +1,37 @@
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: space-evenly;
+  gap: 0.5rem;
+  padding: 0.2rem 1rem;
+  height: calc(var(--navbar-height) / 2);
+  font-weight: lighter;
+  font-family: var(--main-font);
+  color: var(--text-color);
+  background-color: var(--element-background-color);
+  border-top-left-radius: var(--element-radius);
+  border-top-right-radius: var(--element-radius);
+  box-shadow: 15px 15px 40px #00000020, 15px 15px 40px #00000020,
+    -25px 0px 20px -20px #00000040 inset;
+}
+
+footer > div > .divider {
+  color: #00000050;
+}
+
+footer > div > a {
+  text-decoration: none;
+}
+
+footer > div > a:hover {
+  text-shadow: var(--text-shadow-hover);
+}
+
+footer > div > a:visited {
+  color: var(--btn-background-color);
+}
+
+footer > div > a:link {
+  color: black;
+}
