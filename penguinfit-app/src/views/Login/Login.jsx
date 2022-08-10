@@ -1,118 +1,97 @@
-// import './Login.css';
 // import { useContext, useState } from 'react';
 // import AppState from '../../providers/app-state';
-// import { Link, useLocation, useNavigate } from 'react-router-dom';
+// import { useLocation, useNavigate } from 'react-router-dom';
 // import { signInUser } from '../../services/auth-service';
 // import { getUserByHandle } from '../../services/users-service';
 // import Error from '../../components/Error/Error';
 // import { keepUserInfo } from '../../services/local-storage-service';
 
-// // gollalillian@gmail.com
-// // bambubambu
+import {
+  Grid,
+  TextField,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Button,
+  Box,
+} from '@mui/material';
 
-// function Login() {
-//   const { appState, setState } = useContext(AppState);
-//   const navigate = useNavigate();
-//   const location = useLocation();
-//   const [errors, setErrors] = useState({
-//     loginError: '',
-//     userDataError: '',
-//   });
-//   const [form, setForm] = useState({
-//     email: '',
-//     password: '',
-//   });
+import React, { useState } from 'react';
+const defaultValues = {
+  email: '',
+  password: '',
+};
+const Login = () => {
+  const [formValues, setFormValues] = useState(defaultValues);
 
-//   function formSetter(prop, value) {
-//     setForm({
-//       ...form,
-//       [prop]: value,
-//     });
-//   }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
 
-//   function errorSetter(prop, value) {
-//     setErrors({
-//       ...errors,
-//       [prop]: value,
-//     });
-//   }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formValues);
+  };
+  return (
+    <>
 
-//   function submissionHandler(e) {
-//     e.preventDefault();
-//     signInHandler(e, form.email, form.password);
-//   }
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: '100vh' }}
+      >
 
-//   function signInHandler(ev, email, password) {
-//     ev.preventDefault();
-//     signInUser(email, password)
-//       .then((userCredential) => {
-//         // Signed in
-//         const user = userCredential.user;
-//         getUserByHandle(user.displayName)
-//           .then((snapshot) => {
-//             const userData = snapshot.val();
+        <Grid item xs={3}>
+          <Box>
+            <form onSubmit={handleSubmit}>
+              <Grid container alignItems="center" justify="center" direction="column">
+                <h3>Login</h3>
+                <Grid item>
+                  <TextField
+                    id="email-input"
+                    name="email"
+                    label="Email"
+                    type="text"
+                    value={formValues.email}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    id="password-input"
+                    name="password"
+                    label="Password"
+                    type="password"
+                    value={formValues.password}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item>
+                  <FormGroup>
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />
+                  </FormGroup>
+                </Grid>
+                <Button variant="contained" color="primary" type="submit">
+          Submit
+                </Button>
+              </Grid>
+              <Grid item>
+                <p>Not a member? Sign up</p>
+              </Grid>
+            </form>
+          </Box>
+        </Grid>   
+   
+      </Grid> 
+    </>
+  );
+};
 
-//             setState({
-//               ...appState,
-//               user: userData,
-//             });
-//             keepUserInfo(userData, userCredential);
-//             navigate(location?.state?.from ?? '/home');
-//           })
-//           .catch(console.log);
-//       })
-//       .catch((error) => {
-//         const errorMessage = error.message;
-//         if (errorMessage.includes('user-not-found')) {
-//           errorSetter(
-//             'loginError',
-//             'There is no user with this login information.',
-//           );
-//         }
-//         if (errorMessage.includes('wrong-password')) {
-//           errorSetter('loginError', 'Wrong password!');
-//         }
-//       });
-//   }
-
-//   return (
-//     <>
-//       <form className="login">
-//         {/* <h3>Login</h3> */}
-//         <input
-//           type="email"
-//           placeholder="email"
-//           onChange={(e) => formSetter('email', e.target.value)}
-//         ></input>
-//         <br />
-//         <input
-//           type="password"
-//           placeholder="password"
-//           onChange={(e) => formSetter('password', e.target.value)}
-//           onKeyPress={(e) => {
-//             if (e.key === 'Enter') submissionHandler(e);
-//           }}
-//         ></input>
-//         <br />
-//         <Error error={errors.loginError || ''}></Error>
-//         <div
-//           className="sign-in-btn"
-//           onClick={(e) => {
-//             submissionHandler(e);
-//           }}
-//         >
-//           Sign In
-//         </div>
-//       </form>
-
-//       <div className="not-registered">
-//         <div className="not-registered-text">Not Registered?</div>
-//         <div className="redirect">
-//           <Link to="/register">Sign Up</Link>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-// export default Login;
+export default Login;
