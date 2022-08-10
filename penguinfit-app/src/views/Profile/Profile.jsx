@@ -25,7 +25,7 @@ function Profile () {
     status: 'HYPERACTIVE',
     avatarURL: 'https://gitlab.com/limeohme/cat-being-dragged-memes/-/raw/main/PenguinNoBack.png'
   };
-  
+
   return (
     <Container sx={style.wrapperContainerStyle}>
       <Container sx={style.userInfoContainer}>
@@ -55,6 +55,7 @@ function Profile () {
           !edit ? user.weight : 
             <TextField variant="standard" defaultValue={user.weight} type='text' onChange={(e) => setForm({ ...form, username: e.target.value })}/>
         }</Box>
+        
       </Container>
       <Container sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
         <Box sx={ style.sideBoxStyle }>

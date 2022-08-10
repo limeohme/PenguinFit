@@ -7,7 +7,10 @@ export const deepBlue = indigo[800];
 
 export const wrapperContainerStyle = {
   display: 'flex',
-  py: '2rem',
+  my: '2rem',
+  borderRadius: 3,
+  border: 4,
+  borderColor: blue
 };
 
 export const userInfoContainer = {
@@ -17,12 +20,10 @@ export const userInfoContainer = {
   my: '5rem',
   py: '3rem',
   px: '10rem',
-  borderRadius: 3,
-  border: 4,
-  borderColor: blue
 };
 
 export const midiContainerStyle = {
+  alignSelf: 'flex-end',
   display: 'flex',
   flexDirection: 'column',
   bgcolor: 'none',
