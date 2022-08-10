@@ -9,7 +9,7 @@ import Navbar from './components/Navbar/Navbar';
 // import Footer from './components/Footer/Footer';
 
 // import NotFound from './views/NotFound/NotFound';
-// import Profile from './views/Profile/Profile';
+import Profile from './views/Profile/Profile';
 // import Login from './views/Login/Login';
 // import Register from './views/Register/Register';
 // import Home from './views/Home/Home';
@@ -38,6 +38,7 @@ function App() {
       <AppState.Provider value={{ appState, setState }}>
         <div className="container">
           <Navbar />
+          <Profile />
 
           <main className="Outlet">
             {/* <Routes>
