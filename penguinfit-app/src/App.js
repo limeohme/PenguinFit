@@ -19,13 +19,13 @@ import { getLoggedUser, getLoggedUserAuth } from './services/local-storage-servi
 // import Authenticated from './hoc/Authenticated';
 // import AuthenticatedAdmin from './hoc/AuthenticatedAdmin';
 
-import { CssBaseline, Grid, Toolbar, useMediaQuery, useTheme } from '@mui/material';
+import { CssBaseline, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import Navbar from './components/Navbar/Navbar';
 import Sidebar from './components/Sidebar/Sidebar';
 import { DRAWER_WIDTH } from './common/constants.js';
 import { Box } from '@mui/system';
 import Profile from './views/testProfile';
-import Dashboard from './views/testDashboard';
+import Dashboard from './views/Dashboard/Dashboard';
 import Activities from './views/testActivities';
 import Meals from './views/testMeals';
 import Goals from './views/testGoals';
@@ -107,31 +107,33 @@ function App() {
     setOpen(!open);
   };
 
+  const margin = isMdUp ? '230px' : 0;
+
   return (
     <BrowserRouter>
       <AppState.Provider value={{ appState, setState }}>
-        <Grid container>
-          <CssBaseline />
-          <Navbar classes={classes} toggleDrawer={toggleDrawer} />
-          <Sidebar classes={classes} toggleDrawer={toggleDrawer} open={open} isMdUp={isMdUp} />
-          <Box sx={{ ml: '230px' }}>
-            <Toolbar />
-            <Routes>
-              <Route index element={<Navigate replace to="home" />} />
-              <Route path="home" element={<Home />} />
-              <Route path="private" element={<Private />} />
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
+        {/* <Grid container> */}
+        <CssBaseline />
+        <Navbar classes={classes} toggleDrawer={toggleDrawer} />
+        <Sidebar classes={classes} toggleDrawer={toggleDrawer} open={open} isMdUp={isMdUp} />
+        <Box sx={{ ml: `${margin}` }}>
+          <Toolbar />
+          <Routes>
+            <Route index element={<Navigate replace to="home" />} />
+            <Route path="home" element={<Home />} />
+            <Route path="private" element={<Private />} />
+            <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
 
-              <Route path="profile" element={<Profile />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="activities" element={<Activities />} />
-              <Route path="meals" element={<Meals />} />
-              <Route path="goals" element={<Goals />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Route path="profile" element={<Profile />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="activities" element={<Activities />} />
+            <Route path="meals" element={<Meals />} />
+            <Route path="goals" element={<Goals />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
 
-            {/* <Routes>
+          {/* <Routes>
               <Route index element={<Navigate replace to="home" />} />
               <Route path="home" element={<Home />} />
               <Route path="about" element={<About />} />
@@ -153,9 +155,9 @@ function App() {
               <Route path="users/:username" element={<Authenticated><UserDetailed /></Authenticated>} />
               <Route path="*" element={<NotFound />} />
             </Routes> */}
-          </Box>
-          {/* <Footer /> */}
-        </Grid>
+        </Box>
+        {/* <Footer /> */}
+        {/* </Grid> */}
       </AppState.Provider>
     </BrowserRouter>
   );

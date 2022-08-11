@@ -83,7 +83,7 @@ function Navbar({ classes, toggleDrawer }) {
           {/* <MenuIcon /> */}
           🐧
         </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" >
             PenguinFit
         </Typography>
         {renderLoginLogout(appState.user, setUser)}
