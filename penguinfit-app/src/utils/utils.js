@@ -1,5 +1,17 @@
 import { KEYWORD_PREFIX } from '../common/constants';
 
+//BEWARE! NEW FUNCTIONS
+
+export function calculateBMIMessage(BMI) {
+  if (BMI >= 18.5 && BMI <= 25) {
+    return 'You are within the healthy range!';
+  } else if (BMI < 18.5) {
+    return 'Your BMI result suggests you are underweight.';
+  } else {
+    return 'Your BMI result suggests you are overweight.';
+  }
+}
+
 export const formatDateToString = (date) => `
 ${date.toDateString()} ${date.toLocaleTimeString()} `;
 // `${date.getDate()} ${date
