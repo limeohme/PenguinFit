@@ -11,8 +11,8 @@ import Private from './views/Private/Private';
 import NotFound from './views/NotFound/NotFound';
 // import Footer from './components/Footer/Footer';
 // import Profile from './views/Profile/Profile';
-// import Login from './views/Login/Login';
-// import Register from './views/Register/Register';
+import Login from './views/Login/Login';
+import Register from './views/Register/Register';
 
 import { getLoggedUser, getLoggedUserAuth } from './services/local-storage-service';
 
@@ -120,8 +120,8 @@ function App() {
               <Route index element={<Navigate replace to="home" />} />
               <Route path="home" element={<Home />} />
               <Route path="private" element={<Private />} />
-              {/* <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} /> */}
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
 
               <Route path="profile" element={<Profile />} />
               <Route path="dashboard" element={<Dashboard />} />

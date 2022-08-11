@@ -1,8 +1,11 @@
 // import './Navbar.css';
 // import { useContext } from 'react';
 // import { NavLink } from 'react-router-dom';
-// import AppState from '../../providers/app-state';
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import AppState from '../../providers/app-state';
+import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import SignOut from '../SignOut/SignOut';
+import { useContext } from 'react';
 // import MenuIcon from '@mui/icons-material/Menu';
 
 // import { APP_TITLE } from '../../common/constants';
@@ -12,7 +15,26 @@ import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
 // import { userRole } from '../../common/user-role';
 
 function Navbar({ classes, toggleDrawer }) {
-//   const { appState, setState } = useContext(AppState);
+  const { appState, setState } = useContext(AppState);
+
+  const setUser = (userData) => {
+    setState({
+      ...appState,
+      user: userData,
+    });
+  };
+
+  const renderLoginLogout = (state, changeUser) => {
+    if(!state){
+      return (
+        <Link to = '/login'>
+        Login
+        </Link>
+      );
+    }
+    return <SignOut changeUser={changeUser}></SignOut>;
+    
+  };
   //   const loginLink = (
   //     <NavLink to="/login">
   //       <div className="nav-element">
@@ -64,7 +86,7 @@ function Navbar({ classes, toggleDrawer }) {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             PenguinFit
         </Typography>
-        <Button color="inherit">Login</Button>
+        {renderLoginLogout(appState.user, setUser)}
       </Toolbar>
     </AppBar>
   );
