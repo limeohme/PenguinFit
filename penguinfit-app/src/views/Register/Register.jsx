@@ -1,41 +1,41 @@
-// import './Login.css';
-// import { useContext, useState } from 'react';
-// import AppState from '../../providers/app-state';
-// import { useLocation, useNavigate } from 'react-router-dom';
-// import { signInUser } from '../../services/auth-service';
-// import { getUserByHandle } from '../../services/users-service';
-// import Error from '../../components/Error/Error';
-// import { keepUserInfo } from '../../services/local-storage-service';
 
 import {
   Grid,
   TextField,
-  //   FormControlLabel,
-  //   FormControl,
-  //   FormLabel,
-  //   RadioGroup,
-  //   Radio,
-  //   Select,
-  //   MenuItem,
   Slider,
   Button,
-  Box,
+  Paper,
+  Typography,
+  Link,
+  // InputAdornment,
 } from '@mui/material';
-  
+import AppState from '../../providers/app-state';
 import React, { useState } from 'react';
+import { useContext } from 'react';
+import { registerUser, userUpdate } from '../../services/auth-service';
+import { createUserHandle, getUserByHandle } from '../../services/user-service';
+import { validateRegistration } from '../../utils/validations';
+
 const defaultValues = {
   username: '',
-  age: 0,
+  password: '',
+  passwordCheck: '',
+  age: '',
   email: '',
   weight: '',
-  height: 0,
-  phoneNumber: 0,
-  activityStatus: 0,
-  BMI: 0,
+  height: '',
+  phoneNumber: '',
+  activityStatus: 1,
+  BMI: '',
 
 };
 const Register = () => {
+  const { appState, setState } = useContext(AppState);
   const [formValues, setFormValues] = useState(defaultValues);
+  const [errors, setErrors] = useState({
+    regError: '',
+  });
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
@@ -51,7 +51,45 @@ const Register = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formValues);
+    try {
+      validateRegistration(formValues);
+      regHandler(formValues);
+    } catch (err) {
+      errorSetter('regError', err.message);
+      console.log(err);
+    }
+  };
+  
+  function errorSetter(prop, value) {
+    setErrors({
+      ...errors,
+      [prop]: value,
+    });
+  }
+
+  const regHandler = (form) => {
+    getUserByHandle(form.username)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          return errorSetter(
+            'regError',
+            `User with username ${form.username} already exists!`,);
+        }
+        registerUser(form.email, form.password);
+        return form;
+      }).then((userCredential) => {
+        userUpdate(userCredential.username);
+        createUserHandle(userCredential);
+
+        console.log(userCredential);
+
+        setState({
+          ...appState,
+          user: userCredential,
+        });
+
+      }).then(() => {
+      });
   };
   return (
     <>
@@ -65,9 +103,12 @@ const Register = () => {
       >
   
         <Grid item xs={3}>
-          <Box>
+          <Paper sx={{ padding: 4, margin: 4, }}>
             <form onSubmit={handleSubmit}>
               <Grid container alignItems="center" justify="center" direction="column">
+                <Grid item>
+                  <h3>Register</h3>
+                </Grid>
                 <Grid item>
                   <TextField
                     id="username-input"
@@ -76,6 +117,31 @@ const Register = () => {
                     type="text"
                     value={formValues.username}
                     onChange={handleInputChange}
+                    sx={{ margin: 1, }}
+                    required
+                    error={formValues.username === ''}
+                  />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    id="password-input"
+                    name="password"
+                    label="Password"
+                    type="password"
+                    value={formValues.password}
+                    onChange={handleInputChange}
+                    sx={{ margin: 1, }}
+                  />
+                </Grid>
+                <Grid item>
+                  <TextField
+                    id="passwordCheck-input"
+                    name="passwordCheck"
+                    label="Repeat password"
+                    type="password"
+                    value={formValues.passwordCheck}
+                    onChange={handleInputChange}
+                    sx={{ margin: 1, }}
                   />
                 </Grid>
                 <Grid item>
@@ -86,16 +152,9 @@ const Register = () => {
                     type="number"
                     value={formValues.age}
                     onChange={handleInputChange}
+                    sx={{ margin: 1, }}
                   />
                 </Grid>
-                {/* username: '',
-  age: 0,
-  email: '',
-  weight: '',
-  height: 0,
-  phoneNumber: 0,
-  activityStatus: 0,
-  BMI: 0, */}
                 <Grid item>
                   <TextField
                     id="email-input"
@@ -104,6 +163,7 @@ const Register = () => {
                     type="text"
                     value={formValues.email}
                     onChange={handleInputChange}
+                    sx={{ margin: 1, }}
                   />
                 </Grid>
                 <Grid item>
@@ -114,6 +174,7 @@ const Register = () => {
                     type="number"
                     value={formValues.height}
                     onChange={handleInputChange}
+                    sx={{ margin: 1, }}
                   />
                 </Grid>
                 <Grid item>
@@ -124,6 +185,7 @@ const Register = () => {
                     type="number"
                     value={formValues.weight}
                     onChange={handleInputChange}
+                    sx={{ margin: 1, }}
                   />
                 </Grid>
                 <Grid item>
@@ -134,6 +196,7 @@ const Register = () => {
                     type="number"
                     value={formValues.phoneNumber}
                     onChange={handleInputChange}
+                    sx={{ margin: 1, }}
                   />
                 </Grid>
                 <Grid item>
@@ -142,16 +205,18 @@ const Register = () => {
                     name="BMI"
                     label="BMI"
                     type="number"
-                    value={formValues.phoneNumber}
+                    value={formValues.BMI}
                     onChange={handleInputChange}
+                    sx={{ margin: 1, }}
                   />
                 </Grid>
                 <Grid item>
                   <div style={{ width: '400px' }}>
               How active are you ?
                     <Slider
-                      value={formValues.favoriteNumber}
-                      onChange={handleSliderChange('favoriteNumber')}
+                      value={formValues.activityStatus}
+                      onChange={handleSliderChange('activityStatus')}
+                      sx={{ margin: 2, }}
                       defaultValue={1}
                       step={1}
                       min={1}
@@ -177,9 +242,16 @@ const Register = () => {
                 <Button variant="contained" color="primary" type="submit">
             Submit
                 </Button>
+                <Grid item>
+                  <Typography  sx={{ margin: 1, }}> You have an account ?
+                    <Link href = '/login'>
+                  Login
+                    </Link>
+                  </Typography>
+                </Grid>
               </Grid>
             </form>
-          </Box>
+          </Paper>
         </Grid>   
      
       </Grid> 
