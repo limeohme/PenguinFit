@@ -7,7 +7,10 @@ export const deepBlue = indigo[800];
 
 export const wrapperContainerStyle = {
   display: 'flex',
+  alignItems: 'center',
+  gap: '2rem',
   my: '2rem',
+  px: '2rem',
   borderRadius: 3,
   border: 4,
   borderColor: blue
@@ -17,9 +20,8 @@ export const userInfoContainer = {
   display: 'flex',
   flexDirection: 'column',
   bgcolor: 'none',
-  my: '5rem',
-  py: '3rem',
-  px: '10rem',
+  my: '2rem',
+  py: '1rem',
 };
 
 export const midiContainerStyle = {
@@ -27,10 +29,8 @@ export const midiContainerStyle = {
   display: 'flex',
   flexDirection: 'column',
   bgcolor: 'none',
-  my: '5rem',
-  py: '2rem',
-  px: '10rem',
-  ml: '6rem'
+  my: '2rem',
+  width: 'fit-content'
 };
 
 export const infoBoxStyle = {
@@ -57,13 +57,11 @@ export const sideBoxStyle = {
   border: 4,
   borderColor: blue,
   p: '3rem',
-  my: '2rem',
   alignSelf: 'center',
   textAlign: 'center',
   minWidth: '16rem',
   justifyContent: 'space-around',
-  mt: '1.5rem',
-  height: 240,
+  m: '1.5rem',
   alignItems: 'center'
 };
 

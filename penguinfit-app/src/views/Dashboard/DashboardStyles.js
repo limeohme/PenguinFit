@@ -82,6 +82,6 @@ export const dateStyle = {
 export const chartNamesStyle = {
   fontWeight: 700,
   fontFamily: 'Monospace',
-  letterSpacing: 2,
+  letterSpacing: 1,
   color: blue
 };
