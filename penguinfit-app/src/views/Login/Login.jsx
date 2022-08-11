@@ -1,5 +1,5 @@
-// import { useContext, useState } from 'react';
-// import AppState from '../../providers/app-state';
+import { useContext } from 'react';
+import AppState from '../../providers/app-state';
 // import { useLocation, useNavigate } from 'react-router-dom';
 // import { signInUser } from '../../services/auth-service';
 // import { getUserByHandle } from '../../services/users-service';
@@ -15,16 +15,23 @@ import {
   Button,
   Paper,
   Typography,
-  Link,
 } from '@mui/material';
 
 import React, { useState } from 'react';
+import { signInUser } from '../../services/auth-service';
+import { getUserByHandle } from '../../services/user-service';
+import { keepUserInfo } from '../../services/local-storage-service';
+import { Link } from 'react-router-dom';
+// import { Navigate } from 'react-router';
 const defaultValues = {
   email: '',
   password: '',
+  rememberMe: true,
 };
 const Login = () => {
   const [formValues, setFormValues] = useState(defaultValues);
+  const { appState, setState } = useContext(AppState);
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,9 +41,36 @@ const Login = () => {
     });
   };
 
+  const handleCheckboxChange = (e, propName) => {
+    const { checked } = e.target;
+    setFormValues({
+      ...formValues,
+      [propName]: checked,
+    });
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formValues);
+    signInHandler(formValues);
+
+  };
+
+  const signInHandler = (form) => {
+    signInUser(form.email, form.password)
+      .then((userCredential) => {
+      // Signed in
+        getUserByHandle(userCredential.user.displayName)
+          .then((snapshot) => {
+            const userData = snapshot.val();
+
+            setState({
+              ...appState,
+              user: userData,
+            });
+            if(form.rememberMe) keepUserInfo(userData, userCredential);
+            // navigate(location?.state?.from ?? '/home');
+          })
+          .catch(console.error);
+      });
   };
   return (
     <>
@@ -74,17 +108,16 @@ const Login = () => {
                   value={formValues.password}
                   onChange={handleInputChange}
                   required
-                  InputAdornment
                   sx={{ margin: 1, }}
                 />
                 <FormGroup>
-                  <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />
+                  <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" onChange={(e) => handleCheckboxChange(e,'rememberMe')}/>
                 </FormGroup>
                 <Button variant="contained" color="primary" type="submit">
           Submit
                 </Button>
                 <Typography  sx={{ margin: 1, }}> Not a member?
-                  <Link href = '/register'>
+                  <Link to = '/register'>
                   Sign up
                   </Link>
                 </Typography>
