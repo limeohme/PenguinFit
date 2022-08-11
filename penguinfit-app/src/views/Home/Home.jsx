@@ -1,3 +1,7 @@
+export default function Home() {
+  return <h1 className="home">Home</h1>;
+}
+
 // import { useContext, useEffect, useState } from 'react';
 // import AppState from '../../providers/app-state';
 // import PostGeneral from '../../components/PostGeneral/PostGeneral';
