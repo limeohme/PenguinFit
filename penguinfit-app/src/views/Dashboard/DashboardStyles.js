@@ -7,10 +7,11 @@ export const deepBlue = indigo[800];
 export const somePurple = purple[500];
 
 export const containerStyle = {
-  display: 'flex',
-  flexDirection: 'row',
-  gap: '0rem',
-  justifyContent: 'space-around',
+  display: 'grid',
+  gridTemplateRows: 'auto',
+  gridTemplateColumns: '50% 50%',
+  gap: '1rem',
+  justifyContent: 'space-between',
   p: '1rem'
 };
 
@@ -37,15 +38,15 @@ export const piessContainerStyle = {
   display: 'flex',
   flexDirection: 'row',
   gap: '0rem',
-  justifyContent: 'space-around',
+  justifyContent: 'space-between',
   p: '1rem',
 };
 
 export const cardsStyle = {
-  width: 'fit-content',
   p: '1rem',
   mx: '1rem',
-  bgcolor: green
+  bgcolor: green,
+  alignSelf: 'center'
 };
 
 export const pieChartStyle = {
@@ -60,20 +61,27 @@ export const pieChartStyle = {
 
 export const barChartStyle = {
   my: '1rem',
-  height: 'max-content',
-  width: 'max-content',
-  justifyContent: 'space-around',
-  flexFlow: 'wrap'
+  px: '1rem'
 };
 
 export const salutationStyle = {
+  color: lightGreen[900],
+  fontWeight: 900,
+  fontFamily: 'Monospace',
+  letterSpacing: 4
 
 };
 
 export const dateStyle = {
-
+  fontWeight: 900,
+  fontFamily: 'Monospace',
+  letterSpacing: 4,
+  color: blue
 };
 
 export const chartNamesStyle = {
-
+  fontWeight: 700,
+  fontFamily: 'Monospace',
+  letterSpacing: 1,
+  color: blue
 };
