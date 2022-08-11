@@ -12,29 +12,24 @@ export function validateSignIn(form = { email: '', password: '' }) {
 
 }
 
-export function validateRegistration(form = {}) {
-  const NAMES_MIN_LEN = 2;
-  const NAMES_MAX_LEN = 20;
+export function validateRegistration(form = {}, errorSetter) {
   const PASS_MIN_LEN = 6;
 
 
   if ((!form.email) || mailRE.test(form.email.toLowerCase()) === false) {
-    throw new Error('Invalid email!');
+    errorSetter('email', 'Invalid email !');
+    throw new Error('Invalid email !');
   }
   if ((!form.password) || form.password.length < PASS_MIN_LEN) {
+    errorSetter('password', 'Password must be at least 6 characters long!');
     throw new Error('Password must be at least 6 characters long!');
   }
   if ((!form.passwordCheck) || form.passwordCheck !== form.password) {
+    errorSetter('password', 'Passwords don\'t match!');
     throw new Error('Passwords don\'t match!');
   }
-  if (!form.firstName || form.firstName.length < NAMES_MIN_LEN || form.firstName.length > NAMES_MAX_LEN) {
-    console.log(typeof form.firstName, form.firstName.length);
-    throw new Error('Invalid first name! Name must be between 4 and 32 characters long.');
-  }
-  if (!form.lastName || form.lastName.length < NAMES_MIN_LEN || form.lastName.length > NAMES_MAX_LEN) {
-    throw new Error('Invalid last name! Name must be between 4 and 32 characters long.');
-  }
   if (!form.username) {
+    errorSetter('username', 'You must enter a username!');
     throw new Error('You must enter a username!');
   }
 
