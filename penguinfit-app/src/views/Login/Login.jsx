@@ -13,7 +13,9 @@ import {
   FormControlLabel,
   Checkbox,
   Button,
-  Box,
+  Paper,
+  Typography,
+  Link,
 } from '@mui/material';
 
 import React, { useState } from 'react';
@@ -48,45 +50,47 @@ const Login = () => {
         style={{ minHeight: '100vh' }}
       >
 
-        <Grid item xs={3}>
-          <Box>
+        <Grid item xs={3} >
+          <Paper   sx={{ padding: 4, margin: 4, }}>
             <form onSubmit={handleSubmit}>
               <Grid container alignItems="center" justify="center" direction="column">
                 <h3>Login</h3>
-                <Grid item>
-                  <TextField
-                    id="email-input"
-                    name="email"
-                    label="Email"
-                    type="text"
-                    value={formValues.email}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    id="password-input"
-                    name="password"
-                    label="Password"
-                    type="password"
-                    value={formValues.password}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
-                <Grid item>
-                  <FormGroup>
-                    <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />
-                  </FormGroup>
-                </Grid>
+                <TextField
+                  id="email-input"
+                  name="email"
+                  label="Email"
+                  type="text"
+                  value={formValues.email}
+                  onChange={handleInputChange}
+                  required
+                  sx={{ margin: 1, }}
+                />
+                
+                <TextField
+                  id="password-input"
+                  name="password"
+                  label="Password"
+                  type="password"
+                  value={formValues.password}
+                  onChange={handleInputChange}
+                  required
+                  InputAdornment
+                  sx={{ margin: 1, }}
+                />
+                <FormGroup>
+                  <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" />
+                </FormGroup>
                 <Button variant="contained" color="primary" type="submit">
           Submit
                 </Button>
-              </Grid>
-              <Grid item>
-                <p>Not a member? Sign up</p>
+                <Typography  sx={{ margin: 1, }}> Not a member?
+                  <Link href = '/register'>
+                  Sign up
+                  </Link>
+                </Typography>
               </Grid>
             </form>
-          </Box>
+          </Paper>
         </Grid>   
    
       </Grid> 
