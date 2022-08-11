@@ -10,5 +10,5 @@ export const getUserByHandle = (handle) => {
 };
 
 export const createUserHandle = (userInfo) => {
-  return set(ref(db, `users/${userInfo.handle}`), userInfo);
+  return set(ref(db, `users/${userInfo.username}`), userInfo);
 };

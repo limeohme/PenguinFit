@@ -6,7 +6,6 @@ import {
   Button,
   Paper,
   Typography,
-  Link,
   // InputAdornment,
 } from '@mui/material';
 import AppState from '../../providers/app-state';
@@ -15,6 +14,8 @@ import { useContext } from 'react';
 import { registerUser, userUpdate } from '../../services/auth-service';
 import { createUserHandle, getUserByHandle } from '../../services/user-service';
 import { validateRegistration } from '../../utils/validations';
+import { Link } from 'react-router-dom';
+// import { keepUserInfo } from '../../services/local-storage-service';
 
 const defaultValues = {
   username: '',
@@ -32,9 +33,7 @@ const defaultValues = {
 const Register = () => {
   const { appState, setState } = useContext(AppState);
   const [formValues, setFormValues] = useState(defaultValues);
-  const [errors, setErrors] = useState({
-    regError: '',
-  });
+  const [errors, setErrors] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,12 +50,13 @@ const Register = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    setErrors(null);
     try {
-      validateRegistration(formValues);
+      validateRegistration(formValues, errorSetter);
       regHandler(formValues);
     } catch (err) {
-      errorSetter('regError', err.message);
-      console.log(err);
+      // errorSetter(err.message);
+      console.log(errors);
     }
   };
   
@@ -69,27 +69,39 @@ const Register = () => {
 
   const regHandler = (form) => {
     getUserByHandle(form.username)
+      // eslint-disable-next-line consistent-return
       .then((snapshot) => {
         if (snapshot.exists()) {
           return errorSetter(
-            'regError',
-            `User with username ${form.username} already exists!`,);
+            'username',
+            `User with username ${form.username} already exists!`,
+          );
         }
-        registerUser(form.email, form.password);
-        return form;
-      }).then((userCredential) => {
-        userUpdate(userCredential.username);
-        createUserHandle(userCredential);
-
-        console.log(userCredential);
-
-        setState({
-          ...appState,
-          user: userCredential,
-        });
-
       }).then(() => {
+        registerUser(form.email, form.password)
+          .then(() => {
+            userUpdate(form.username);
+
+            const userData = {
+              username: form.username,
+              age: form.age,
+              email: form.email,
+              weight: form.weight,
+              height: form.height,
+              phoneNumber: form.phoneNumber,
+              activityStatus: form.activityStatus,
+              BMI: (Number(form.weight)/(Number(form.height)**2)),
+            };
+            createUserHandle(userData);
+
+            setState({
+              ...appState,
+              user: userData,
+            });
+          });
+
       });
+
   };
   return (
     <>
@@ -119,7 +131,8 @@ const Register = () => {
                     onChange={handleInputChange}
                     sx={{ margin: 1, }}
                     required
-                    error={formValues.username === ''}
+                    error={!!errors?.username}
+                    helperText={errors?.username}
                   />
                 </Grid>
                 <Grid item>
@@ -130,7 +143,10 @@ const Register = () => {
                     type="password"
                     value={formValues.password}
                     onChange={handleInputChange}
+                    required
                     sx={{ margin: 1, }}
+                    error={!!errors?.password}
+                    helperText={errors?.password}
                   />
                 </Grid>
                 <Grid item>
@@ -142,6 +158,9 @@ const Register = () => {
                     value={formValues.passwordCheck}
                     onChange={handleInputChange}
                     sx={{ margin: 1, }}
+                    required
+                    error={!!errors?.password}
+                    helperText={errors?.password}
                   />
                 </Grid>
                 <Grid item>
@@ -164,6 +183,9 @@ const Register = () => {
                     value={formValues.email}
                     onChange={handleInputChange}
                     sx={{ margin: 1, }}
+                    required
+                    error={!!errors?.email}
+                    helperText={errors?.email}
                   />
                 </Grid>
                 <Grid item>
@@ -199,17 +221,7 @@ const Register = () => {
                     sx={{ margin: 1, }}
                   />
                 </Grid>
-                <Grid item>
-                  <TextField
-                    id="BMI-input"
-                    name="BMI"
-                    label="BMI"
-                    type="number"
-                    value={formValues.BMI}
-                    onChange={handleInputChange}
-                    sx={{ margin: 1, }}
-                  />
-                </Grid>
+                
                 <Grid item>
                   <div style={{ width: '400px' }}>
               How active are you ?
@@ -244,7 +256,7 @@ const Register = () => {
                 </Button>
                 <Grid item>
                   <Typography  sx={{ margin: 1, }}> You have an account ?
-                    <Link href = '/login'>
+                    <Link to = '/login'>
                   Login
                     </Link>
                   </Typography>
