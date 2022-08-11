@@ -51,15 +51,16 @@ export const infoBoxStyle = {
 
 export const sideBoxStyle = {
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   boxShadow: 1,
   borderRadius: 2,
   border: 4,
   borderColor: blue,
-  p: '2rem',
+  p: '3rem',
   my: '2rem',
   alignSelf: 'center',
   textAlign: 'center',
+  minWidth: '16rem',
   justifyContent: 'space-around',
   mt: '1.5rem',
   height: 240,
@@ -104,7 +105,24 @@ export const BMIStyle = {
   fontWeight: 700,
   fontFamily: 'Monospace',
   letterSpacing: 4,
-  color: purple[700]  
+  color: purple[900]  
+};
+
+export const BMINumberStyle = {
+  fontSize: 58,
+  fontWeight: 700,
+  fontFamily: 'Monospace',
+  letterSpacing: 4,
+  color: blue  
+};
+
+export const BMIMsgStyle = {
+  my: '0.5rem',
+  fontSize: 16,
+  fontWeight: 'bold',
+  fontFamily: 'Monospace',
+  letterSpacing: 1,
+  color: purple[900]
 };
 
 export const activityStyle = {
@@ -112,5 +130,14 @@ export const activityStyle = {
   fontWeight: 900,
   fontFamily: 'Monospace',
   letterSpacing: 4,
+  color: lightGreen[900]
+};
+
+export const rangeStyle = {
+  my: '0.5rem',
+  fontSize: 16,
+  fontWeight: 'bold',
+  fontFamily: 'Monospace',
+  letterSpacing: 1,
   color: lightGreen[900]
 };

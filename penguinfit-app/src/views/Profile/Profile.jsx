@@ -1,10 +1,13 @@
-import { Container, Box, Avatar, Typography, Button, TextField } from '@mui/material';
+import { Container, Box, Avatar, Typography, Button, TextField, Slider } from '@mui/material';
+// import { useEffect } from 'react';
 import { useState } from 'react';
+import { calculateBMIMessage } from '../../utils/utils.js';
 
 import * as style from './ProfileStyles.js';
 
 function Profile () {
   const [edit, setEdit] = useState(false);
+  // const [BMI, setBMI] = useState(0);
   const [form, setForm] = useState({
     username: '',
     age: '',
@@ -13,6 +16,10 @@ function Profile () {
     email: '',
     phoneNumber: '',
   });
+  const BMIMarks = [
+    { value: 18.5, label:'18.5' },
+    { value: 25, label:'25' },
+  ];
 
   const user = {
     username: 'BabyPenguin78',
@@ -21,10 +28,23 @@ function Profile () {
     weight: '80',
     email: 'babyPingu78@mail.com',
     phoneNumber: '08XXXXXXXX',
-    BMI: '',
+    BMI: null,
     status: 'HYPERACTIVE',
     avatarURL: 'https://gitlab.com/limeohme/cat-being-dragged-memes/-/raw/main/PenguinNoBack.png'
   };
+
+  // useEffect(() => {
+  //   (() => {
+  //     if (user.BMI < 17) {
+  //       setBMI(17);
+  //     } else if (user.BMI > 30) {
+  //       setBMI(30);
+  //     } else {
+  //       setBMI(user.BMI || Number((Number(user.weight)/(Number(user.height)**2)).toFixed(0)));
+  //     }
+  //   })();
+  // }, [user]);
+
 
   return (
     <Container sx={style.wrapperContainerStyle}>
@@ -60,8 +80,10 @@ function Profile () {
       <Container sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
         <Box sx={ style.sideBoxStyle }>
           <Typography sx={ style.BMIStyle}>BMI </Typography>
-          <Typography sx={ style.activityStyle}>: </Typography>
-          <Typography sx={ style.BMIStyle}>{user.BMI || (Number(user.weight)/(Number(user.height)**2)).toFixed(2)}</Typography>
+          <Typography sx={ style.BMINumberStyle}>{user.BMI || Number((Number(user.weight)/(Number(user.height)**2)).toFixed(0))}</Typography>
+          <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage(+user.BMI || (Number(user.weight)/(Number(user.height)**2)))}</Typography>
+          <Typography sx={style.rangeStyle}>Healthy Range:</Typography>
+          <Slider disabled={true} marks={BMIMarks} step={0.5} valueLabelDisplay="auto" defaultValue={[18.5, 25]} min={13.5} max={30} ></Slider>
         </Box>
         <Box sx={style.sideBoxStyle}>
           <Typography sx={ style.activityStyle}>{user.status}</Typography>
