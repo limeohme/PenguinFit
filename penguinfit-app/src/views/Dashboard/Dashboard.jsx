@@ -1,12 +1,12 @@
 import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 'victory';
-import { Box, Button, Card, CardActions, CardContent, Container, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, Container, Typography, Grid } from '@mui/material';
 import * as style from './DashboardStyles.js';
 import { formatDateToString } from '../../utils/utils.js';
 
 function Dashboard () {
   return (
     // outer container
-    <Container sx={style.containerStyle}>
+    <Grid sx={style.containerStyle}>
       {/* left half*/}
       <Container sx={style.midiContainerStyle}>
         <Typography sx={style.salutationStyle} variant='h4'>Hello, BabyPenguin78!</Typography>
@@ -205,7 +205,7 @@ function Dashboard () {
           </VictoryChart>
         </Box>
       </Container>
-    </Container>
+    </Grid>
 
   );
 }
