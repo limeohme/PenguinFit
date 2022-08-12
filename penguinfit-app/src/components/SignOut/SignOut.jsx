@@ -1,4 +1,5 @@
 
+import { Button } from '@mui/material';
 import { signOutUser } from '../../services/auth-service';
 import { removeUserFromStorage } from '../../services/local-storage-service';
 
@@ -9,9 +10,9 @@ const signOutHandler = ({ changeUser, }) => {
 
 function SignOut(changeUser) {
   return (
-    <p onClick={() => signOutHandler(changeUser)}>
-        Sign out
-    </p>
+    <Button onClick={() => signOutHandler(changeUser)} variant="contained">
+    Sign out
+    </Button>
   );
 }
 
