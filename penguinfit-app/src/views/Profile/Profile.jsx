@@ -161,8 +161,8 @@ function Profile () {
       <Container sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
         <Box sx={ style.sideBoxStyleGreen }>
           <Typography sx={ style.BMIStyle}>BMI </Typography>
-          <Typography sx={ style.BMINumberStyle}>{appState.user.BMI || Number((Number(appState.user.weight)/(Number(appState.user.height)**2)).toFixed(0))}</Typography>
-          <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage(+appState.user.BMI || (Number(appState.user.weight)/(Number(appState.user.height)**2)))}</Typography>
+          <Typography sx={ style.BMINumberStyle}>{Number((Number(appState.user.weight)/((Number(appState.user.height)/100)**2)).toFixed(0))}</Typography>
+          <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage((Number(appState.user.weight)/((Number(appState.user.height)/100)**2)))}</Typography>
           <Typography sx={style.rangeStyle}>Healthy Range:</Typography>
           <Slider sx={style.sliderStyle} disabled={true} marks={BMIMarks} step={0.5} valueLabelDisplay="auto" defaultValue={[18.5, 25]} min={13.5} max={30} />
         </Box>
