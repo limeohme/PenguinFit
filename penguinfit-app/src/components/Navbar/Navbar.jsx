@@ -2,7 +2,7 @@
 // import { useContext } from 'react';
 // import { NavLink } from 'react-router-dom';
 import AppState from '../../providers/app-state';
-import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, IconButton, Button, Toolbar, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import SignOut from '../SignOut/SignOut';
 import { useContext } from 'react';
@@ -27,9 +27,9 @@ function Navbar({ classes, toggleDrawer }) {
   const renderLoginLogout = (state, changeUser) => {
     if(!state){
       return (
-        <Link to = '/login'>
-        Login
-        </Link>
+        <Button component={Link} to="/login" variant="contained">
+          Login
+        </Button>
       );
     }
     return <SignOut changeUser={changeUser}></SignOut>;

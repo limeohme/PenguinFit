@@ -21,8 +21,7 @@ import React, { useState } from 'react';
 import { signInUser } from '../../services/auth-service';
 import { getUserByHandle } from '../../services/user-service';
 import { keepUserInfo } from '../../services/local-storage-service';
-import { Link } from 'react-router-dom';
-// import { Navigate } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 const defaultValues = {
   email: '',
   password: '',
@@ -31,6 +30,8 @@ const defaultValues = {
 const Login = () => {
   const [formValues, setFormValues] = useState(defaultValues);
   const { appState, setState } = useContext(AppState);
+  const navigate = useNavigate();
+
 
 
   const handleInputChange = (e) => {
@@ -67,7 +68,7 @@ const Login = () => {
               user: userData,
             });
             if(form.rememberMe) keepUserInfo(userData, userCredential);
-            // navigate(location?.state?.from ?? '/home');
+            navigate('/dashboard');
           })
           .catch(console.error);
       });

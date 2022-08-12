@@ -14,8 +14,7 @@ import { useContext } from 'react';
 import { registerUser, userUpdate } from '../../services/auth-service';
 import { createUserHandle, getUserByHandle } from '../../services/user-service';
 import { validateRegistration } from '../../utils/validations';
-import { Link } from 'react-router-dom';
-// import { keepUserInfo } from '../../services/local-storage-service';
+import { Link, useNavigate } from 'react-router-dom';
 
 const defaultValues = {
   username: '',
@@ -34,6 +33,8 @@ const Register = () => {
   const { appState, setState } = useContext(AppState);
   const [formValues, setFormValues] = useState(defaultValues);
   const [errors, setErrors] = useState(null);
+  const navigate = useNavigate();
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -98,6 +99,7 @@ const Register = () => {
               ...appState,
               user: userData,
             });
+            navigate('/dashboard');
           });
 
       });
