@@ -46,7 +46,8 @@ export const infoBoxStyle = {
   minWidth: '16rem',
   alignSelf: 'center',
   textAlign: 'center',
-  justifyContent: 'space-around'
+  justifyContent: 'space-around',
+  alignItems: 'center',
 };
 
 export const sideBoxStyle = {
@@ -63,6 +64,11 @@ export const sideBoxStyle = {
   justifyContent: 'space-around',
   m: '1.5rem',
   alignItems: 'center'
+};
+export const buttonBoxStyle = {
+  display: 'flex',
+  flexDirection: 'row',
+  alignSelf: 'center'
 };
 
 export const editStyle = {

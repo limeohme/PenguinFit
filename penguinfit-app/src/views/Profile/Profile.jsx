@@ -32,7 +32,7 @@ function Profile () {
     { value: 18.5, label:'18.5' },
     { value: 25, label:'25' },
   ];
-
+  
   function editDetailsHandler(newForm) {
     try {
       validateProfileUpdates(newForm);
@@ -47,7 +47,7 @@ function Profile () {
           setMessage('Requires recent login to change email !'),
         );
       }
-  
+      
       updateUserInfoDB(appState.user.username, newForm);
       setMessage('Details changed successfully\nRefresh to see your changes 😊');
       
@@ -65,16 +65,20 @@ function Profile () {
     setState(updatedState);
   }, []);
   
-
+  
   return (
     <Container sx={style.wrapperContainerStyle}>
       <Container sx={style.userInfoContainer}>
         <Avatar sx={style.avatarStyle} alt={appState.user.username} src={appState.user.avatarURL || getRandomAvatar(appState.user.username)} />
         {!edit ? 
-          <Button sx={{ border: 2 , width: 'fit-content', alignSelf: 'center', my: 2 }} onClick={() => setEdit(!edit)}>EDIT</Button>:
-          <Button sx={{ border: 2 , width: 'fit-content', alignSelf: 'center', my: 2 }} onClick={() => editDetailsHandler(form)}>DONE</Button>
-
+          <Button onClick={() => setEdit(!edit)}>EDIT</Button>:
+          <Box sx={style.buttonBoxStyle}>
+            <Button onClick={() => editDetailsHandler(form)}>DONE</Button>
+            <Button onClick={() => {setMessage(''); setEdit(!edit);}}>CANCEL</Button>
+          </Box>
+          
         }
+        <Typography sx={style.messageStyle}>{message? message : ''}</Typography>
         <Box sx={{ ...style.infoBoxStyle }}>
           <Typography sx={{ ...style.nameStyle }}>{appState.user.username}</Typography>
         </Box>
@@ -117,7 +121,6 @@ function Profile () {
             }</Box>
           </>: ''
         }
-        <Typography sx={style.messageStyle}>{message? message : ''}</Typography>
         
       </Container>
       <Container sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
