@@ -1,5 +1,5 @@
 import { Container, Box, Avatar, Typography, Button, TextField, Slider } from '@mui/material';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 // import { useEffect } from 'react';
 import { useState } from 'react';
 import AppState from '../../providers/app-state.js';
@@ -9,15 +9,19 @@ import { getRandomAvatar } from '../../services/avatar-service.js';
 
 import * as style from './ProfileStyles.js';
 import { changeEmail, changePassword } from '../../services/auth-service.js';
-import { updateUserInfoDB } from '../../services/user-service.js';
-import { getLoggedUser, getLoggedUserAuth } from '../../services/local-storage-service.js';
+import { updateUserProfilePicture, updateUserInfoDB } from '../../services/user-service.js';
+import { getLoggedUser, getLoggedUserAuth, updateUserInfo } from '../../services/local-storage-service.js';
 import { useEffect } from 'react';
 import { validateProfileUpdates } from '../../utils/validations.js';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { storage } from '../../config/firebase-config.js';
 
 function Profile () {
   const { appState, setState } = useContext(AppState);
   const [message, setMessage] = useState('');
   const [edit, setEdit] = useState(false);
+  const [upload, setUpload] = useState(false);
+  const fileInput = useRef();
   // const [BMI, setBMI] = useState(0);
   const [form, setForm] = useState({
     age: '',
@@ -32,7 +36,7 @@ function Profile () {
     { value: 18.5, label:'18.5' },
     { value: 25, label:'25' },
   ];
-  
+
   function editDetailsHandler(newForm) {
     try {
       validateProfileUpdates(newForm);
@@ -56,6 +60,28 @@ function Profile () {
       setMessage(err.message);
     }
   }
+  // const handleFileUploadError = () => {
+  //   // Do something...
+  // };
+  
+  const handleFilesChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      setMessage('Please select an image.');
+      return;
+    }
+    uploadBytes(ref(storage, `images/${appState.user.username}/avatar`), file)
+      .then((snapshot) => {
+        return getDownloadURL(snapshot.ref)
+          .then((url) => {
+            updateUserProfilePicture(appState.user.username, url).then(() => {
+              updateUserInfo({ ...appState.user, avatarURL: url });
+              setMessage('Yay, success!\nPlease refresh to see your changes.');
+            });
+          }
+          ).catch(console.error);
+      }).catch(console.error);
+  };
   
   useEffect(() => {
     const updatedState = {
@@ -74,9 +100,18 @@ function Profile () {
           <Button onClick={() => setEdit(!edit)}>EDIT</Button>:
           <Box sx={style.buttonBoxStyle}>
             <Button onClick={() => editDetailsHandler(form)}>DONE</Button>
-            <Button onClick={() => {setMessage(''); setEdit(!edit);}}>CANCEL</Button>
+            <Button onClick={() => {setMessage(''); setEdit(!edit); setUpload(false);}}>CANCEL</Button>
+            <Button onClick={() => {setUpload(true);}}>{'UPLOAD\nAVATAR'}</Button>
           </Box>
           
+        }
+        {
+          upload?
+            <Box sx={style.buttonBoxStyle}>
+              <Button onClick={() => fileInput.current?.click()}>CHOOSE FILE</Button>
+              <input ref={fileInput} style={{ display: 'none' }} type='file' accept="image/*" onChange={(e) => handleFilesChange(e)}></input>
+            </Box> 
+            : ''
         }
         <Typography sx={style.messageStyle}>{message? message : ''}</Typography>
         <Box sx={{ ...style.infoBoxStyle }}>
@@ -124,14 +159,14 @@ function Profile () {
         
       </Container>
       <Container sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
-        <Box sx={ style.sideBoxStyle }>
+        <Box sx={ style.sideBoxStyleGreen }>
           <Typography sx={ style.BMIStyle}>BMI </Typography>
           <Typography sx={ style.BMINumberStyle}>{appState.user.BMI || Number((Number(appState.user.weight)/(Number(appState.user.height)**2)).toFixed(0))}</Typography>
           <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage(+appState.user.BMI || (Number(appState.user.weight)/(Number(appState.user.height)**2)))}</Typography>
           <Typography sx={style.rangeStyle}>Healthy Range:</Typography>
-          <Slider disabled={true} marks={BMIMarks} step={0.5} valueLabelDisplay="auto" defaultValue={[18.5, 25]} min={13.5} max={30} ></Slider>
+          <Slider sx={style.sliderStyle} disabled={true} marks={BMIMarks} step={0.5} valueLabelDisplay="auto" defaultValue={[18.5, 25]} min={13.5} max={30} />
         </Box>
-        <Box sx={style.sideBoxStyle}>
+        <Box sx={style.sideBoxStyleBlue}>
           <Typography sx={ style.activityStyle}>{activityStatus[appState.user.activityStatus]}</Typography>
         </Box>
       </Container>

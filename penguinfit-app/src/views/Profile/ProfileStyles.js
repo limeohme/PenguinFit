@@ -12,14 +12,14 @@ export const wrapperContainerStyle = {
   my: '2rem',
   px: '2rem',
   borderRadius: 3,
-  border: 4,
-  borderColor: blue
 };
 
 export const userInfoContainer = {
   display: 'flex',
   flexDirection: 'column',
-  bgcolor: 'none',
+  bgcolor: 'rgb(111, 45, 122, 0.2)',
+  boxShadow: 2,
+  borderRadius: 2,
   my: '2rem',
   py: '1rem',
 };
@@ -37,7 +37,7 @@ export const infoBoxStyle = {
   display: 'flex',
   flexDirection: 'row',
   bgcolor: 'background.paper',
-  boxShadow: 1,
+  boxShadow: 2,
   borderRadius: 2,
   border: 1,
   borderColor: purple[500],
@@ -50,13 +50,12 @@ export const infoBoxStyle = {
   alignItems: 'center',
 };
 
-export const sideBoxStyle = {
+export const sideBoxStyleGreen = {
   display: 'flex',
   flexDirection: 'column',
   boxShadow: 1,
   borderRadius: 2,
-  border: 4,
-  borderColor: blue,
+  bgcolor: 'rgb(190, 242, 128, 0.2)',
   p: '3rem',
   alignSelf: 'center',
   textAlign: 'center',
@@ -65,6 +64,22 @@ export const sideBoxStyle = {
   m: '1.5rem',
   alignItems: 'center'
 };
+
+export const sideBoxStyleBlue = {
+  display: 'flex',
+  flexDirection: 'column',
+  boxShadow: 1,
+  borderRadius: 2,
+  bgcolor: 'rgb(92, 107, 192, 0.2)',
+  p: '3rem',
+  alignSelf: 'center',
+  textAlign: 'center',
+  minWidth: '16rem',
+  justifyContent: 'space-around',
+  m: '1.5rem',
+  alignItems: 'center'
+};
+
 export const buttonBoxStyle = {
   display: 'flex',
   flexDirection: 'row',
@@ -79,10 +94,11 @@ export const editStyle = {
 
 
 export const avatarStyle = {
-  width: 120,
-  height: 120,
+  width: '8rem',
+  height: '8rem',
   alignSelf: 'center',
-  p: '0.3rem',
+  p: '0.4rem',
+  my: '1rem',
   border: 1,
   borderColor: purple[800],
   bgcolor: 'white'
@@ -134,7 +150,7 @@ export const activityStyle = {
   fontWeight: 900,
   fontFamily: 'Monospace',
   letterSpacing: 4,
-  color: lightGreen[900]
+  color: lightGreen[800]
 };
 
 export const rangeStyle = {
@@ -154,4 +170,12 @@ export const messageStyle = {
   letterSpacing: 1,
   color: pink[600],
   alignSelf: 'center'
+};
+
+export const sliderStyle = {
+  bgcolor: blue,
+  fontFamily: 'Monospace',
+  boxShadow: 1,
+  margin: 1
+
 };

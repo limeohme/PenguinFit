@@ -40,3 +40,9 @@ export const updateUserInfoDB = (username, userNewInfo) => {
     updateUserInfo(snapshot.val());
   }).catch(console.error);
 };
+
+export const updateUserProfilePicture = (username, url) => {
+  return update(ref(db), {
+    [`users/${username}/avatarURL`]: url,
+  }).catch(console.error);
+};
