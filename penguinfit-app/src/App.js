@@ -28,7 +28,7 @@ import Profile from './views/testProfile';
 import Dashboard from './views/Dashboard/Dashboard';
 import Activities from './views/testActivities';
 import Meals from './views/testMeals';
-import Goals from './views/testGoals';
+import Goals from './views/Goals/Goals';
 
 const useStyles = (theme) => ({
   root: {
