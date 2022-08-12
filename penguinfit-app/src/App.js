@@ -10,7 +10,7 @@ import Home from './views/Home/Home';
 import Private from './views/Private/Private';
 import NotFound from './views/NotFound/NotFound';
 // import Footer from './components/Footer/Footer';
-// import Profile from './views/Profile/Profile';
+import Profile from './views/Profile/Profile';
 import Login from './views/Login/Login';
 import Register from './views/Register/Register';
 
@@ -24,7 +24,7 @@ import Navbar from './components/Navbar/Navbar';
 import Sidebar from './components/Sidebar/Sidebar';
 import { DRAWER_WIDTH } from './common/constants.js';
 import { Box } from '@mui/system';
-import Profile from './views/testProfile';
+// import Profile from './views/testProfile';
 import Dashboard from './views/Dashboard/Dashboard';
 import Activities from './views/testActivities';
 import Meals from './views/testMeals';
