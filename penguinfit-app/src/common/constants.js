@@ -8,3 +8,4 @@ export const LIKE_ICON = '🍓';
 export const DISLIKE_ICON = '🍋';
 
 export const mailRE = /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i;
+export const BODY_METRICS_RE = /^[0-9]*$/;

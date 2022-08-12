@@ -76,8 +76,8 @@ export const avatarStyle = {
   width: 120,
   height: 120,
   alignSelf: 'center',
-  p: '2rem',
-  border: 3,
+  p: '0.3rem',
+  border: 1,
   borderColor: purple[800],
   bgcolor: 'white'
 };
@@ -138,4 +138,14 @@ export const rangeStyle = {
   fontFamily: 'Monospace',
   letterSpacing: 1,
   color: lightGreen[900]
+};
+
+export const messageStyle = {
+  my: '0.5rem',
+  fontSize: 16,
+  fontWeight: 'bold',
+  fontFamily: 'Monospace',
+  letterSpacing: 1,
+  color: pink[600],
+  alignSelf: 'center'
 };

@@ -1,92 +1,135 @@
 import { Container, Box, Avatar, Typography, Button, TextField, Slider } from '@mui/material';
+import { useContext } from 'react';
 // import { useEffect } from 'react';
 import { useState } from 'react';
+import AppState from '../../providers/app-state.js';
 import { calculateBMIMessage } from '../../utils/utils.js';
+import { activityStatus } from '../../common/activity-status.js';
+import { getRandomAvatar } from '../../services/avatar-service.js';
 
 import * as style from './ProfileStyles.js';
+import { changeEmail, changePassword } from '../../services/auth-service.js';
+import { updateUserInfoDB } from '../../services/user-service.js';
+import { getLoggedUser, getLoggedUserAuth } from '../../services/local-storage-service.js';
+import { useEffect } from 'react';
+import { validateProfileUpdates } from '../../utils/validations.js';
 
 function Profile () {
+  const { appState, setState } = useContext(AppState);
+  const [message, setMessage] = useState('');
   const [edit, setEdit] = useState(false);
   // const [BMI, setBMI] = useState(0);
   const [form, setForm] = useState({
-    username: '',
     age: '',
     height: '',
     weight: '',
     email: '',
     phoneNumber: '',
+    password: '',
+    confirmPassword: ''
   });
   const BMIMarks = [
     { value: 18.5, label:'18.5' },
     { value: 25, label:'25' },
   ];
 
-  const user = {
-    username: 'BabyPenguin78',
-    age: '2',
-    height: '1.30',
-    weight: '80',
-    email: 'babyPingu78@mail.com',
-    phoneNumber: '08XXXXXXXX',
-    BMI: null,
-    status: 'HYPERACTIVE',
-    avatarURL: 'https://gitlab.com/limeohme/cat-being-dragged-memes/-/raw/main/PenguinNoBack.png'
-  };
-
-  // useEffect(() => {
-  //   (() => {
-  //     if (user.BMI < 17) {
-  //       setBMI(17);
-  //     } else if (user.BMI > 30) {
-  //       setBMI(30);
-  //     } else {
-  //       setBMI(user.BMI || Number((Number(user.weight)/(Number(user.height)**2)).toFixed(0)));
-  //     }
-  //   })();
-  // }, [user]);
-
+  function editDetailsHandler(newForm) {
+    try {
+      validateProfileUpdates(newForm);
+      setEdit(!edit);
+      if (newForm.password) {
+        changePassword(newForm.password).catch(() =>
+          setMessage('Requires recent login to change password !'),
+        );
+      }
+      if (newForm.email) {
+        changeEmail(newForm.email).catch(() =>
+          setMessage('Requires recent login to change email !'),
+        );
+      }
+  
+      updateUserInfoDB(appState.user.username, newForm);
+      setMessage('Details changed successfully\nRefresh to see your changes 😊');
+      
+      setTimeout(() => {setMessage('');}, 4000);
+    } catch (err) {
+      setMessage(err.message);
+    }
+  }
+  
+  useEffect(() => {
+    const updatedState = {
+      user: getLoggedUser(),
+      userAuthData: getLoggedUserAuth() || null,
+    };
+    setState(updatedState);
+  }, []);
+  
 
   return (
     <Container sx={style.wrapperContainerStyle}>
       <Container sx={style.userInfoContainer}>
-        <Avatar sx={style.avatarStyle} alt={user.username} src={user.avatarURL} />
-        <Button sx={{ border: 2 , width: 'fit-content', alignSelf: 'center', my: 2 }} onClick={() => setEdit(!edit)}>{edit? 'Done':'Edit'}</Button>
+        <Avatar sx={style.avatarStyle} alt={appState.user.username} src={appState.user.avatarURL || getRandomAvatar(appState.user.username)} />
+        {!edit ? 
+          <Button sx={{ border: 2 , width: 'fit-content', alignSelf: 'center', my: 2 }} onClick={() => setEdit(!edit)}>EDIT</Button>:
+          <Button sx={{ border: 2 , width: 'fit-content', alignSelf: 'center', my: 2 }} onClick={() => editDetailsHandler(form)}>DONE</Button>
+
+        }
         <Box sx={{ ...style.infoBoxStyle }}>
-          {!edit ? <Typography sx={{ ...style.nameStyle }}>{user.username}</Typography>:
-            <TextField variant="standard" defaultValue={user.username} type='text' onChange={(e) => setForm({ ...form, username: e.target.value })}/>}
+          <Typography sx={{ ...style.nameStyle }}>{appState.user.username}</Typography>
         </Box>
         <Box sx={{ ...style.infoBoxStyle }}>
-          {!edit ? <Typography >{`${user.age} yrs`}</Typography>:
-            <TextField variant="standard" defaultValue={user.age} type='text' onChange={(e) => setForm({ ...form, username: e.target.value })}/>}
+          {!edit ? <Typography >{`${appState.user.age} yrs`}</Typography>:
+            <TextField variant="standard" placeholder={appState.user.age + ' years'} type='text'  
+              onChange={(e) => setForm({ ...form, age: e.target.value })}/>}
         </Box>
         <Box sx={style.infoBoxStyle}>{
-          !edit ? user.email : 
-            <TextField variant="standard" defaultValue={user.email} type='text' onChange={(e) => setForm({ ...form, username: e.target.value })}/>
+          !edit ? appState.user.email : 
+            <TextField variant="standard" placeholder={appState.user.email} type='text' 
+              onChange={(e) => setForm({ ...form, email: e.target.value })}/>
         }</Box>
         <Box sx={style.infoBoxStyle}>{
-          !edit ? user.phoneNumber : 
-            <TextField variant="standard" defaultValue={user.phoneNumber} type='text' onChange={(e) => setForm({ ...form, username: e.target.value })}/>
+          !edit ? appState.user.phoneNumber : 
+            <TextField variant="standard" placeholder={appState.user.phoneNumber} type='text'  
+              onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}/>
         }</Box>
         <Box sx={style.infoBoxStyle}>{
-          !edit ? user.height : 
-            <TextField variant="standard" defaultValue={user.height} type='text' onChange={(e) => setForm({ ...form, username: e.target.value })}/>
+          !edit ? appState.user.height + ' cm' : 
+            <TextField variant="standard" placeholder={appState.user.height + ' cm'} type='text'  
+              onChange={(e) => setForm({ ...form, height: e.target.value })}/>
         }</Box>
         <Box sx={style.infoBoxStyle}>{
-          !edit ? user.weight : 
-            <TextField variant="standard" defaultValue={user.weight} type='text' onChange={(e) => setForm({ ...form, username: e.target.value })}/>
+          !edit ? appState.user.weight + ' kg' : 
+            <TextField variant="standard" placeholder={appState.user.weight + ' kg'} type='text' 
+              onChange={(e) => setForm({ ...form, weight: e.target.value })}/>
         }</Box>
+        { edit === true ?
+          <>
+            <Box sx={style.infoBoxStyle}>{
+              !edit ? appState.user.height : 
+                <TextField variant="standard" placeholder='New password' value={form.password} type='password' 
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}/>
+            }</Box>
+            <Box sx={style.infoBoxStyle}>{
+              !edit ? appState.user.weight : 
+                <TextField variant="standard" placeholder='Confirm password' value={form.confirmPassword} type='password' 
+                  onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}/>
+            }</Box>
+          </>: ''
+        }
+        <Typography sx={style.messageStyle}>{message? message : ''}</Typography>
         
       </Container>
       <Container sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
         <Box sx={ style.sideBoxStyle }>
           <Typography sx={ style.BMIStyle}>BMI </Typography>
-          <Typography sx={ style.BMINumberStyle}>{user.BMI || Number((Number(user.weight)/(Number(user.height)**2)).toFixed(0))}</Typography>
-          <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage(+user.BMI || (Number(user.weight)/(Number(user.height)**2)))}</Typography>
+          <Typography sx={ style.BMINumberStyle}>{appState.user.BMI || Number((Number(appState.user.weight)/(Number(appState.user.height)**2)).toFixed(0))}</Typography>
+          <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage(+appState.user.BMI || (Number(appState.user.weight)/(Number(appState.user.height)**2)))}</Typography>
           <Typography sx={style.rangeStyle}>Healthy Range:</Typography>
           <Slider disabled={true} marks={BMIMarks} step={0.5} valueLabelDisplay="auto" defaultValue={[18.5, 25]} min={13.5} max={30} ></Slider>
         </Box>
         <Box sx={style.sideBoxStyle}>
-          <Typography sx={ style.activityStyle}>{user.status}</Typography>
+          <Typography sx={ style.activityStyle}>{activityStatus[appState.user.activityStatus]}</Typography>
         </Box>
       </Container>
     </Container>
