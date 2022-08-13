@@ -1,6 +1,14 @@
 // import './Footer.css';
+import { Box, Typography } from '@mui/material';
 
-// function Footer() {
+function Footer({ classes }) {
+  return (
+    <Box sx={classes.footerStyle}>
+      
+      <Typography variant="h6">Footer</Typography>
+      
+    </Box>
+  );
 //   return (
 //     <footer>
 //       <div className="made">
@@ -18,6 +26,6 @@
 //       </div>
 //     </footer>
 //   );
-// }
+}
 
-// export default Footer;
+export default Footer;
