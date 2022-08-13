@@ -6,8 +6,6 @@ export const blue = indigo[400];
 export const deepBlue = indigo[800];
 
 export const wrapperContainerStyle = {
-  display: 'flex',
-  alignItems: 'center',
   gap: '2rem',
   my: '2rem',
   px: '2rem',
@@ -28,6 +26,7 @@ export const midiContainerStyle = {
   alignSelf: 'flex-end',
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'space-between',
   bgcolor: 'none',
   my: '2rem',
   width: 'fit-content'
@@ -163,7 +162,6 @@ export const rangeStyle = {
 };
 
 export const messageStyle = {
-  my: '0.5rem',
   fontSize: 16,
   fontWeight: 'bold',
   fontFamily: 'Monospace',
