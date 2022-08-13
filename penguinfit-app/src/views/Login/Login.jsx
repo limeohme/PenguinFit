@@ -67,67 +67,65 @@ const Login = () => {
               user: userData,
             });
             if(form.rememberMe) keepUserInfo(userData, userCredential);
-            navigate('/dashboard');
+            navigate('/private/dashboard');
           })
           .catch(console.error);
       });
   };
   return (
-    <>
+    
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      // style={{ minHeight: '100vh' }}
+    >
 
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ minHeight: '100vh' }}
-      >
-
-        <Grid item xs={3} >
-          <Paper   sx={{ padding: 4, margin: 4, }}>
-            <form onSubmit={handleSubmit}>
-              <Grid container alignItems="center" justify="center" direction="column">
-                <h3>Login</h3>
-                <TextField
-                  id="email-input"
-                  name="email"
-                  label="Email"
-                  type="text"
-                  value={formValues.email}
-                  onChange={handleInputChange}
-                  required
-                  sx={{ margin: 1, }}
-                />
+      <Grid item xs={3} >
+        <Paper   sx={{ padding: 3, margin: 3, }}>
+          <form onSubmit={handleSubmit}>
+            <Grid container alignItems="center" justify="center" direction="column">
+              <Typography variant="h5">Login</Typography>
+              
+              <TextField
+                id="email-input"
+                name="email"
+                label="Email"
+                type="text"
+                value={formValues.email}
+                onChange={handleInputChange}
+                required
+                sx={{ margin: 1, }}
+              />
                 
-                <TextField
-                  id="password-input"
-                  name="password"
-                  label="Password"
-                  type="password"
-                  value={formValues.password}
-                  onChange={handleInputChange}
-                  required
-                  sx={{ margin: 1, }}
-                />
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" onChange={(e) => handleCheckboxChange(e,'rememberMe')}/>
-                </FormGroup>
-                <Button variant="contained" color="primary" type="submit">
-          Submit
-                </Button>
-                <Typography  sx={{ margin: 1, }}> Not a member?
-                  <Link to = '/register'>
-                  Sign up
-                  </Link>
-                </Typography>
-              </Grid>
-            </form>
-          </Paper>
-        </Grid>   
+              <TextField
+                id="password-input"
+                name="password"
+                label="Password"
+                type="password"
+                value={formValues.password}
+                onChange={handleInputChange}
+                required
+                sx={{ margin: 1, }}
+              />
+
+              <FormGroup>
+                <FormControlLabel control={<Checkbox defaultChecked />} label="Remember me" onChange={(e) => handleCheckboxChange(e,'rememberMe')}/>
+              </FormGroup>
+              <Button variant="contained" color="primary" type="submit">Sign In</Button>
+
+              <Typography variant="h6" sx={{ margin: 1.5 }}>Not a penguin?</Typography>
+              <Button component={Link} to='/register' variant="contained">Sign Up</Button>
+
+            </Grid>
+          </form>
+        </Paper>
+      </Grid>   
    
-      </Grid> 
-    </>
+    </Grid> 
+    
   );
 };
 
