@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { VictoryPie } from 'victory';
 
 
-export default function GoalsStepper({ steps }) {
+export default function DetailedGoalsStepper({ steps }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;
@@ -24,6 +24,7 @@ export default function GoalsStepper({ steps }) {
   
   return (
     <Box sx={{ maxWidth: 400, flexGrow: 1, m: 2 }}>
+      <h3>Your goals:</h3>
       <Paper>
         <Stack 
           spacing={1}
@@ -36,7 +37,7 @@ export default function GoalsStepper({ steps }) {
               { x: 'Not there yet', y: Number(100 - steps[activeStep].completed) },
             ]}
             animate={{
-              duration: 2000
+              duration: 2000,
             }}
             colorScale={[ 'navy', 'black' ]}
           >
