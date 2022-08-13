@@ -1,4 +1,4 @@
-import { Container, Box, Avatar, Typography, Button, TextField, Slider } from '@mui/material';
+import { Box, Avatar, Typography, Button, TextField, Slider, Grid } from '@mui/material';
 import { useContext, useRef } from 'react';
 // import { useEffect } from 'react';
 import { useState } from 'react';
@@ -93,8 +93,8 @@ function Profile () {
   
   
   return (
-    <Container sx={style.wrapperContainerStyle}>
-      <Container sx={style.userInfoContainer}>
+    <Grid container spacing={2} xs={12} direction="row" justifyContent="center" alignItems="center" sx={style.wrapperContainerStyle}>
+      <Grid item xs sx={style.userInfoContainer}>
         <Avatar sx={style.avatarStyle} alt={appState.user.username} src={appState.user.avatarURL || getRandomAvatar(appState.user.username)} />
         {!edit ? 
           <Button onClick={() => setEdit(!edit)}>EDIT</Button>:
@@ -157,20 +157,20 @@ function Profile () {
           </>: ''
         }
         
-      </Container>
-      <Container sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
+      </Grid>
+      <Grid item sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
         <Box sx={ style.sideBoxStyleGreen }>
           <Typography sx={ style.BMIStyle}>BMI </Typography>
-          <Typography sx={ style.BMINumberStyle}>{appState.user.BMI || Number((Number(appState.user.weight)/(Number(appState.user.height)**2)).toFixed(0))}</Typography>
-          <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage(+appState.user.BMI || (Number(appState.user.weight)/(Number(appState.user.height)**2)))}</Typography>
+          <Typography sx={ style.BMINumberStyle}>{Number((Number(appState.user.weight)/((Number(appState.user.height)/100)**2)).toFixed(0))}</Typography>
+          <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage((Number(appState.user.weight)/((Number(appState.user.height)/100)**2)))}</Typography>
           <Typography sx={style.rangeStyle}>Healthy Range:</Typography>
           <Slider sx={style.sliderStyle} disabled={true} marks={BMIMarks} step={0.5} valueLabelDisplay="auto" defaultValue={[18.5, 25]} min={13.5} max={30} />
         </Box>
         <Box sx={style.sideBoxStyleBlue}>
           <Typography sx={ style.activityStyle}>{activityStatus[appState.user.activityStatus]}</Typography>
         </Box>
-      </Container>
-    </Container>
+      </Grid>
+    </Grid>
   );
 }
 

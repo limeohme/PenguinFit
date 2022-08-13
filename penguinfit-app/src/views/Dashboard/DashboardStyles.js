@@ -7,20 +7,14 @@ export const deepBlue = indigo[800];
 export const somePurple = purple[500];
 
 export const containerStyle = {
-  display: 'grid',
-  gridTemplateRows: 'auto',
-  gridTemplateColumns: '50% 50%',
-  gap: '1rem',
-  justifyContent: 'space-between',
-  p: '1rem'
+  
 };
 
 export const midiContainerStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0rem',
+  gap: 0,
   justifyContent: 'space-around',
   flexFlow: 'wrap',
+  alignSelf: 'center',
   p: '1rem',
   my: '2rem'
 };
@@ -30,21 +24,21 @@ export const cardsContainerStyle = {
   flexDirection: 'row',
   gap: '0rem',
   justifyContent: 'space-around',
+  alignSelf: 'center',
   p: '1rem',
   my: '2rem'
 };
 
 export const piessContainerStyle = {
-  display: 'flex',
-  flexDirection: 'row',
   gap: '0rem',
   justifyContent: 'space-between',
+  alignSelf: 'center',
   p: '1rem',
 };
 
 export const cardsStyle = {
   p: '1rem',
-  mx: '1rem',
+  m: '1rem',
   bgcolor: green,
   alignSelf: 'center'
 };
@@ -55,20 +49,23 @@ export const pieChartStyle = {
   flexDirection: 'column',
   height: 'fit-content',
   width: 'fit-content',
+  alignSelf: 'center',
   justifyContent: 'space-around',
   flexFlow: 'wrap'
 };
 
 export const barChartStyle = {
   my: '1rem',
-  px: '1rem'
+  px: '1rem',
+  alignSelf: 'center',
 };
 
 export const salutationStyle = {
   color: blue,
   fontWeight: 900,
   fontFamily: 'Monospace',
-  letterSpacing: 4
+  letterSpacing: 4,
+  
 
 };
 
@@ -84,4 +81,10 @@ export const chartNamesStyle = {
   fontFamily: 'Monospace',
   letterSpacing: 1,
   color: blue
+};
+
+export const iconsStyle = {
+  alignSelf: 'center',
+  fontSize: 72,
+  m: '2rem',
 };
