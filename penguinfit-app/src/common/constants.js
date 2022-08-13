@@ -1,4 +1,4 @@
-export const DRAWER_WIDTH = 200;
+export const DRAWER_WIDTH = 280;
 export const APP_TITLE = 'TheXSpot';
 export const KEYWORD_PREFIX = 'keyword-';
 export const POST_REQUEST_LIMIT = 10;
