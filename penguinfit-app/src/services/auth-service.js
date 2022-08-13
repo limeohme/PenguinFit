@@ -1,11 +1,4 @@
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  updateProfile,
-  updatePassword,
-  updateEmail,
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, updatePassword, updateEmail } from 'firebase/auth';
 import { auth } from '../config/firebase-config';
 
 export function registerUser(email, password) {
@@ -17,19 +10,13 @@ export function signInUser(email, password) {
   return signInWithEmailAndPassword(auth, email, password);
 }
 
-export function signOutUser(setUser) {
-  signOut(auth)
-    .then(() => {
-      setUser(null);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+export function signOutUser() {
+  return signOut(auth);
 }
 
 export function userUpdate(name = '') {
   return updateProfile(auth.currentUser, {
-    displayName: name,
+    displayName: name
   });
 }
 
