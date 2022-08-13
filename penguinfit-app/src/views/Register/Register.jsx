@@ -15,6 +15,7 @@ import { registerUser, userUpdate } from '../../services/auth-service';
 import { createUserHandle, getUserByHandle } from '../../services/user-service';
 import { validateRegistration } from '../../utils/validations';
 import { Link, useNavigate } from 'react-router-dom';
+import { getRandomAvatar } from '../../services/avatar-service';
 
 const defaultValues = {
   username: '',
@@ -92,6 +93,7 @@ const Register = () => {
               phoneNumber: form.phoneNumber,
               activityStatus: form.activityStatus,
               BMI: (Number(form.weight)/(Number(form.height/100)**2)),
+              avatarURL: getRandomAvatar()
             };
             createUserHandle(userData);
 

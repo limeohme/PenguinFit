@@ -2,14 +2,23 @@ import { VictoryPie, VictoryLabel, VictoryBar, VictoryChart, VictoryAxis } from 
 import { Box, Button, Card, CardActions, CardContent, Container, Typography, Grid } from '@mui/material';
 import * as style from './DashboardStyles.js';
 import { formatDateToString } from '../../utils/utils.js';
+import { useContext } from 'react';
+import AppState from '../../providers/app-state.js';
 
 function Dashboard () {
+
+  const { appState, _setState } = useContext(AppState);
+
   return (
     // outer container
     <Grid sx={style.containerStyle}>
       {/* left half*/}
       <Container sx={style.midiContainerStyle}>
-        <Typography sx={style.salutationStyle} variant='h4'>Hello, BabyPenguin78!</Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+          <Typography sx={{ ...style.salutationStyle, color: '#000000' }} variant='h4'>Hello, </Typography>
+          <Typography sx={style.salutationStyle} variant='h4'>{appState.user.username}</Typography>
+        </Box>
+        
         {/* three cards box*/}
         <Box sx={style.cardsContainerStyle}>
           <Card sx={style.cardsStyle}>

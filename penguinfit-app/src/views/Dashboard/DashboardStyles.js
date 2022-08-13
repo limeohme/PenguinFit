@@ -65,7 +65,7 @@ export const barChartStyle = {
 };
 
 export const salutationStyle = {
-  color: lightGreen[900],
+  color: blue,
   fontWeight: 900,
   fontFamily: 'Monospace',
   letterSpacing: 4
@@ -76,7 +76,7 @@ export const dateStyle = {
   fontWeight: 900,
   fontFamily: 'Monospace',
   letterSpacing: 4,
-  color: blue
+  color: lightGreen[900]  
 };
 
 export const chartNamesStyle = {
