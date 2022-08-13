@@ -23,12 +23,10 @@ export const userInfoContainer = {
 };
 
 export const midiContainerStyle = {
-  alignSelf: 'flex-end',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
   bgcolor: 'none',
-  my: '2rem',
   width: 'fit-content'
 };
 
@@ -60,7 +58,7 @@ export const sideBoxStyleGreen = {
   textAlign: 'center',
   minWidth: '16rem',
   justifyContent: 'space-around',
-  m: '1.5rem',
+  mb: '1.5rem',
   alignItems: 'center'
 };
 
@@ -70,12 +68,11 @@ export const sideBoxStyleBlue = {
   boxShadow: 1,
   borderRadius: 2,
   bgcolor: 'rgb(92, 107, 192, 0.2)',
-  p: '3rem',
+  p: '4.5rem',
   alignSelf: 'center',
   textAlign: 'center',
   minWidth: '16rem',
   justifyContent: 'space-around',
-  m: '1.5rem',
   alignItems: 'center'
 };
 
