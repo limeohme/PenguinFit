@@ -44,6 +44,8 @@ function Navbar({ classes, toggleDrawer }) {
           component={Link} 
           to="/login" 
           variant="contained"
+          // disableElevation
+          sx={{ backgroundColor:'#6633ff' }}
         >Login</Button>
     );
   };
@@ -51,7 +53,7 @@ function Navbar({ classes, toggleDrawer }) {
   // OR maybe have both functions as btn components?
 
   return (
-    <AppBar position="fixed" sx={classes.appBar}>
+    <AppBar position="fixed" sx={classes.appBar} elevation={0}>
       <Toolbar>
         {renderUserMenuBtn()}
         <Typography variant="h4" sx={{ mr: 'auto' }}>PenguinFit</Typography>

@@ -26,7 +26,14 @@ const useStyles = (theme) => ({
     display: 'flex'
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
+    // backgroundColor: '#6633ff',
+    backgroundColor: 'transparent',
+    borderBottom: '3px solid black',
+    // paddingTop: '50px',
+    color: 'black',
+    width: '95vw',
+    left: '2.5vw'
   },
   drawer: {
     flexShrink: 0,
@@ -44,15 +51,15 @@ const useStyles = (theme) => ({
     padding: theme.spacing(3)
   },
   footerStyle: {
-    // color: 'white',
-    // backgroundColor: '#1976d2',
+    color: 'white',
+    backgroundColor: 'black',
     borderTop: '2px solid black',
     display: 'flex',
     justifyContent: 'space-evenly',
     alignItems: 'center',
     height: '10vh',
-    zIndex: theme.zIndex.drawer + 1,
-    margin: '0 2em'
+    zIndex: theme.zIndex.drawer + 1
+    // margin: '0 2em'
     // boxSizing: 'border-box',
     // padding: '0 2em'
   }
@@ -83,11 +90,14 @@ function App() {
         <CssBaseline />
         <Navbar classes={classes} toggleDrawer={toggleDrawer} />
 
-        <Box component="main" sx={{ alignSelf: 'center', minHeight: '90vh' }}>
+        <Box
+          component="main"
+          sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '2em', alignSelf: 'center', minHeight: '90vh', minWidth: '100%', margin: '0 2em' }}
+        >
           <Toolbar />
           <Routes>
             <Route index element={<Navigate replace to="home" />} />
-            <Route path="home" element={<Home />} />
+            <Route path="home" element={<Home isMdUp={isMdUp} />} />
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route

@@ -1,5 +1,54 @@
-export default function Home() {
-  return <h1 className="home">Home</h1>;
+import { Button, Card, CardMedia, Grid, Typography } from '@mui/material';
+// import { Container } from '@mui/system';
+
+export default function Home({ isMdUp }) {
+  const padding = isMdUp? 10 : 0;
+  // const align = isMdUp? '0' : 'auto';
+
+  return(
+    <Grid
+      container
+      direction="row"
+      justifyContent="center"
+      alignItems="center"
+      // rowSpacing = {3}
+      sx={{ flex: 1, boxSizing: 'border-box', padding: '0 2em' }}
+    >
+      <Grid item xs={12} sm={5}  sx={{ pl: padding, display: 'flex', flexDirection: 'column' }}>
+
+        <Typography variant="h6" sx={{ width: '100%' }}>
+          Stay Fit,<br/>
+          Track your progress,
+        </Typography>
+        <Typography variant="h4" sx={{ width: '100%', color: '#6633ff', mt: 2 }}>
+          Become a Master Penguin!
+        </Typography>
+        <Typography sx={{ width: '100%', mt: 2 }}>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
+          Repellendus nostrum vel, ducimus aspernatur quae laboriosam enim et id similique esse ut dolore sit distinctio quis suscipit explicabo cupiditate. Vitae, ipsum!
+        </Typography>
+        <Button variant="contained" size="large" sx={{ maxWidth: 'fit-content', backgroundColor:'#6633ff', mt: 4 }}>
+          GET STARTED
+        </Button>
+
+      </Grid>
+
+      <Grid item xs={12} sm={7}>
+        
+        <Card sx={{ maxHeight: '75vh', backgroundColor: 'transparent', p:5 }} elevation={0}>
+          <CardMedia
+            component="img"
+            height={isMdUp? '360px' : '100%'}
+            image={require('../../images/PenguinNoBack.png')}
+            alt="penguin"
+            sx={{ objectFit: 'scale-down' }}
+          />
+        </Card>
+        
+      </Grid>
+      
+    </Grid>
+  );
 }
 
 // import { useContext, useEffect, useState } from 'react';

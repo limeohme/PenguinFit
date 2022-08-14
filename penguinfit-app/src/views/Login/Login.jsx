@@ -80,6 +80,7 @@ const Login = () => {
       direction="column"
       alignItems="center"
       justifyContent="center"
+      sx={{ flex:1 }}
       // style={{ minHeight: '100vh' }}
     >
 
