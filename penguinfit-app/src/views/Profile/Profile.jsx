@@ -89,11 +89,11 @@ function Profile () {
       userAuthData: getLoggedUserAuth() || null,
     };
     setState(updatedState);
-  }, []);
+  }, [setState]);
   
   
   return (
-    <Grid container spacing={2} xs={12} direction="row" justifyContent="center" alignItems="center" sx={style.wrapperContainerStyle}>
+    <Grid container spacing={2} direction="row" justifyContent="center" alignItems="center" sx={style.wrapperContainerStyle}>
       <Grid item xs sx={style.userInfoContainer}>
         <Avatar sx={style.avatarStyle} alt={appState.user.username} src={appState.user.avatarURL || getRandomAvatar(appState.user.username)} />
         {!edit ? 
