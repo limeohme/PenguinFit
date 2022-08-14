@@ -72,7 +72,7 @@ function Dashboard () {
         {/* left chart*/}
         <Box sx={style.barChartStyle}>
           <VictoryChart minDomain={{ x: 0, y: 0 }} style={{ padding: 10, width: 'fit-content' }}>
-            <VictoryAxis label={'minutes in exercise'}  style={{
+            <VictoryAxis label={'minutes in activities'}  style={{
               axis: { stroke: '#5c6bc0', padding: 5 },
               axisLabel: { fontSize: 12, padding: 35 },
               grid: { stroke: '#5c6bc0' },
@@ -80,7 +80,7 @@ function Dashboard () {
               tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
             }}
             dependentAxis />
-            <VictoryAxis label={'August 2022'}  style={{
+            <VictoryAxis label={'minutes spent in activities by day,\n\nAugust 2022'}  style={{
               axis: { stroke: '#5c6bc0', padding: 5 },
               axisLabel: { fontSize: 12, padding: -240 },
               ticks: { stroke: 'grey', size: 5 },
@@ -168,7 +168,7 @@ function Dashboard () {
               tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
             }}
             dependentAxis />
-            <VictoryAxis label={'August 2022'}  style={{
+            <VictoryAxis label={'calorie balance by day,\nAugust 2022'}  style={{
               axis: { stroke: '#c5e1a5', padding: 5 },
               axisLabel: { fontSize: 12, padding: 100 },
               ticks: { stroke: 'grey', size: 5 },
