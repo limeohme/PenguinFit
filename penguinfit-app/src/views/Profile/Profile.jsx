@@ -158,7 +158,7 @@ function Profile () {
         }
         
       </Grid>
-      <Grid item sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
+      <Grid item xs sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
         <Box sx={ style.sideBoxStyleGreen }>
           <Typography sx={ style.BMIStyle}>BMI </Typography>
           <Typography sx={ style.BMINumberStyle}>{Number((Number(appState.user.weight)/((Number(appState.user.height)/100)**2)).toFixed(0))}</Typography>
