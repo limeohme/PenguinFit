@@ -32,27 +32,6 @@ export const piessContainerStyle = {
   my: '2rem'
 };
 
-export const cardsStyle = {
-  m: '1rem',
-  bgcolor: palePink,
-  alignSelf: 'center'
-};
-
-export const pieChartStyle = {
-  my: '1rem',
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
-  justifyContent: 'space-around',
-  flexFlow: 'wrap'
-};
-
-export const barChartStyle = {
-  my: '1rem',
-  px: '1rem',
-  alignSelf: 'center',
-};
-
 export const salutationStyle = {
   color: blue,
   fontWeight: 900,
@@ -72,16 +51,3 @@ export const dateStyle = {
   mx: '1rem'    
 };
 
-export const chartNamesStyle = {
-  fontWeight: 700,
-  fontFamily: 'Monospace',
-  letterSpacing: 1,
-  color: blue,
-  mx: '1rem'
-};
-
-export const iconsStyle = {
-  alignSelf: 'center',
-  fontSize: 64,
-  m: '2rem',
-};
