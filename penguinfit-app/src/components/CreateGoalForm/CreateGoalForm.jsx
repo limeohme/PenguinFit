@@ -1,17 +1,28 @@
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@mui/material';
+import { Box, Button, FormGroup, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Paper, Radio, RadioGroup, Select, TextField, Checkbox } from '@mui/material';
 import { useState } from 'react';
 
 const defaultValues = {
   title: '',
-  dueDate: '',
+  dueDate: null,
   type: '',
   target: '',
   targetValue: 0,
 };
 
+const getDate = () => {
+  return (new Date().toISOString().split('T')[0]);
+};
+
 
 const CreateGoalForm = () => {
   const [formValues, setFormValues] = useState(defaultValues);
+  
+  const handleCheckBoxChange = () => {
+    setFormValues({
+      ...formValues,
+      dueDate: !formValues.dueDate,
+    });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -53,15 +64,29 @@ const CreateGoalForm = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                id="dueDate-input"
-                name="dueDate"
-                // label="Due date"
-                type="date"
-                value={formValues.age}
-                onChange={handleInputChange}
-                sx={{ margin: 1, }}
-              />
+              <FormGroup sx={{ margin: 1, }} >
+                <FormControlLabel 
+                  control={
+                    <Checkbox 
+                      defaultChecked
+                      onChange={() => handleCheckBoxChange()} 
+                    />} 
+                  label="Disable due date" 
+                />
+
+                <TextField
+                  disabled={!formValues.dueDate}
+                  id="dueDate-input"
+                  name="dueDate"
+                  type="date"
+                  defaultValue={getDate()}
+                  inputProps={{
+                    min: getDate(),
+                  }}
+                  value={formValues.age}
+                  onChange={handleInputChange}
+                />
+              </FormGroup>
             </Grid>
             <Grid item xs={12} sm={5}>
               <FormControl
