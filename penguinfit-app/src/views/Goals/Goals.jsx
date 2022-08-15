@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material';
+import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';
 import DetailedGoalsStepper from '../../components/DetailedGoalsStepper/DetailedGoalsStepper';
 import FriendsComparisonStepper from '../../components/FriendsComparisonStepper/FriendsComparisonStepper';
 
@@ -109,16 +110,14 @@ function Goals() {
 
       <Grid item xs={12} sm={8}>
         <Grid container direction="row">
-
-          <Grid item xs={12} sm={6}>
-            <FriendsComparisonStepper steps={ friends }> </FriendsComparisonStepper>
-          </Grid>
-
           <Grid item xs={12} sm={6}>
             <FriendsComparisonStepper steps={ friends }> </FriendsComparisonStepper>
           </Grid>
           <Grid item xs={12} sm={6}>
             <FriendsComparisonStepper steps={ friends }> </FriendsComparisonStepper>
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <CreateGoalForm></CreateGoalForm>
           </Grid>
         </Grid>
       </Grid>
