@@ -7,10 +7,11 @@ export const deepBlue = indigo[800];
 export const somePurple = purple[500];
 
 export const containerStyle = {
-  
+
 };
 
 export const midiContainerStyle = {
+  alignSelf: 'start',
   p: '1rem',
   my: '2rem',
 };
