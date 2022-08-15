@@ -45,7 +45,7 @@ export function validateProfileUpdates(form = {}) {
   if (form.password && form.password.length < PASS_MIN_LEN) {
     throw new Error('Password must be at least 6 characters long!');
   }
-  if (form.password && form.passwordCheck !== form.password) {
+  if (form.password && form.confirmPassword !== form.password) {
     throw new Error('Passwords don\'t match!');
   }
   if (BODY_METRICS_RE.test(+form.weight) === false) {

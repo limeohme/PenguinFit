@@ -42,14 +42,18 @@ function Profile () {
       validateProfileUpdates(newForm);
       setEdit(!edit);
       if (newForm.password) {
-        changePassword(newForm.password).catch(() =>
-          setMessage('Requires recent login to change password !'),
-        );
+        changePassword(newForm.password)
+          .then(() => setMessage('Password changed successfully!'))
+          .catch(() =>
+            setMessage('Requires recent login to change password !'),
+          );
       }
       if (newForm.email) {
-        changeEmail(newForm.email).catch(() =>
-          setMessage('Requires recent login to change email !'),
-        );
+        changeEmail(newForm.email)
+          .then(() => setMessage('Email changed successfully!'))
+          .catch(() =>
+            setMessage('Requires recent login to change email !'),
+          );
       }
       
       updateUserInfoDB(appState.user.username, newForm);
