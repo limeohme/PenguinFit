@@ -7,13 +7,15 @@ export const deepBlue = indigo[800];
 export const somePurple = purple[500];
 
 export const cardsStyle = {
+  display: 'flex', flexDirection: 'column', justifyItems: 'center',
   m: '1rem',
   bgcolor: palePink,
-  alignSelf: 'center'
+  alignSelf: 'center',
+  p: '1rem',
+  borderRadius: 2 
 };
 
 export const iconsStyle = {
   alignSelf: 'center',
   fontSize: 64,
-  m: '2rem',
 };

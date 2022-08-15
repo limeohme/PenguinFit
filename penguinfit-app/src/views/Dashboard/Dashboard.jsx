@@ -42,9 +42,9 @@ function Dashboard () {
         
         {/* three cards box*/}
         <Grid container direction="row" sx={style.cardsContainerStyle}>
-          <StatsCardsDash type={'cals'} IconComponent={LunchDiningIcon} />
-          <StatsCardsDash type={'water'} IconComponent={LocalDrinkIcon} water={water} setWater={setWater} addWater={addWater}/>
-          <StatsCardsDash type={'steps'} IconComponent={DirectionsWalkIcon} />
+          <Grid item xs={4}><StatsCardsDash type={'cals'} IconComponent={LunchDiningIcon} /></Grid>
+          <Grid item xs={4}><StatsCardsDash type={'water'} IconComponent={LocalDrinkIcon} water={water} setWater={setWater} addWater={addWater}/></Grid>
+          <Grid item xs={4}><StatsCardsDash type={'steps'} IconComponent={DirectionsWalkIcon} /></Grid>
         </Grid>
         <BarActivityDurationByDay/>
       </Grid>
