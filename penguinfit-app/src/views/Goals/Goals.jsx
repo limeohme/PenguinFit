@@ -1,24 +1,42 @@
 import { Grid } from '@mui/material';
+import { useContext } from 'react';
 import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';
 import DetailedGoalsStepper from '../../components/DetailedGoalsStepper/DetailedGoalsStepper';
 import FriendsComparisonStepper from '../../components/FriendsComparisonStepper/FriendsComparisonStepper';
+import AppState from '../../providers/app-state';
 
 // user goals
 const steps = [
   {
-    name: 'Da skolasam da zawursha',
+    title: 'Da skolasam da zawursha',
     status: 'po4ti',
-    createdOn: new Date(),
     dueDate: new Date(),
-    completed: 90,
+    createdOn: new Date(),
+    type: 'other',
+    target: 'duration',
+    targetValue: 100,
+    currentValue: 55,
   },
   {
-    name: 'Da skolasam da si namerq rabota',
+    title: 'Da skolasam da si namerq rabota',
     status: 'zle e',
-    createdOn: new Date(),
     dueDate: new Date(),
-    completed: 1,
+    createdOn: new Date(),
+    type: 'other',
+    target: 'duration',
+    targetValue: 100,
+    currentValue: 10,
   },
+  {
+    title: 'DA STANA JS NINJA',
+    status: 'zle e',
+    dueDate: null,
+    createdOn: new Date(),
+    type: 'other',
+    target: 'duration',
+    targetValue: 100,
+    currentValue: 0,
+  }
 ];
 
 // user friends
@@ -97,6 +115,9 @@ const friends = [{
 // }];
 
 function Goals() {
+  const { appState } = useContext(AppState);
+  const user = appState.user;
+
   return(
     <Grid
       container
@@ -117,7 +138,7 @@ function Goals() {
             <FriendsComparisonStepper steps={ friends }> </FriendsComparisonStepper>
           </Grid>
           <Grid item xs={12} sm={12}>
-            <CreateGoalForm></CreateGoalForm>
+            <CreateGoalForm username={user.username}></CreateGoalForm>
           </Grid>
         </Grid>
       </Grid>

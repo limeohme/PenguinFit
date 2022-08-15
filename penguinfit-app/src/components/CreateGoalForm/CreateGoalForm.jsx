@@ -1,12 +1,16 @@
 import { Box, Button, FormGroup, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Paper, Radio, RadioGroup, Select, TextField, Checkbox } from '@mui/material';
 import { useState } from 'react';
+import { createGoal } from '../../services/goals-service';
 
 const defaultValues = {
   title: '',
+  status: 'Not there yet', 
   dueDate: null,
+  createdOn: new Date(),
   type: '',
   target: '',
-  targetValue: 0,
+  targetValue: '',
+  currentValue: 0,
 };
 
 const getDate = () => {
@@ -14,9 +18,9 @@ const getDate = () => {
 };
 
 
-const CreateGoalForm = () => {
+const CreateGoalForm = ({ username }) => {
   const [formValues, setFormValues] = useState(defaultValues);
-  
+
   const handleCheckBoxChange = () => {
     setFormValues({
       ...formValues,
@@ -35,7 +39,7 @@ const CreateGoalForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formValues);
+    createGoal(username, formValues);
   };
 
   return (
@@ -60,11 +64,23 @@ const CreateGoalForm = () => {
                 type="text"
                 value={formValues.title}
                 onChange={handleInputChange}
-                sx={{ margin: 1, }}
+                sx={{ m: 1 }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormGroup sx={{ margin: 1, }} >
+                <TextField
+                  disabled={!formValues.dueDate}
+                  id="dueDate-input"
+                  name="dueDate"
+                  type="date"
+                  // defaultValue={getDate()}
+                  inputProps={{
+                    min: getDate(),
+                  }}
+                  value={formValues.age}
+                  onChange={handleInputChange}
+                />
                 <FormControlLabel 
                   control={
                     <Checkbox 
@@ -74,18 +90,6 @@ const CreateGoalForm = () => {
                   label="Disable due date" 
                 />
 
-                <TextField
-                  disabled={!formValues.dueDate}
-                  id="dueDate-input"
-                  name="dueDate"
-                  type="date"
-                  defaultValue={getDate()}
-                  inputProps={{
-                    min: getDate(),
-                  }}
-                  value={formValues.age}
-                  onChange={handleInputChange}
-                />
               </FormGroup>
             </Grid>
             <Grid item xs={12} sm={5}>
@@ -188,7 +192,7 @@ const CreateGoalForm = () => {
             </Grid>
           </Grid>
           <Button variant="contained" color="primary" type="submit">
-            Submit
+            Add goal
           </Button>
         </Paper>
       </form>

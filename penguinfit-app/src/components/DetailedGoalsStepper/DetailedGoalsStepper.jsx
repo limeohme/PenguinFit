@@ -11,6 +11,7 @@ export default function DetailedGoalsStepper({ steps }) {
   const maxSteps = steps.length;
   
   const formatDate = (date) => {
+    if(!date) return null;
     return date.toLocaleDateString('en-us', { year:'numeric', month:'short', day:'numeric' });
   };
 
@@ -29,12 +30,12 @@ export default function DetailedGoalsStepper({ steps }) {
         <Stack 
           spacing={1}
         >
-          <Typography align="center" >{steps[activeStep].name}</Typography>
+          <Typography align="center" >{steps[activeStep].title}</Typography>
           <Chip label={'Status:' + steps[activeStep].status}/>
           <VictoryPie
             data={[
-              { x: 'Achieved', y: Number(steps[activeStep].completed) },
-              { x: 'Not there yet', y: Number(100 - steps[activeStep].completed) },
+              { x: 'Achieved', y: Number(steps[activeStep].currentValue) },
+              { x: 'Not there yet', y: Number(steps[activeStep].targetValue - steps[activeStep].currentValue) },
             ]}
             animate={{
               duration: 2000,
@@ -44,7 +45,7 @@ export default function DetailedGoalsStepper({ steps }) {
           </VictoryPie>
           <Stack direction="row" spacing={2}   divider={<Divider orientation="vertical" flexItem />}>
             <Typography align="center" >{'Created on: ' + formatDate(steps[activeStep].createdOn)}</Typography>
-            <Typography align="center" >{'Due date:' + formatDate(steps[activeStep].dueDate)}</Typography>
+            <Typography align="center" >{'Due date:' + (formatDate(steps[activeStep].dueDate) || 'Not set')}</Typography>
           </Stack>
         </Stack>
         <MobileStepper
