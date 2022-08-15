@@ -10,14 +10,13 @@ import { getRandomAvatar } from '../../services/avatar-service.js';
 import * as style from './ProfileStyles.js';
 import { changeEmail, changePassword } from '../../services/auth-service.js';
 import { updateUserProfilePicture, updateUserInfoDB } from '../../services/user-service.js';
-import { getLoggedUser, getLoggedUserAuth, updateUserInfo } from '../../services/local-storage-service.js';
-import { useEffect } from 'react';
+import { updateUserInfo } from '../../services/local-storage-service.js';
 import { validateProfileUpdates } from '../../utils/validations.js';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../config/firebase-config.js';
 
 function Profile () {
-  const { appState, setState } = useContext(AppState);
+  const { appState, _setState } = useContext(AppState);
   const [message, setMessage] = useState('');
   const [edit, setEdit] = useState(false);
   const [upload, setUpload] = useState(false);
@@ -36,6 +35,10 @@ function Profile () {
     { value: 18.5, label:'18.5' },
     { value: 25, label:'25' },
   ];
+  
+  // function refreshPage() {
+  //   window.location.reload(false);
+  // }
 
   function editDetailsHandler(newForm) {
     try {
@@ -58,7 +61,7 @@ function Profile () {
       
       updateUserInfoDB(appState.user.username, newForm);
       setMessage('Details changed successfully\nRefresh to see your changes 😊');
-      
+      // refreshPage();
       setTimeout(() => {setMessage('');}, 4000);
     } catch (err) {
       setMessage(err.message);
@@ -81,19 +84,13 @@ function Profile () {
             updateUserProfilePicture(appState.user.username, url).then(() => {
               updateUserInfo({ ...appState.user, avatarURL: url });
               setMessage('Yay, success!\nPlease refresh to see your changes.');
+              
             });
           }
           ).catch(console.error);
       }).catch(console.error);
   };
-  
-  useEffect(() => {
-    const updatedState = {
-      user: getLoggedUser(),
-      userAuthData: getLoggedUserAuth() || null,
-    };
-    setState(updatedState);
-  }, [setState]);
+
   
   
   return (

@@ -93,7 +93,7 @@ const Register = () => {
               phoneNumber: form.phoneNumber,
               activityStatus: form.activityStatus,
               BMI: (Number(form.weight)/((Number(form.height)/100)**2)),
-              avatarURL: getRandomAvatar()
+              avatarURL: getRandomAvatar(form.username)
             };
             createUserHandle(userData);
 
