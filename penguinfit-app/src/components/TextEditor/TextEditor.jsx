@@ -2,7 +2,7 @@ import { Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
 import AppState from '../../providers/app-state.js';
 import { createThought } from '../../services/thoughts-service.js';
-import * as style from './TextEditor.js';
+import * as style from './TextEditorStyles.js';
 
 
 function TextEditor ({ colour, setColour }) {

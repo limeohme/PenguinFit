@@ -5,6 +5,19 @@ export const palePink = pink[50];
 export const blue = indigo[400];
 export const deepBlue = indigo[800];
 
+export const textAreaStyle = {
+  minWidth: '20rem',
+  minHeight: '16rem',
+  resize: 'none',
+  margin: '1rem',
+  alignSelf: 'center',
+  boxShadow: 1,
+  borderRadius: 2,
+  bgcolor: 'white',
+  textAlign: 'center',
+  
+};
+
 export const wrapperContainerStyle = {
   gap: '2rem',
   my: '1rem',
