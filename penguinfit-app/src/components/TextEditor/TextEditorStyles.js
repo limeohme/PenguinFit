@@ -1,9 +1,18 @@
-import { lightGreen, purple, pink, indigo } from '@mui/material/colors';
+import { lightGreen, pink, purple, indigo } from '@mui/material/colors';
 
 export const green = lightGreen[100];
 export const palePink = pink[50];
 export const blue = indigo[400];
 export const deepBlue = indigo[800];
+
+export const textAreaStyle = {
+  minWidth: '20rem',
+  minHeight: '16rem',
+  resize: 'none',
+  margin: '1rem',
+  alignSelf: 'center'
+  
+};
 
 export const wrapperContainerStyle = {
   gap: '2rem',
@@ -11,7 +20,7 @@ export const wrapperContainerStyle = {
   px: '2rem',
   borderRadius: 3,
 };
-
+  
 export const userInfoContainer = {
   display: 'flex',
   flexDirection: 'row',
@@ -21,7 +30,7 @@ export const userInfoContainer = {
   my: '1rem',
   py: '1rem',
 };
-
+  
 export const friendsContainer = {
   display: 'flex',
   flexDirection: 'column',
@@ -31,7 +40,7 @@ export const friendsContainer = {
   my: '1rem',
   py: '1rem',
 };
-
+  
 export const midiContainerStyle = {
   display: 'flex',
   flexDirection: 'column',
@@ -39,7 +48,7 @@ export const midiContainerStyle = {
   bgcolor: 'none',
   width: 'fit-content'
 };
-
+  
 export const infoBoxStyle = {
   display: 'flex',
   flexDirection: 'row',
@@ -56,7 +65,7 @@ export const infoBoxStyle = {
   justifyContent: 'space-around',
   alignItems: 'center',
 };
-
+  
 export const sideBoxStyleGreen = {
   display: 'flex',
   flexDirection: 'column',
@@ -71,7 +80,7 @@ export const sideBoxStyleGreen = {
   m: '1.5rem',
   alignItems: 'center'
 };
-
+  
 export const sideBoxStyleBlue = {
   display: 'flex',
   flexDirection: 'column',
@@ -87,89 +96,6 @@ export const sideBoxStyleBlue = {
   alignItems: 'center'
 };
 
-export const buttonBoxStyle = {
-  display: 'flex',
-  flexDirection: 'row',
-  alignSelf: 'center'
-};
-
-export const editStyle = {
-  p: 0,
-  m: 0,
-  outline: 0
-};
-
-
-export const avatarStyle = {
-  width: '8rem',
-  height: '8rem',
-  alignSelf: 'center',
-  p: '0.4rem',
-  my: '1rem',
-  border: 1,
-  borderColor: purple[800],
-  bgcolor: 'white'
-};
-
-export const nameStyle = {
-  fontSize: 24,
-  fontWeight: 700,
-  fontFamily: 'Monospace',
-  letterSpacing: 4,
-  alignSelf: 'center',
-
-};
-
-export const ageStyle = {
-  fontSize: 16,
-  fontWeight: 600,
-  fontFamily: 'Monospace',
-  letterSpacing: 4,
-
-};
-
-export const BMIStyle = {
-  fontSize: 58,
-  fontWeight: 700,
-  fontFamily: 'Monospace',
-  letterSpacing: 4,
-  color: purple[900]  
-};
-
-export const BMINumberStyle = {
-  fontSize: 58,
-  fontWeight: 700,
-  fontFamily: 'Monospace',
-  letterSpacing: 4,
-  color: blue  
-};
-
-export const BMIMsgStyle = {
-  my: '0.5rem',
-  fontSize: 16,
-  fontWeight: 'bold',
-  fontFamily: 'Monospace',
-  letterSpacing: 1,
-  color: purple[900]
-};
-
-export const activityStyle = {
-  fontSize: 58,
-  fontWeight: 900,
-  fontFamily: 'Monospace',
-  letterSpacing: 4,
-  color: lightGreen[800]
-};
-
-export const rangeStyle = {
-  my: '0.5rem',
-  fontSize: 16,
-  fontWeight: 'bold',
-  fontFamily: 'Monospace',
-  letterSpacing: 1,
-  color: lightGreen[900]
-};
-
 export const messageStyle = {
   fontSize: 16,
   fontWeight: 'bold',
@@ -177,12 +103,4 @@ export const messageStyle = {
   letterSpacing: 1,
   color: pink[600],
   alignSelf: 'center'
-};
-
-export const sliderStyle = {
-  bgcolor: blue,
-  fontFamily: 'Monospace',
-  boxShadow: 1,
-  margin: 1
-
 };
