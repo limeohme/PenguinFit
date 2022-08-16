@@ -3,7 +3,6 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: red;
 }
 
 #root {
@@ -11,7 +10,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
-  background-image: linear-gradient(-45deg, #6633ff, #6633ff75, #6633ff33, white, transparent 90%);
+  background-image: linear-gradient(-45deg, #6633ff, #6633ff75, #6633ff25, white, transparent 50%, white, #6633ff33, #6633ff66);
   /* background-color: #f1b9d0; */
 }
 

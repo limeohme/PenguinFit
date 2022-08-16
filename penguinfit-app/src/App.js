@@ -37,7 +37,7 @@ const useStyles = (theme) => ({
   },
   drawer: {
     flexShrink: 0,
-    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH }
+    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH, backgroundColor: '#6633ff15', pl: 6 }
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -45,23 +45,30 @@ const useStyles = (theme) => ({
       display: 'none'
     }
   },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing(3)
+  outlet: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    // gap: '2em',
+    alignSelf: 'center',
+    minHeight: '100vh',
+    minWidth: '100%',
+    margin: '0 2em'
   },
+  // content: {
+  //   flexGrow: 1,
+  //   backgroundColor: theme.palette.background.default,
+  //   padding: theme.spacing(3)
+  // },
   footerStyle: {
     color: 'white',
-    backgroundColor: 'black',
-    borderTop: '2px solid black',
+    backgroundColor: '#6633ff',
+    // borderTop: '2px solid black',
     display: 'flex',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    height: '10vh',
+    height: '15vh',
     zIndex: theme.zIndex.drawer + 1
-    // margin: '0 2em'
-    // boxSizing: 'border-box',
-    // padding: '0 2em'
   }
 });
 
@@ -90,10 +97,7 @@ function App() {
         <CssBaseline />
         <Navbar classes={classes} toggleDrawer={toggleDrawer} />
 
-        <Box
-          component="main"
-          sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '2em', alignSelf: 'center', minHeight: '90vh', minWidth: '100%', margin: '0 2em' }}
-        >
+        <Box component="main" sx={classes.outlet}>
           <Toolbar />
           <Routes>
             <Route index element={<Navigate replace to="home" />} />
