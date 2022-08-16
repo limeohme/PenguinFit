@@ -3,5 +3,6 @@ export const sidebarPages = {
   dashboard: 'Dashboard',
   activities: 'Activities',
   meals: 'Meals',
-  goals: 'Goals'
+  goals: 'Goals',
+  thoughts: 'Thoughts'
 };

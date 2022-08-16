@@ -9,6 +9,7 @@ import NotFound from '../NotFound/NotFound';
 import Profile from '../Profile/Profile';
 // import Activities from '../testActivities';
 import Meals from '../testMeals';
+import Thoughts from '../Thoughts/Thoughts';
 
 export default function Private({ classes, toggleDrawer, open, isMdUp }) {
   const margin = isMdUp ? `${DRAWER_WIDTH}px` : 0;
@@ -24,6 +25,7 @@ export default function Private({ classes, toggleDrawer, open, isMdUp }) {
           <Route path="activities" element={<Activities />} />
           <Route path="meals" element={<Meals />} />
           <Route path="goals" element={<Goals />} />
+          <Route path="thoughts" element={<Thoughts />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Box>

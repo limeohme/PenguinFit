@@ -40,8 +40,8 @@ export default function FriendsComparisonStepper({ steps }) {
             {steps[activeStep].results.map(el => {
               return (
                 <VictoryBar
-                  labels={el.name}
-                  data={[el.data]}
+                  labels={ [el.name] }
+                  data={ [el.data] }
                   animate={{
                     // duration: 2000,
                     onLoad: { duration: 1000 },
