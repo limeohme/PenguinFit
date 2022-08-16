@@ -2,11 +2,12 @@ import { Box } from '@mui/system';
 import { Route, Routes } from 'react-router';
 import { DRAWER_WIDTH } from '../../common/constants';
 import Sidebar from '../../components/Sidebar/Sidebar';
+import Activities from '../Activities/Activities';
 import Dashboard from '../Dashboard/Dashboard';
 import Goals from '../Goals/Goals';
 import NotFound from '../NotFound/NotFound';
 import Profile from '../Profile/Profile';
-import Activities from '../testActivities';
+// import Activities from '../testActivities';
 import Meals from '../testMeals';
 
 export default function Private({ classes, toggleDrawer, open, isMdUp }) {
@@ -16,7 +17,7 @@ export default function Private({ classes, toggleDrawer, open, isMdUp }) {
     <>
       <Sidebar classes={classes} toggleDrawer={toggleDrawer} open={open} isMdUp={isMdUp} />
       
-      <Box sx={{ ml: `${margin}` }}>
+      <Box sx={{ ml: `${margin}`, flex:1 }}>
         <Routes>
           <Route path="profile" element={<Profile />} />
           <Route path="dashboard" element={<Dashboard />} />
