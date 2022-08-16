@@ -6,11 +6,11 @@ export const blue = indigo[400];
 export const deepBlue = indigo[800];
 
 export const containerStyle = {
-
+  display: 'flex',
 };
 
 export const midiContainerStyle = {
-  alignSelf: 'start',
+  alignSelf: 'center',
   p: '1rem',
   my: '2rem',
 };
