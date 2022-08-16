@@ -116,6 +116,7 @@ export const nameStyle = {
   fontWeight: 700,
   fontFamily: 'Monospace',
   letterSpacing: 4,
+  alignSelf: 'center',
 
 };
 

@@ -117,9 +117,9 @@ function Profile () {
                 : ''
             }
             <Typography sx={style.messageStyle}>{message? message : ''}</Typography>
-            <Box sx={{ ...style.infoBoxStyle }}>
-              <Typography sx={{ ...style.nameStyle }}>{appState.user.username}</Typography>
-            </Box>
+            
+            <Typography sx={{ ...style.nameStyle }}>{appState.user.username}</Typography>
+
             <Box sx={{ ...style.infoBoxStyle }}>
               {!edit ? <Typography >{`${appState.user.age} yrs`}</Typography>:
                 <TextField variant="standard" placeholder={appState.user.age + ' years'} type='text'  
