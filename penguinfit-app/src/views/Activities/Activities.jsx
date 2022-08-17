@@ -1,5 +1,6 @@
-import { Grid, Paper } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import CreateActivityForm from '../../components/CreateActivityForm/CreateActivityForm';
+import SingleActivityView from '../../components/SingleActivity/SingleActivity';
 // import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';
 // import DetailedGoalsStepper from '../../components/DetailedGoalsStepper/DetailedGoalsStepper';
 // import FriendsComparisonStepper from '../../components/FriendsComparisonStepper/FriendsComparisonStepper';
@@ -69,16 +70,30 @@ function Activities() {
       direction="row"
       justifyContent="left"
       alignItems="left"
-      sx={{ p:4 }}
+      sx={{ p:3 }}
       spacing={4}
     >
-      <Grid item xs={12} sm={5.5}>
-        <Paper sx={{ backgroundColor: '#ffffff75' }}>
-          <CreateActivityForm></CreateActivityForm>
-        </Paper>
+      <Grid container item direction="column" gap={4} xs={12} sm={5.5}>
+        <Grid item>
+          <Typography variant='h5' sx={{ pb:2 }}>New activity:</Typography>
+          {/* <Divider></Divider> */}
+          <Paper sx={{ backgroundColor: '#ffffff75' }}>
+            <CreateActivityForm></CreateActivityForm>
+          </Paper>
+        </Grid>
+        <Grid container item direction="column" gap={1.5} justifyContent='centre'>
+          <Typography variant='h5' sx={{ pb:2 }}>Recent activities:</Typography>
+          
+          <SingleActivityView></SingleActivityView>
+          <SingleActivityView></SingleActivityView>
+          <SingleActivityView></SingleActivityView>
+          <SingleActivityView></SingleActivityView>
+          
+        </Grid>
       </Grid>
 
       <Grid item xs={12} sm={6.5}>
+        <Typography variant='h5' sx={{ pb:2 }}>Statistics:</Typography>
         {/* <DetailedGoalsStepper steps={ steps }></DetailedGoalsStepper> */}
         <Grid 
           container

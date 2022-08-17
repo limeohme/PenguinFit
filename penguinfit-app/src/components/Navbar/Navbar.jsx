@@ -59,6 +59,7 @@ function Navbar({ classes, toggleDrawer }) {
         <Typography variant="h4" sx={{ mr: 'auto' }}>PenguinFit</Typography>
         {renderLoginLogout()}
       </Toolbar>
+      {/* <Divider variant="middle" sx={{ height: '3px', backgroundColor: '#ffffff' }}></Divider> */}
     </AppBar>
   );
 }
