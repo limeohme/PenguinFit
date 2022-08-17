@@ -1,38 +1,21 @@
-import { get, set, ref, onValue, update, remove } from 'firebase/database';
+import { get, ref, onValue, update, remove, push } from 'firebase/database';
 // import { query, orderByChild, equalTo, onChildAdded, limitToLast, limitToFirst, startAfter, endBefore } from 'firebase/database';
 // import { POST_REQUEST_LIMIT } from '../common/constants';
 import { db } from '../config/firebase-config';
-import { formatDateToString, formatString, isCyrillic, tagsToObject, titleKeywordsToObject, toSnakeCase } from '../utils/utils';
+import { formatDateToString, formatString } from '../utils/utils';
 
-export const createActivityObject = (author, title, content, tags = '') => {
-  const keywordsObj = titleKeywordsToObject(title);
-  const tagsObj = tagsToObject(tags);
+export const createActivityObject = (input = {}) => {
   return {
-    title,
-    searchTitle: formatString(title),
-    author,
-    content,
-    allTags: tagsToObject(tags),
-    cyrillic: isCyrillic(content),
-    likes: {},
-    likesCount: 0,
-    dislikes: {},
-    dislikesCount: 0,
-    comments: {},
-    commentsCount: 0,
+    ...input,
+    searchTitle: formatString(input.title),
     dateValue: Date.now(),
-    popularity: 0,
-    priority: 0,
-    createdOn: formatDateToString(new Date()),
-    id: `${author}-${toSnakeCase(title)}-${Date.now()}`,
-    allKeywords: keywordsObj,
-    ...keywordsObj,
-    ...tagsObj
+    createdOn: formatDateToString(new Date())
+    // allKeywords: titleKeywordsToObject(input.title),
   };
 };
 
-export const createPost = (author, title, content, postObj = createActivityObject(author, title, content)) => {
-  return set(ref(db, `posts/${postObj.id}`), postObj);
+export const addActivity = (username, activityObj) => {
+  return push(ref(db, `activities/${username}`), activityObj);
 };
 
 export const getPostByHandle = (postId) => {

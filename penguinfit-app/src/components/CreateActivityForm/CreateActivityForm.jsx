@@ -1,6 +1,10 @@
 import { Autocomplete, Button, FormControl, FormControlLabel, Grid, InputAdornment, Radio, RadioGroup, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { activitiesMET } from '../../common/activitiesMET';
+import { activityTypes } from '../../common/activity-types';
+import AppState from '../../providers/app-state';
+import { addActivity, createActivityObject } from '../../services/activities-service';
+import { getActivityTotalCalBurned } from '../../utils/utils';
 
 const styles = {
   inputs:{
@@ -15,12 +19,12 @@ const styles = {
 };
 
 const CreateActivityForm = () => {
-  // filter falsy when used:
+  const { appState:{ user } } = useContext(AppState);
+  
   const defaultValues = {
     title: '',
     duration: 0,
     type: '',
-
     distance: 0,
     weight: 0,
     sets: 0,
@@ -28,37 +32,50 @@ const CreateActivityForm = () => {
     buddy: ''
   };
 
-  const activityTypes = {
-    cardio: ['distance'],
-    strength: ['weight', 'sets', 'reps'],
-    other: null
-  };
+  
 
+  // filter falsy when used:
   const [formValues, setFormValues] = useState(defaultValues);
 
   const handleInputChange = (e) => {
     
     const { name, value } = e.target;
-    
+    const numValue = parseInt(value);
+
     setFormValues({
       ...formValues,
-      [name]: value
+      [name]: numValue? numValue : value
     });
     
   };
 
   const handleAutocompleteChange = (e, val = '') => {
-
+    
     setFormValues({
       ...formValues,
       title: val
     });
     
+    // TODO: add friend functionality
   };
 
   const handleAdd = (event) => {
     event.preventDefault();
     console.log(formValues);
+
+    const { username, weight } = user;
+    const { title, duration } = formValues;
+    const calories = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
+
+    const activityInput = { ...formValues, calories };
+    const activityObj = createActivityObject(activityInput);
+
+    addActivity(username, activityObj)
+      .then(() => {
+        console.log('activity added');
+
+      })
+      .catch(console.error);
   };
 
   const renderTypeDetails = (types, defaults, changeHandler) => {
@@ -94,8 +111,6 @@ const CreateActivityForm = () => {
   };
 
   return (
-    
-
     <Grid 
       container 
       direction="column" 
@@ -196,9 +211,7 @@ const CreateActivityForm = () => {
       </Grid>
 
     </Grid>
-    
-    
   );
-
 };
+
 export default CreateActivityForm;

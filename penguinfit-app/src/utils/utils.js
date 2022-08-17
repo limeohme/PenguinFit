@@ -2,6 +2,17 @@ import { KEYWORD_PREFIX } from '../common/constants';
 
 //BEWARE! NEW FUNCTIONS
 
+const getCaloriesPerMinute = (MET = 0, userWeight = 0) => {
+  const result = (MET * 3.5 * userWeight) / 200;
+  return result;
+};
+
+export const getActivityTotalCalBurned = (MET, userWeight, duration) => {
+  const CPM = getCaloriesPerMinute(MET, userWeight);
+  const result = CPM * duration;
+  return result;
+};
+
 export function calculateBMIMessage(BMI) {
   if (BMI >= 18.5 && BMI <= 25) {
     return 'You are within the healthy range!';
@@ -24,24 +35,14 @@ ${date.toDateString()} ${date.toLocaleTimeString()} `;
 
 export const mapPages = (pages = null, mapperFn = () => null) => {
   if (!pages) return null;
-  return Object.entries(pages).map(([key, value], i) =>
-    mapperFn(key, value, i)
-  );
+  return Object.entries(pages).map(([key, value], i) => mapperFn(key, value, i));
 };
 
-export const renderPublicLinks = (
-  pages = null,
-  mapperFn = () => null
-) => {
+export const renderPublicLinks = (pages = null, mapperFn = () => null) => {
   return mapPages(pages, mapperFn);
 };
 
-export const renderUserLinks = (
-  user = null,
-  login = null,
-  pages = null,
-  mapperFn = () => null
-) => {
+export const renderUserLinks = (user = null, login = null, pages = null, mapperFn = () => null) => {
   if (!user) return login;
   return mapPages(pages, mapperFn);
 };
@@ -95,7 +96,7 @@ export const titleKeywordsToObject = (title) => {
         keyword = KEYWORD_PREFIX + keyword;
         return {
           ...obj,
-          [keyword]: true,
+          [keyword]: true
         };
       },
       { [titleFormatted]: true }
@@ -118,7 +119,7 @@ export const tagsToObject = (tags) => {
   return tags.split(' ').reduce((tagsObj, tag) => {
     return {
       ...tagsObj,
-      [tag]: true,
+      [tag]: true
     };
   }, {});
 };
