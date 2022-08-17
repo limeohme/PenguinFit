@@ -50,7 +50,7 @@ export const midiContainerStyle = {
   flexDirection: 'column',
   justifyContent: 'space-between',
   bgcolor: 'none',
-  width: 'fit-content'
+  width: 'fit-content',
 };
   
 export const infoBoxStyle = {
@@ -93,8 +93,7 @@ export const sideBoxStyleBlue = {
   borderRadius: 2,
   bgcolor: 'rgb(92, 107, 192, 0.2)',
   p: '4.5rem',
-  m: '1.5rem',
-  alignSelf: 'center',
+  m: '2rem',
   textAlign: 'center',
   minWidth: '12rem',
   justifyContent: 'space-around',
@@ -113,7 +112,7 @@ export const boxStyleWhite = {
   justifyContent: 'space-around',
   alignItems: 'center',
   boxSizing: 'border-box',
-  wordBreak: 'break-all',
+  wordBreak: 'break-word',
   whiteSpace: 'pre-wrap'
 };
   

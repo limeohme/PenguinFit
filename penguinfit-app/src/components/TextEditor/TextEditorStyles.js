@@ -15,9 +15,10 @@ export const textAreaStyle = {
 
 export const wrapperContainerStyle = {
   gap: '2rem',
-  my: '1rem',
+  m: '1rem',
   px: '2rem',
   borderRadius: 3,
+  display: 'flex'
 };
   
 export const userInfoContainer = {
@@ -45,7 +46,8 @@ export const midiContainerStyle = {
   flexDirection: 'column',
   justifyContent: 'space-between',
   bgcolor: 'none',
-  width: 'fit-content'
+  width: 'fit-content',
+  alignSelf: 'center'
 };
   
 export const infoBoxStyle = {
