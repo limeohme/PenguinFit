@@ -12,7 +12,8 @@ export default function DetailedGoalsStepper({ steps }) {
   
   const formatDate = (date) => {
     if(!date) return null;
-    return date.toLocaleDateString('en-us', { year:'numeric', month:'short', day:'numeric' });
+    const dateToSeconds = (new Date(date));
+    return dateToSeconds.toLocaleDateString('en-us', { year:'numeric', month:'short', day:'numeric' });
   };
 
   const handleNext = () => {
@@ -27,58 +28,69 @@ export default function DetailedGoalsStepper({ steps }) {
     <Box sx={{ maxWidth: 400, flexGrow: 1, m: 2 }}>
       <h3>Your goals:</h3>
       <Paper>
-        <Stack 
-          spacing={1}
-        >
-          <Typography align="center" >{steps[activeStep].title}</Typography>
-          <Chip label={'Status:' + steps[activeStep].status}/>
-          <VictoryPie
-            data={[
-              { x: 'Achieved', y: Number(steps[activeStep].currentValue) },
-              { x: 'Not there yet', y: Number(steps[activeStep].targetValue - steps[activeStep].currentValue) },
-            ]}
-            animate={{
-              duration: 2000,
-            }}
-            colorScale={[ 'navy', 'black' ]}
+        { steps.length > 0 ? <>
+          <Stack 
+            spacing={1}
           >
-          </VictoryPie>
-          <Stack direction="row" spacing={2}   divider={<Divider orientation="vertical" flexItem />}>
-            <Typography align="center" >{'Created on: ' + formatDate(steps[activeStep].createdOn)}</Typography>
-            <Typography align="center" >{'Due date:' + (formatDate(steps[activeStep].dueDate) || 'Not set')}</Typography>
-          </Stack>
-        </Stack>
-        <MobileStepper
-          variant="text"
-          steps={maxSteps}
-          position="static"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
+            <Typography align="center" >{steps[activeStep].title}</Typography>
+            <Chip label={'Status:' + steps[activeStep].status}/>
+            <VictoryPie
+              data={[
+                { x: 'Achieved', y: Number(steps[activeStep].currentValue) },
+                { x: 'Not there yet', y: Number(steps[activeStep].targetValue - steps[activeStep].currentValue) },
+              ]}
+              animate={{
+                duration: 2000,
+              }}
+              colorScale={[ 'navy', 'black' ]}
             >
+            </VictoryPie>
+            <Stack direction="row" spacing={2}   divider={<Divider orientation="vertical" flexItem />}>
+              <Typography align="center" >{'Created on: ' + formatDate(steps[activeStep].createdOn)}</Typography>
+              <Typography align="center" >{'Due date:' + (formatDate(steps[activeStep].dueDate) || 'Not set')}</Typography>
+            </Stack>
+          </Stack>
+          <MobileStepper
+            variant="text"
+            steps={maxSteps}
+            position="static"
+            activeStep={activeStep}
+            nextButton={
+              <Button
+                size="small"
+                onClick={handleNext}
+                disabled={activeStep === maxSteps - 1}
+              >
               Next
-              {theme.direction === 'rtl' ? (
-                <KeyboardArrowLeft />
-              ) : (
-                <KeyboardArrowRight />
-              )}
-            </Button>
-          }
-          backButton={
-            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-              {theme.direction === 'rtl' ? (
-                <KeyboardArrowRight />
-              ) : (
-                <KeyboardArrowLeft />
-              )}
+                {theme.direction === 'rtl' ? (
+                  <KeyboardArrowLeft />
+                ) : (
+                  <KeyboardArrowRight />
+                )}
+              </Button>
+            }
+            backButton={
+              <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                {theme.direction === 'rtl' ? (
+                  <KeyboardArrowRight />
+                ) : (
+                  <KeyboardArrowLeft />
+                )}
               Back
-            </Button>
-          }
-        />
+              </Button>
+            }
+          />
+        </>
+          : 
+          <>
+            <Stack>
+              <Typography align="center" >Don't be a lazy penguin !</Typography>
+              <Typography align="center" >Add some goals ! </Typography>
+
+            </Stack>
+          </>
+        }
       </Paper>
-    </Box>
+    </Box> 
   );
 }

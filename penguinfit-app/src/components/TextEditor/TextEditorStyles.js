@@ -10,15 +10,15 @@ export const textAreaStyle = {
   minHeight: '16rem',
   resize: 'none',
   margin: '1rem',
-  alignSelf: 'center'
-  
+  alignSelf: 'center',  
 };
 
 export const wrapperContainerStyle = {
   gap: '2rem',
-  my: '1rem',
+  m: '1rem',
   px: '2rem',
   borderRadius: 3,
+  display: 'flex'
 };
   
 export const userInfoContainer = {
@@ -46,7 +46,8 @@ export const midiContainerStyle = {
   flexDirection: 'column',
   justifyContent: 'space-between',
   bgcolor: 'none',
-  width: 'fit-content'
+  width: 'fit-content',
+  alignSelf: 'center'
 };
   
 export const infoBoxStyle = {
@@ -103,4 +104,13 @@ export const messageStyle = {
   letterSpacing: 1,
   color: pink[600],
   alignSelf: 'center'
+};
+
+export const pageTitleStyle = {
+  fontSize:36,
+  fontWeight: 700,
+  fontFamily: 'monospace',
+  letterSpacing: 7,
+  color: purple[900],
+  alignSelf: 'center'  
 };

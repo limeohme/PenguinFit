@@ -27,7 +27,7 @@ function Thoughts () {
         <TextEditor colour={colour} setColour={setColour}></TextEditor>
       </Grid>
       <Grid item xs sx={style.midiContainerStyle}>
-        <ThoughtCarousel thoughts={thoughts}/>
+        <ThoughtCarousel colour={colour} thoughts={thoughts}/>
       </Grid>
     </Grid>
     

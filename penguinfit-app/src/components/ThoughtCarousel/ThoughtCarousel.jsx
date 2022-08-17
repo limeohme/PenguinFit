@@ -1,8 +1,9 @@
 import { useTheme } from '@emotion/react';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { Box, MobileStepper, Button, Typography, Paper, TextField, } from '@mui/material';
-import { useState } from 'react';
-import { editThought } from '../../services/thoughts-service.js';
+import { useContext, useState } from 'react';
+import AppState from '../../providers/app-state.js';
+import { deleteThought, editThought } from '../../services/thoughts-service.js';
 import * as style from './ThoughtCarStyles.js';
 
 // const thoughts = [
@@ -43,11 +44,13 @@ import * as style from './ThoughtCarStyles.js';
 
 function ThoughtCarousel ({ thoughts }) {
   const theme = useTheme();
+  const { appState, _setState } = useContext(AppState);
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = thoughts.length;
   const [edit, setEdit] = useState(false);
   const [textInput, setTextInput] = useState('');
   const [title, setTitle] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -59,9 +62,28 @@ function ThoughtCarousel ({ thoughts }) {
 
   const editHandler = (newContent, newTitle) => {
     if (newContent && newTitle) {
-      editThought({ ...thoughts[activeStep], content: newContent, title: newTitle });
-      console.log('Successssss');
-    } 
+      messageHandler('Thought updated!');
+      setEdit(!edit);
+      return editThought(appState.user.username, { ...thoughts[activeStep], content: newContent, title: newTitle });
+    } else if (newContent && !newTitle) {
+      messageHandler('Thought updated!');
+      setEdit(!edit);
+      return editThought(appState.user.username, { ...thoughts[activeStep], content: newContent });
+    } else if (newTitle && !newContent) {
+      messageHandler('Thought updated!');
+      setEdit(!edit);
+      return editThought(appState.user.username, { ...thoughts[activeStep], title: newTitle });
+    }
+
+    return messageHandler('No changes were made here...');
+  };
+
+  const messageHandler = (msg) => {
+    setMessage(msg);
+
+    setTimeout(() => {
+      setMessage('');
+    }, 2600);
   };
 
   return (
@@ -69,7 +91,8 @@ function ThoughtCarousel ({ thoughts }) {
       <Paper sx={style.boxStyleWhite}>
         {!edit?
           <Typography sx={style.titleStyle} align="center" >{thoughts[activeStep]?.title}</Typography>:
-          <TextField placeholder='Some text here' defaultValue={thoughts[activeStep]?.title} onChange={(e) => setTitle(e.target.value)}></TextField>
+          <TextField placeholder='Some text here' defaultValue={thoughts[activeStep]?.title}
+            onChange={(e) => setTitle(e.target.value)}></TextField>
         }
         {edit?
           <Box sx={style.buttonBoxStyle}>
@@ -77,15 +100,19 @@ function ThoughtCarousel ({ thoughts }) {
             <Button onClick={() => {setEdit(!edit);}}>CANCEL</Button>
           </Box>:
           <Box sx={style.buttonBoxStyle}>
-            <Button onClick={() => editHandler(textInput, title)}>DELETE</Button>
+            <Button onClick={() => {
+              deleteThought(appState.user.username, thoughts[activeStep]?.id);
+              handleBack();
+              messageHandler('Deleted!');
+            }}>DELETE</Button>
             <Button onClick={() => {setEdit(!edit);}}>EDIT</Button>
           </Box>
         }
-        
+        <Typography sx={style.messageStyle} align="center" >{message}</Typography>
         <Box>
           {!edit?
-            <Typography sx={style.bodyStyle}>{thoughts[activeStep]?.content}</Typography>:
-            <textarea style={style.textAreaStyle} placeholder='Some text here' 
+            <Typography sx={{ ...style.bodyStyle, color: thoughts[activeStep]?.colour }}>{thoughts[activeStep]?.content}</Typography>:
+            <textarea style={style.textAreaStyle} placeholder='Some text here'
               defaultValue={thoughts[activeStep].content} onChange={(e) => setTextInput(e.target.value)}></textarea>
           }
         </Box>

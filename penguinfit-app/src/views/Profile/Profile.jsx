@@ -1,4 +1,4 @@
-import { Box, Avatar, Typography, Button, TextField, Slider, Grid } from '@mui/material';
+import { Box, Avatar, Typography, Button, TextField, Slider, Grid, Paper } from '@mui/material';
 import { useContext, useRef } from 'react';
 // import { useEffect } from 'react';
 import { useState } from 'react';
@@ -14,6 +14,11 @@ import { updateUserInfo } from '../../services/local-storage-service.js';
 import { validateProfileUpdates } from '../../utils/validations.js';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../config/firebase-config.js';
+import { Stack } from '@mui/system';
+import FriendsAutocomplete from '../../components/FriendsAutocomplete/FriendsAutocomplete.jsx';
+import DisplayFriends from '../../components/DisplayFriends/DisplayFriends.jsx';
+
+const friends = ['Stawri', 'Pesho','Stawri', 'Pesho'];
 
 function Profile () {
   const { appState, _setState } = useContext(AppState);
@@ -175,7 +180,20 @@ function Profile () {
         
         </Grid>
       </Grid>
-      <Grid item xs md sx={style.friendsContainer}>FRIENDS
+      <Grid item xs md sx={style.friendsContainer}>
+        <Box sx={{ maxWidth: 550, flexGrow: 1, m: 2, p:2 }}>
+          <Paper>
+            <Stack
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}>
+              <Typography align="center" >Friends</Typography>
+              <FriendsAutocomplete></FriendsAutocomplete>
+              <DisplayFriends friends={friends}></DisplayFriends>
+            </Stack>
+          </Paper>
+        </Box>
         <Grid item xs sx={ style.sideBoxStyleGreen }>
           <Typography sx={ style.BMIStyle}>BMI </Typography>
           <Typography sx={ style.BMINumberStyle}>{Number((Number(appState.user.weight)/((Number(appState.user.height)/100)**2)).toFixed(0))}</Typography>
