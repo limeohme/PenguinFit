@@ -20,7 +20,8 @@ function TextEditor ({ colour, setColour }) {
   };
 
   const entryHandler = (postTitle, body) => {
-    if (postTitle && body) createThought(appState.user.username, { title: postTitle, content: body, author: appState.user.username });
+    if (postTitle && body) createThought(appState.user.username, 
+      { title: postTitle, content: body, author: appState.user.username, colour: colour, mood: '👻'  });
     setMessage('Thought saved!');
 
     setTimeout(() =>{
@@ -32,11 +33,11 @@ function TextEditor ({ colour, setColour }) {
     <Grid container direction='column' sx={style.wrapperContainerStyle}>
       <Grid item xs sx={style.midiContainerStyle}>
         <Box sx={style.sideBoxStyleGreen}>
-          <TextField placeholder='Some text here' value={title} onChange={(e) => setTitle(e.target.value)}></TextField>
+          <TextField placeholder="what's your thought called..." value={title} onChange={(e) => setTitle(e.target.value)}></TextField>
           <Button onClick={() => {setColour(colour? '':'purple'); colourHandler();}}>{colour? 'REMOVE COLOUR':'COLOUR IT'}</Button>
           <Typography sx={style.messageStyle}>{message}</Typography>
-          <textarea style={style.textAreaStyle} placeholder='Some text here' value={textInput} onChange={(e) => setTextInput(e.target.value)}></textarea>
-          <Button onClick={() => entryHandler(title, textInput)}>SAVE THOUGHT</Button>
+          <textarea style={style.textAreaStyle} placeholder='spill some thoughts here...' value={textInput} onChange={(e) => setTextInput(e.target.value)}></textarea>
+          <Button onClick={() => {entryHandler(title, textInput); setTitle(''); setTextInput('');}}>SAVE THOUGHT</Button>
         </Box>
       </Grid>
       <Grid item xs sx={style.midiContainerStyle}>
