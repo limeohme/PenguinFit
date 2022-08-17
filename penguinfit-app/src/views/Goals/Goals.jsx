@@ -116,7 +116,7 @@ function Goals() {
             <FriendsComparisonStepper steps={ friends }> </FriendsComparisonStepper>
           </Grid>
           <Grid item xs={12} sm={12}>
-            <CreateGoalForm username={user.username} goals={goals}></CreateGoalForm>
+            <CreateGoalForm username={user.username}></CreateGoalForm>
           </Grid>
         </Grid>
       </Grid>
