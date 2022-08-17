@@ -19,7 +19,7 @@ import Private from './views/Private/Private';
 import NotFound from './views/NotFound/NotFound';
 
 import { DRAWER_WIDTH } from './common/constants.js';
-import { Box, CssBaseline, Toolbar, useMediaQuery, useTheme } from '@mui/material';
+import { Box, CssBaseline, useMediaQuery, useTheme } from '@mui/material';
 
 const useStyles = (theme) => ({
   root: {
@@ -29,11 +29,11 @@ const useStyles = (theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     // backgroundColor: '#6633ff',
     backgroundColor: 'transparent',
-    borderBottom: '3px solid black',
-    // paddingTop: '50px',
-    color: 'black',
-    width: '95vw',
-    left: '2.5vw'
+    // borderBottom: '3px solid black',
+    // paddingTop: '2.5vw',
+    color: 'black'
+    // width: '95vw',
+    // left: '2.5vw'
   },
   drawer: {
     flexShrink: 0,
@@ -62,12 +62,12 @@ const useStyles = (theme) => ({
   // },
   footerStyle: {
     color: 'white',
-    backgroundColor: '#6633ff',
+    backgroundColor: '#000000',
     // borderTop: '2px solid black',
     display: 'flex',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    height: '15vh',
+    height: '30vh',
     zIndex: theme.zIndex.drawer + 1
   }
 });
@@ -98,7 +98,12 @@ function App() {
         <Navbar classes={classes} toggleDrawer={toggleDrawer} />
 
         <Box component="main" sx={classes.outlet}>
-          <Toolbar />
+          {/* <Toolbar>
+            <Typography variant="h5" sx={{ pl: `${DRAWER_WIDTH}px` }}>
+              Activities
+            </Typography>
+          </Toolbar> */}
+
           <Routes>
             <Route index element={<Navigate replace to="home" />} />
             <Route path="home" element={<Home isMdUp={isMdUp} />} />
