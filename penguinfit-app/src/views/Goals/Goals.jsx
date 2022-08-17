@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';
 import DetailedGoalsStepper from '../../components/DetailedGoalsStepper/DetailedGoalsStepper';
@@ -6,39 +6,6 @@ import FriendsComparisonStepper from '../../components/FriendsComparisonStepper/
 import AppState from '../../providers/app-state';
 import { listenToOtherGoals, getUserGoals, listenToCardioGoals, listenToStrengthGoals } from '../../services/goals-service';
 
-// user goals
-const steps = [
-  {
-    title: 'Da skolasam da zawursha',
-    status: 'po4ti',
-    dueDate: new Date(),
-    createdOn: new Date(),
-    type: 'other',
-    target: 'duration',
-    targetValue: 100,
-    currentValue: 55,
-  },
-  {
-    title: 'Da skolasam da si namerq rabota',
-    status: 'zle e',
-    dueDate: new Date(),
-    createdOn: new Date(),
-    type: 'other',
-    target: 'duration',
-    targetValue: 100,
-    currentValue: 10,
-  },
-  {
-    title: 'DA STANA JS NINJA',
-    status: 'zle e',
-    dueDate: null,
-    createdOn: new Date(),
-    type: 'other',
-    target: 'duration',
-    targetValue: 100,
-    currentValue: 0,
-  }
-];
 
 // user friends
 const friends = [{
@@ -80,40 +47,15 @@ const friends = [{
   }]
 },];
 
-// function sortPeople (criteria, people) {
-//   return people.sort((a,b) => (b[criteria] - a[criteria]));
-// }
 
-// function createPeopleSteps (people){
-//   const mostAc = sortPeople('exercisesCount', people);
-//   const names = mostAc.map(el => el.name);
-//   // const data = mostAc.map((el, i) => el = { x: i, y : el.exercisesCount });
+const extractGoals = (obj) => {
+  if(!obj) return [];
+  return Object.values(obj).map(el => Object.values(el) );
+};
 
-//   return [{
-//     title: 'exercisesCount',
-//     names,
-//     data: [
-//       { x: 1, y: 2 },
-//       { x: 2, y: -1 },
-//       { x: 3, y: 1 },
-//       { x: 4, y: 3 }
-//     ],
-//   }];
-// };
-// const friendsStep = [{
-//   title: 'someStufff',
-//   names: ['Pesho', 'Gosho', 'Ivan', 'Stavri'],
-//   data: [
-//     { x:0 , y:2 },
-//     { x:1 , y:4 },
-//     { x:2 , y:6 },
-//     { x:2 , y:6 },
-
-
-
-
-//   ]
-// }];
+const getSteps = (obj) => {
+  return [...extractGoals(obj.cardio), ...extractGoals(obj.strength), ...extractGoals(obj.other) ].flat();
+};
 
 function Goals() {
   const { appState } = useContext(AppState);
@@ -154,14 +96,6 @@ function Goals() {
     return () => unsubscribe();
   }, []);
 
-  // const getSteps = (obj) => {
-  //   console.log(Object.values(obj)
-  //     .map(types => Object.values(types).flat(1))
-  //     .map(targets => Object.values(targets).flat(1))
-  //     .map(result => Object.values(result).flat(1))
-  //   );
-  // };
-
   return(
     <Grid
       container
@@ -170,7 +104,7 @@ function Goals() {
       alignItems="center"
     >
       <Grid item xs={12} sm={4}>
-        <DetailedGoalsStepper steps={ steps }></DetailedGoalsStepper>
+        <DetailedGoalsStepper steps={getSteps(goals)}></DetailedGoalsStepper>
       </Grid>
 
       <Grid item xs={12} sm={8}>
@@ -186,7 +120,7 @@ function Goals() {
           </Grid>
         </Grid>
       </Grid>
-      {/* <Button onClick={() => getSteps(goals)}>OPA</Button>  */}
+      <Button onClick={() => console.log(getSteps(goals))}>OPA</Button> 
     </Grid>
   ); 
 };
