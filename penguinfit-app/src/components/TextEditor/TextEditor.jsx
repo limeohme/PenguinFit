@@ -1,23 +1,9 @@
 import { Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
+import { moods } from '../../common/moods.js';
 import AppState from '../../providers/app-state.js';
 import { createThought } from '../../services/thoughts-service.js';
 import * as style from './TextEditorStyles.js';
-
-const moods = [
-  '👻',
-  '🥰',
-  '🥺',
-  '😊',
-  '🤢',
-  '🥱',
-  '😎',
-  '🤪',
-  '🙄',
-  '😟',
-  ''
-];
-
 function TextEditor ({ colour, setColour }) {
   const { appState, _setState } = useContext(AppState);
   const [textInput, setTextInput] = useState('');
