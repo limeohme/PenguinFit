@@ -10,8 +10,7 @@ export const textAreaStyle = {
   minHeight: '16rem',
   resize: 'none',
   margin: '1rem',
-  alignSelf: 'center'
-  
+  alignSelf: 'center',  
 };
 
 export const wrapperContainerStyle = {

@@ -112,7 +112,9 @@ export const boxStyleWhite = {
   minWidth: '12rem',
   justifyContent: 'space-around',
   alignItems: 'center',
-  boxSizing: 'border-box'
+  boxSizing: 'border-box',
+  wordBreak: 'break-all',
+  whiteSpace: 'pre-wrap'
 };
   
 export const buttonBoxStyle = {
