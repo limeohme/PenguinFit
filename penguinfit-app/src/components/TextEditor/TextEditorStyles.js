@@ -103,3 +103,12 @@ export const messageStyle = {
   color: pink[600],
   alignSelf: 'center'
 };
+
+export const pageTitleStyle = {
+  fontSize:36,
+  fontWeight: 700,
+  fontFamily: 'monospace',
+  letterSpacing: 7,
+  color: purple[900],
+  alignSelf: 'center'  
+};

@@ -62,9 +62,20 @@ function ThoughtCarousel ({ thoughts }) {
 
   const editHandler = (newContent, newTitle) => {
     if (newContent && newTitle) {
-      editThought({ ...thoughts[activeStep], content: newContent, title: newTitle });
-      console.log('Successssss');
-    } 
+      messageHandler('Thought updated!');
+      setEdit(!edit);
+      return editThought(appState.user.username, { ...thoughts[activeStep], content: newContent, title: newTitle });
+    } else if (newContent && !newTitle) {
+      messageHandler('Thought updated!');
+      setEdit(!edit);
+      return editThought(appState.user.username, { ...thoughts[activeStep], content: newContent });
+    } else if (newTitle && !newContent) {
+      messageHandler('Thought updated!');
+      setEdit(!edit);
+      return editThought(appState.user.username, { ...thoughts[activeStep], title: newTitle });
+    }
+
+    return messageHandler('No changes were made here...');
   };
 
   const messageHandler = (msg) => {
@@ -80,7 +91,8 @@ function ThoughtCarousel ({ thoughts }) {
       <Paper sx={style.boxStyleWhite}>
         {!edit?
           <Typography sx={style.titleStyle} align="center" >{thoughts[activeStep]?.title}</Typography>:
-          <TextField placeholder='Some text here' defaultValue={thoughts[activeStep]?.title} onChange={(e) => setTitle(e.target.value)}></TextField>
+          <TextField placeholder='Some text here' defaultValue={thoughts[activeStep]?.title}
+            onChange={(e) => setTitle(e.target.value)}></TextField>
         }
         {edit?
           <Box sx={style.buttonBoxStyle}>
@@ -100,7 +112,7 @@ function ThoughtCarousel ({ thoughts }) {
         <Box>
           {!edit?
             <Typography sx={{ ...style.bodyStyle, color: thoughts[activeStep]?.colour }}>{thoughts[activeStep]?.content}</Typography>:
-            <textarea style={style.textAreaStyle} placeholder='Some text here' 
+            <textarea style={style.textAreaStyle} placeholder='Some text here'
               defaultValue={thoughts[activeStep].content} onChange={(e) => setTextInput(e.target.value)}></textarea>
           }
         </Box>

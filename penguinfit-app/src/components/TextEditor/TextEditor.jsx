@@ -46,6 +46,7 @@ function TextEditor ({ colour, setColour }) {
   return (
     <Grid container direction='column' sx={style.wrapperContainerStyle}>
       <Grid item xs sx={style.midiContainerStyle}>
+        <Typography sx={style.pageTitleStyle}>NEW THOUGHT</Typography>
         <Box sx={style.sideBoxStyleGreen}>
           <TextField placeholder="what's your thought called..." value={title} onChange={(e) => setTitle(e.target.value)}></TextField>
           <Button onClick={() => {setColour(colour? '':'purple'); colourHandler();}}>{colour? 'REMOVE COLOUR':'COLOUR IT'}</Button>
