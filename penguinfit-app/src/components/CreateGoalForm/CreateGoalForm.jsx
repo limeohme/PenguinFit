@@ -17,7 +17,6 @@ const getDate = () => {
   return (new Date().toISOString().split('T')[0]);
 };
 
-
 const CreateGoalForm = ({ username }) => {
   const [formValues, setFormValues] = useState(defaultValues);
 
@@ -35,8 +34,8 @@ const CreateGoalForm = ({ username }) => {
       [name]: value,
     });
   };
-
-
+  
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     createGoal(username, formValues);
@@ -138,9 +137,6 @@ const CreateGoalForm = ({ username }) => {
                   value={formValues.target}
                   onChange={handleInputChange}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   <MenuItem key="target" value="caloriesBurned">
                   Calories burned
                   </MenuItem>
@@ -148,11 +144,12 @@ const CreateGoalForm = ({ username }) => {
                     <em>Duration</em>
                   </MenuItem>
           
-                  {formValues.type === 'cardio' &&
+                  {formValues.type === 'cardio' && 
                    <MenuItem key="distance" value="distance">
                      <em>Distance</em>
                    </MenuItem>
                   }
+                  
                   {formValues.type === 'cardio' &&
                    <MenuItem key="steps" value="steps">
                      <em>Steps</em>
