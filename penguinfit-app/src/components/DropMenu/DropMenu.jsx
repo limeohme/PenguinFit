@@ -23,7 +23,7 @@ function DropMenu () {
         aria-controls={open ? 'drop-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        large
+        size="large"
         variant="text"
         disableElevation
         onClick={handleClick}
