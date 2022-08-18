@@ -191,16 +191,6 @@ function Profile () {
             </Stack>
           </Paper>
         </Box>
-        <Grid item xs sx={ style.sideBoxStyleGreen }>
-          <Typography sx={ style.BMIStyle}>BMI </Typography>
-          <Typography sx={ style.BMINumberStyle}>{Number((Number(appState.user.weight)/((Number(appState.user.height)/100)**2)).toFixed(0))}</Typography>
-          <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage((Number(appState.user.weight)/((Number(appState.user.height)/100)**2)))}</Typography>
-          <Typography sx={style.rangeStyle}>Healthy Range:</Typography>
-          <Slider sx={style.sliderStyle} disabled={true} marks={BMIMarks} step={0.5} valueLabelDisplay="auto" defaultValue={[18.5, 25]} min={13.5} max={30} />
-        </Grid>
-        <Grid item xs sx={style.sideBoxStyleBlue}>
-          <Typography sx={ style.activityStyle}>{activityStatus[appState.user.activityStatus]}</Typography>
-        </Grid>
       </Grid>
     </Grid>
   );
