@@ -10,7 +10,8 @@ export const textAreaStyle = {
   minHeight: '16rem',
   resize: 'none',
   margin: '1rem',
-  alignSelf: 'center',  
+  alignSelf: 'center', 
+  borderRadius: '5px' 
 };
 
 export const wrapperContainerStyle = {
@@ -20,27 +21,7 @@ export const wrapperContainerStyle = {
   borderRadius: 3,
   display: 'flex'
 };
-  
-export const userInfoContainer = {
-  display: 'flex',
-  flexDirection: 'row',
-  bgcolor: purple[50],
-  boxShadow: 2,
-  borderRadius: 2,
-  my: '1rem',
-  py: '1rem',
-};
-  
-export const friendsContainer = {
-  display: 'flex',
-  flexDirection: 'column',
-  bgcolor: purple[50],
-  boxShadow: 2,
-  borderRadius: 2,
-  my: '1rem',
-  py: '1rem',
-};
-  
+
 export const midiContainerStyle = {
   display: 'flex',
   flexDirection: 'column',
@@ -50,50 +31,18 @@ export const midiContainerStyle = {
   alignSelf: 'center'
 };
   
-export const infoBoxStyle = {
-  display: 'flex',
-  flexDirection: 'row',
-  bgcolor: 'background.paper',
-  boxShadow: 2,
-  borderRadius: 2,
-  border: 1,
-  borderColor: purple[500],
-  p: '1rem',
-  m: '1rem',
-  minWidth: '12rem',
-  alignSelf: 'center',
-  textAlign: 'center',
-  justifyContent: 'space-around',
-  alignItems: 'center',
-};
-  
-export const sideBoxStyleGreen = {
+export const sideBoxStyle = {
   display: 'flex',
   flexDirection: 'column',
   boxShadow: 1,
   borderRadius: 2,
-  bgcolor: 'rgb(190, 242, 128, 0.2)',
+  bgcolor: '#6633ff10',
   p: '3rem',
   alignSelf: 'center',
   textAlign: 'center',
   minWidth: '12rem',
   justifyContent: 'space-around',
   m: '1.5rem',
-  alignItems: 'center'
-};
-  
-export const sideBoxStyleBlue = {
-  display: 'flex',
-  flexDirection: 'column',
-  boxShadow: 1,
-  borderRadius: 2,
-  bgcolor: 'rgb(92, 107, 192, 0.2)',
-  p: '4.5rem',
-  m: '1.5rem',
-  alignSelf: 'center',
-  textAlign: 'center',
-  minWidth: '12rem',
-  justifyContent: 'space-around',
   alignItems: 'center'
 };
 
