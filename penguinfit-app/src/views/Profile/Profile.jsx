@@ -15,10 +15,8 @@ import { validateProfileUpdates } from '../../utils/validations.js';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../config/firebase-config.js';
 import { Stack } from '@mui/system';
-import FriendsAutocomplete from '../../components/FriendsAutocomplete/FriendsAutocomplete.jsx';
-import DisplayFriends from '../../components/DisplayFriends/DisplayFriends.jsx';
+import RenderFriendsManagement from '../../components/RenderFriendsManagement/RenderFriendsManagement.jsx';
 
-const friends = ['Stawri', 'Pesho','Stawri', 'Pesho'];
 
 function Profile () {
   const { appState, _setState } = useContext(AppState);
@@ -181,7 +179,7 @@ function Profile () {
         </Grid>
       </Grid>
       <Grid item xs md sx={style.friendsContainer}>
-        <Box sx={{ maxWidth: 550, flexGrow: 1, m: 2, p:2 }}>
+        <Box sx={{ flexGrow: 1, m: 2, p:2 }}>
           <Paper>
             <Stack
               direction="column"
@@ -189,8 +187,7 @@ function Profile () {
               alignItems="center"
               spacing={2}>
               <Typography align="center" >Friends</Typography>
-              <FriendsAutocomplete></FriendsAutocomplete>
-              <DisplayFriends friends={friends}></DisplayFriends>
+              <RenderFriendsManagement username={ appState.user.username }></RenderFriendsManagement>
             </Stack>
           </Paper>
         </Box>
