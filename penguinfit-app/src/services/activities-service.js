@@ -1,4 +1,5 @@
-import { get, ref, onValue, update, remove, push } from 'firebase/database';
+import { get, ref, onValue, update, remove, push, limitToLast, orderByChild, query } from 'firebase/database';
+import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 // import { query, orderByChild, equalTo, onChildAdded, limitToLast, limitToFirst, startAfter, endBefore } from 'firebase/database';
 // import { POST_REQUEST_LIMIT } from '../common/constants';
 import { db } from '../config/firebase-config';
@@ -18,12 +19,18 @@ export const addActivity = (username, activityObj) => {
   return push(ref(db, `activities/${username}`), activityObj);
 };
 
-export const getPostByHandle = (postId) => {
-  return get(ref(db, `posts/${postId}`));
+export const getLiveUserActivities = (username, listen) => {
+  return onValue(ref(db, `activities/${username}`), listen);
 };
 
-export const getLivePosts = (listen) => {
-  return onValue(ref(db, 'posts'), listen);
+export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_REQUEST_LIMIT) => {
+  return get(query(ref(db, `activities/${username}`), orderByChild(`dateValue`), limitToLast(limit)))
+    .then((snapshot) => Object.entries(snapshot.val()))
+    .catch(console.error);
+};
+
+export const getPostByHandle = (postId) => {
+  return get(ref(db, `posts/${postId}`));
 };
 
 export const getSingleLivePost = (listen, postId) => {
@@ -79,16 +86,6 @@ export const deletePost = (postId) => {
 };
 
 // sort, search and filter posts:
-
-// export const getMostRecent = (limit = POST_REQUEST_LIMIT) => {
-//   let sorted = [];
-
-//   onChildAdded(query(ref(db, 'posts'), orderByChild(`dateValue`), limitToLast(limit)), (snapshot) => {
-//     sorted = [snapshot.val(), ...sorted];
-//   });
-
-//   return sorted;
-// };
 
 // export const sortPostsBy = (sortTerm, limit = POST_REQUEST_LIMIT) => {
 //   let sorted = [];

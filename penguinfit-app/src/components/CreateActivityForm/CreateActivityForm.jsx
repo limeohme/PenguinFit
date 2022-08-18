@@ -150,6 +150,7 @@ const CreateActivityForm = () => {
         </Grid>
       </Grid>
 
+      {/* optimize and use enums */}
       <Grid container spacing={2}>
             
         <Grid item xs={12}>
