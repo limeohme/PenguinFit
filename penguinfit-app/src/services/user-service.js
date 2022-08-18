@@ -11,6 +11,39 @@ export const getUserByHandle = (handle) => {
   return get(ref(db, `users/${handle}`));
 };
 
+export const getUserFriends = (handle) => {
+  return get(ref(db, `users/${handle}/friends`));
+};
+
+export const getAllUsers = () => {
+  return get(ref(db, `users`));
+};
+
+export const addUserFriends = (handle, friends) => {
+  get(ref(db, `users/${handle}/friends`))
+    .then((snapshot) => {
+      const userFriends = snapshot.val() || {};
+      const newFriends = friends.reduce((acc, el) => {
+        const username = el.username;
+        acc[username] = true;
+        return acc;
+      }, {});
+
+      set(ref(db, `users/${handle}/friends`), { ...userFriends, ...newFriends });
+    });
+};
+
+export const removeUserFriend = (handle, friend) => {
+  get(ref(db, `users/${handle}/friends`))
+    .then((snapshot) => {
+      const userFriends = snapshot.val();
+      // eslint-disable-next-line no-unused-vars
+      const { [ friend ]: remove , ...updatedFriends } = userFriends;
+
+      set(ref(db, `users/${handle}/friends`), updatedFriends);
+    });
+};
+
 export const createUserHandle = (userInfo) => {
   return set(ref(db, `users/${userInfo.username}`), userInfo);
 };

@@ -1,6 +1,10 @@
 import { Grid, Paper, Typography } from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
+import { ACTIVITIES_REQUEST_LIMIT } from '../../common/constants';
 import CreateActivityForm from '../../components/CreateActivityForm/CreateActivityForm';
 import SingleActivityView from '../../components/SingleActivity/SingleActivity';
+import AppState from '../../providers/app-state';
+import { getLiveUserActivities, getMostRecentUserActivities } from '../../services/activities-service';
 // import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';
 // import DetailedGoalsStepper from '../../components/DetailedGoalsStepper/DetailedGoalsStepper';
 // import FriendsComparisonStepper from '../../components/FriendsComparisonStepper/FriendsComparisonStepper';
@@ -64,6 +68,22 @@ import SingleActivityView from '../../components/SingleActivity/SingleActivity';
 // },];
 
 function Activities() {
+  const [activities, setActivities] = useState([]);
+  const { appState:{ user } } = useContext(AppState);
+
+
+
+  useEffect(() => {
+    const unsubscribe = getLiveUserActivities(user.username, async () => {
+      const recent = await getMostRecentUserActivities(user.username, ACTIVITIES_REQUEST_LIMIT);
+      setActivities(recent);
+    //   console.log(activities);
+    //   console.log(recent.map((act)=>act.createdOn));
+    }, []);
+
+    return () => unsubscribe();
+  }, []);
+
   return(
     <Grid
       container
@@ -81,13 +101,19 @@ function Activities() {
             <CreateActivityForm></CreateActivityForm>
           </Paper>
         </Grid>
-        <Grid container item direction="column" gap={1.5} justifyContent='centre'>
+        <Grid container item direction="column">
           <Typography variant='h5' sx={{ pb:2 }}>Recent activities:</Typography>
           
+          <Grid container item direction="column-reverse" gap={1.5} justifyContent='centre'>
+            {activities.length
+              ? activities.map(([id, activity])=> <SingleActivityView key={id} activity={activity}></SingleActivityView>) 
+              : 'No activities yet'}
+          </Grid>
+
+          {/* <SingleActivityView></SingleActivityView>
           <SingleActivityView></SingleActivityView>
           <SingleActivityView></SingleActivityView>
-          <SingleActivityView></SingleActivityView>
-          <SingleActivityView></SingleActivityView>
+          <SingleActivityView></SingleActivityView> */}
           
         </Grid>
       </Grid>

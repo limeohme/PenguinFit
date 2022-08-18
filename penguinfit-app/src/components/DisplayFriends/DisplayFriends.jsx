@@ -1,13 +1,15 @@
 import { Avatar, Chip } from '@mui/material';
 import { Stack } from '@mui/system';
+import { removeUserFriend } from '../../services/user-service';
 
-export default function DisplayFriends({ friends }) {
+export default function DisplayFriends({ friends, username }) {
   const handleClick = () => {
     console.info('You clicked the Chip.');
   };
   
-  const handleDelete = () => {
-    console.info('You clicked the delete icon.');
+  const handleDelete = (userHandle, toBeRemoved) => {
+    console.info(toBeRemoved);
+    removeUserFriend(userHandle, toBeRemoved);
   };
   
   return (
@@ -16,7 +18,7 @@ export default function DisplayFriends({ friends }) {
         label={el}
         avatar={<Avatar>{el[0]}</Avatar>}
         onClick={handleClick}
-        onDelete={handleDelete}
+        onDelete={() => handleDelete(username ,el)}
       />)}
     </Stack>
   );
