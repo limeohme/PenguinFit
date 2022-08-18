@@ -1,5 +1,5 @@
 export const sidebarPages = {
-  profile: 'Profile',
+  // profile: 'Profile',
   dashboard: 'Dashboard',
   activities: 'Activities',
   meals: 'Meals',

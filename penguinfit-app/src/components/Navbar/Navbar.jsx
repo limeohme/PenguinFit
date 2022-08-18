@@ -2,10 +2,8 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AppState from '../../providers/app-state';
-
-
-import SignOut from '../SignOut/SignOut';
 import { AppBar, IconButton, Button, Toolbar, Typography } from '@mui/material';
+import DropMenu from '../DropMenu/DropMenu';
 // import MenuIcon from '@mui/icons-material/Menu';
 
 // import { APP_TITLE } from '../../common/constants';
@@ -38,8 +36,7 @@ function Navbar({ classes, toggleDrawer }) {
   const renderLoginLogout = () => {
     return(
       user
-        ? <SignOut/> 
-
+        ? <DropMenu></DropMenu>
         : <Button 
           component={Link} 
           to="/login" 

@@ -1,5 +1,5 @@
 
-import { Button } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import AppState from '../../providers/app-state';
@@ -27,7 +27,7 @@ function SignOut() {
       .catch(console.error);
   };
 
-  return <Button onClick={signOutHandler} variant="contained">Logout</Button>;
+  return <Typography onClick={signOutHandler} >Logout</Typography>;
 }
 
 export default SignOut;
