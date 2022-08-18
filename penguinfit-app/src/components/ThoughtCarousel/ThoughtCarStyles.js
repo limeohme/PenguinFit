@@ -95,7 +95,6 @@ export const sideBoxStyleBlue = {
   p: '4.5rem',
   m: '2rem',
   textAlign: 'center',
-  minWidth: '12rem',
   justifyContent: 'space-around',
   alignItems: 'center',
   boxSizing: 'border-box'

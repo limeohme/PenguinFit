@@ -1,5 +1,10 @@
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Paper, Radio, RadioGroup, Select, TextField } from '@mui/material';
-import { useState } from 'react';
+import { Autocomplete, Button, FormControl, FormControlLabel, Grid, InputAdornment, Radio, RadioGroup, TextField } from '@mui/material';
+import { useContext, useState } from 'react';
+import { activitiesMET } from '../../common/activitiesMET';
+import { activityTypes } from '../../common/activity-types';
+import AppState from '../../providers/app-state';
+import { addActivity, createActivityObject } from '../../services/activities-service';
+import { getActivityTotalCalBurned } from '../../utils/utils';
 
 const styles = {
   inputs:{
@@ -14,13 +19,12 @@ const styles = {
 };
 
 const CreateActivityForm = () => {
-  // filter falsy when used:
+  const { appState:{ user } } = useContext(AppState);
+  
   const defaultValues = {
     title: '',
     duration: 0,
     type: '',
-    
-
     distance: 0,
     weight: 0,
     sets: 0,
@@ -28,28 +32,58 @@ const CreateActivityForm = () => {
     buddy: ''
   };
 
-  const activityTypes = {
-    cardio: ['distance'],
-    strength: ['weight', 'sets', 'reps'],
-    other: null
-  };
+  
 
+  // filter falsy when used:
   const [formValues, setFormValues] = useState(defaultValues);
 
   const handleInputChange = (e) => {
+    
     const { name, value } = e.target;
+    const numValue = parseInt(value);
+
     setFormValues({
       ...formValues,
-      [name]: value
+      [name]: numValue? numValue : value
     });
+    
   };
 
-  const handleSubmit = (event) => {
+  const handleAutocompleteChange = (e, val = '') => {
+    
+    setFormValues({
+      ...formValues,
+      title: val
+    });
+    
+    // TODO: add friend functionality
+  };
+
+  const handleAdd = (event) => {
     event.preventDefault();
     console.log(formValues);
+
+    const { username, weight } = user;
+    const { title, duration } = formValues;
+    const calories = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
+
+    const activityInput = { ...formValues, calories };
+    const activityObj = createActivityObject(activityInput);
+
+    addActivity(username, activityObj)
+      .then(() => {
+        console.log('activity added');
+
+      })
+      .catch(console.error);
   };
 
   const renderTypeDetails = (types, defaults, changeHandler) => {
+    const getAdornment = (type) => {
+      if(type === 'weight') return 'kg';
+      if(type === 'distance') return 'km';
+      return '';
+    };
 
     return (
       types[defaults.type]?.length
@@ -64,6 +98,9 @@ const CreateActivityForm = () => {
                 onChange={changeHandler}
                 variant="standard" 
                 size="small"
+                InputProps={{
+                  endAdornment: <InputAdornment position="end">{getAdornment(t)}</InputAdornment>,
+                }}
               />
             </Grid>
           );
@@ -72,167 +109,109 @@ const CreateActivityForm = () => {
         :null
     );
   };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <Grid container direction="column" justifyContent="space-between" alignItems="center" alignSelf="left" sx={styles.form} >
+    <Grid 
+      container 
+      direction="column" 
+      justifyContent="space-between" 
+      alignItems="center" 
+      alignSelf="left" 
+      sx={styles.form} 
+    >
         
-        <Grid container spacing={2}>
-          <Grid item xs={8}>
-            <TextField 
-              id="title-input" 
-              name="title" 
-              label="Title" 
-              type="text" 
-              value={formValues.title} 
-              onChange={handleInputChange} 
-              fullWidth 
-              variant="standard" 
-              size="small"/>
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              id="duration-input"
-              name="duration"
-              label="Duration"
-              type="number"
-              value={formValues.duration}
-              onChange={handleInputChange}
-              fullWidth
-              variant="standard" 
-              size="small"
-            />
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          <Autocomplete
+            disablePortal
+            id="title-input"
+            options={Object.keys(activitiesMET).sort()}
+            // value={formValues.title}
+            // isOptionEqualToValue={(option, value) => option.id === value.id}
+            onChange={(event, value) => handleAutocompleteChange(event, value)}
+            renderInput={(params) => <TextField {...params} fullWidth size="small" variant="standard" label="Activity" />}
+          />
         </Grid>
-
-        <Grid container spacing={2}>
-            
-          <Grid item xs={12}>
-            <FormControl>
-              {/* <FormLabel>Type</FormLabel> */}
-              <RadioGroup
-                name="type"
-                value={formValues.type}
-                onChange={handleInputChange}
-                row
-                sx={{ justifyContent: 'space-between', alignSelf:'centre' }}
-              >
-                <FormControlLabel
-                  key="cardio"
-                  value="cardio"
-                  control={<Radio size="small" />}
-                  label="Cardio"
-                />
-                <FormControlLabel
-                  key="strength"
-                  value="strength"
-                  control={<Radio size="small" />}
-                  label="Strength"
-                />
-                <FormControlLabel
-                  key="other"
-                  value="other"
-                  control={<Radio size="small" />}
-                  label="Other"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-            
+        <Grid item xs={4}>
+          <TextField
+            id="duration-input"
+            name="duration"
+            label="Duration"
+            type="number"
+            value={formValues.duration}
+            onChange={handleInputChange}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">min</InputAdornment>,
+            }}
+            fullWidth
+            variant="standard" 
+            size="small"
+          />
         </Grid>
-
-        <Grid container spacing={2}>
-          {renderTypeDetails(activityTypes, formValues, handleInputChange)}
-          {/* <Grid item xs={4}>
-              <TextField id="title-input" name="title" label="Title" type="text" value={formValues.title} onChange={handleInputChange} sx={styles.inputs}/>
-            </Grid>
-            <Grid item xs={4}>
-              <TextField id="title-input" name="title" label="Title" type="text" value={formValues.title} onChange={handleInputChange} sx={styles.inputs}/>
-            </Grid>
-            <Grid item xs={4}>
-              <TextField id="title-input" name="title" label="Title" type="text" value={formValues.title} onChange={handleInputChange} sx={styles.inputs}/>
-            </Grid> */}
-        </Grid>
-
-        <Grid container spacing={2}>
-          <Grid item xs={8}>
-            <TextField id="buddy-input" name="buddy" label="Activity Buddy" type="text" value={formValues.buddy} onChange={handleInputChange} fullWidth
-              variant="outlined" 
-              size="small"/>
-          </Grid>
-          <Grid item xs={4} sx={{ display:'flex', alignItems: 'right', justifyContent: 'right' }}>
-            <Button variant="contained" color="primary" type="submit" sx={{ width: '100%', boxSizing: 'border-box' }}>
-            ADD
-            </Button>
-          </Grid>
-        </Grid>
-
       </Grid>
-      
-    </form>
-    
-  );
 
-
-  return (
-    
-    <form onSubmit={handleSubmit}>
-      {/* <h3>Add goal</h3> */}
-      <Paper>
-        <Grid container direction="column" justifyContent="space-between" alignItems="center" alignSelf="left">
-
-          <Grid item xs={12}>
-            <TextField id="title-input" name="title" label="Title" type="text" value={formValues.title} onChange={handleInputChange} sx={styles.inputs}/>
-          </Grid>
-
-          <Grid item xs={12}>
-            <FormControl sx={styles.inputs}>
-              <FormLabel>Type</FormLabel>
-              <RadioGroup name="type" value={formValues.type} onChange={handleInputChange} row>
-                <FormControlLabel key="cardio" value="cardio" control={<Radio size="small" />} label="Cardio" />
-                <FormControlLabel key="strength" value="strength" control={<Radio size="small" />} label="Strength" />
-                <FormControlLabel key="other" value="other" control={<Radio size="small" />} label="Other" />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12} sx={styles.inputs}>
-            <FormControl disabled={!formValues.type} sx={styles.inputs}>
-              <InputLabel id="target">Type</InputLabel>
-              <Select name="target" label="Target" id="target" value={formValues.target} onChange={handleInputChange}>
-                <MenuItem value="">
-                  <em>Cardio</em>
-                </MenuItem>
-                <MenuItem key="target" value="caloriesBurned">
-                  <em>Strength</em>
-                </MenuItem>
-                <MenuItem key="duration" value="duration">
-                  <em>Other</em>
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              id="targetValue-input"
-              name="targetValue"
-              label="Target value"
-              type="number"
-              value={formValues.targetValue}
-              onChange={handleInputChange}
-              sx={styles.inputs}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" type="submit">
-            ADD
-            </Button>
-          </Grid>
+      <Grid container spacing={2}>
             
+        <Grid item xs={12}>
+          <FormControl>
+            {/* <FormLabel>Type</FormLabel> */}
+            <RadioGroup
+              name="type"
+              value={formValues.type}
+              onChange={handleInputChange}
+              row
+              sx={{ justifyContent: 'space-between', alignSelf:'centre' }}
+            >
+              <FormControlLabel
+                key="cardio"
+                value="cardio"
+                control={<Radio size="small" />}
+                label="Cardio"
+              />
+              <FormControlLabel
+                key="strength"
+                value="strength"
+                control={<Radio size="small" />}
+                label="Strength"
+              />
+              <FormControlLabel
+                key="other"
+                value="other"
+                control={<Radio size="small" />}
+                label="Other"
+              />
+            </RadioGroup>
+          </FormControl>
         </Grid>
-      </Paper>
-    </form>
-    
+            
+      </Grid>
+
+      <Grid container spacing={2}>
+        {renderTypeDetails(activityTypes, formValues, handleInputChange)}
+      </Grid>
+
+      <Grid container spacing={2}>
+        <Grid item xs={8}>
+          <TextField 
+            id="buddy-input" 
+            name="buddy" 
+            label="Activity Buddy" 
+            type="text" 
+            value={formValues.buddy} 
+            onChange={handleInputChange} 
+            fullWidth
+            variant="outlined" 
+            size="small"/>
+        </Grid>
+        <Grid item xs={4} sx={{ display:'flex', alignItems: 'right', justifyContent: 'right' }}>
+          <Button variant="contained" color="primary" onClick={handleAdd} sx={{ width: '100%', boxSizing: 'border-box' }}>
+            ADD
+          </Button>
+        </Grid>
+      </Grid>
+
+    </Grid>
   );
 };
+
 export default CreateActivityForm;
