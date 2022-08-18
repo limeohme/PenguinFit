@@ -1,18 +1,34 @@
 import { Autocomplete, Checkbox, TextField } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import { useState } from 'react';
+import { addUserFriends } from '../../services/user-service';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
+export default function FriendsAutocomplete({ username, notFriends }) {
 
-export default function FriendsAutocomplete() {
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const handleChange = (event, value) => setSelectedOptions(value);
+
   return (
     <Autocomplete
+      onChange={handleChange}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') {
+          // Prevent's default 'Enter' behavior.
+          event.defaultMuiPrevented = true;
+          console.log(selectedOptions);
+          addUserFriends(username, selectedOptions);
+        }
+      }}
       multiple
       size="small"
       id="friends-autocomplete"
-      options={users}
+      //   options={notFriends.map(el => el = { username: el })}
+      options={notFriends.map(el => el = { username: el })}
       disableCloseOnSelect
       getOptionLabel={(option) => option.username}
       renderOption={(props, option, { selected }) => (
@@ -32,11 +48,4 @@ export default function FriendsAutocomplete() {
       )}
     />
   );
-}
-  
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const users = [
-  { username: 'Stawri' },
-  { username: 'VankoU' },
-  { username: 'Pesho' },
-];
+};
