@@ -1,3 +1,5 @@
+import { ref, update } from 'firebase/database';
+import { db } from '../config/firebase-config';
 
 const dataByDay = {
   'Sat Aug 6 2022': {
@@ -210,4 +212,10 @@ export const getCalorieDifferenceByDate = () => {
 
 export const addWater = () => {
   dataByDay['Sun Aug 14 2022'].waterIntake += 250;
+};
+
+export const upTheUser = (username) => {
+  update(ref(db, `users/${username}/dataByDay`), dataByDay);
+  update(ref(db, `users/${username}/nutrients`), userNutrients);
+  update(ref(db, `users/${username}/goalsStatus`), goalsStatus);
 };

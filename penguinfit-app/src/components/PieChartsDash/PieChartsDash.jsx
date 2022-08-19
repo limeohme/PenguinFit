@@ -1,11 +1,17 @@
 import { VictoryPie, VictoryLabel } from 'victory';
 import { Typography, Grid } from '@mui/material';
 import * as style from './PieChartsDashStyles.js';
-import { getGoalsDistribution, getNutrientDistribution } from '../../mock-data/dash-mock-data.js';
+import { getGoalsDistribution, getNutrientDistribution } from '../../services/dashboard-service.js';
+import { useEffect, useState } from 'react';
 
 
 
 export function PieGoalAchievement () {
+  const [nutrients, setNutrients] = useState([]);
+
+  useEffect(() => {
+    getNutrientDistribution().then((res) => setNutrients(res), console.error);
+  }, []);
   return (
     <Grid item xs={12} sm={12} md={6} sx={style.pieChartStyle}>
       <VictoryPie
@@ -19,7 +25,7 @@ export function PieGoalAchievement () {
         }}
         colorScale={['gold', 'pink', '#5c6bc0' ]}
         innerRadius={60}
-        data={getNutrientDistribution('BabyPenguin78')}
+        data={nutrients}
         labels={({ datum }) => datum.x}
         labelComponent={<VictoryLabel angle={5} style={{ fill: 'navy' }}/> }
       />
@@ -29,6 +35,11 @@ export function PieGoalAchievement () {
 }
 
 export function PieNutrientsDistribution () {
+  const [goals, setGoals] = useState([]);
+  useEffect(() => {
+    getGoalsDistribution().then((res) => setGoals(res), console.error);
+  }, []);
+
   return (
     <Grid item xs={12} sm={12} md={6} sx={style.pieChartStyle}>
       <VictoryPie
@@ -43,7 +54,7 @@ export function PieNutrientsDistribution () {
           } }}
         colorScale={['#c5e1a5', 'gold', '#5c6bc0' ]}
         innerRadius={60}
-        data={getGoalsDistribution('BabyPenguin78')}
+        data={goals}
         labels={({ datum }) => datum.x}
         labelComponent={<VictoryLabel angle={5} style={{ fill: 'navy' }}/> }
       />

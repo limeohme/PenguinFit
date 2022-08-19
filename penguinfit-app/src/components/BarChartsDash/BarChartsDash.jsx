@@ -1,9 +1,16 @@
 import {  VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import { Box } from '@mui/material';
 import * as style from './BarChartsDashStyles.js';
-import { getCalorieDifferenceByDate, getExerciseDurationByDate } from '../../mock-data/dash-mock-data.js';
+import { getCalorieDifferenceByDate, getExerciseDurationByDate } from '../../services/dashboard-service.js';
+import { useEffect, useState } from 'react';
 
 export function BarActivityDurationByDay () {
+  const [exerciseDuration, setExerciseDuration] = useState([]);
+
+  useEffect(() => {
+    getExerciseDurationByDate().then((res) => setExerciseDuration(res), console.error);
+  }, []);
+
   return (
 
     <Box sx={style.barChartStyle}>
@@ -37,7 +44,7 @@ export function BarActivityDurationByDay () {
               fill: ({ datum }) => datum.x === 3 ? '#000000' : '#5c6bc0',
             }
           }}
-          data={getExerciseDurationByDate('BabyPenguin78')}
+          data={exerciseDuration}
           animate={{
             duration: 2000,
             easing: 'bounce',
@@ -53,7 +60,11 @@ export function BarActivityDurationByDay () {
 }
 
 export function BarCalorieBalanceByDay () {
+  const [calorieDifference, setCalorieDifference] = useState([]);
 
+  useEffect(() => {
+    getCalorieDifferenceByDate().then((res) => setCalorieDifference(res), console.error);
+  }, []);
   return (
     <Box sx={style.barChartStyle}>
       <VictoryChart domainPadding={{ x: 4 }} minDomain={{ x: 0,  y: -1000 }}>
@@ -66,9 +77,9 @@ export function BarCalorieBalanceByDay () {
         dependentAxis />
         <VictoryAxis label={'calorie balance by day,\nAugust 2022'}  style={{
           axis: { stroke: '#c5e1a5', padding: 5 },
-          axisLabel: { fontSize: 12, padding: 100 },
+          axisLabel: { fontSize: 12, padding: 120 },
           ticks: { stroke: 'grey', size: 5 },
-          tickLabels: { fontSize: 12, padding: 0, fill: '#000000' }
+          tickLabels: { fontSize: 12, padding: 0, marginBottom: 2, fill: '#000000' }
         }} crossAxis />
         <VictoryBar
           barRatio={0.8}
@@ -81,11 +92,12 @@ export function BarCalorieBalanceByDay () {
               strokeWidth: 1
             },
             labels: {
-              fontSize: 12,
+              fontSize: 10,
+              padding: 14,
               fill:'#000000'
             }
           }}
-          data={getCalorieDifferenceByDate('BabyPenguin78')}
+          data={calorieDifference}
           animate={{ duration: 500 }}
         />
       </VictoryChart>
