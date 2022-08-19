@@ -19,7 +19,6 @@ export const getLiveThoughts = (user, listen) => {
 };
 
 export const editThought = (user, newThought) => {
-  console.log(newThought);
   update(ref(db, `thoughts/${user}/${newThought.id}`), { ...newThought })
     .catch(console.error);
 };
