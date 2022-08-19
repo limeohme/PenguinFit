@@ -1,7 +1,7 @@
 import {  VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import { Box } from '@mui/material';
 import * as style from './BarChartsDashStyles.js';
-import { getCalorieDifferenceByDate, getExerciseDurationByDate } from '../../views/Dashboard/DashMockData';
+import { getCalorieDifferenceByDate, getExerciseDurationByDate } from '../../mock-data/dash-mock-data.js';
 
 export function BarActivityDurationByDay () {
   return (

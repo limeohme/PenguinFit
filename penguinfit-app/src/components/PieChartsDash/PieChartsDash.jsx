@@ -1,7 +1,7 @@
 import { VictoryPie, VictoryLabel } from 'victory';
 import { Typography, Grid } from '@mui/material';
 import * as style from './PieChartsDashStyles.js';
-import { getGoalsDistribution, getNutrientDistribution } from '../../views/Dashboard/DashMockData.js';
+import { getGoalsDistribution, getNutrientDistribution } from '../../mock-data/dash-mock-data.js';
 
 
 

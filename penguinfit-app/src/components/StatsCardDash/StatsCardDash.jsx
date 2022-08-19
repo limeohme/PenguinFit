@@ -1,5 +1,5 @@
 import { Button, CardActions, CardContent, Typography, Card } from '@mui/material';
-import { getCaloriesToday, getStepsToday } from '../../views/Dashboard/DashMockData';
+import { getCaloriesToday, getStepsToday } from '../../mock-data/dash-mock-data.js';
 import * as style from './StatsCardDashStyles.js';
 
 export default function StatsCardDash ({ type, IconComponent, water, addWater, setWater }) {

@@ -8,7 +8,7 @@ import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import {
   addWater, getWaterToday
-} from './DashMockData.js';
+} from '../../mock-data/dash-mock-data.js';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { BarActivityDurationByDay, BarCalorieBalanceByDay } from '../../components/BarChartsDash/BarChartsDash.jsx';
