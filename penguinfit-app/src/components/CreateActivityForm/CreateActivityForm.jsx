@@ -1,4 +1,4 @@
-import { Autocomplete, Button, FormControl, FormControlLabel, Grid, InputAdornment, Radio, RadioGroup, TextField } from '@mui/material';
+import { Autocomplete, Button, FormControl, FormControlLabel, FormHelperText, Grid, InputAdornment, Radio, RadioGroup, TextField } from '@mui/material';
 import { useContext, useState } from 'react';
 import { activitiesMET } from '../../common/activitiesMET';
 import { activityTypes } from '../../common/activity-types';
@@ -22,7 +22,7 @@ const CreateActivityForm = () => {
   const { appState:{ user } } = useContext(AppState);
   
   const defaultValues = {
-    title: '',
+    title: null,
     duration: 0,
     type: '',
     distance: 0,
@@ -32,10 +32,13 @@ const CreateActivityForm = () => {
     buddy: ''
   };
 
-  
-
   // filter falsy when used:
   const [formValues, setFormValues] = useState(defaultValues);
+  // const [formError, setFormError] = useState({ title : '', duration : '', type : '' });
+
+  const [titleError, setTitleError] = useState(null);
+  const [durationError, setDurationError] = useState(null);
+  const [typeError, setTypeError] = useState(null);
 
   const handleInputChange = (e) => {
     
@@ -63,6 +66,26 @@ const CreateActivityForm = () => {
     event.preventDefault();
     console.log(formValues);
 
+    // if(!Object.keys(activitiesMET).includes(formValues.title)){
+    //   setFormError(...formError, title: 'please, choose activity from the menu' ) ;
+    //   return;
+    // }
+
+    if(!Object.keys(activitiesMET).includes(formValues.title)){
+      setTitleError('please, choose activity from the menu');
+      return;
+    }
+
+    if(!formValues.duration){
+      setDurationError('add duration');
+      return;
+    }
+
+    if(!formValues.type){
+      setTypeError('select a type');
+      return;
+    }
+
     const { username, weight } = user;
     const { title, duration } = formValues;
     const calories = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
@@ -73,7 +96,12 @@ const CreateActivityForm = () => {
     addActivity(username, activityObj)
       .then(() => {
         console.log('activity added');
+        console.log(activityObj);
 
+        setFormValues(defaultValues);
+        setTitleError(null);
+        setDurationError(null);
+        setTypeError(null);
       })
       .catch(console.error);
   };
@@ -92,7 +120,8 @@ const CreateActivityForm = () => {
             <Grid item xs={4} key={t}>
               <TextField 
                 id={`${t}-input`} 
-                name={t} label={t} 
+                name={t} 
+                label={t + ' (optional)'} 
                 type="number" 
                 value={defaults[t]} 
                 onChange={changeHandler}
@@ -123,14 +152,18 @@ const CreateActivityForm = () => {
       <Grid container spacing={2}>
         <Grid item xs={8}>
           <Autocomplete
-            disablePortal
+            // disablePortal
             id="title-input"
+            value={formValues.title} 
             options={Object.keys(activitiesMET).sort()}
-            // value={formValues.title}
-            // isOptionEqualToValue={(option, value) => option.id === value.id}
+            selectOnFocus
+            clearOnBlur
+            onOpen={(e)=>e.target.value = null}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
             onChange={(event, value) => handleAutocompleteChange(event, value)}
             renderInput={(params) => <TextField {...params} fullWidth size="small" variant="standard" label="Activity" />}
           />
+          <FormHelperText id="title-error-text" sx={{ color:'#D81159' }}>{formValues.title? null : <em>{titleError}</em>}</FormHelperText>
         </Grid>
         <Grid item xs={4}>
           <TextField
@@ -147,6 +180,7 @@ const CreateActivityForm = () => {
             variant="standard" 
             size="small"
           />
+          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{formValues.duration? null : <em>{durationError}</em>}</FormHelperText>
         </Grid>
       </Grid>
 
@@ -183,6 +217,7 @@ const CreateActivityForm = () => {
               />
             </RadioGroup>
           </FormControl>
+          <FormHelperText id="type-error-text" sx={{ color:'#D81159' }}>{formValues.type? null : <em>{typeError}</em>}</FormHelperText>
         </Grid>
             
       </Grid>
@@ -196,7 +231,7 @@ const CreateActivityForm = () => {
           <TextField 
             id="buddy-input" 
             name="buddy" 
-            label="Activity Buddy" 
+            label="Activity Buddy (optional)" 
             type="text" 
             value={formValues.buddy} 
             onChange={handleInputChange} 
@@ -210,7 +245,6 @@ const CreateActivityForm = () => {
           </Button>
         </Grid>
       </Grid>
-
     </Grid>
   );
 };
