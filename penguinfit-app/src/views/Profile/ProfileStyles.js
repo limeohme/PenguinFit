@@ -7,15 +7,14 @@ export const deepBlue = indigo[800];
 
 export const wrapperContainerStyle = {
   gap: '2rem',
-  my: '1rem',
+  my: '3rem',
   px: '2rem',
-  borderRadius: 3,
 };
 
 export const userInfoContainer = {
   display: 'flex',
   flexDirection: 'row',
-  bgcolor: purple[50],
+  bgcolor: '#6633ff10',
   boxShadow: 2,
   borderRadius: 2,
   my: '1rem',
@@ -25,7 +24,7 @@ export const userInfoContainer = {
 export const friendsContainer = {
   display: 'flex',
   flexDirection: 'column',
-  bgcolor: purple[50],
+  bgcolor: '#6633ff10',
   boxShadow: 2,
   borderRadius: 2,
   my: '1rem',
@@ -43,7 +42,7 @@ export const midiContainerStyle = {
 export const infoBoxStyle = {
   display: 'flex',
   flexDirection: 'row',
-  bgcolor: 'background.paper',
+  bgcolor: 'rgb(255, 255, 255, 0.5)',
   boxShadow: 2,
   borderRadius: 2,
   border: 1,
@@ -60,9 +59,11 @@ export const infoBoxStyle = {
 export const sideBoxStyleGreen = {
   display: 'flex',
   flexDirection: 'column',
-  boxShadow: 1,
+  // boxShadow: 1,
   borderRadius: 2,
-  bgcolor: 'rgb(190, 242, 128, 0.2)',
+  borderStyle: 'dotted',
+  borderColor: '#FFF',
+  // bgcolor: 'rgb(190, 242, 128, 0.2)',
   p: '3rem',
   alignSelf: 'center',
   textAlign: 'center',
@@ -75,9 +76,11 @@ export const sideBoxStyleGreen = {
 export const sideBoxStyleBlue = {
   display: 'flex',
   flexDirection: 'column',
-  boxShadow: 1,
+  // boxShadow: 1,
   borderRadius: 2,
-  bgcolor: 'rgb(92, 107, 192, 0.2)',
+  borderStyle: 'dashed',
+  borderColor: '#FFF',  
+  // bgcolor: 'rgb(92, 107, 192, 0.2)',
   p: '4.5rem',
   m: '1.5rem',
   alignSelf: 'center',
