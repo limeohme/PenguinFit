@@ -1,5 +1,6 @@
 import {
   get,
+  onValue,
   ref,
   set,
   update,
@@ -11,8 +12,15 @@ export const getUserByHandle = (handle) => {
   return get(ref(db, `users/${handle}`));
 };
 
-export const getUserFriends = (handle) => {
-  return get(ref(db, `users/${handle}/friends`));
+export const getUserFriends = (username) => {
+  return get(ref(db, `users/${username}/friends`))
+    .then((snapshot) => {
+      if (!snapshot.val()) {
+        return [];
+      }
+      return snapshot.val();
+    })
+    .catch(console.error);
 };
 
 export const getAllUsers = () => {
@@ -23,11 +31,8 @@ export const addUserFriends = (handle, friends) => {
   get(ref(db, `users/${handle}/friends`))
     .then((snapshot) => {
       const userFriends = snapshot.val() || {};
-      const newFriends = friends.reduce((acc, el) => {
-        const username = el.username;
-        acc[username] = true;
-        return acc;
-      }, {});
+      const newFriends = {};
+      friends.forEach(el => newFriends[el] = true);
 
       set(ref(db, `users/${handle}/friends`), { ...userFriends, ...newFriends });
     });
@@ -42,6 +47,10 @@ export const removeUserFriend = (handle, friend) => {
 
       set(ref(db, `users/${handle}/friends`), updatedFriends);
     });
+};
+
+export const listenToFriends = (username, listen) => { 
+  return (onValue(ref(db, `users/${username}`), listen));
 };
 
 export const createUserHandle = (userInfo) => {

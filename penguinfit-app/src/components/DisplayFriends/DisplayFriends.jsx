@@ -15,6 +15,7 @@ export default function DisplayFriends({ friends, username }) {
   return (
     <Stack direction="row" spacing={1}>
       {friends.map(el => <Chip
+        key={(el)}
         label={el}
         avatar={<Avatar>{el[0]}</Avatar>}
         onClick={handleClick}

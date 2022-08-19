@@ -1,10 +1,17 @@
 import DisplayFriends from '../DisplayFriends/DisplayFriends';
 import { useEffect, useState } from 'react';
-import { getAllUsers, getUserFriends } from '../../services/user-service';
+import { getAllUsers, listenToFriends, getUserFriends } from '../../services/user-service';
 import FriendsAutocomplete from '../FriendsAutocomplete/FriendsAutocomplete';
 
 
-
+const getAddFriendsOptions = (friends, users, username) => {
+  // eslint-disable-next-line no-unused-vars
+  const { [username]:remove , ...usersCopy } = users;
+  for (const friend in friends){
+    delete usersCopy[friend];
+  }
+  return usersCopy;
+};
 
 export default function RenderFriendsManagement({ username }) {
   const [ users, setUsers ] = useState([]);
@@ -12,21 +19,25 @@ export default function RenderFriendsManagement({ username }) {
 
   useEffect(() => {
     getAllUsers()
-      .then((snapshot) => setUsers(Object.keys(snapshot.val())));
+      .then((snapshot) => setUsers(snapshot.val()));
   }, []);
 
   useEffect(() => {
-    getUserFriends(username)
-      .then((snapshot) => {
-        const val = snapshot.val();
-        setFriends( val ? val : [] );
-      });
-  }, [username]);
+    const unsubscribe = listenToFriends(username, () => {
+      // console.log('EVRIKA');
+      getUserFriends(username)
+        .then((userGoals) => setFriends(userGoals));
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
-      <FriendsAutocomplete notFriends={users}> </FriendsAutocomplete>
-      { users && <DisplayFriends friends={ Object.keys(friends) } username={username} ></DisplayFriends> }
+      <FriendsAutocomplete 
+        notFriends={Object.keys(getAddFriendsOptions(friends, users, username)) }
+        username={username} >
+      </FriendsAutocomplete>
+      <DisplayFriends friends={ Object.keys(friends) } username={username} ></DisplayFriends>
     </>
   );
 };

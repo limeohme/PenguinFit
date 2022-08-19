@@ -12,25 +12,27 @@ export default function FriendsAutocomplete({ username, notFriends }) {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleChange = (event, value) => setSelectedOptions(value);
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      // Prevent's default 'Enter' behavior.
+      event.defaultMuiPrevented = true;
+      console.log(selectedOptions);
+      addUserFriends(username, selectedOptions);
+      setSelectedOptions([]);
+    }
+  };
 
   return (
     <Autocomplete
       onChange={handleChange}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter') {
-          // Prevent's default 'Enter' behavior.
-          event.defaultMuiPrevented = true;
-          console.log(selectedOptions);
-          addUserFriends(username, selectedOptions);
-        }
-      }}
+      onKeyDown={(event) => handleKeyDown(event)}
+      value={selectedOptions}
       multiple
       size="small"
       id="friends-autocomplete"
-      //   options={notFriends.map(el => el = { username: el })}
-      options={notFriends.map(el => el = { username: el })}
+      options={notFriends}
       disableCloseOnSelect
-      getOptionLabel={(option) => option.username}
+      getOptionLabel={(option) => option}
       renderOption={(props, option, { selected }) => (
         <li {...props}>
           <Checkbox
@@ -39,7 +41,7 @@ export default function FriendsAutocomplete({ username, notFriends }) {
             style={{ marginRight: 8 }}
             checked={selected}
           />
-          {option.username}
+          {option}
         </li>
       )}
       style={{ width: 500 }}
