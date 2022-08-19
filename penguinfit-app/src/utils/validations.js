@@ -56,20 +56,20 @@ export function validateProfileUpdates(form = {}) {
   }
 }
 
-export function validatePost(title, content) {
+export function validateThought(title, content) {
   if (!title || !content) {
-    throw new Error('You must provide post title and content!');
+    throw new Error('You must provide thought title and content!');
   }
-  if (title.length < 16) {
-    throw new Error('Post title is too short!');
+  if (title.length < 2) {
+    throw new Error('Thought title is too short!');
   }
-  if (title.length > 64) {
-    throw new Error('Post title is too long!');
+  if (title.length > 42) {
+    throw new Error('Thought title is too long!');
   }
-  if (content.length < 32) {
-    throw new Error('Post content is too short!');
+  if (content.length < 16) {
+    throw new Error('Thought content is too short!');
   }
   if (content.length > 8192) {
-    throw new Error('Post content is too long!');
+    throw new Error('Thought content is too long!');
   }
 }
