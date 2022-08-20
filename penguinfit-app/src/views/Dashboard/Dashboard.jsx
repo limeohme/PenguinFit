@@ -30,7 +30,7 @@ function Dashboard () {
 
   useEffect(() => {
     getWaterToday().then((res) => setWater(res)).catch(console.error);
-  });
+  }, []);
 
   return (
     // outer container

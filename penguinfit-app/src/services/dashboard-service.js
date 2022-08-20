@@ -51,7 +51,7 @@ export const getStepsToday = () => {
 export const getExerciseDurationByDate = () => {
   return get(query(ref(db, `users/BabyPenguin78/dataByDay`)), orderByChild('dateVal'))
     .then((snapshot) => {
-      return Object.values(snapshot.val()).sort((a, b) => a.dateVal - b.dateVal).map((el) => {
+      return Object.values(snapshot.val()).map((el) => {
         return { x: el.date.split(' ')[2], y: el.totalActivityDuration };
       });
     }).catch(console.error);
@@ -62,7 +62,7 @@ export const getCalorieDifferenceByDate = () => {
   return get(query(ref(db, `users/BabyPenguin78/dataByDay`)), orderByChild('dateVal'))
     .then((snapshot) => {
       console.log(snapshot.val());
-      return Object.values(snapshot.val()).sort((a, b) => a.dateVal - b.dateVal).map((el) => {
+      return Object.values(snapshot.val()).map((el) => {
         return { x: el.date.split(' ')[2], y: el.cal.consumed - el.cal.burned };
       });
     }).catch(console.error);

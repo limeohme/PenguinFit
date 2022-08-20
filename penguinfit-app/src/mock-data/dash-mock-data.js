@@ -1,8 +1,8 @@
-import { ref, update } from 'firebase/database';
+import { push, ref } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
-const dataByDay = {
-  'Sat Aug 6 2022': {
+const dataByDay = [
+  {
     date: 'Sat Aug 6 2022',
     dateVal: Date.parse('Sat Aug 6 2022'),
     cal: {
@@ -13,7 +13,7 @@ const dataByDay = {
     steps: 7854,
     totalActivityDuration: 90
   },
-  'Sun Aug 7 2022': {
+  {
     date: 'Sun Aug 7 2022',
     dateVal: Date.parse('Sun Aug 7 2022'),
     cal: {
@@ -24,7 +24,7 @@ const dataByDay = {
     steps: 10023,
     totalActivityDuration: 150
   },
-  'Mon Aug 8 2022': {
+  {
     date: 'Mon Aug 8 2022',
     dateVal: Date.parse('Mon Aug 8 2022'),
     cal: {
@@ -35,7 +35,7 @@ const dataByDay = {
     steps: 6355,
     totalActivityDuration: 65
   },
-  'Tue Aug 9 2022': {
+  {
     date: 'Tue Aug 9 2022',
     dateVal: Date.parse('Tue Aug 9 2022'),
     cal: {
@@ -46,7 +46,7 @@ const dataByDay = {
     steps: 9999,
     totalActivityDuration: 135
   },
-  'Wed Aug 10 2022': {
+  {
     date: 'Wed Aug 10 2022',
     dateVal: Date.parse('Wed Aug 10 2022'),
     cal: {
@@ -57,7 +57,7 @@ const dataByDay = {
     steps: 11000,
     totalActivityDuration: 210
   },
-  'Thu Aug 11 2022': {
+  {
     date: 'Thu Aug 11 2022',
     dateVal: Date.parse('Thu Aug 11 2022'),
     cal: {
@@ -68,7 +68,7 @@ const dataByDay = {
     steps: 8854,
     totalActivityDuration: 140
   },
-  'Fri Aug 12 2022': {
+  {
     date: 'Fri Aug 12 2022',
     dateVal: Date.parse('Fri Aug 12 2022'),
     cal: {
@@ -79,7 +79,7 @@ const dataByDay = {
     steps: 8894,
     totalActivityDuration: 140
   },
-  'Sat Aug 13 2022': {
+  {
     date: 'Sat Aug 13 2022',
     dateVal: Date.parse('Sat Aug 13 2022'),
     cal: {
@@ -90,7 +90,7 @@ const dataByDay = {
     steps: 10854,
     totalActivityDuration: 90
   },
-  'Sun Aug 14 2022': {
+  {
     date: 'Sun Aug 14 2022',
     dateVal: Date.parse('Sun Aug 14 2022'),
     cal: {
@@ -101,7 +101,7 @@ const dataByDay = {
     steps: 7854,
     totalActivityDuration: 110
   },
-  'Mon Aug 15 2022': {
+  {
     date: 'Mon Aug 15 2022',
     dateVal: Date.parse('Mon Aug 15 2022'),
     cal: {
@@ -112,7 +112,7 @@ const dataByDay = {
     steps: 7854,
     totalActivityDuration: 80
   },
-  'Tue Aug 16 2022': {
+  {
     date: 'Tue Aug 16 2022',
     dateVal: Date.parse('Tue Aug 16 2022'),
     cal: {
@@ -123,7 +123,7 @@ const dataByDay = {
     steps: 8734,
     totalActivityDuration: 123
   },
-  'Wed Aug 17 2022': {
+  {
     date: 'Wed Aug 17 2022',
     dateVal: Date.parse('Wed Aug 17 2022'),
     cal: {
@@ -134,7 +134,7 @@ const dataByDay = {
     steps: 9988,
     totalActivityDuration: 200
   },
-  'Thu Aug 18 2022': {
+  {
     date: 'Thu Aug 18 2022',
     dateVal: Date.parse('Thu Aug 18 2022'),
     cal: {
@@ -145,7 +145,7 @@ const dataByDay = {
     steps: 9784,
     totalActivityDuration: 65
   },
-  'Thu Aug 19 2022': {
+  {
     date: 'Thu Aug 19 2022',
     dateVal: Date.parse('Fri Aug 19 2022'),
     cal: {
@@ -156,7 +156,7 @@ const dataByDay = {
     steps: 12023,
     totalActivityDuration: 205
   },
-};
+];
 const userNutrients = {
   fats: 3100,
   carbs: 5000,
@@ -215,7 +215,7 @@ export const addWater = () => {
 };
 
 export const upTheUser = (username) => {
-  update(ref(db, `users/${username}/dataByDay`), dataByDay);
-  update(ref(db, `users/${username}/nutrients`), userNutrients);
-  update(ref(db, `users/${username}/goalsStatus`), goalsStatus);
+  dataByDay.forEach((el) => {    
+    push(ref(db, `users/${username}/dataByDay`), el);
+  });
 };
