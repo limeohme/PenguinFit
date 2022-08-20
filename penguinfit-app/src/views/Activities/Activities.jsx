@@ -69,14 +69,13 @@ import { getLiveUserActivities, getMostRecentUserActivities } from '../../servic
 
 function Activities() {
   const [activities, setActivities] = useState([]);
+  //   const [test, setTest] = useState([]);
   const { appState:{ user } } = useContext(AppState);
-
-
 
   useEffect(() => {
     const unsubscribe = getLiveUserActivities(user.username, async () => {
       const recent = await getMostRecentUserActivities(user.username, ACTIVITIES_REQUEST_LIMIT);
-      console.log(recent);
+      //   console.log(recent);
       setActivities(recent);
       
     //   console.log(recent.map((act)=>act.createdOn));
@@ -84,6 +83,13 @@ function Activities() {
 
     return () => unsubscribe();
   }, []);
+
+  //   useEffect(() => {
+  //     const unsubscribe = getSingleLiveUserActivity(user.username, async (activity) => {
+  //       console.log(activity.val());
+  //     });
+  //     return () => unsubscribe();
+  //   }, []);
 
   return(
     <Grid
@@ -102,6 +108,7 @@ function Activities() {
             <CreateActivityForm></CreateActivityForm>
           </Paper>
         </Grid>
+
         <Grid container item direction="column">
           <Typography variant='h5' sx={{ pb:2 }}>Recent activities:</Typography>
           
@@ -110,13 +117,9 @@ function Activities() {
               ? activities.map(([id, activity])=> <SingleActivityView key={id} activity={activity}></SingleActivityView>) 
               : 'No activities yet'}
           </Grid>
-
-          {/* <SingleActivityView></SingleActivityView>
-          <SingleActivityView></SingleActivityView>
-          <SingleActivityView></SingleActivityView>
-          <SingleActivityView></SingleActivityView> */}
           
         </Grid>
+
       </Grid>
 
       <Grid item xs={12} sm={6.5}>

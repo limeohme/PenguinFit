@@ -23,6 +23,14 @@ export const getLiveUserActivities = (username, listen) => {
   return onValue(ref(db, `activities/${username}`), listen);
 };
 
+// export const getSingleLiveUserActivity = (username) => {
+//   return get(query(ref(db, `activities/${username}`), orderByChild('duration')));
+// };
+
+// export const getSingleLiveUserActivity = (username, listen) => {
+//   return onChildAdded(query(ref(db, `activities/${username}`), orderByChild('duration')), listen);
+// };
+
 export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_REQUEST_LIMIT) => {
   return get(query(ref(db, `activities/${username}`), orderByChild(`dateValue`), limitToLast(limit)))
     .then((snapshot) => {
