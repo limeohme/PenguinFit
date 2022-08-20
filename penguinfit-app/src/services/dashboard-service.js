@@ -1,4 +1,4 @@
-import { get, orderByChild, query, ref } from 'firebase/database';
+import { equalTo, get, orderByChild, query, ref } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
 export const getGoalsDistribution = () => {
@@ -27,24 +27,24 @@ export const getNutrientDistribution = () => {
 };
   
 export const getCaloriesToday = () => {
-  return get(ref(db, `users/BabyPenguin78/dataByDay/${'Sun Aug 14 2022'}/cal/consumed`))
+  return get(ref(db, `users/BabyPenguin78/dataByDay/`))
     .then((snapshot) => {
-      return snapshot.val();
+      return Object.values(snapshot.val())[6].cal.consumed;
     }).catch(console.error);
 };
   
 export const getWaterToday = () => {
-  return get(ref(db, `users/BabyPenguin78/dataByDay/${'Sun Aug 14 2022'}/waterIntake`))
+  return get(ref(db, `users/BabyPenguin78/dataByDay`))
     .then((snapshot) => {
-      return snapshot.val();
+      return Object.values(snapshot.val())[6].waterIntake;
     }).catch(console.error);
   
 };
   
 export const getStepsToday = () => {
-  return get(ref(db, `users/BabyPenguin78/dataByDay/${'Sun Aug 14 2022'}/steps`))
+  return get(query(ref(db, `users/BabyPenguin78/dataByDay`)), orderByChild('dateVal'), equalTo(1660078800000))
     .then((snapshot) => {
-      return snapshot.val();
+      return Object.values(snapshot.val())[6].steps;
     }).catch(console.error);
 };
   

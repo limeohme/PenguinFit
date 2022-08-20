@@ -9,7 +9,7 @@ export const somePurple = purple[500];
 export const cardsStyle = {
   display: 'flex', flexDirection: 'column', justifyItems: 'center',
   m: '1rem',
-  bgcolor: palePink,
+  bgcolor: 'transparent',
   alignSelf: 'center',
   p: '1rem',
   borderRadius: 2 
