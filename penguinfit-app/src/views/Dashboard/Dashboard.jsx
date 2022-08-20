@@ -7,7 +7,7 @@ import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import {
-  getWaterToday
+  getStatsToday
 } from '../../services/dashboard-service.js';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -29,8 +29,11 @@ function Dashboard () {
   }, []);
 
   useEffect(() => {
-    getWaterToday().then((res) => setWater(res)).catch(console.error);
-  }, []);
+    const unsub =  getStatsToday((snapshot) => {
+      setWater(Object.values(snapshot.val())[0].waterIntake);
+    });
+    return unsub;
+  });
 
   return (
     // outer container

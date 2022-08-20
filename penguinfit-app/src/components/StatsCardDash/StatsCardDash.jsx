@@ -1,6 +1,6 @@
 import { CardActions, CardContent, Typography, Card } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { getCaloriesToday, getStepsToday } from '../../services/dashboard-service.js';
+import { getStatsToday } from '../../services/dashboard-service.js';
 import * as style from './StatsCardDashStyles.js';
 
 export default function StatsCardDash ({ type, IconComponent, water, }) {
@@ -9,9 +9,12 @@ export default function StatsCardDash ({ type, IconComponent, water, }) {
   const [steps, setSteps] = useState(0);
 
   useEffect(() => {
-    getCaloriesToday().then((res) => setCals(res));
-    getStepsToday().then((res) => setSteps(res));
-  }, []);
+    const unsub =  getStatsToday((snapshot) => {
+      setSteps(Object.values(snapshot.val())[0].steps);
+      setCals(Object.values(snapshot.val())[0].cal.consumed);
+    });
+    return unsub;
+  });
 
   const chooseContent = () => {
     if (type === 'cals') {
