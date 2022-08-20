@@ -20,11 +20,12 @@ export default function RenderFriendsManagement({ username }) {
   useEffect(() => {
     getAllUsers()
       .then((snapshot) => setUsers(snapshot.val()));
+    getUserFriends(username)
+      .then((userGoals) => setFriends(userGoals));
   }, []);
 
   useEffect(() => {
     const unsubscribe = listenToFriends(username, () => {
-      // console.log('EVRIKA');
       getUserFriends(username)
         .then((userGoals) => setFriends(userGoals));
     });

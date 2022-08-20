@@ -4,7 +4,8 @@ import {
   ref,
   get,
   update,
-  onChildChanged,
+  // onChildChanged,
+  onValue,
 } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
@@ -13,17 +14,23 @@ export const createGoal = (user ,goal) =>
     .then((path) => update(ref(db, `goals/${user}/${goal.type}/${goal.target}/${path.key}`), { ...goal, id:path.key }));
 ;
 
-export const listenToOtherGoals = (username ,listen) => {
-  return (onChildChanged(ref(db, `goals/${username}/other`), listen));
+export const goalsListener = (username ,listen) => {
+  return (onValue(ref(db, `goals/${username}/other`), listen));
 };
 
-export const listenToCardioGoals = (username ,listen) => {
-  return (onChildChanged(ref(db, `goals/${username}/cardio`), listen));
+export const cardioListener = (username ,listen) => {
+  return (onValue(ref(db, `goals/${username}/cardio`), listen));
 };
 
-export const listenToStrengthGoals = (username ,listen) => {
-  return (onChildChanged(ref(db, `goals/${username}/strength`), listen));
+export const strengthListener = (username ,listen) => {
+  return (onValue(ref(db, `goals/${username}/strength`), listen));
 };
+
+// export const fromSnapshot = (goals, snapshot) => {
+//   const updated = { [snapshot.key]: snapshot.val() };
+//   return { ...goals, ...updated };
+// };
+
 export const getUserGoals = (username) => {
   return get(ref(db, `goals/${username}`))
     .then((snapshot) => {
