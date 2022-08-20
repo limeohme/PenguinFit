@@ -25,7 +25,13 @@ export const getLiveUserActivities = (username, listen) => {
 
 export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_REQUEST_LIMIT) => {
   return get(query(ref(db, `activities/${username}`), orderByChild(`dateValue`), limitToLast(limit)))
-    .then((snapshot) => Object.entries(snapshot.val()))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return Object.entries(snapshot.val());
+      }
+
+      return [];
+    })
     .catch(console.error);
 };
 

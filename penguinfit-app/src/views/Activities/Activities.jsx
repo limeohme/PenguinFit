@@ -76,10 +76,11 @@ function Activities() {
   useEffect(() => {
     const unsubscribe = getLiveUserActivities(user.username, async () => {
       const recent = await getMostRecentUserActivities(user.username, ACTIVITIES_REQUEST_LIMIT);
+      console.log(recent);
       setActivities(recent);
-    //   console.log(activities);
+      
     //   console.log(recent.map((act)=>act.createdOn));
-    }, []);
+    });
 
     return () => unsubscribe();
   }, []);
