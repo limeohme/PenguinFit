@@ -4,9 +4,7 @@ import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';
 import DetailedGoalsStepper from '../../components/DetailedGoalsStepper/DetailedGoalsStepper';
 import FriendsComparisonStepper from '../../components/FriendsComparisonStepper/FriendsComparisonStepper';
 import AppState from '../../providers/app-state';
-import { listenToOtherGoals, getUserGoals, listenToCardioGoals, listenToStrengthGoals } from '../../services/goals-service';
-
-
+import { getUserGoals, strengthListener, cardioListener, goalsListener } from '../../services/goals-service';
 // user friends
 const friends = [{
   title:'exercisesCount',
@@ -62,39 +60,19 @@ function Goals() {
   const [ goals, setGoals ] = useState({});
   const user = appState.user;
 
-  useEffect(() => {
-    getUserGoals(user.username)
-      .then((userGoals) => setGoals(userGoals));
-  },[user]);
-  
-  //get live other goals
-  useEffect(() => {
-    const unsubscribe = listenToOtherGoals(user.username, () => {
-      // console.log('other');
-      getUserGoals(user.username)
-        .then((userGoals) => setGoals(userGoals));
-    });
-    return () => unsubscribe();
-  }, []);
+  const ListenTo = (listener, username) => {
+    useEffect(() => {
+      const unsubscribe = listener(username, () => {
+        getUserGoals(username)
+          .then((userGoals) => setGoals(userGoals));
+      });
+      return () => unsubscribe();
+    }, []);
+  };
 
-  //get live cardio goals
-  useEffect(() => {
-    const unsubscribe = listenToCardioGoals(user.username, () => {
-      // console.log('cardio');
-      getUserGoals(user.username)
-        .then((userGoals) => setGoals(userGoals));
-    });
-    return () => unsubscribe();
-  }, []);
-  
-  useEffect(() => {
-    const unsubscribe = listenToStrengthGoals(user.username, () => {
-      // console.log('Strength');
-      getUserGoals(user.username)
-        .then((userGoals) => setGoals(userGoals));
-    });
-    return () => unsubscribe();
-  }, []);
+  ListenTo(goalsListener, user.username);
+  ListenTo(cardioListener, user.username);
+  ListenTo(strengthListener, user.username);
 
   return(
     <Grid
@@ -120,7 +98,7 @@ function Goals() {
           </Grid>
         </Grid>
       </Grid>
-      <Button onClick={() => console.log(getSteps(goals))}>OPA</Button> 
+      <Button onClick={ () => console.log(goals) }>OPA</Button> 
     </Grid>
   ); 
 };
