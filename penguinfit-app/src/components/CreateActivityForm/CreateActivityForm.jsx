@@ -1,22 +1,37 @@
-import { Autocomplete, Button, FormControl, FormControlLabel, FormHelperText, Grid, InputAdornment, Radio, RadioGroup, TextField } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import AppState from '../../providers/app-state';
 import { activitiesMET } from '../../common/activitiesMET';
 import { activityTypes } from '../../common/activity-types';
-import AppState from '../../providers/app-state';
-import { addActivity, createActivityObject } from '../../services/activities-service';
-// import { getUserFriendsByHandle } from '../../services/user-service';
 import { getActivityTotalCalBurned } from '../../utils/utils';
+import { listenToFriends } from '../../services/user-service';
+import { addActivity, createActivityObject } from '../../services/activities-service';
+import { 
+  Autocomplete, 
+  Button, 
+  FormControl, 
+  FormControlLabel, 
+  FormHelperText, 
+  Grid, 
+  InputAdornment, 
+  Radio, 
+  RadioGroup, 
+  TextField 
+} from '@mui/material';
 
 const styles = {
   inputs:{
     minWidth: '100%',
   },
   form:{
-    gap:'16px',
     p: 2,
-    boxSizing: 'border-box'
+  },
+  helperText:{ 
+    color:'#D81159' 
+  },
+  btn:{ 
+    width: '100%', 
+    height: '3.2em' 
   }
-
 };
 
 const CreateActivityForm = () => {
@@ -41,9 +56,17 @@ const CreateActivityForm = () => {
   };
 
   const { appState:{ user } } = useContext(AppState);
-  const [friends] = useState(Object.keys(user.friends));
+  const [friends, setFriends] = useState([]);
   const [formValues, setFormValues] = useState(defaultValues);
   const [formErrors, setFormErrors] = useState(defaultErrors);
+
+  useEffect(() => {
+    const unsubscribe = listenToFriends(user.username, (snapshot) => {
+      const userFriends = snapshot.val().friends;
+      setFriends(Object.keys(userFriends));
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleInputChange = (e) => {
 
@@ -69,14 +92,13 @@ const CreateActivityForm = () => {
       [e?.target.id.split('-')[0]]: val
     });
 
-    console.log(formValues.title);
   };
 
   const handleAdd = (event) => {
     event.preventDefault();
-    console.log(formValues);
+    // console.log(formValues);
 
-    // validations
+    // validations -> optimize -> in validateInputs()
 
     if(!validateTitle(formValues.title)){
       setFormErrors({ ...formErrors, title: { msg: 'choose activity from the menu' } });
@@ -100,6 +122,8 @@ const CreateActivityForm = () => {
       }
     }
 
+    // optimize -> in createActivity/Obj()
+
     const { username, weight } = user;
     const { title, duration } = formValues;
     const calories = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
@@ -109,13 +133,13 @@ const CreateActivityForm = () => {
 
     if(activityObj.buddy){
       const activityObjOfBuddy = { ...activityObj, buddy: username };
-      addActivity(activityObj.buddy, activityObjOfBuddy);
+      addActivity(activityObj.buddy, activityObjOfBuddy).catch(console.error);
     };
 
     addActivity(username, activityObj)
       .then(() => {
-        console.log('activity added');
-        console.log(activityObj);
+        // console.log('activity added');
+        // console.log(activityObj);
 
         setFormValues(defaultValues);
         setFormErrors(defaultErrors);
@@ -129,6 +153,19 @@ const CreateActivityForm = () => {
 
   const validateBuddy = (fr, buddy) => {
     return fr.includes(buddy);
+  };
+
+  const renderTypeOptions = (types)=>{
+    return Object.keys(types).map((t)=>{
+      return (
+        <FormControlLabel
+          key={t}
+          value={t}
+          control={<Radio size="small" />}
+          label={t}
+        />
+      );
+    });
   };
 
   const renderTypeDetails = (types, defaults, changeHandler) => {
@@ -172,28 +209,32 @@ const CreateActivityForm = () => {
       justifyContent="space-between" 
       alignItems="center" 
       alignSelf="left" 
+      gap={2}
       sx={styles.form} 
     >
         
       <Grid container spacing={2}>
+
         <Grid item xs={8}>
+
           <Autocomplete
-            
             id="title-input"
             value={formValues.title} 
             options={Object.keys(activitiesMET).sort()}
             clearIcon={null}
-            // selectOnFocus
-            // clearOnBlur
             onOpen={(e)=>e.target.value = null}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             onChange={(event, value) => handleAutocompleteChange(event, value)}
             onInputChange={(event, value) => handleAutocompleteChange(event, value)}
             renderInput={(params) => <TextField {...params} fullWidth size="small" variant="standard" label="Activity" />}
           />
-          <FormHelperText id="title-error-text" sx={{ color:'#D81159' }}><em>{!formErrors.title? null : formErrors.title.msg}</em></FormHelperText>
+
+          <FormHelperText id="title-error-text" sx={styles.helperText}><em>{!formErrors.title? null : formErrors.title.msg}</em></FormHelperText>
+
         </Grid>
+
         <Grid item xs={4}>
+
           <TextField
             id="duration-input"
             name="duration"
@@ -208,15 +249,20 @@ const CreateActivityForm = () => {
             variant="standard" 
             size="small"
           />
-          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}><em>{formErrors.duration?.msg}</em></FormHelperText>
-          <FormHelperText id="number-error-text" sx={{ color:'#D81159' }}><em>{formErrors.number?.msg}</em></FormHelperText>
+
+          <FormHelperText id="duration-error-text" sx={styles.helperText}><em>{formErrors.duration?.msg}</em></FormHelperText>
+
+          <FormHelperText id="number-error-text" sx={styles.helperText}><em>{formErrors.number?.msg}</em></FormHelperText>
+
         </Grid>
+
       </Grid>
 
       {/* optimize and use enums */}
       <Grid container spacing={2}>
             
         <Grid item xs={12}>
+          
           <FormControl>
             {/* <FormLabel>Type</FormLabel> */}
             <RadioGroup
@@ -226,27 +272,11 @@ const CreateActivityForm = () => {
               row
               sx={{ justifyContent: 'space-between', alignSelf:'centre' }}
             >
-              <FormControlLabel
-                key="cardio"
-                value="cardio"
-                control={<Radio size="small" />}
-                label="Cardio"
-              />
-              <FormControlLabel
-                key="strength"
-                value="strength"
-                control={<Radio size="small" />}
-                label="Strength"
-              />
-              <FormControlLabel
-                key="other"
-                value="other"
-                control={<Radio size="small" />}
-                label="Other"
-              />
+              {renderTypeOptions(activityTypes)}
             </RadioGroup>
           </FormControl>
-          <FormHelperText id="type-error-text" sx={{ color:'#D81159' }}><em>{formErrors.type?.msg}</em></FormHelperText>
+
+          <FormHelperText id="type-error-text" sx={styles.helperText}><em>{formErrors.type?.msg}</em></FormHelperText>
           
         </Grid>
             
@@ -254,11 +284,12 @@ const CreateActivityForm = () => {
 
       <Grid container spacing={2}>
         {renderTypeDetails(activityTypes, formValues, handleInputChange)}
-        
       </Grid>
 
       <Grid container spacing={2}>
+
         <Grid item xs={8}>
+
           <Autocomplete
             id="buddy-input"
             value={formValues.buddy} 
@@ -270,17 +301,21 @@ const CreateActivityForm = () => {
             onInputChange={(event, value) => handleAutocompleteChange(event, value)}
             renderInput={(params) => <TextField {...params} fullWidth size="small" variant="standard" label="Activity Buddy (optional)" />}
           />
-          <FormHelperText id="buddy-error-text" sx={{ color:'#D81159' }}><em>{formErrors.buddy?.msg}</em></FormHelperText>
+
+          <FormHelperText id="buddy-error-text" sx={styles.helperText}><em>{formErrors.buddy?.msg}</em></FormHelperText>
           
         </Grid>
         
-        <Grid item xs={4} sx={{ display:'flex', alignItems: 'right', justifyContent: 'right' }}>
-          <Button variant="contained" color="primary" onClick={handleAdd} sx={{ width: '100%', boxSizing: 'border-box', height: '3.2em' }}>
+        <Grid item xs={4}>
+
+          <Button variant="contained" color="primary" onClick={handleAdd} sx={styles.btn}>
             ADD
           </Button>
+
         </Grid>
         
       </Grid>
+
     </Grid>
   );
 };
