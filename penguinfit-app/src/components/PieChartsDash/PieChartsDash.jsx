@@ -23,7 +23,7 @@ export function PieGoalAchievement () {
 
           }
         }}
-        colorScale={['gold', 'pink', '#5c6bc0' ]}
+        colorScale={['#f2c324', '#c5e1a5', '#5c6bc0' ]}
         innerRadius={60}
         data={nutrients}
         labels={({ datum }) => datum.x}
@@ -52,7 +52,7 @@ export function PieNutrientsDistribution () {
             before: () => ({ _y: -50 }),
             after: (datum) => ({ _y: datum._y })
           } }}
-        colorScale={['#c5e1a5', 'gold', '#5c6bc0' ]}
+        colorScale={['#c5e1a5', '#f2c324', '#5c6bc0' ]}
         innerRadius={60}
         data={goals}
         labels={({ datum }) => datum.x}

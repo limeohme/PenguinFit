@@ -86,8 +86,8 @@ export function BarCalorieBalanceByDay () {
           labels={ ({ datum }) => ` ${datum.y.toFixed(0)}\nkcal`}
           style={{
             data: {
-              fill: ({ datum }) => datum.y < 0 ? '#000000' : '#c5e1a5',
-              stroke: ({ datum }) => datum.y < 0 ? '#000000' : '#c5e1a5',
+              fill: ({ datum }) => datum.y < 0 ? '#f2c324' : '#c5e1a5',
+              stroke: ({ datum }) => datum.y < 0 ? '#f2c324' : '#c5e1a5',
               fillOpacity: 0.7,
               strokeWidth: 1
             },
