@@ -1,4 +1,4 @@
-import { equalTo, get, orderByChild, query, ref } from 'firebase/database';
+import { equalTo, get, onValue, orderByChild, query, ref } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
 export const getGoalsDistribution = () => {
@@ -26,26 +26,23 @@ export const getNutrientDistribution = () => {
   
 };
   
-export const getCaloriesToday = () => {
-  return get(ref(db, `users/BabyPenguin78/dataByDay/`))
-    .then((snapshot) => {
-      return Object.values(snapshot.val())[6].cal.consumed;
-    }).catch(console.error);
-};
+// export const getCaloriesToday = () => {
+//   return get(ref(db, `users/BabyPenguin78/dataByDay/`))
+//     .then((snapshot) => {
+//       return Object.values(snapshot.val())[6].cal.consumed;
+//     }).catch(console.error);
+// };
   
-export const getWaterToday = () => {
-  return get(ref(db, `users/BabyPenguin78/dataByDay`))
-    .then((snapshot) => {
-      return Object.values(snapshot.val())[6].waterIntake;
-    }).catch(console.error);
+// export const getWaterToday = () => {
+//   return get(ref(db, `users/BabyPenguin78/dataByDay`))
+//     .then((snapshot) => {
+//       return Object.values(snapshot.val())[6].waterIntake;
+//     }).catch(console.error);
   
-};
+// };
   
-export const getStepsToday = () => {
-  return get(query(ref(db, `users/BabyPenguin78/dataByDay`)), orderByChild('dateVal'), equalTo(1660078800000))
-    .then((snapshot) => {
-      return Object.values(snapshot.val())[6].steps;
-    }).catch(console.error);
+export const getStatsToday = (listen) => {
+  return onValue(query(ref(db, `users/BabyPenguin78/dataByDay`), orderByChild('dateVal'), equalTo(1660078800000)), listen);
 };
   
 export const getExerciseDurationByDate = () => {
@@ -61,7 +58,6 @@ export const getExerciseDurationByDate = () => {
 export const getCalorieDifferenceByDate = () => {
   return get(query(ref(db, `users/BabyPenguin78/dataByDay`)), orderByChild('dateVal'))
     .then((snapshot) => {
-      console.log(snapshot.val());
       return Object.values(snapshot.val()).map((el) => {
         return { x: el.date.split(' ')[2], y: el.cal.consumed - el.cal.burned };
       });

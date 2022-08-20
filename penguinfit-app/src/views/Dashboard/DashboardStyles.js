@@ -13,7 +13,7 @@ export const containerStyle = {
 export const midiContainerStyle = {
   alignSelf: 'start',
   p: '1rem',
-  my: '2rem',
+  my: '4rem',
 };
 
 export const cardsContainerStyle = {
