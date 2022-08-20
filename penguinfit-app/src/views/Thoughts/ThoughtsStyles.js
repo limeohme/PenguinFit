@@ -8,6 +8,7 @@ export const deepBlue = indigo[800];
 
 export const midiContainerStyle = {
   display: 'flex',
+  justifyContent: 'center',
   p: 0,
   mx: 0,
   my: '2rem',
