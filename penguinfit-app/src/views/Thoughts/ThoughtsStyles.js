@@ -5,12 +5,11 @@ export const palePink = pink[50];
 export const blue = indigo[400];
 export const deepBlue = indigo[800];
 
-export const containerStyle = {
- 
-};
 
 export const midiContainerStyle = {
   display: 'flex',
-  p: '1rem',
+  p: 0,
+  mx: 0,
   my: '2rem',
+  boxSizing: 'border-box'
 };

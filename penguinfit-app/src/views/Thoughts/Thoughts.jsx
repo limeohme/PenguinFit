@@ -10,7 +10,7 @@ function Thoughts () {
   const [colour, setColour] = useState('');
     
   return (
-    <Grid container direction="row" sx={style.containerStyle}>
+    <Grid container direction="row" >
       <Grid item xs sx={style.midiContainerStyle}>
         <TextEditor colour={colour} setColour={setColour}></TextEditor>
       </Grid>

@@ -14,7 +14,8 @@ export const wrapperContainerStyle = {
 export const userInfoContainer = {
   display: 'flex',
   flexDirection: 'row',
-  bgcolor: '#6633ff10',
+  // bgcolor: '#6633ff10',
+  bgcolor: 'transparent',
   boxShadow: 2,
   borderRadius: 2,
   my: '1rem',
@@ -24,7 +25,8 @@ export const userInfoContainer = {
 export const friendsContainer = {
   display: 'flex',
   flexDirection: 'column',
-  bgcolor: '#6633ff10',
+  // bgcolor: '#6633ff10',
+  bgcolor: 'transparent',
   boxShadow: 2,
   borderRadius: 2,
   my: '1rem',
@@ -109,9 +111,7 @@ export const avatarStyle = {
   alignSelf: 'center',
   p: '0.4rem',
   my: '1rem',
-  border: 1,
-  borderColor: purple[800],
-  bgcolor: 'white'
+  bgcolor: 'transparent'
 };
 
 export const nameStyle = {

@@ -15,20 +15,23 @@ export const textAreaStyle = {
 };
 
 export const wrapperContainerStyle = {
-  gap: '2rem',
-  m: '1rem',
-  px: '2rem',
+  px: 0,
   borderRadius: 3,
-  display: 'flex'
+  alignSelf: 'center',
+  display: 'flex',
+  boxSizing: 'border-box',
+  my: '2rem'
 };
 
 export const midiContainerStyle = {
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'space-between',
   bgcolor: 'none',
+  textAlign: 'center',
+  justifyContent: 'space-around',
   width: 'fit-content',
-  alignSelf: 'center'
+  alignSelf: 'center',
+  boxSizing: 'border-box'
 };
   
 export const sideBoxStyle = {
@@ -37,13 +40,14 @@ export const sideBoxStyle = {
   boxShadow: 1,
   borderRadius: 2,
   bgcolor: '#6633ff10',
-  p: '3rem',
+  py: '1rem',
   alignSelf: 'center',
   textAlign: 'center',
   minWidth: '12rem',
   justifyContent: 'space-around',
   m: '1.5rem',
-  alignItems: 'center'
+  alignItems: 'center',
+  boxSizing: 'border-box'
 };
 
 export const messageStyle = {

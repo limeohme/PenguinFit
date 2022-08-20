@@ -20,7 +20,7 @@ function ThoughtCarousel () {
 
   useEffect(() => {
     const unsub = getLiveThoughts(appState.user.username, (snapshot) => {
-      setThoughts(Object.values(snapshot.val()));
+      if (snapshot.exists()) setThoughts(Object.values(snapshot.val()));
     });
 
     return unsub;
@@ -67,7 +67,7 @@ function ThoughtCarousel () {
   };
 
   return (
-    <Box sx={style.sideBoxStyleBlue}>
+    <Box sx={style.boxStyleWhite}>
       { thoughts.length? <Paper sx={style.boxStyleWhite}>
         {!edit?
           <Typography sx={style.titleStyle} align="center" >{thoughts[activeStep]?.title}</Typography>:
@@ -94,9 +94,10 @@ function ThoughtCarousel () {
         </Box>
         <Typography sx={{ alignSelf: 'center', m: '1rem' }} variant='h3' >{thoughts[activeStep]?.mood}</Typography>
         <MobileStepper
-          variant="text"
+          variant="dots"
           steps={maxSteps}
           position="static"
+          sx={{ bgcolor: 'transparent' }}
           activeStep={activeStep}
           nextButton={
             <Button
