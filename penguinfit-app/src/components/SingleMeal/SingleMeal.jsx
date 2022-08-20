@@ -1,0 +1,40 @@
+import { Button, Grid, Paper, Typography } from '@mui/material';
+import { formatDateToString } from '../../utils/utils';
+// import { Card, CardActionArea, CardContent } from '@mui/material';
+
+export default function SingleMeal({ meal }) {
+  
+  return (
+    <Paper sx={{ display: 'flex' , backgroundColor: '#6633ff10', p: 2 }}>
+
+      <Grid container direction='column' spacing={1} justifyContent='space-between' alignItems='center'>
+        <Grid item container spacing={2} justifyContent='space-between' alignItems='center'>
+          <Grid item xs={6} sm={6} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+
+            <Typography variant='h5'>{meal.title}</Typography>
+            <Typography variant='h6' sx={{ color:'#00000050', px: '0.6em' }}>{meal.title}</Typography>
+           
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography sx={{ textAlign:'right' }}>{formatDateToString(meal.createdOn)}</Typography>
+          </Grid>
+        </Grid>
+
+        <Grid item container direction="row" spacing={2} justifyContent='left' alignItems='center' sx={{ color:'#00000050' }}>
+          <Grid item xs={6} sm={6}>
+            <Typography>{meal.foods.map((el) =>  `${el.name} |`).join(' ')}</Typography>
+          </Grid>
+        </Grid>
+        <Grid item container spacing={2} justifyContent='space-between' alignItems='center' sx={{ color:'#00000050' }}>
+          <Grid item xs={6} sm={6}>
+            <Typography>{`${meal.cal} kcal`}</Typography>
+          </Grid>
+          <Grid item container xs={6} sm={6} justifyContent='center'>
+            <Button variant="text" color="primary" size='small' sx={{ ml:'auto' }}>ADD</Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+
+}

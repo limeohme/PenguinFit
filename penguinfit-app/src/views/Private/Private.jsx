@@ -5,10 +5,10 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import Activities from '../Activities/Activities';
 import Dashboard from '../Dashboard/Dashboard';
 import Goals from '../Goals/Goals';
+import Meals from '../Meals/Meals';
 import NotFound from '../NotFound/NotFound';
 import Profile from '../Profile/Profile';
 // import Activities from '../testActivities';
-import Meals from '../testMeals';
 import Thoughts from '../Thoughts/Thoughts';
 
 export default function Private({ classes, toggleDrawer, open, isMdUp }) {

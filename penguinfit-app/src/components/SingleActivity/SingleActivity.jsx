@@ -9,8 +9,8 @@ export default function SingleActivityView({ activity }) {
         <CardActionArea>
           <CardContent> */}
 
-      <Grid container direction='column' spacing={1} justifyContent='space-between' alignItems='centre'>
-        <Grid item container spacing={2} justifyContent='space-between' alignItems='centre'>
+      <Grid container direction='column' spacing={1} justifyContent='space-between' alignItems='center'>
+        <Grid item container spacing={2} justifyContent='space-between' alignItems='center'>
           <Grid item xs={6} sm={6} >
             <Typography variant='h5'>{activity.title}</Typography>
           </Grid>
@@ -28,7 +28,7 @@ export default function SingleActivityView({ activity }) {
           </Grid>
         </Grid>
 
-        <Grid item container spacing={2} justifyContent='space-between'  alignItems='centre'>
+        <Grid item container spacing={2} justifyContent='space-between'  alignItems='center'>
           <Grid item xs={6} sm={6}>
             <Typography variant="h6">{`${activity.duration} min, ${activity.calories.toFixed(0)} kcal`}</Typography>
           </Grid>
