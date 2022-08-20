@@ -4,6 +4,7 @@ import { activitiesMET } from '../../common/activitiesMET';
 import { activityTypes } from '../../common/activity-types';
 import AppState from '../../providers/app-state';
 import { addActivity, createActivityObject } from '../../services/activities-service';
+// import { getUserFriendsByHandle } from '../../services/user-service';
 import { getActivityTotalCalBurned } from '../../utils/utils';
 
 const styles = {
@@ -19,7 +20,6 @@ const styles = {
 };
 
 const CreateActivityForm = () => {
-  const { appState:{ user } } = useContext(AppState);
   
   const defaultValues = {
     title: null,
@@ -32,19 +32,29 @@ const CreateActivityForm = () => {
     buddy: ''
   };
 
-  // filter falsy when used:
-  const [formValues, setFormValues] = useState(defaultValues);
-  // const [formError, setFormError] = useState({ title : '', duration : '', type : '' });
+  const defaultErrors = { 
+    title : null, 
+    duration : null, 
+    type : null,
+    buddy: null,
+    number: null 
+  };
 
-  const [titleError, setTitleError] = useState(null);
-  const [durationError, setDurationError] = useState(null);
-  const [typeError, setTypeError] = useState(null);
+  const { appState:{ user } } = useContext(AppState);
+  const [friends] = useState(Object.keys(user.friends));
+  const [formValues, setFormValues] = useState(defaultValues);
+  const [formErrors, setFormErrors] = useState(defaultErrors);
 
   const handleInputChange = (e) => {
-    
+
     const { name, value } = e.target;
     const numValue = parseInt(value);
 
+    if(!Number.isNaN(numValue) && numValue < 0){
+      setFormErrors({ ...formErrors, number: { msg:'only positive integers' } });
+      return;
+    }
+    
     setFormValues({
       ...formValues,
       [name]: numValue? numValue : value
@@ -56,34 +66,38 @@ const CreateActivityForm = () => {
     
     setFormValues({
       ...formValues,
-      title: val
+      [e?.target.id.split('-')[0]]: val
     });
-    
-    // TODO: add friend functionality
+
+    console.log(formValues.title);
   };
 
   const handleAdd = (event) => {
     event.preventDefault();
     console.log(formValues);
 
-    // if(!Object.keys(activitiesMET).includes(formValues.title)){
-    //   setFormError(...formError, title: 'please, choose activity from the menu' ) ;
-    //   return;
-    // }
+    // validations
 
-    if(!Object.keys(activitiesMET).includes(formValues.title)){
-      setTitleError('please, choose activity from the menu');
+    if(!validateTitle(formValues.title)){
+      setFormErrors({ ...formErrors, title: { msg: 'choose activity from the menu' } });
       return;
     }
 
-    if(!formValues.duration){
-      setDurationError('add duration');
+    if(!formValues.duration || parseInt(formValues.duration) === 0){
+      setFormErrors({ ...formErrors, duration: { msg: 'add duration' } });
       return;
     }
 
     if(!formValues.type){
-      setTypeError('select a type');
+      setFormErrors({ ...formErrors, type: { msg: 'select a type' } });
       return;
+    }
+
+    if(formValues.buddy){
+      if(!validateBuddy(friends, formValues.buddy)){
+        setFormErrors({ ...formErrors, buddy: { msg: 'choose user from the menu or skip' } });
+        return;
+      }
     }
 
     const { username, weight } = user;
@@ -93,17 +107,28 @@ const CreateActivityForm = () => {
     const activityInput = { ...formValues, calories };
     const activityObj = createActivityObject(activityInput);
 
+    if(activityObj.buddy){
+      const activityObjOfBuddy = { ...activityObj, buddy: username };
+      addActivity(activityObj.buddy, activityObjOfBuddy);
+    };
+
     addActivity(username, activityObj)
       .then(() => {
         console.log('activity added');
         console.log(activityObj);
 
         setFormValues(defaultValues);
-        setTitleError(null);
-        setDurationError(null);
-        setTypeError(null);
+        setFormErrors(defaultErrors);
       })
       .catch(console.error);
+  };
+
+  const validateTitle = (title) => {
+    return Object.keys(activitiesMET).includes(title);
+  };
+
+  const validateBuddy = (fr, buddy) => {
+    return fr.includes(buddy);
   };
 
   const renderTypeDetails = (types, defaults, changeHandler) => {
@@ -131,6 +156,7 @@ const CreateActivityForm = () => {
                   endAdornment: <InputAdornment position="end">{getAdornment(t)}</InputAdornment>,
                 }}
               />
+              <FormHelperText id="number-error-text" sx={{ color:'#D81159' }}><em>{formErrors.number?.msg}</em></FormHelperText>
             </Grid>
           );
         })
@@ -138,7 +164,7 @@ const CreateActivityForm = () => {
         :null
     );
   };
-
+  
   return (
     <Grid 
       container 
@@ -152,18 +178,20 @@ const CreateActivityForm = () => {
       <Grid container spacing={2}>
         <Grid item xs={8}>
           <Autocomplete
-            // disablePortal
+            
             id="title-input"
             value={formValues.title} 
             options={Object.keys(activitiesMET).sort()}
-            selectOnFocus
-            clearOnBlur
+            clearIcon={null}
+            // selectOnFocus
+            // clearOnBlur
             onOpen={(e)=>e.target.value = null}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             onChange={(event, value) => handleAutocompleteChange(event, value)}
+            onInputChange={(event, value) => handleAutocompleteChange(event, value)}
             renderInput={(params) => <TextField {...params} fullWidth size="small" variant="standard" label="Activity" />}
           />
-          <FormHelperText id="title-error-text" sx={{ color:'#D81159' }}>{formValues.title? null : <em>{titleError}</em>}</FormHelperText>
+          <FormHelperText id="title-error-text" sx={{ color:'#D81159' }}><em>{!formErrors.title? null : formErrors.title.msg}</em></FormHelperText>
         </Grid>
         <Grid item xs={4}>
           <TextField
@@ -180,7 +208,8 @@ const CreateActivityForm = () => {
             variant="standard" 
             size="small"
           />
-          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{formValues.duration? null : <em>{durationError}</em>}</FormHelperText>
+          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}><em>{formErrors.duration?.msg}</em></FormHelperText>
+          <FormHelperText id="number-error-text" sx={{ color:'#D81159' }}><em>{formErrors.number?.msg}</em></FormHelperText>
         </Grid>
       </Grid>
 
@@ -217,33 +246,40 @@ const CreateActivityForm = () => {
               />
             </RadioGroup>
           </FormControl>
-          <FormHelperText id="type-error-text" sx={{ color:'#D81159' }}>{formValues.type? null : <em>{typeError}</em>}</FormHelperText>
+          <FormHelperText id="type-error-text" sx={{ color:'#D81159' }}><em>{formErrors.type?.msg}</em></FormHelperText>
+          
         </Grid>
             
       </Grid>
 
       <Grid container spacing={2}>
         {renderTypeDetails(activityTypes, formValues, handleInputChange)}
+        
       </Grid>
 
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <TextField 
-            id="buddy-input" 
-            name="buddy" 
-            label="Activity Buddy (optional)" 
-            type="text" 
+          <Autocomplete
+            id="buddy-input"
             value={formValues.buddy} 
-            onChange={handleInputChange} 
-            fullWidth
-            variant="outlined" 
-            size="small"/>
+            options={friends}
+            clearIcon={null}
+            onOpen={(e)=>e.target.value = null}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            onChange={(event, value) => handleAutocompleteChange(event, value)}
+            onInputChange={(event, value) => handleAutocompleteChange(event, value)}
+            renderInput={(params) => <TextField {...params} fullWidth size="small" variant="standard" label="Activity Buddy (optional)" />}
+          />
+          <FormHelperText id="buddy-error-text" sx={{ color:'#D81159' }}><em>{formErrors.buddy?.msg}</em></FormHelperText>
+          
         </Grid>
+        
         <Grid item xs={4} sx={{ display:'flex', alignItems: 'right', justifyContent: 'right' }}>
-          <Button variant="contained" color="primary" onClick={handleAdd} sx={{ width: '100%', boxSizing: 'border-box' }}>
+          <Button variant="contained" color="primary" onClick={handleAdd} sx={{ width: '100%', boxSizing: 'border-box', height: '3.2em' }}>
             ADD
           </Button>
         </Grid>
+        
       </Grid>
     </Grid>
   );
