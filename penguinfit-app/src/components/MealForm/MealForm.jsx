@@ -1,7 +1,7 @@
 import { Button, FormControl, FormControlLabel, FormHelperText, Grid, InputAdornment, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
 import AppState from '../../providers/app-state';
-import { addMealToDB, getFoodItemData } from '../../services/meals-service';
+import { addMealToDB, getFoodItemData, updateUserNutrients } from '../../services/meals-service';
 import { formatDateToString } from '../../utils/utils';
 
 
@@ -92,6 +92,10 @@ function MealForm () {
   const handleAddtoDB = (meal) => {
     if (meal.title && meal.type && meal.foods.length) {
       addMealToDB(user.username, meal);
+      meal.foods.forEach((food) => {
+        updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats);
+      });
+      
       setFoods([]); setTitle(''); setType('');
       setMealObj({
         title: '',
