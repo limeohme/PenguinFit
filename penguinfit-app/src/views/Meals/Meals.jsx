@@ -1,16 +1,22 @@
 import { Grid, Paper, Typography } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ACTIVITIES_REQUEST_LIMIT } from '../../common/constants';
 import MealForm from '../../components/MealForm/MealForm';
 import SingleMeal from '../../components/SingleMeal/SingleMeal';
 import AppState from '../../providers/app-state';
+import { getRecentMeals } from '../../services/meals-service';
 
 
 function Meals () {
 
-  const [meals, _setMeals] = useState([{ title: 'Breakfast', cal: 320, foods: [{ name:'tomatoes' }, { name: 'bread' }], createdOn: new Date() }]);
-  const { appState:{ _user } } = useContext(AppState);
+  const [meals, setMeals] = useState([]);
+  const { appState:{ user } } = useContext(AppState);
 
+  useEffect(() => {
+    getRecentMeals(user.username, (snapshot) => {
+      setMeals(Object.values(snapshot.val()));
+    });
+  }, [user.username]);
 
 
   return(
@@ -38,12 +44,6 @@ function Meals () {
               ? meals.map((meal, i)=> <SingleMeal key={i} meal={meal}></SingleMeal>) 
               : 'No meals yet'}
           </Grid>
-
-          {/* <SingleActivityView></SingleActivityView>
-          <SingleActivityView></SingleActivityView>
-          <SingleActivityView></SingleActivityView>
-          <SingleActivityView></SingleActivityView> */}
-          
         </Grid>
       </Grid>
 

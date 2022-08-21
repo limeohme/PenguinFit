@@ -1,6 +1,8 @@
 import { Button, FormControl, FormControlLabel, FormHelperText, Grid, InputAdornment, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
 import AppState from '../../providers/app-state';
+import { addMealToDB, getFoodItemData } from '../../services/meals-service';
+import { formatDateToString } from '../../utils/utils';
 
 
 const styles = {
@@ -16,7 +18,7 @@ const styles = {
 };
 
 function MealForm () {
-  const { appState:{ _user } } = useContext(AppState);
+  const { appState:{ user } } = useContext(AppState);
   
 
   // const [formError, setFormError] = useState({ title : '', duration : '', type : '' });
@@ -28,6 +30,15 @@ function MealForm () {
   const [grams, setGrams] = useState('');
   const [title, setTitle] = useState('');
   const [type, setType] = useState('');
+  const [message, setMessage] = useState('');
+  const [mealObj, setMealObj] = useState({
+    title: '',
+    type: '',
+    foods: [],
+    cal: 0,
+    dateVal: Date.parse(formatDateToString(new Date())),
+    createdOn: formatDateToString(new Date()) 
+  });
 
   const handleFoodItemChange = (e) => {
     const val = e.target.value;
@@ -41,24 +52,56 @@ function MealForm () {
 
   const handleTypeChange  = (e) => {
     const val = e.target.value;
-    if (val) setType(val);
+    if (val) {
+      setType(val);
+      setMealObj({ ...mealObj, type: val });
+    } 
   };
 
   const handleTitleChange  = (e) => {
     const val = e.target.value;
-    if (val) setTitle(val);
+    if (val) {
+      setTitle(val);
+      setMealObj({ ...mealObj, title: val });
+    }
   };
 
-  const handleAdd = (event) => {
+  const handleAdd = async (event) => {
     event.preventDefault();
     if (item && grams) {
-      const zeID = foods.length;
-      setFoods([...foods, { foodItem: item, quantity: grams, id: zeID }]);
+      try {
+        const foodItemObject = await getFoodItemData(item, grams);
+        const zeID = foods.length;
+        setFoods([...foods, { ...foodItemObject, quantity: grams, id: zeID }]);
+        setMealObj({ ...mealObj, foods: [...foods, { ...foodItemObject, quantity: grams, id: zeID }], cal: mealObj.cal + foodItemObject.cal });
+        console.log(mealObj.foods);
+        setItem(''); setGrams('');
+      } catch (err) {
+        console.error(err);
+        setMessage(err.message);
+      }      
+    } else {
+      setMessage('Please enter food item name and quantity!');
     }
   };
 
   const handleRemove = (e) => {
     setFoods(foods.filter( el => `${el.foodItem + el.id}` !== e.target.name));
+  };
+
+  const handleAddtoDB = (meal) => {
+    if (meal.title && meal.type && meal.foods.length) {
+      addMealToDB(user.username, meal);
+      setFoods([]); setTitle(''); setType('');
+      setMealObj({
+        title: '',
+        type: '',
+        foods: [],
+        cal: 0,
+        dateVal: Date.parse(formatDateToString(new Date())),
+        createdOn: formatDateToString(new Date()) 
+      });
+    } 
   };
 
   return (
@@ -191,10 +234,10 @@ function MealForm () {
             variant="standard" 
             size="small"
           />
-          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{item? null : <em>{}</em>}</FormHelperText>
+          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{mealObj.title? null : <em>{message}</em>}</FormHelperText>
         </Grid>
         <Grid item xs={4} sx={{ display:'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Button variant="contained" color="primary" onClick={handleAdd} sx={{ width: '100%', boxSizing: 'border-box' }}>
+          <Button variant="contained" color="primary" onClick={() => handleAddtoDB(mealObj)} sx={{ width: '100%', boxSizing: 'border-box' }}>
             ADD MEAL
           </Button>
         </Grid>
