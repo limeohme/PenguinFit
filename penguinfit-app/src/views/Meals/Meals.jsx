@@ -13,9 +13,13 @@ function Meals () {
   const { appState:{ user } } = useContext(AppState);
 
   useEffect(() => {
-    getRecentMeals(user.username, (snapshot) => {
-      setMeals(Object.values(snapshot.val()));
+    const unsub = getRecentMeals(user.username, (snapshot) => {
+      if (snapshot.exists()) {
+        setMeals(Object.values(snapshot.val()));
+      }
     });
+
+    return unsub;
   }, [user.username]);
 
 
