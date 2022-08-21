@@ -1,6 +1,6 @@
 import { useTheme } from '@emotion/react';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-import { Box, MobileStepper, Button, Stack, Paper } from '@mui/material';
+import { MobileStepper, Button, Stack } from '@mui/material';
 import { useState } from 'react';
 import { VictoryBar, VictoryGroup } from 'victory';
 
@@ -28,72 +28,71 @@ export default function FriendsComparisonStepper({ steps }) {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, flexGrow: 1, m: 2 }}>
+    <>
       <h3>{steps[activeStep].title}</h3>
-      <Paper>
-        <Stack 
-          spacing={0}
+      <Stack 
+        spacing={0}
+      >
+        <VictoryGroup
+          height={200}
         >
-          <VictoryGroup
-            height={200}
-          >
-            {steps[activeStep].results.map(el => {
-              return (
-                <VictoryBar
-                  labels={ [el.name] }
-                  data={ [el.data] }
-                  animate={{
-                    // duration: 2000,
-                    onLoad: { duration: 1000 },
-                    onExit: { duration: 1000 }
+          {steps[activeStep].results.map(el => {
+            return (
+              <VictoryBar
+                labels={ [el.name] }
+                data={ [el.data] }
+                animate={{
+                  // duration: 2000,
+                  onLoad: { duration: 1000 },
+                  onExit: { duration: 1000 }
 
-                  }}
-                >
+                }}
+              >
 
-                </VictoryBar>
-              );
+              </VictoryBar>
+            );
 
-            })}
-            {/* <VictoryBar
+          })}
+          {/* <VictoryBar
               labels='mish'
               data={[{ x: 1, y: 1 }]}
             />
             <VictoryBar
               data={[{ x: 2, y: 2 }]}
             /> */}
-          </VictoryGroup>
-        </Stack>
-        <MobileStepper
-          variant="text"
-          steps={maxSteps}
-          position="static"
-          activeStep={activeStep}
-          nextButton={
-            <Button
-              size="small"
-              onClick={handleNext}
-              disabled={activeStep === maxSteps - 1}
-            >
+        </VictoryGroup>
+      </Stack>
+      <MobileStepper
+        variant="text"
+        steps={maxSteps}
+        position="static"
+        sx={{ backgroundColor: '#ffffff75' }}
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
               Next
-              {theme.direction === 'rtl' ? (
-                <KeyboardArrowLeft />
-              ) : (
-                <KeyboardArrowRight />
-              )}
-            </Button>
-          }
-          backButton={
-            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-              {theme.direction === 'rtl' ? (
-                <KeyboardArrowRight />
-              ) : (
-                <KeyboardArrowLeft />
-              )}
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowLeft />
+            ) : (
+              <KeyboardArrowRight />
+            )}
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowRight />
+            ) : (
+              <KeyboardArrowLeft />
+            )}
               Back
-            </Button>
-          }
-        />
-      </Paper>
-    </Box>
+          </Button>
+        }
+      />
+    </>
   );
 }
