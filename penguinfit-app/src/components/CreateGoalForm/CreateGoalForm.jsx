@@ -1,4 +1,4 @@
-import { Box, Button, FormGroup, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, MenuItem, Paper, Radio, RadioGroup, Select, TextField, Checkbox } from '@mui/material';
+import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material';
 import { useState } from 'react';
 import { createGoal } from '../../services/goals-service';
 
@@ -13,19 +13,19 @@ const defaultValues = {
   currentValue: 0,
 };
 
-const getDate = () => {
-  return (new Date().toISOString().split('T')[0]);
-};
+// const getDate = () => {
+//   return (new Date().toISOString().split('T')[0]);
+// };
 
 const CreateGoalForm = ({ username }) => {
   const [formValues, setFormValues] = useState(defaultValues);
 
-  const handleCheckBoxChange = () => {
-    setFormValues({
-      ...formValues,
-      dueDate: !formValues.dueDate,
-    });
-  };
+  // const handleCheckBoxChange = () => {
+  //   setFormValues({
+  //     ...formValues,
+  //     dueDate: !formValues.dueDate,
+  //   });
+  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,21 +41,33 @@ const CreateGoalForm = ({ username }) => {
     createGoal(username, formValues);
   };
 
-  return (
-    <Box sx={{ maxWidth: 850, flexGrow: 1, m: 2 }}>
-      <form onSubmit={handleSubmit}>
-        <h3>Add goal</h3>
-        <Paper>
-          <Grid 
-            container
-            spacing={1}
-            direction="row"
-            justifyContent="space-evenly"
-            alignItems="stretch"
-          >
+  const styles = {
+    inputs:{
+      minWidth: '100%',
+    },
+    form:{
+      gap:'16px',
+      p: 2,
+      boxSizing: 'border-box'
+    }
+  
+  };
 
-          
-            <Grid item xs={12} sm={6} >
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <Grid 
+          container 
+          direction="column" 
+          justifyContent="space-between" 
+          alignItems="center" 
+          alignSelf="left" 
+          gap={2}
+          sx={styles.form} 
+        >
+
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
               <TextField
                 id="title-input"
                 name="title"
@@ -63,11 +75,22 @@ const CreateGoalForm = ({ username }) => {
                 type="text"
                 value={formValues.title}
                 onChange={handleInputChange}
-                sx={{ m: 1 }}
+                fullWidth
+                variant="standard" 
+                size="small" 
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormGroup sx={{ margin: 1, }} >
+            {/* <Grid item xs={4}>
+              <FormGroup>
+                <FormControlLabel 
+                  control={
+                    <Checkbox 
+                      defaultChecked
+                      onChange={() => handleCheckBoxChange()} 
+                    />} 
+                  label="Due date" 
+                  size="small"
+                />
                 <TextField
                   disabled={!formValues.dueDate}
                   id="dueDate-input"
@@ -79,28 +102,26 @@ const CreateGoalForm = ({ username }) => {
                   }}
                   value={formValues.age}
                   onChange={handleInputChange}
+                  fullWidth
+                  variant="standard" 
+                  size="small"
                 />
-                <FormControlLabel 
-                  control={
-                    <Checkbox 
-                      defaultChecked
-                      onChange={() => handleCheckBoxChange()} 
-                    />} 
-                  label="Disable due date" 
-                />
-
               </FormGroup>
-            </Grid>
-            <Grid item xs={12} sm={5}>
+            </Grid> */}
+          </Grid>
+
+          <Grid container spacing={2} alignItems="flex-end">
+            <Grid item xs={8}>
+
               <FormControl
-                sx={{ margin: 1, }}
+              // sx={{ margin: 2 }}
               >
-                <FormLabel>Type</FormLabel>
                 <RadioGroup
                   name="type"
                   value={formValues.type}
                   onChange={handleInputChange}
                   row
+                  sx={{ justifyContent: 'space-between', alignSelf:'centre' }}
                 >
                   <FormControlLabel
                     key="cardio"
@@ -123,8 +144,7 @@ const CreateGoalForm = ({ username }) => {
                 </RadioGroup>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={3}>
-
+            <Grid item xs={4}>
               <FormControl 
                 disabled={!formValues.type}
                 sx={{ m: 1, minWidth: 120 }}
@@ -136,6 +156,9 @@ const CreateGoalForm = ({ username }) => {
                   id='target'
                   value={formValues.target}
                   onChange={handleInputChange}
+                  fullWidth
+                  variant="standard" 
+                  size="small" 
                 >
                   <MenuItem key="target" value="caloriesBurned">
                   Calories burned
@@ -176,7 +199,10 @@ const CreateGoalForm = ({ username }) => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={4}>
+        
+          </Grid>
+          <Grid container spacing={2} alignItems="flex-end">
+            <Grid item xs={8}>
               <TextField
                 id="targetValue-input"
                 name="targetValue"
@@ -185,16 +211,20 @@ const CreateGoalForm = ({ username }) => {
                 value={formValues.targetValue}
                 onChange={handleInputChange}
                 sx={{ margin: 1 }}
+                fullWidth
+                variant="standard" 
+                size="small" 
               />
             </Grid>
-          </Grid>
-          <Button variant="contained" color="primary" type="submit">
+            <Grid item xs={4} sx={{ display:'flex', alignItems: 'right', justifyContent: 'right' }}>
+              <Button variant="contained" color="primary" type="submit" sx={styles.btn}>
             Add goal
-          </Button>
-        </Paper>
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
       </form>
-    </Box>
-
+    </>
   );
 };
 export default CreateGoalForm;
