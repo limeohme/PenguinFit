@@ -1,16 +1,18 @@
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import { useContext } from 'react';
 import AppState from '../../providers/app-state';
-import { addMealToDB, updateUserNutrients } from '../../services/meals-service';
-// import { Card, CardActionArea, CardContent } from '@mui/material';
+import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';
+
 
 export default function SingleMeal({ meal }) {
   const { appState:{ user } } = useContext(AppState);
   
   const addMealHandler = (newMeal) => {
     addMealToDB(user.username, newMeal);
-    meal.foods.forEach((food) => {
-      updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats);
+    newMeal.foods.forEach((food) => {
+      updateDailyCalsGetter(user.username)
+        .then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error));
+      updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
     });
   };
 

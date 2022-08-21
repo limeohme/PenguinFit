@@ -1,7 +1,6 @@
 import {
   push,
   ref,
-  onChildAdded,
   query,
   orderByChild,
   limitToLast,
@@ -64,25 +63,24 @@ export const updateUserNutrients = (user, protein, carbs, fats) => {
 };
 
 export const updateDailyCalsGetter = (user, listen) => {
-  return onChildAdded(query(ref(db, `users/${user}/dataByDay`),
-    orderByChild('date'), equalTo(formatDateToString(new Date()).split(' ').slice(0, 4))), listen);
+  const date = formatDateToString(new Date()).split(' ').slice(0, 4).join(' ');
+  return get(query(ref(db, `users/${user}/dataByDay`),
+    orderByChild('date'), equalTo(date)), listen);
 };
 
 export const updateDailyCalsUpdater = (snapshot, user, cals) => {
   if (snapshot.exists()) {
-    update(query(ref(db, `users/${user}/dataByDay`),
-      orderByChild('date'), equalTo(formatDateToString(new Date()).split(' ').slice(0, 4))),
-    { ...Object.values(snapshot.val())[0], cal: { ...Object.values(snapshot.val())[0].cal, consumed: cals }  });
+    const key = Object.keys(snapshot.val())[0];
+    return update(ref(db, `users/${user}/dataByDay/${String(key)}`),
+      { ...Object.values(snapshot.val())[0], cal: { ...Object.values(snapshot.val())[0].cal, consumed: Object.values(snapshot.val())[0].cal.consumed + cals }  });
   } else {
-    set(query(ref(db, `users/${user}/dataByDay`),
-      orderByChild('date'), equalTo(formatDateToString(new Date()).split(' ').slice(0, 4))),
-    { ...createNewDataByDay(), cal:{ ...createNewDataByDay().cal, consumed: cals } });
+    return push(ref(db, `users/${user}/dataByDay`), { ...createNewDataByDay(), cal:{ ...createNewDataByDay().cal, consumed: cals } });
   }
 };
 
 function createNewDataByDay () {
   return {
-    date: formatDateToString(new Date()).split(' ').slice(0, 4),
+    date: formatDateToString(new Date()).split(' ').slice(0, 4).join(' '),
     dateVal: Date.parse(formatDateToString(new Date()).split(' ').slice(0, 4)),
     cal: {
       burned: 0,
