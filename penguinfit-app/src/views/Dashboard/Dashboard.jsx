@@ -7,12 +7,14 @@ import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
 import {
+  getGoalsDistribution,
+  getNutrientDistribution,
   getStatsToday
 } from '../../services/dashboard-service.js';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { BarActivityDurationByDay, BarCalorieBalanceByDay } from '../../components/BarChartsDash/BarChartsDash.jsx';
-import { PieGoalAchievement, PieNutrientsDistribution } from '../../components/PieChartsDash/PieChartsDash.jsx';
+import { BarActivityDurationByDay, BarCalorieBalanceByDay } from '../../components/BarCharts/BarCharts.jsx';
+import { PieGoalAchievement, PieNutrientsDistribution } from '../../components/PieCharts/PieCharts.jsx';
 import StatsCardsDash from '../../components/StatsCardDash/StatsCardDash.jsx';
 
 function Dashboard () {
@@ -20,6 +22,16 @@ function Dashboard () {
   const { appState, _setState } = useContext(AppState);
   const [water, setWater] = useState(0);
   const [date, setDate] = useState();
+  const [nutrients, setNutrients] = useState([]);
+  const [goals, setGoals] = useState([]);
+
+  useEffect(() => {
+    getGoalsDistribution().then((res) => setGoals(res), console.error);
+  }, []);
+
+  useEffect(() => {
+    getNutrientDistribution().then((res) => setNutrients(res), console.error);
+  }, []);
 
   useEffect(() => {
     setInterval(() => {
@@ -60,8 +72,8 @@ function Dashboard () {
           <Typography sx={style.dateStyle} variant='h5'>{date? formatDateToString(date): ''}</Typography>
         </Grid>
         <Grid container direction='row-reverse' sx={style.piessContainerStyle}>
-          <PieGoalAchievement/>
-          <PieNutrientsDistribution/>
+          <PieGoalAchievement goals={goals}/>
+          <PieNutrientsDistribution nutrients={nutrients}/>
         </Grid>
         {/* right chart*/}
         <BarCalorieBalanceByDay/>

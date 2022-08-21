@@ -1,7 +1,9 @@
 import { Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { ACTIVITIES_REQUEST_LIMIT } from '../../common/constants';
+import { BarStackedNutrientsByMeal } from '../../components/BarCharts/BarCharts';
 import MealForm from '../../components/MealForm/MealForm';
+import { PieNutrientsDistribution } from '../../components/PieCharts/PieCharts';
 import SingleMeal from '../../components/SingleMeal/SingleMeal';
 import AppState from '../../providers/app-state';
 import { getRecentMeals } from '../../services/meals-service';
@@ -53,7 +55,6 @@ function Meals () {
 
       <Grid item xs={12} sm={6.5}>
         <Typography variant='h5' sx={{ pb:2 }}>Statistics:</Typography>
-        {/* <DetailedGoalsStepper steps={ steps }></DetailedGoalsStepper> */}
         <Grid 
           container
           item
@@ -64,22 +65,20 @@ function Meals () {
         //   sx={{ p:4 }}
         //   spacing={4}
         >
-          <Grid item>
-            <Paper sx={{ height: '400px', backgroundColor: '#ffffff75' }}>
-                graphic
-            </Paper>
+          <Grid item container>
+            {meals.length? 
+              <BarStackedNutrientsByMeal/> :
+              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
+                <Typography variant='h4' >No data here yet...🥺 </Typography> </Grid>
+            }
           </Grid>
-          <Grid container item spacing={4}>
-            <Grid item xs={12} sm={6}>
-              <Paper sx={{ height: '300px', backgroundColor: '#ffffff75' }}>
-                graphic
-              </Paper>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Paper sx={{ height: '300px', backgroundColor: '#ffffff75' }}>
-                graphic
-              </Paper>
-            </Grid>
+          <Grid container item spacing={4}>            
+            {meals.length? <PieNutrientsDistribution/> : 
+              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
+                <Typography variant='h4' >No data here yet...🥺 </Typography> </Grid>}
+            {meals.length? <PieNutrientsDistribution/> : 
+              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px',  m: '2rem' }}>
+                <Typography variant='h4' >No data here yet...🥺</Typography></Grid>}
           </Grid>
         </Grid>
         

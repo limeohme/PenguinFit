@@ -1,17 +1,10 @@
 import { VictoryPie, VictoryLabel } from 'victory';
 import { Typography, Grid } from '@mui/material';
-import * as style from './PieChartsDashStyles.js';
-import { getGoalsDistribution, getNutrientDistribution } from '../../services/dashboard-service.js';
-import { useEffect, useState } from 'react';
+import * as style from './PieChartsStyles.js';
 
+export function PieNutrientsDistribution ({ nutrients }) {
+  
 
-
-export function PieGoalAchievement () {
-  const [nutrients, setNutrients] = useState([]);
-
-  useEffect(() => {
-    getNutrientDistribution().then((res) => setNutrients(res), console.error);
-  }, []);
   return (
     <Grid item xs={12} sm={12} md={6} sx={style.pieChartStyle}>
       <VictoryPie
@@ -34,11 +27,7 @@ export function PieGoalAchievement () {
   );
 }
 
-export function PieNutrientsDistribution () {
-  const [goals, setGoals] = useState([]);
-  useEffect(() => {
-    getGoalsDistribution().then((res) => setGoals(res), console.error);
-  }, []);
+export function PieGoalAchievement ({ goals }) {
 
   return (
     <Grid item xs={12} sm={12} md={6} sx={style.pieChartStyle}>
