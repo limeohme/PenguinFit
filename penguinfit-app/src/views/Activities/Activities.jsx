@@ -69,27 +69,20 @@ import { getLiveUserActivities, getMostRecentUserActivities } from '../../servic
 
 function Activities() {
   const [activities, setActivities] = useState([]);
-  //   const [test, setTest] = useState([]);
   const { appState:{ user } } = useContext(AppState);
 
   useEffect(() => {
     const unsubscribe = getLiveUserActivities(user.username, async () => {
-      const recent = await getMostRecentUserActivities(user.username, ACTIVITIES_REQUEST_LIMIT);
-      //   console.log(recent);
-      setActivities(recent);
-      
-    //   console.log(recent.map((act)=>act.createdOn));
+      try{
+        const recent = await getMostRecentUserActivities(user.username, ACTIVITIES_REQUEST_LIMIT);
+        setActivities(recent);
+      }catch(err){
+        console.error(err);
+      }
     });
 
     return () => unsubscribe();
   }, []);
-
-  //   useEffect(() => {
-  //     const unsubscribe = getSingleLiveUserActivity(user.username, async (activity) => {
-  //       console.log(activity.val());
-  //     });
-  //     return () => unsubscribe();
-  //   }, []);
 
   return(
     <Grid
@@ -117,7 +110,7 @@ function Activities() {
               ? activities.map(([id, activity])=> <SingleActivityView key={id} activity={activity}></SingleActivityView>) 
               : 'No activities yet'}
           </Grid>
-          
+
         </Grid>
 
       </Grid>

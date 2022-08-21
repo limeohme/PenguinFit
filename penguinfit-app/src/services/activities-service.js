@@ -1,16 +1,24 @@
 import { get, ref, onValue, update, remove, push, limitToLast, orderByChild, query } from 'firebase/database';
+import { activitiesMET } from '../common/activitiesMET';
 import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 // import { query, orderByChild, equalTo, onChildAdded, limitToLast, limitToFirst, startAfter, endBefore } from 'firebase/database';
 // import { POST_REQUEST_LIMIT } from '../common/constants';
 import { db } from '../config/firebase-config';
-import { formatDateToString, formatString } from '../utils/utils';
+import { formatString, getActivityTotalCalBurned, getDateAsString, getTimeAsString } from '../utils/utils';
 
-export const createActivityObject = (input = {}) => {
+export const createActivityObject = (user = {}, input = {}) => {
+  const { username, weight } = user;
+  const { title, duration } = input;
+  const calories = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
+
   return {
     ...input,
+    creator: username,
+    calories,
     searchTitle: formatString(input.title),
     dateValue: Date.now(),
-    createdOn: formatDateToString(new Date())
+    createdOn: getDateAsString(new Date()),
+    createdAt: getTimeAsString(new Date())
     // allKeywords: titleKeywordsToObject(input.title),
   };
 };
@@ -21,6 +29,17 @@ export const addActivity = (username, activityObj) => {
 
 export const getLiveUserActivities = (username, listen) => {
   return onValue(ref(db, `activities/${username}`), listen);
+};
+
+export const updateRelatedGoals = (user, activity) => {
+  const existingTargets = activity.details.filter(Boolean);
+
+  return Promise.all(
+    existingTargets.map((target, _, targets) => {
+      return console.log(targets[target]);
+      //   return updateGoalTarget(user.username, activity.type, target, targets[target]);
+    })
+  );
 };
 
 // export const getSingleLiveUserActivity = (username) => {
