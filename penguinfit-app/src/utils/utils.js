@@ -25,13 +25,10 @@ export function calculateBMIMessage(BMI) {
 
 export const formatDateToString = (date) => `
 ${date.toDateString()} ${date.toLocaleTimeString()} `;
-// `${date.getDate()} ${date
-//   .getMonth()
-//   .toString()
-//   .padStart(
-//     2,
-//     '0',
-//   )} ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+
+export const getDateAsString = (date) => date.toDateString();
+
+export const getTimeAsString = (date) => date.toLocaleTimeString();
 
 export const mapPages = (pages = null, mapperFn = () => null) => {
   if (!pages) return null;
