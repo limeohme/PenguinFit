@@ -1,7 +1,16 @@
 import { Button, Grid, Paper, Typography } from '@mui/material';
+import { useContext } from 'react';
+import AppState from '../../providers/app-state';
+import { addMealToDB } from '../../services/meals-service';
 // import { Card, CardActionArea, CardContent } from '@mui/material';
 
 export default function SingleMeal({ meal }) {
+  const { appState:{ user } } = useContext(AppState);
+  
+  const addMealHandler = (newMeal) => {
+    addMealToDB(user.username, newMeal);
+  };
+
   return (
     <Paper sx={{ display: 'flex' , backgroundColor: '#6633ff10', p: 2 }}>
 
@@ -28,7 +37,7 @@ export default function SingleMeal({ meal }) {
             <Typography>{`${meal.cal.toFixed(2)} kcal`}</Typography>
           </Grid>
           <Grid item container xs={6} sm={6} justifyContent='center'>
-            <Button variant="text" color="primary" size='small' sx={{ ml:'auto' }}>ADD</Button>
+            <Button variant="text" color="primary" size='small' sx={{ ml:'auto' }} onClick={() => addMealHandler(meal)}>ADD</Button>
           </Grid>
         </Grid>
       </Grid>
