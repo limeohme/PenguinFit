@@ -5,16 +5,27 @@ import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 // import { POST_REQUEST_LIMIT } from '../common/constants';
 import { db } from '../config/firebase-config';
 import { formatString, getActivityTotalCalBurned, getDateAsString, getTimeAsString } from '../utils/utils';
+import { updateGoalsByTarget } from './goals-service';
 
 export const createActivityObject = (user = {}, input = {}) => {
   const { username, weight } = user;
-  const { title, duration } = input;
-  const calories = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
+  const { title, duration, type, distance, kg, sets, reps, buddy } = input;
+  const caloriesBurned = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
 
   return {
-    ...input,
     creator: username,
-    calories,
+    title,
+    duration,
+    type,
+    details: {
+      caloriesBurned,
+      duration,
+      distance,
+      kg,
+      sets,
+      reps
+    },
+    buddy,
     searchTitle: formatString(input.title),
     dateValue: Date.now(),
     createdOn: getDateAsString(new Date()),
@@ -31,15 +42,17 @@ export const getLiveUserActivities = (username, listen) => {
   return onValue(ref(db, `activities/${username}`), listen);
 };
 
-export const updateRelatedGoals = (user, activity) => {
-  const existingTargets = activity.details.filter(Boolean);
+export const updateRelatedGoals = (username, activity) => {
+  console.log(activity.details);
+  const existingTargets = Object.entries(activity.details).filter((det) => det[1] !== 0);
+
+  console.log(existingTargets);
 
   return Promise.all(
-    existingTargets.map((target, _, targets) => {
-      return console.log(targets[target]);
-      //   return updateGoalTarget(user.username, activity.type, target, targets[target]);
+    existingTargets.map(([key, value]) => {
+      return updateGoalsByTarget(username, activity.type, key, value);
     })
-  );
+  ).catch(console.error);
 };
 
 // export const getSingleLiveUserActivity = (username) => {

@@ -4,7 +4,7 @@ import { activitiesMET } from '../../common/activitiesMET';
 import { activityTypes } from '../../common/activity-types';
 // import { getActivityTotalCalBurned } from '../../utils/utils';
 import { listenToFriends } from '../../services/user-service';
-import { addActivity, createActivityObject } from '../../services/activities-service';
+import { addActivity, createActivityObject, updateRelatedGoals } from '../../services/activities-service';
 import { 
   Autocomplete, 
   Button, 
@@ -41,7 +41,7 @@ const CreateActivityForm = () => {
     duration: 0,
     type: '',
     distance: 0,
-    weight: 0,
+    kg: 0,
     sets: 0,
     reps: 0,
     buddy: ''
@@ -121,14 +121,7 @@ const CreateActivityForm = () => {
         return;
       }
     }
-
-    // optimize -> in createActivity/Obj()
-
-    // const { username, weight } = user;
-    // const { title, duration } = formValues;
-    // const calories = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
-
-    // const activityInput = { ...formValues, calories };
+    
     const activityObj = createActivityObject(user, formValues);
 
     if(activityObj.buddy){
@@ -138,8 +131,14 @@ const CreateActivityForm = () => {
 
     addActivity(user.username, activityObj)
       .then(() => {
-        setFormValues(defaultValues);
-        setFormErrors(defaultErrors);
+        return updateRelatedGoals(user.username, activityObj).then((snapshot) => {
+
+          console.log(snapshot);
+
+          setFormValues(defaultValues);
+          setFormErrors(defaultErrors);
+        });
+        
       })
       .catch(console.error);
   };
@@ -167,7 +166,7 @@ const CreateActivityForm = () => {
 
   const renderTypeDetails = (types, defaults, changeHandler) => {
     const getAdornment = (type) => {
-      if(type === 'weight') return 'kg';
+      if(type === 'kg') return 'kg';
       if(type === 'distance') return 'km';
       return '';
     };
