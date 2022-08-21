@@ -7,10 +7,10 @@ import FriendsAutocomplete from '../FriendsAutocomplete/FriendsAutocomplete';
 const getAddFriendsOptions = (friends, users, username) => {
   // eslint-disable-next-line no-unused-vars
   const { [username]:remove , ...usersCopy } = users;
-  for (const friend in friends){
-    delete usersCopy[friend];
+  for (const friend of friends){
+    delete usersCopy[friend.username];
   }
-  return usersCopy;
+  return Object.keys(usersCopy);
 };
 
 export default function RenderFriendsManagement({ username }) {
@@ -21,13 +21,13 @@ export default function RenderFriendsManagement({ username }) {
     getAllUsers()
       .then((snapshot) => setUsers(snapshot.val()));
     getUserFriends(username)
-      .then((userGoals) => setFriends(userGoals));
+      .then((UserFriends) => setFriends(UserFriends));
   }, []);
 
   useEffect(() => {
     const unsubscribe = listenToFriends(username, () => {
       getUserFriends(username)
-        .then((userGoals) => setFriends(userGoals));
+        .then((UserFriends) => setFriends(UserFriends));
     });
     return () => unsubscribe();
   }, []);
@@ -35,10 +35,14 @@ export default function RenderFriendsManagement({ username }) {
   return (
     <>
       <FriendsAutocomplete 
-        notFriends={Object.keys(getAddFriendsOptions(friends, users, username)) }
-        username={username} >
+        notFriends={getAddFriendsOptions(friends, users, username)}
+        username={username} 
+      >
       </FriendsAutocomplete>
-      <DisplayFriends friends={ Object.keys(friends) } username={username} ></DisplayFriends>
+      <DisplayFriends 
+        friends={ friends }
+        username={username} >
+      </DisplayFriends>
     </>
   );
 };

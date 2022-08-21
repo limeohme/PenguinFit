@@ -16,7 +16,7 @@ export default function FriendsAutocomplete({ username, notFriends }) {
     if (event.key === 'Enter') {
       // Prevent's default 'Enter' behavior.
       event.defaultMuiPrevented = true;
-      console.log(selectedOptions);
+      // console.log(selectedOptions);  
       addUserFriends(username, selectedOptions);
       setSelectedOptions([]);
     }

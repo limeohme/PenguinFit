@@ -6,15 +6,24 @@ export const getUserByHandle = (handle) => {
   return get(ref(db, `users/${handle}`));
 };
 
-export const getUserFriends = (username) => {
-  return get(ref(db, `users/${username}/friends`))
-    .then((snapshot) => {
-      if (!snapshot.val()) {
+export const getUserFriends = (handle) => {
+
+  return get(ref(db, `users/${handle}/friends`))
+    .then(snapshotFriendsHandle => {
+      if (!snapshotFriendsHandle.val()) {
         return [];
       }
-      return snapshot.val();
-    })
-    .catch(console.error);
+
+      const friendsHandles = snapshotFriendsHandle.val();
+
+      return Promise.all(Object.keys(friendsHandles).map(key => {
+
+        return get(ref(db, `users/${key}`))
+          .then(snapshotFriend => {
+            return snapshotFriend.val();
+          });
+      }));
+    });
 };
 
 export const getUserFriendsByHandle = async (handles = []) => {
@@ -52,6 +61,7 @@ export const listenToFriends = (username, listen) => {
 export const createUserHandle = (userInfo) => {
   return set(ref(db, `users/${userInfo.username}`), userInfo);
 };
+
 
 export const updateUserInfoDB = (username, userNewInfo) => {
   if (userNewInfo.age) {
