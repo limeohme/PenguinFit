@@ -1,4 +1,4 @@
-import { Button, Grid } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';
 import DetailedGoalsStepper from '../../components/DetailedGoalsStepper/DetailedGoalsStepper';
@@ -78,27 +78,47 @@ function Goals() {
     <Grid
       container
       direction="row"
-      justifyContent="center"
-      alignItems="center"
+      justifyContent="left"
+      alignItems="left"
+      sx={{ p:3 }}
+      spacing={4}
     >
-      <Grid item xs={12} sm={4}>
-        <DetailedGoalsStepper steps={getSteps(goals)}></DetailedGoalsStepper>
+      <Grid container item direction="column" gap={4} xs={12} sm={5.5}>
+        <Grid item>
+          <Typography variant='h5' sx={{ pb:2 }}>New goal:</Typography>
+          <Paper sx={{ backgroundColor: '#ffffff75' }}>
+            <CreateGoalForm username={user.username}></CreateGoalForm>
+          </Paper>
+        </Grid>
+        <Grid container item direction="column">
+          <Typography variant='h5' sx={{ pb:2 }}>Friends :</Typography>
+          
+          <Grid container item direction="column" gap={1.5} justifyContent='centre'>
+            <FriendsComparisonStepper steps={ friends }> </FriendsComparisonStepper>
+
+          </Grid>
+          
+        </Grid>
       </Grid>
 
-      <Grid item xs={12} sm={8}>
-        <Grid container direction="row">
-          <Grid item xs={12} sm={6}>
-            <FriendsComparisonStepper steps={ friends }> </FriendsComparisonStepper>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FriendsComparisonStepper steps={ friends }> </FriendsComparisonStepper>
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <CreateGoalForm username={user.username}></CreateGoalForm>
+      <Grid item xs={12} sm={6.5} >
+        <Typography variant='h5' sx={{ pb:2 }}>Your goals:</Typography>
+        <Grid 
+          container
+          item
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          gap={4}
+        >
+          <Grid item >
+            <Paper sx={{ backgroundColor: '#ffffff75' }}>
+              <DetailedGoalsStepper steps={getSteps(goals)}></DetailedGoalsStepper>
+            </Paper>
           </Grid>
         </Grid>
       </Grid>
-      <Button onClick={ () => console.log(goals) }>OPA</Button> 
+      
     </Grid>
   ); 
 };
