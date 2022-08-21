@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import AppState from '../../providers/app-state';
 import { activitiesMET } from '../../common/activitiesMET';
 import { activityTypes } from '../../common/activity-types';
-import { getActivityTotalCalBurned } from '../../utils/utils';
+// import { getActivityTotalCalBurned } from '../../utils/utils';
 import { listenToFriends } from '../../services/user-service';
 import { addActivity, createActivityObject } from '../../services/activities-service';
 import { 
@@ -124,23 +124,20 @@ const CreateActivityForm = () => {
 
     // optimize -> in createActivity/Obj()
 
-    const { username, weight } = user;
-    const { title, duration } = formValues;
-    const calories = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
+    // const { username, weight } = user;
+    // const { title, duration } = formValues;
+    // const calories = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
 
-    const activityInput = { ...formValues, calories };
-    const activityObj = createActivityObject(activityInput);
+    // const activityInput = { ...formValues, calories };
+    const activityObj = createActivityObject(user, formValues);
 
     if(activityObj.buddy){
-      const activityObjOfBuddy = { ...activityObj, buddy: username };
+      const activityObjOfBuddy = { ...activityObj, buddy: user.username };
       addActivity(activityObj.buddy, activityObjOfBuddy).catch(console.error);
     };
 
-    addActivity(username, activityObj)
+    addActivity(user.username, activityObj)
       .then(() => {
-        // console.log('activity added');
-        // console.log(activityObj);
-
         setFormValues(defaultValues);
         setFormErrors(defaultErrors);
       })
