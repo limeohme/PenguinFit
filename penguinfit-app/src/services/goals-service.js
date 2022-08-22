@@ -13,7 +13,7 @@ export const createGoal = (user, goal) =>
     update(ref(db, `goals/${user}/${goal.type}/${goal.target}/${path.key}`), { ...goal, id: path.key })
   );
 export const goalsListener = (username, listen) => {
-  return onValue(ref(db, `goals/${username}/other`), listen);
+  return onValue(ref(db, `goals/${username}`), listen);
 };
 
 export const cardioListener = (username, listen) => {

@@ -4,7 +4,7 @@ import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';
 import DetailedGoalsStepper from '../../components/DetailedGoalsStepper/DetailedGoalsStepper';
 import FriendsComparisonStepper from '../../components/FriendsComparisonStepper/FriendsComparisonStepper';
 import AppState from '../../providers/app-state';
-import { getUserGoals, strengthListener, cardioListener, goalsListener } from '../../services/goals-service';
+import { goalsListener } from '../../services/goals-service';
 // user friends
 const friends = [{
   title:'exercisesCount',
@@ -57,22 +57,33 @@ const getSteps = (obj) => {
 
 function Goals() {
   const { appState } = useContext(AppState);
-  const [ goals, setGoals ] = useState({});
+  const [ goals, _setGoals ] = useState({});
   const user = appState.user;
 
-  const ListenTo = (listener, username) => {
-    useEffect(() => {
-      const unsubscribe = listener(username, () => {
-        getUserGoals(username)
-          .then((userGoals) => setGoals(userGoals));
-      });
-      return () => unsubscribe();
-    }, []);
-  };
 
-  ListenTo(goalsListener, user.username);
-  ListenTo(cardioListener, user.username);
-  ListenTo(strengthListener, user.username);
+  useEffect(() => {
+    const unsubscribe = goalsListener(user.username, (snapshot) => {
+      console.log(snapshot.val());
+      
+      // getUserGoals(username)
+      //   .then((userGoals) => setGoals(userGoals));
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // const ListenTo = (listener, username) => {
+  //   useEffect(() => {
+  //     const unsubscribe = listener(username, () => {
+  //       getUserGoals(username)
+  //         .then((userGoals) => setGoals(userGoals));
+  //     });
+  //     return () => unsubscribe();
+  //   }, []);
+  // };
+
+  // ListenTo(goalsListener, user.username);
+  // ListenTo(cardioListener, user.username);
+  // ListenTo(strengthListener, user.username);
 
   return(
     <Grid
