@@ -12,7 +12,7 @@ export const createGoal = (user, goal) =>
   push(ref(db, `goals/${user}/${goal.type}/${goal.target}`), goal).then((path) =>
     update(ref(db, `goals/${user}/${goal.type}/${goal.target}/${path.key}`), { ...goal, id: path.key })
   );
-  
+
 export const goalsListener = (username, listen) => {
   return onValue(ref(db, `goals/${username}`), listen);
 };
@@ -55,8 +55,8 @@ export const updateGoalsByTarget = (username, type, target, newTargetValue) => {
           return { handle: key, currentValue: goal.currentValue };
         });
 
-      console.log('notYetGoalHandles');
-      console.log(notYetGoalHandles);
+      // console.log('notYetGoalHandles');
+      // console.log(notYetGoalHandles);
 
       const updates = notYetGoalHandles.reduce((upd, { handle, currentValue }) => {
         const path = `${username}/${type}/${target}/${handle}`;
@@ -67,8 +67,8 @@ export const updateGoalsByTarget = (username, type, target, newTargetValue) => {
         };
       }, {});
 
-      console.log('updates');
-      console.log(updates);
+      // console.log('updates');
+      // console.log(updates);
 
       return update(ref(db), updates);
     })
