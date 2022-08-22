@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography } from '@mui/material';
+import { Button, Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { ACTIVITIES_REQUEST_LIMIT, MEAL_TYPES } from '../../common/constants';
 import { BarCaloriesByMeal } from '../../components/BarCharts/BarCharts';
@@ -9,6 +9,8 @@ import AppState from '../../providers/app-state';
 import { getMealByType, getMealCalsByType, getRecentMeals } from '../../services/meals-service';
 import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';
 import { formatDateToString } from '../../utils/utils';
+import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
+import { updateDailyWaterGetter, updateDailyWaterUpdater } from '../../services/meals-service';
 
 function Meals () {
 
@@ -39,13 +41,20 @@ function Meals () {
   });
 
   const addMealHandler = (newMeal) => {
-    addMealToDB(user.username, { ...newMeal, createdOn: formatDateToString(new Date()), dateVal: Date.parse(formatDateToString(new Date())) });
-    setMeals([...meals, { ...newMeal, createdOn: formatDateToString(new Date()), dateVal: Date.parse(formatDateToString(new Date())) } ]);
+    const theDate = formatDateToString(new Date());
+    addMealToDB(user.username, { ...newMeal, createdOn: theDate, dateVal: Date.parse(theDate) });
+    setMeals([...meals, { ...newMeal, createdOn: theDate, dateVal: Date.parse(theDate) } ]);
     newMeal.foods.forEach((food) => {
-      updateDailyCalsGetter(user.username)
-        .then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error));
+      updateDailyCalsGetter(user.username).then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error));
       updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
     });
+  };
+
+  const AddWaterHandler = () => {
+    console.log('what');
+    const unsub = updateDailyWaterGetter(user.username).then((snapshot) => updateDailyWaterUpdater(snapshot, user.username).catch(console.error));
+    return unsub;
+
   };
 
 
@@ -66,6 +75,14 @@ function Meals () {
           </Paper>
         </Grid>
         <Grid container item direction="column">
+          <Grid item container direction="row" sx={{ backgroundColor: '#ffffff75', mb: '1rem', p: '1rem', boxShadow: 1, }}>
+            <Grid item xs={2}><LocalDrinkIcon sx={{ fontSize: '2rem' }}/></Grid>
+            <Grid item xs={6}><Typography variant='h6'>Add Water</Typography></Grid>
+            <Grid item xs={4}>
+              <Button variant="contained" color="primary" sx={{ width: '100%', boxSizing: 'border-box' }}
+                onClick={AddWaterHandler}>+ 250 ml</Button>
+            </Grid>
+          </Grid>
           <Typography variant='h5' sx={{ pb:2 }}>Recent meals:</Typography>
           
           <Grid container item direction="column-reverse" gap={1.5} justifyContent='center'>

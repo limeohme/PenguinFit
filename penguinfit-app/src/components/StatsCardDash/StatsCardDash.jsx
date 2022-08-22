@@ -1,10 +1,10 @@
-import { CardActions, CardContent, Typography, Card } from '@mui/material';
+import { CardContent, Typography, Card } from '@mui/material';
 import { useEffect, useState } from 'react';
+
 import { getStatsToday } from '../../services/dashboard-service.js';
 import * as style from './StatsCardDashStyles.js';
 
-export default function StatsCardDash ({ type, IconComponent, water, }) {
-
+export default function StatsCardDash ({ type, IconComponent, water }) {
   const [cals, setCals] = useState(0);
   const [steps, setSteps] = useState(0);
 
@@ -15,6 +15,7 @@ export default function StatsCardDash ({ type, IconComponent, water, }) {
     });
     return unsub;
   });
+
 
   const chooseContent = () => {
     if (type === 'cals') {
@@ -45,12 +46,6 @@ export default function StatsCardDash ({ type, IconComponent, water, }) {
           })()}
         </Typography>
       </CardContent>
-      {type === 'water'? 
-        <CardActions sx={{ display: 'flex', flexDirection: 'column', justifyItems: 'center' }}>
-          {/* <Button size='small' onClick={() =>{ addWater('BabyPenguin78'); setWater(water + 250);}}>+</Button> */}
-        </CardActions>
-        : ''
-      }
     </Card>
   );
 }
