@@ -3,7 +3,7 @@ import AppState from '../../providers/app-state';
 import { activitiesMET } from '../../common/activitiesMET';
 import { activityTypes } from '../../common/activity-types';
 // import { getActivityTotalCalBurned } from '../../utils/utils';
-import { listenToFriends } from '../../services/user-service';
+import { getUserDataOfDay, listenToFriends, updateUserActivitiesDataByDay } from '../../services/user-service';
 import { addActivity, createActivityObject, updateRelatedGoals } from '../../services/activities-service';
 import { 
   Autocomplete, 
@@ -17,6 +17,8 @@ import {
   RadioGroup, 
   TextField 
 } from '@mui/material';
+// import { getDateAsString } from '../../utils/utils';
+// import { upTheUser } from '../../mock-data/dash-mock-data';
 
 const styles = {
   inputs:{
@@ -62,6 +64,7 @@ const CreateActivityForm = () => {
 
   useEffect(() => {
     const unsubscribe = listenToFriends(user.username, (snapshot) => {
+      
       if(snapshot.exists()){
         const userFriends = snapshot.val().friends;
         setFriends(Object.keys(userFriends));
@@ -100,6 +103,17 @@ const CreateActivityForm = () => {
     event.preventDefault();
     // console.log(formValues);
 
+    // upTheUser(user.username).then(console.log);
+
+    // const today = new Date();
+    // console.log(getDateAsString(today));
+    
+    getUserDataOfDay(user.username, 'Sat Aug 6 2022').then((snapshot)=>{
+      
+      console.log('FROM CREATE ACTIVITY FORM');
+      console.log(snapshot.val());
+    });
+
     // validations -> optimize -> in validateInputs() + setError()
 
     if(!validateTitle(formValues.title)){
@@ -137,15 +151,19 @@ const CreateActivityForm = () => {
         // updateDataByDay()
         // if walking -> updateSteps()
 
-        // refactor updateRelatedGoals
-        return updateRelatedGoals(user.username, activityObj).then((snapshot) => {
+        return updateUserActivitiesDataByDay(user.username, activityObj.details)
+          .then(() => {
+          // refactor updateRelatedGoals
 
-          console.log(snapshot);
+            return updateRelatedGoals(user.username, activityObj)
+              .then(() => {
 
-          setFormValues(defaultValues);
-          setFormErrors(defaultErrors);
-        });
-        
+                // console.log(snapshot);
+
+                setFormValues(defaultValues);
+                setFormErrors(defaultErrors);
+              });
+          });
       })
       .catch(console.error);
   };
