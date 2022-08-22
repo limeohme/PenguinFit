@@ -41,8 +41,8 @@ export const infoBoxStyle = {
   borderRadius: 2,
   border: 1,
   borderColor: purple[500],
-  p: '1rem',
-  m: '1rem',
+  p: '0.2rem',
+  m: '0.2rem',
   minWidth: '12rem',
   alignSelf: 'center',
   textAlign: 'center',
@@ -117,7 +117,7 @@ export const nameStyle = {
   fontWeight: 700,
   fontFamily: 'Monospace',
   letterSpacing: 4,
-  mt: 4,
+  my: 3,
   alignSelf: 'center',
   boxSizing: 'border-box'
 

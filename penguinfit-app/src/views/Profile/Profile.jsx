@@ -107,7 +107,7 @@ function Profile () {
               <SettingsRoundedIcon onClick={() => setEdit(!edit)} sx={{ alignSelf: 'center', ml: 10, mt: 0 }}/>:
               <Box sx={style.buttonBoxStyle}>
                 <Button onClick={() => editDetailsHandler(form)}>DONE</Button>
-                <Button onClick={() => {setMessage(''); setEdit(!edit); setUpload(false);}}>CANCEL</Button>
+                <Button onClick={() => {setMessage(''); setEdit(!edit); setUpload(false);}}>X</Button>
                 <Button onClick={() => {setUpload(true);}}>{'UPLOAD\nAVATAR'}</Button>
               </Box>
           
@@ -123,45 +123,34 @@ function Profile () {
             <Typography sx={style.messageStyle}>{message? message : ''}</Typography>
             
             <Typography sx={{ ...style.nameStyle }}>{appState.user.username}</Typography>
+            {edit? '' :
+              <>
+                <Typography  sx={{ ...style.infoBoxStyle }}>{`${appState.user.age} yrs`}</Typography>
+                <Typography sx={{ ...style.infoBoxStyle }}>{`${appState.user.email}`}</Typography>
+                <Typography sx={{ ...style.infoBoxStyle }}>{`${appState.user.phoneNumber}`}</Typography>
+                <Typography sx={{ ...style.infoBoxStyle }}>{`${appState.user.height} cm`}</Typography>
+                <Typography sx={{ ...style.infoBoxStyle }}>{`${appState.user.weight} kg`}</Typography>
+              </>
+            }
 
-            <Box sx={{ ...style.infoBoxStyle }}>
-              {!edit ? <Typography >{`${appState.user.age} yrs`}</Typography>:
+            { edit === true ?
+              <Box sx={{ display: 'flex', flexDirection: 'column', my: '1rem' }}>
                 <TextField variant="standard" placeholder={appState.user.age + ' years'} type='text'  
-                  onChange={(e) => setForm({ ...form, age: e.target.value })}/>}
-            </Box>
-            <Box sx={style.infoBoxStyle}>{
-              !edit ? appState.user.email : 
+                  onChange={(e) => setForm({ ...form, age: e.target.value })}/>
                 <TextField variant="standard" placeholder={appState.user.email} type='text' 
                   onChange={(e) => setForm({ ...form, email: e.target.value })}/>
-            }</Box>
-            <Box sx={style.infoBoxStyle}>{
-              !edit ? appState.user.phoneNumber : 
                 <TextField variant="standard" placeholder={appState.user.phoneNumber} type='text'  
                   onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}/>
-            }</Box>
-            <Box sx={style.infoBoxStyle}>{
-              !edit ? appState.user.height + ' cm' : 
                 <TextField variant="standard" placeholder={appState.user.height + ' cm'} type='text'  
                   onChange={(e) => setForm({ ...form, height: e.target.value })}/>
-            }</Box>
-            <Box sx={style.infoBoxStyle}>{
-              !edit ? appState.user.weight + ' kg' : 
                 <TextField variant="standard" placeholder={appState.user.weight + ' kg'} type='text' 
                   onChange={(e) => setForm({ ...form, weight: e.target.value })}/>
-            }</Box>
-            { edit === true ?
-              <>
-                <Box sx={style.infoBoxStyle}>{
-                  !edit ? appState.user.height : 
-                    <TextField variant="standard" placeholder='New password' value={form.password} type='password' 
-                      onChange={(e) => setForm({ ...form, password: e.target.value })}/>
-                }</Box>
-                <Box sx={style.infoBoxStyle}>{
-                  !edit ? appState.user.weight : 
-                    <TextField variant="standard" placeholder='Confirm password' value={form.confirmPassword} type='password' 
-                      onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}/>
-                }</Box>
-              </>: ''
+                <TextField variant="standard" placeholder='New password' value={form.password} type='password' 
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}/>            
+                <TextField variant="standard" placeholder='Confirm password' value={form.confirmPassword} type='password' 
+                  onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}/>
+            
+              </Box>: ''
             }
           </Grid>
           <Grid item xs md sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
