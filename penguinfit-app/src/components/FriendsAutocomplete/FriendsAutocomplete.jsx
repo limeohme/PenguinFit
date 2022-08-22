@@ -44,7 +44,7 @@ export default function FriendsAutocomplete({ username, notFriends }) {
           {option}
         </li>
       )}
-      style={{ width: 500 }}
+      style={{ minWidth: '15rem' }}
       renderInput={(params) => (
         <TextField {...params} label="Add friends" placeholder="Add friends" />
       )}

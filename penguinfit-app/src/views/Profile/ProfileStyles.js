@@ -5,21 +5,14 @@ export const palePink = pink[50];
 export const blue = indigo[400];
 export const deepBlue = indigo[800];
 
-export const wrapperContainerStyle = {
-  gap: '2rem',
-  my: '3rem',
-  px: '2rem',
-};
 
 export const userInfoContainer = {
   display: 'flex',
-  flexDirection: 'row',
   // bgcolor: '#6633ff10',
   bgcolor: 'transparent',
   boxShadow: 2,
   borderRadius: 2,
-  my: '1rem',
-  py: '1rem',
+  boxSizing: 'border-box'
 };
 
 export const friendsContainer = {
@@ -29,8 +22,7 @@ export const friendsContainer = {
   bgcolor: 'transparent',
   boxShadow: 2,
   borderRadius: 2,
-  my: '1rem',
-  py: '1rem',
+  boxSizing: 'border-box'
 };
 
 export const midiContainerStyle = {
@@ -38,7 +30,7 @@ export const midiContainerStyle = {
   flexDirection: 'column',
   justifyContent: 'space-between',
   bgcolor: 'none',
-  width: 'fit-content'
+  boxSizing: 'border-box'
 };
 
 export const infoBoxStyle = {
@@ -56,6 +48,7 @@ export const infoBoxStyle = {
   textAlign: 'center',
   justifyContent: 'space-around',
   alignItems: 'center',
+  boxSizing: 'border-box'
 };
 
 export const sideBoxStyleGreen = {
@@ -72,7 +65,8 @@ export const sideBoxStyleGreen = {
   minWidth: '12rem',
   justifyContent: 'space-around',
   m: '1.5rem',
-  alignItems: 'center'
+  alignItems: 'center',
+  boxSizing: 'border-box'
 };
 
 export const sideBoxStyleBlue = {
@@ -83,25 +77,28 @@ export const sideBoxStyleBlue = {
   borderStyle: 'dashed',
   borderColor: '#FFF',  
   // bgcolor: 'rgb(92, 107, 192, 0.2)',
-  p: '4.5rem',
-  m: '1.5rem',
+  p: 2,
+  m: 2,
   alignSelf: 'center',
   textAlign: 'center',
   minWidth: '12rem',
   justifyContent: 'space-around',
-  alignItems: 'center'
+  alignItems: 'center',
+  boxSizing: 'border-box'
 };
 
 export const buttonBoxStyle = {
   display: 'flex',
   flexDirection: 'row',
-  alignSelf: 'center'
+  alignSelf: 'center',
+  boxSizing: 'border-box'
 };
 
 export const editStyle = {
   p: 0,
   m: 0,
-  outline: 0
+  outline: 0,
+  boxSizing: 'border-box'
 };
 
 
@@ -109,9 +106,10 @@ export const avatarStyle = {
   width: '8rem',
   height: '8rem',
   alignSelf: 'center',
-  p: '0.4rem',
-  my: '1rem',
-  bgcolor: 'transparent'
+  p: '0.3rem',
+  mt: '1rem',
+  bgcolor: 'transparent',
+  boxSizing: 'border-box'
 };
 
 export const nameStyle = {
@@ -119,7 +117,9 @@ export const nameStyle = {
   fontWeight: 700,
   fontFamily: 'Monospace',
   letterSpacing: 4,
+  mt: 4,
   alignSelf: 'center',
+  boxSizing: 'border-box'
 
 };
 
@@ -132,11 +132,12 @@ export const ageStyle = {
 };
 
 export const BMIStyle = {
-  fontSize: 58,
+  fontSize: 42,
   fontWeight: 700,
   fontFamily: 'Monospace',
   letterSpacing: 4,
-  color: purple[900]  
+  color: purple[900],
+  boxSizing: 'border-box' 
 };
 
 export const BMINumberStyle = {

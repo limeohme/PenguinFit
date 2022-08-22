@@ -8,7 +8,7 @@ export default function SingleFriendView({ friend, user }) {
   };
 
   return (
-    <Box sx={{ minWidth: 500 }}>
+    <Box >
       <Paper sx={{ display: 'flex' , backgroundColor: '#6633ff10', p: 2 }}>
         <Grid 
           container
@@ -17,14 +17,14 @@ export default function SingleFriendView({ friend, user }) {
           alignItems="center"
           spacing={5} 
         >
-          <Grid item xs={2} sm={2}>
+          <Grid item xs sm>
             <Avatar alt={friend.username} src={friend.avatarURL} />
           </Grid>
-          <Grid item xs={7} sm={7} >
+          <Grid item xs sm >
             <Typography variant='h5'>{friend.username}</Typography>
           </Grid>
-          <Grid item xs={3} sm={3} alignItems="flex-start" >
-            <Button variant="contained" color="primary" onClick={() => handleDelete( user, friend.username)}  >Remove</Button>
+          <Grid item xs sm alignItems="flex-start" >
+            <Button variant="contained" color="primary" onClick={() => handleDelete( user, friend.username)}  >x</Button>
           </Grid>
         </Grid>
       </Paper>

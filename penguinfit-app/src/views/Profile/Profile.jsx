@@ -16,6 +16,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../config/firebase-config.js';
 import { Stack } from '@mui/system';
 import RenderFriendsManagement from '../../components/RenderFriendsManagement/RenderFriendsManagement.jsx';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 
 
 function Profile () {
@@ -97,13 +98,13 @@ function Profile () {
   
   
   return (
-    <Grid container spacing={2} direction="row"  sx={style.wrapperContainerStyle}>
-      <Grid item xs md sx={style.userInfoContainer}>
+    <Grid container spacing={2} direction="row" sx={{ mt: 5 }}>
+      <Grid item container xs md>
         <Grid container direction="row">
-          <Grid item xs md sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
+          <Grid item xs md sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'center', alignItems: 'center' }}>
             <Avatar sx={style.avatarStyle} alt={appState.user.username} src={appState.user.avatarURL || getRandomAvatar(appState.user.username)} />
             {!edit ? 
-              <Button onClick={() => setEdit(!edit)}>EDIT</Button>:
+              <SettingsRoundedIcon onClick={() => setEdit(!edit)} sx={{ alignSelf: 'center', ml: 10, mt: 0 }}/>:
               <Box sx={style.buttonBoxStyle}>
                 <Button onClick={() => editDetailsHandler(form)}>DONE</Button>
                 <Button onClick={() => {setMessage(''); setEdit(!edit); setUpload(false);}}>CANCEL</Button>
@@ -178,15 +179,15 @@ function Profile () {
         
         </Grid>
       </Grid>
-      <Grid item xs md sx={style.friendsContainer}>
+      <Grid item xs md>
         <Box sx={{ flexGrow: 1, m: 2, p:2 }}>
-          <Paper>
+          <Paper sx={{ bgcolor: 'transparent', boxShadow: 'none' }}>
             <Stack
               direction="column"
               justifyContent="center"
               alignItems="center"
               spacing={2}>
-              <Typography align="center" >Friends</Typography>
+              <Typography align="center" variant='h5'>Friends</Typography>
               <RenderFriendsManagement username={ appState.user.username }></RenderFriendsManagement>
             </Stack>
           </Paper>
