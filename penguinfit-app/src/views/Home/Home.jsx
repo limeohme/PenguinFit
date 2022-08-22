@@ -13,11 +13,11 @@ export default function Home({ isMdUp }) {
       justifyContent="center"
       alignItems="center"
       // rowSpacing = {3}
-      sx={{ flex: 1, boxSizing: 'border-box', padding: '0 2em' }}
+      sx={{ flex: 1, boxSizing: 'border-box', padding: '0 2em', mt: '4rem' }}
     >
       <Grid item xs={12} sm={5}  sx={{ pl: padding, display: 'flex', flexDirection: 'column' }}>
 
-        <Typography variant="h6" sx={{ width: '100%', mt: '2rem' }}>
+        <Typography variant="h6" sx={{ width: '100%',  }}>
           Stay Fit,<br/>
           Track your progress,
         </Typography>
