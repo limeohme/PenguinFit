@@ -51,39 +51,25 @@ const extractGoals = (obj) => {
   return Object.values(obj).map(el => Object.values(el) );
 };
 
+
 const getSteps = (obj) => {
-  return [...extractGoals(obj.cardio), ...extractGoals(obj.strength), ...extractGoals(obj.other) ].flat();
+  if(!obj) return [];
+  console.log(obj);
+  return [...extractGoals(obj.general), ...extractGoals(obj.byExercise)].flat();
 };
 
 function Goals() {
   const { appState } = useContext(AppState);
-  const [ goals, _setGoals ] = useState({});
+  const [ goals, setGoals ] = useState({});
   const user = appState.user;
 
 
   useEffect(() => {
     const unsubscribe = goalsListener(user.username, (snapshot) => {
-      console.log(snapshot.val());
-      
-      // getUserGoals(username)
-      //   .then((userGoals) => setGoals(userGoals));
+      setGoals(snapshot.val());
     });
     return () => unsubscribe();
   }, []);
-
-  // const ListenTo = (listener, username) => {
-  //   useEffect(() => {
-  //     const unsubscribe = listener(username, () => {
-  //       getUserGoals(username)
-  //         .then((userGoals) => setGoals(userGoals));
-  //     });
-  //     return () => unsubscribe();
-  //   }, []);
-  // };
-
-  // ListenTo(goalsListener, user.username);
-  // ListenTo(cardioListener, user.username);
-  // ListenTo(strengthListener, user.username);
 
   return(
     <Grid

@@ -1,6 +1,8 @@
 import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material';
 import { useState } from 'react';
 import { createGoal } from '../../services/goals-service';
+import { activitiesMET } from '../../common/activitiesMET';
+
 
 const defaultValues = {
   title: '',
@@ -13,19 +15,9 @@ const defaultValues = {
   currentValue: 0,
 };
 
-// const getDate = () => {
-//   return (new Date().toISOString().split('T')[0]);
-// };
-
 const CreateGoalForm = ({ username }) => {
   const [formValues, setFormValues] = useState(defaultValues);
 
-  // const handleCheckBoxChange = () => {
-  //   setFormValues({
-  //     ...formValues,
-  //     dueDate: !formValues.dueDate,
-  //   });
-  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -80,34 +72,6 @@ const CreateGoalForm = ({ username }) => {
                 size="small" 
               />
             </Grid>
-            {/* <Grid item xs={4}>
-              <FormGroup>
-                <FormControlLabel 
-                  control={
-                    <Checkbox 
-                      defaultChecked
-                      onChange={() => handleCheckBoxChange()} 
-                    />} 
-                  label="Due date" 
-                  size="small"
-                />
-                <TextField
-                  disabled={!formValues.dueDate}
-                  id="dueDate-input"
-                  name="dueDate"
-                  type="date"
-                  // defaultValue={getDate()}
-                  inputProps={{
-                    min: getDate(),
-                  }}
-                  value={formValues.age}
-                  onChange={handleInputChange}
-                  fullWidth
-                  variant="standard" 
-                  size="small"
-                />
-              </FormGroup>
-            </Grid> */}
           </Grid>
 
           <Grid container spacing={2} alignItems="flex-end">
@@ -124,22 +88,16 @@ const CreateGoalForm = ({ username }) => {
                   sx={{ justifyContent: 'space-between', alignSelf:'centre' }}
                 >
                   <FormControlLabel
-                    key="cardio"
-                    value="cardio"
+                    key="general"
+                    value="general"
                     control={<Radio size="small" />}
-                    label="Cardio"
+                    label="General"
                   />
                   <FormControlLabel
-                    key="strength"
-                    value="strength"
+                    key="byExercise"
+                    value="byExercise"
                     control={<Radio size="small" />}
-                    label="Strength"
-                  />
-                  <FormControlLabel
-                    key="other"
-                    value="other"
-                    control={<Radio size="small" />}
-                    label="Other"
+                    label="By exercise"
                   />
                 </RadioGroup>
               </FormControl>
@@ -160,41 +118,25 @@ const CreateGoalForm = ({ username }) => {
                   variant="standard" 
                   size="small" 
                 >
-                  <MenuItem key="target" value="caloriesBurned">
-                  Calories burned
-                  </MenuItem>
-                  <MenuItem key="duration" value="duration">
-                    <em>Duration</em>
-                  </MenuItem>
-          
-                  {formValues.type === 'cardio' && 
-                   <MenuItem key="distance" value="distance">
-                     <em>Distance</em>
+                  {formValues.type === 'general' && 
+                   <MenuItem key="caloriesBurned" value="caloriesBurned">
+                     <em>Calories burned</em>
                    </MenuItem>
                   }
-                  
-                  {formValues.type === 'cardio' &&
-                   <MenuItem key="steps" value="steps">
-                     <em>Steps</em>
+                  {formValues.type === 'general' && 
+                   <MenuItem key="duration" value="duration">
+                     <em>Duration</em>
                    </MenuItem>
                   }
-
-                  {formValues.type === 'strength' &&
-                   <MenuItem key="weight" value="weight">
-                     <em>Weight</em>
-                   </MenuItem>
+                  {formValues.type === 'byExercise' && 
+                   Object.keys(activitiesMET).sort().map((el) => {
+                     return(
+                       <MenuItem key={el} value={el}>
+                         <em>{el}</em>
+                       </MenuItem>
+                     );
+                   })
                   }
-                  {formValues.type === 'strength' &&
-                   <MenuItem key="reps" value="reps">
-                     <em>Reps</em>
-                   </MenuItem>
-                  }
-                  {formValues.type === 'strength' &&
-                   <MenuItem key="sets" value="sets">
-                     <em>Sets</em>
-                   </MenuItem>
-                  }
-                 
                 
                 </Select>
               </FormControl>
