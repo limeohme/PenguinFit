@@ -12,6 +12,8 @@ export const createActivityObject = (user = {}, input = {}) => {
   const { title, duration, type, distance, kg, sets, reps, buddy } = input;
   const caloriesBurned = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
 
+  // calculate steps if any
+
   return {
     creator: username,
     title,
@@ -43,10 +45,10 @@ export const getLiveUserActivities = (username, listen) => {
 };
 
 export const updateRelatedGoals = (username, activity) => {
-  console.log(activity.details);
+  //   console.log(activity.details);
   const existingTargets = Object.entries(activity.details).filter((det) => det[1] !== 0);
 
-  console.log(existingTargets);
+  //   console.log(existingTargets);
 
   return Promise.all(
     existingTargets.map(([key, value]) => {
