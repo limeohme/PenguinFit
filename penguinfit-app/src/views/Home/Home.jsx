@@ -1,4 +1,5 @@
 import { Button, Card, CardMedia, Grid, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 // import { Container } from '@mui/system';
 
 export default function Home({ isMdUp }) {
@@ -16,7 +17,7 @@ export default function Home({ isMdUp }) {
     >
       <Grid item xs={12} sm={5}  sx={{ pl: padding, display: 'flex', flexDirection: 'column' }}>
 
-        <Typography variant="h6" sx={{ width: '100%' }}>
+        <Typography variant="h6" sx={{ width: '100%', mt: '2rem' }}>
           Stay Fit,<br/>
           Track your progress,
         </Typography>
@@ -27,7 +28,8 @@ export default function Home({ isMdUp }) {
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
           Repellendus nostrum vel, ducimus aspernatur quae laboriosam enim et id similique esse ut dolore sit distinctio quis suscipit explicabo cupiditate. Vitae, ipsum!
         </Typography>
-        <Button variant="contained" size="large" sx={{ maxWidth: 'fit-content', backgroundColor:'#6633ff', mt: 4 }}>
+        <Button variant="contained" size="large" component={Link} to='/register'
+          sx={{ maxWidth: 'fit-content', backgroundColor:'#6633ff', mt: 4 }}>
           GET STARTED
         </Button>
 

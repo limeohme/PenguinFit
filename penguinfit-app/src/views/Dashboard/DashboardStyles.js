@@ -12,25 +12,20 @@ export const containerStyle = {
 
 export const midiContainerStyle = {
   alignSelf: 'start',
-  p: '1rem',
   my: '4rem',
+  boxSizing: 'border-box'
 };
 
 export const cardsContainerStyle = {
   display: 'flex',
   flexDirection: 'row',
-  gap: '0rem',
   justifyContent: 'space-around',
   alignSelf: 'center',
-  p: '1rem',
-  my: '2rem'
 };
 
 export const piessContainerStyle = {
   gap: '0rem',
   alignSelf: 'center',
-  p: '1rem',
-  my: '2rem'
 };
 
 export const salutationStyle = {
@@ -39,7 +34,7 @@ export const salutationStyle = {
   fontFamily: 'Monospace',
   letterSpacing: 3,
   px: '2rem',
-  mx: '1rem'  
+  boxSizing: 'border-box'
 
 };
 
@@ -49,6 +44,6 @@ export const dateStyle = {
   letterSpacing: 3,
   color: lightGreen[900],
   px: '2rem',
-  mx: '1rem'    
+  boxSizing: 'border-box'
 };
 
