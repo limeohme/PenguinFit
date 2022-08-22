@@ -55,13 +55,12 @@ function Meals () {
       direction="row"
       justifyContent="left"
       alignItems="left"
-      sx={{ p:3 }}
+      sx={{ p:3, mt: 3 }}
       spacing={4}
     >
-      <Grid container item direction="column" gap={4} xs={12} sm={5.5}>
+      <Grid container item direction="column"  gap={4} xs={12} sm={5.5}>
         <Grid item>
           <Typography variant='h5' sx={{ pb:2 }}>New meal:</Typography>
-          {/* <Divider></Divider> */}
           <Paper sx={{ backgroundColor: '#ffffff75' }}>
             <MealForm></MealForm>
           </Paper>
@@ -86,8 +85,7 @@ function Meals () {
           justifyContent="left"
           alignItems="left"
           gap={4}
-        //   sx={{ p:4 }}
-        //   spacing={4}
+          spacing={4}
         >
           <Grid item container  justifyContent="center" direction="column">
             {meals.length? 
