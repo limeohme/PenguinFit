@@ -6,7 +6,7 @@ export default function SingleActivityView({ activity }) {
   return (
     <Paper sx={{ 
       display: 'flex' ,
-      backgroundColor: '#6633ff10', p: 2, minHeight: '11em' }}>
+      backgroundColor: '#ffffff90', p: 2, minHeight: '11em' }}>
 
       <Grid container direction='column' columnGap={0} justifyContent='space-between' alignItems='center'>
 
@@ -26,6 +26,7 @@ export default function SingleActivityView({ activity }) {
         <Grid item container justifyContent='space-between' alignItems='centre' sx={{ color:'#00000050' }}>
 
           <Grid item xs={6} sm={6}>
+            {/* TODO: make dynamic */}
             <Typography>{`${activity.details.distance} km, ${activity.type}`}</Typography>
           </Grid>
 

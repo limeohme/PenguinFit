@@ -37,7 +37,8 @@ const useStyles = (theme) => ({
   },
   drawer: {
     flexShrink: 0,
-    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH, backgroundColor: '#6633ff15', pl: 6 }
+    color: 'white',
+    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH, backgroundColor: '#6633ff90', pl: 6 }
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -67,7 +68,7 @@ const useStyles = (theme) => ({
     display: 'flex',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    height: '30vh',
+    height: '15vh',
     zIndex: theme.zIndex.drawer + 1
   }
 });

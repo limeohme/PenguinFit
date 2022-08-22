@@ -86,19 +86,19 @@ const CreateActivityForm = () => {
   };
 
   const handleAutocompleteChange = (e, val = '') => {
-    
+
     setFormValues({
       ...formValues,
       [e?.target.id.split('-')[0]]: val
     });
-
+    
   };
 
   const handleAdd = (event) => {
     event.preventDefault();
     // console.log(formValues);
 
-    // validations -> optimize -> in validateInputs()
+    // validations -> optimize -> in validateInputs() + setError()
 
     if(!validateTitle(formValues.title)){
       setFormErrors({ ...formErrors, title: { msg: 'choose activity from the menu' } });
@@ -122,6 +122,7 @@ const CreateActivityForm = () => {
       }
     }
     
+    // refactor createActivityObject to calculate steps based on duration if walking
     const activityObj = createActivityObject(user, formValues);
 
     if(activityObj.buddy){
@@ -131,6 +132,10 @@ const CreateActivityForm = () => {
 
     addActivity(user.username, activityObj)
       .then(() => {
+        // updateDataByDay()
+        // if walking -> updateSteps()
+
+        // refactor updateRelatedGoals
         return updateRelatedGoals(user.username, activityObj).then((snapshot) => {
 
           console.log(snapshot);
@@ -143,14 +148,17 @@ const CreateActivityForm = () => {
       .catch(console.error);
   };
 
+  // unite with validateInputs()
   const validateTitle = (title) => {
     return Object.keys(activitiesMET).includes(title);
   };
 
+  // unite with validateInputs()
   const validateBuddy = (fr, buddy) => {
     return fr.includes(buddy);
   };
 
+  // replace with activity-type enum
   const renderTypeOptions = (types)=>{
     return Object.keys(types).map((t)=>{
       return (
@@ -189,7 +197,11 @@ const CreateActivityForm = () => {
                   endAdornment: <InputAdornment position="end">{getAdornment(t)}</InputAdornment>,
                 }}
               />
-              <FormHelperText id="number-error-text" sx={{ color:'#D81159' }}><em>{formErrors.number?.msg}</em></FormHelperText>
+
+              <FormHelperText id="number-error-text" sx={styles.helperText}>
+                <em>{formErrors.number?.msg}</em>
+              </FormHelperText>
+
             </Grid>
           );
         })
@@ -225,7 +237,10 @@ const CreateActivityForm = () => {
             renderInput={(params) => <TextField {...params} fullWidth size="small" variant="standard" label="Activity" />}
           />
 
-          <FormHelperText id="title-error-text" sx={styles.helperText}><em>{!formErrors.title? null : formErrors.title.msg}</em></FormHelperText>
+
+          <FormHelperText id="title-error-text" sx={styles.helperText}>
+            <em>{!formErrors.title? null : formErrors.title.msg}</em>
+          </FormHelperText>
 
         </Grid>
 
@@ -246,17 +261,21 @@ const CreateActivityForm = () => {
             size="small"
           />
 
-          <FormHelperText id="duration-error-text" sx={styles.helperText}><em>{formErrors.duration?.msg}</em></FormHelperText>
+          <FormHelperText id="duration-error-text" sx={styles.helperText}>
+            <em>{formErrors.duration?.msg}</em>
+          </FormHelperText>
 
-          <FormHelperText id="number-error-text" sx={styles.helperText}><em>{formErrors.number?.msg}</em></FormHelperText>
+          <FormHelperText id="number-error-text" sx={styles.helperText}>
+            <em>{formErrors.number?.msg}</em>
+          </FormHelperText>
 
         </Grid>
 
       </Grid>
 
-      {/* optimize and use enums */}
+      
       <Grid container spacing={2}>
-            
+        {/* replace with activity-type enum  */}
         <Grid item xs={12}>
           
           <FormControl>
@@ -272,7 +291,9 @@ const CreateActivityForm = () => {
             </RadioGroup>
           </FormControl>
 
-          <FormHelperText id="type-error-text" sx={styles.helperText}><em>{formErrors.type?.msg}</em></FormHelperText>
+          <FormHelperText id="type-error-text" sx={styles.helperText}>
+            <em>{formErrors.type?.msg}</em>
+          </FormHelperText>
           
         </Grid>
             
@@ -298,7 +319,9 @@ const CreateActivityForm = () => {
             renderInput={(params) => <TextField {...params} fullWidth size="small" variant="standard" label="Activity Buddy (optional)" />}
           />
 
-          <FormHelperText id="buddy-error-text" sx={styles.helperText}><em>{formErrors.buddy?.msg}</em></FormHelperText>
+          <FormHelperText id="buddy-error-text" sx={styles.helperText}>
+            <em>{formErrors.buddy?.msg}</em>
+          </FormHelperText>
           
         </Grid>
         

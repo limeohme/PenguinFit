@@ -26,10 +26,10 @@ export const createActivityObject = (user = {}, input = {}) => {
       reps
     },
     buddy,
-    searchTitle: formatString(input.title),
     dateValue: Date.now(),
     createdOn: getDateAsString(new Date()),
-    createdAt: getTimeAsString(new Date())
+    createdAt: getTimeAsString(new Date()),
+    searchTitle: formatString(input.title)
     // allKeywords: titleKeywordsToObject(input.title),
   };
 };
@@ -74,6 +74,13 @@ export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_R
     })
     .catch(console.error);
 };
+
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 
 export const getPostByHandle = (postId) => {
   return get(ref(db, `posts/${postId}`));
