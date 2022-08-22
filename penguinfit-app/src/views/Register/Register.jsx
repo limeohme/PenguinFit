@@ -119,9 +119,9 @@ const Register = () => {
       >
   
         <Grid item xs={3}>
-          <Paper sx={{ padding: 4, margin: 4, }}>
+          <Paper sx={{ p: '3rem', my: '4rem', boxSizing: 'border-box', width: '100%', bgcolor: 'rgb(255, 255, 255, 0.8)' }}>
             <form onSubmit={handleSubmit}>
-              <Grid container alignItems="center" justify="center" direction="column">
+              <Grid container alignItems="center" justifyContent="center" direction="column">
                 <Grid item>
                   <h3>Register</h3>
                 </Grid>
@@ -227,7 +227,7 @@ const Register = () => {
                 </Grid>
                 
                 <Grid item>
-                  <div style={{ width: '400px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column',  justifyContent: 'center', alignItems: 'center' }}>
               How active are you ?
                     <Slider
                       value={formValues.activityStatus}
@@ -255,14 +255,12 @@ const Register = () => {
                     />
                   </div>
                 </Grid>
-                <Button variant="contained" color="primary" type="submit">
+                <Button variant="contained" color="primary" type="submit" sx={{ margin: 2, }}>
             Submit
                 </Button>
-                <Grid item>
+                <Grid item sx={{ display: 'flex', flexDirection: 'column',  justifyContent: 'center', alignItems: 'center' }}>
                   <Typography  sx={{ margin: 1, }}> You have an account ?
-                    <Link to = '/login'>
-                  Login
-                    </Link>
+                    <Button variant='text' component={Link} to='/login'>Login</Button>
                   </Typography>
                 </Grid>
               </Grid>

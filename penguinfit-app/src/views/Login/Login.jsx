@@ -84,8 +84,8 @@ const Login = () => {
       // style={{ minHeight: '100vh' }}
     >
 
-      <Grid item xs={3} >
-        <Paper   sx={{ padding: 3, margin: 3, }}>
+      <Grid item>
+        <Paper sx={{ padding: 3, margin: 3, bgcolor: 'rgb(255, 255, 255, 0.8)' }}>
           <form onSubmit={handleSubmit}>
             <Grid container alignItems="center" justify="center" direction="column">
               <Typography variant="h5">Login</Typography>
