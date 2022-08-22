@@ -39,10 +39,10 @@ function TextEditor ({ colour, setColour }) {
   return (
     <Grid container direction='column' sx={style.wrapperContainerStyle}>
       <Grid item xs sx={style.midiContainerStyle}>
-        <Typography sx={style.pageTitleStyle}>NEW THOUGHT</Typography>
+        <Typography variant='h5' sx={style.pageTitleStyle}>New thought</Typography>
         <Box sx={style.sideBoxStyle}>
           <TextField placeholder="what's your thought called..." value={title} onChange={(e) => setTitle(e.target.value)}></TextField>
-          <Button onClick={() => {setColour(colour? '':'purple'); colourHandler();}}>{colour? 'REMOVE COLOUR':'COLOUR IT'}</Button>
+          <Button onClick={() => {setColour(colour? '':'#d81b60'); colourHandler();}}>{colour? 'REMOVE COLOUR':'COLOUR IT'}</Button>
           <Typography sx={style.messageStyle}>{message}</Typography>
           <textarea style={style.textAreaStyle} placeholder='spill some thoughts here...' value={textInput} onChange={(e) => setTextInput(e.target.value)}></textarea>
           <Autocomplete

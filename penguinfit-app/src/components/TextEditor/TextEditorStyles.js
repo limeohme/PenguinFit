@@ -1,4 +1,4 @@
-import { lightGreen, pink, purple, indigo } from '@mui/material/colors';
+import { lightGreen, pink, _purple, indigo } from '@mui/material/colors';
 
 export const green = lightGreen[100];
 export const palePink = pink[50];
@@ -15,7 +15,6 @@ export const textAreaStyle = {
 };
 
 export const wrapperContainerStyle = {
-  px: 0,
   borderRadius: 3,
   alignSelf: 'center',
   display: 'flex',
@@ -37,15 +36,15 @@ export const midiContainerStyle = {
 export const sideBoxStyle = {
   display: 'flex',
   flexDirection: 'column',
-  boxShadow: 1,
+  // boxShadow: 1,
   borderRadius: 2,
-  bgcolor: '#6633ff10',
+  // bgcolor: '#6633ff10',
   py: '1rem',
   alignSelf: 'center',
   textAlign: 'center',
   minWidth: '12rem',
   justifyContent: 'space-around',
-  m: '1.5rem',
+  my: '1.5rem',
   alignItems: 'center',
   boxSizing: 'border-box'
 };
@@ -60,10 +59,10 @@ export const messageStyle = {
 };
 
 export const pageTitleStyle = {
-  fontSize:36,
-  fontWeight: 700,
-  fontFamily: 'monospace',
-  letterSpacing: 7,
-  color: purple[900],
+  // fontSize:36,
+  // fontWeight: 700,
+  // fontFamily: 'monospace',
+  // letterSpacing: 7,
+  // color: purple[900],
   alignSelf: 'center'  
 };

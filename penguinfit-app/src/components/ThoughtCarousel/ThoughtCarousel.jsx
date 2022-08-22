@@ -70,7 +70,7 @@ function ThoughtCarousel () {
     <Box sx={style.boxStyleWhite}>
       { thoughts.length? <Paper sx={style.boxStyleWhite}>
         {!edit?
-          <Typography sx={style.titleStyle} align="center" >{thoughts[activeStep]?.title}</Typography>:
+          <Typography variant='h4' sx={style.titleStyle} align="center" >{thoughts[activeStep]?.title}</Typography>:
           <TextField placeholder='Some text here' defaultValue={thoughts[activeStep]?.title}
             onChange={(e) => setTitle(e.target.value)}></TextField>
         }

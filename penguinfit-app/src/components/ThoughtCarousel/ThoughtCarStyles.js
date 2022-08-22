@@ -1,4 +1,4 @@
-import { lightGreen, pink, purple, indigo } from '@mui/material/colors';
+import { lightGreen, pink, _purple, indigo } from '@mui/material/colors';
 
 export const green = lightGreen[100];
 export const palePink = pink[50];
@@ -58,11 +58,11 @@ export const bodyStyle = {
   boxSizing: 'border-box'
 };
 export const titleStyle = {
-  fontSize: 32,
-  fontWeight: 700,
-  fontFamily: 'Monospace',
-  letterSpacing: 3,
-  color: purple[900] ,
+  // fontSize: 32,
+  // fontWeight: 700,
+  // fontFamily: 'Monospace',
+  // letterSpacing: 3,
+  // color: purple[900] ,
   p: '1rem',
   m: '1rem',
   wordBreak: 'break-word',
