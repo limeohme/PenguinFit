@@ -1,4 +1,4 @@
-import { equalTo, get, onValue, orderByChild, query, ref } from 'firebase/database';
+import { equalTo, get, onValue, orderByChild, query, ref, } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
 export const getGoalsDistribution = () => {
@@ -64,3 +64,5 @@ export const getCalorieDifferenceByDate = () => {
     }).catch(console.error);
   
 };
+
+

@@ -12,7 +12,7 @@ import {
 import { EDAMAM_APP_ID, EDAMAM_APP_KEY, MEAL_TYPES } from '../common/constants';
 
 import { db } from '../config/firebase-config';
-import { formatDateToString } from '../utils/utils';
+import { getDateAsString } from '../utils/utils';
 
 export const addMealToDB = (user, meal) => {
   push(ref(db, `meals/${user}`), meal);
@@ -25,7 +25,6 @@ export const getRecentMeals = (user, listen) => {
 export const getFoodItemData = async (foodItem, grams) => {
   const response = await fetch(`https://api.edamam.com/api/food-database/v2/parser?app_id=${EDAMAM_APP_ID}&app_key=${EDAMAM_APP_KEY}&ingr=${foodItem}&nutrition-type=cooking`);
   if (!response.ok) {
-    console.log(response.status);
     throw new Error('Invalid food item!');
   } 
   const data = await response.json();
@@ -44,11 +43,11 @@ export const updateUserNutrients = (user, protein, carbs, fats) => {
   return get(ref(db, `users/${user}/nutrients`)).then((snapshot) => {
     if (snapshot.exists()) {
       console.log(snapshot.val());
-      update(ref(db, `users/${user}/nutrients`), { ...snapshot.val()[0], carbs: snapshot.val().carbs + +carbs })
+      update(ref(db, `users/${user}/nutrients`), { ...snapshot.val(), carbs: snapshot.val().carbs + +carbs })
         .catch(console.error);
-      update(ref(db, `users/${user}/nutrients`), { ...snapshot.val()[0], protein: snapshot.val().protein + +protein } )
+      update(ref(db, `users/${user}/nutrients`), { ...snapshot.val(), protein: snapshot.val().protein + +protein } )
         .catch(console.error);
-      update(ref(db, `users/${user}/nutrients`), { ...snapshot.val()[0], fats: snapshot.val().fats + +fats })
+      update(ref(db, `users/${user}/nutrients`), { ...snapshot.val(), fats: snapshot.val().fats + +fats })
         .catch(console.error);
     } else {
       set(ref(db, `users/${user}/nutrients/carbs`), +carbs)
@@ -62,13 +61,14 @@ export const updateUserNutrients = (user, protein, carbs, fats) => {
 };
 
 export const updateDailyCalsGetter = (user, listen) => {
-  const date = formatDateToString(new Date()).split(' ').slice(0, 4).join(' ');
-  return onValue(query(ref(db, `users/${user}/dataByDay`),
+  const date = getDateAsString(new Date());
+  return get(query(ref(db, `users/${user}/dataByDay`),
     orderByChild('date'), equalTo(date)), listen);
 };
 
 export const updateDailyCalsUpdater = (snapshot, user, cals) => {
   if (snapshot.exists()) {
+    console.log(snapshot.val());
     const key = Object.keys(snapshot.val())[0];
     return update(ref(db, `users/${user}/dataByDay/${String(key)}`),
       { ...Object.values(snapshot.val())[0], cal: { ...Object.values(snapshot.val())[0].cal, consumed: Object.values(snapshot.val())[0].cal.consumed + cals }  });
@@ -77,11 +77,29 @@ export const updateDailyCalsUpdater = (snapshot, user, cals) => {
   }
 };
 
+export const updateDailyWaterGetter = (user, listen) => {
+  const date = getDateAsString(new Date());
+  return get(query(ref(db, `users/${user}/dataByDay`),
+    orderByChild('date'), equalTo(date)), listen);
+};
+
+export const updateDailyWaterUpdater = (snapshot, user) => {
+  if (snapshot.exists()) {
+    console.log(snapshot.val());
+    const key = Object.keys(snapshot.val())[0];
+    return update(ref(db, `users/${user}/dataByDay/${String(key)}`),
+      { ...Object.values(snapshot.val())[0], waterIntake: Object.values(snapshot.val())[0].waterIntake + 250 });
+  } else {
+    return push(ref(db, `users/${user}/dataByDay`), { ...createNewDataByDay(), waterIntake: 250 });
+  }
+};
+
 
 export function createNewDataByDay () {
+  const theDate = getDateAsString(new Date());
   return {
-    date: formatDateToString(new Date()).split(' ').slice(0, 4).join(' '),
-    dateVal: Date.parse(formatDateToString(new Date()).split(' ').slice(0, 4)),
+    date: theDate,
+    dateVal: Date.parse(theDate),
     cal: {
       burned: 0,
       consumed: 0
