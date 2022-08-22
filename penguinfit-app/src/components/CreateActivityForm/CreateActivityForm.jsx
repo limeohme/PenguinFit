@@ -62,8 +62,10 @@ const CreateActivityForm = () => {
 
   useEffect(() => {
     const unsubscribe = listenToFriends(user.username, (snapshot) => {
-      const userFriends = snapshot.val().friends;
-      setFriends(Object.keys(userFriends));
+      if(snapshot.exists()){
+        const userFriends = snapshot.val().friends;
+        setFriends(Object.keys(userFriends));
+      }
     });
     return () => unsubscribe();
   }, []);
