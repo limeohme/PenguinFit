@@ -1,28 +1,52 @@
 import { Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { ACTIVITIES_REQUEST_LIMIT } from '../../common/constants';
-import { BarStackedNutrientsByMeal } from '../../components/BarCharts/BarCharts';
+import { ACTIVITIES_REQUEST_LIMIT, MEAL_TYPES } from '../../common/constants';
+import { BarCaloriesByMeal } from '../../components/BarCharts/BarCharts';
 import MealForm from '../../components/MealForm/MealForm';
-import { PieNutrientsDistribution } from '../../components/PieCharts/PieCharts';
+import { PieMealsDistribution } from '../../components/PieCharts/PieCharts';
 import SingleMeal from '../../components/SingleMeal/SingleMeal';
 import AppState from '../../providers/app-state';
-import { getRecentMeals } from '../../services/meals-service';
-
+import { getMealByType, getMealCalsByType, getRecentMeals } from '../../services/meals-service';
+import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';
+import { formatDateToString } from '../../utils/utils';
 
 function Meals () {
 
-  const [meals, setMeals] = useState([]);
   const { appState:{ user } } = useContext(AppState);
+  const [meals, setMeals] = useState([]);
+  const [calData, setCalData] = useState([]);
+  const [typeData, setTypeData] = useState([]);
+
+  useEffect(() => {
+    const allTypes = [];
+    MEAL_TYPES.forEach((mealT) => allTypes.push({ x: mealT, y: getMealCalsByType(meals, mealT) }));
+    setCalData(allTypes);
+
+    MEAL_TYPES.forEach((mealT) => allTypes.push({ x: mealT, y: getMealByType(meals, mealT) }));
+    setTypeData(allTypes);
+
+
+  }, [meals]);
 
   useEffect(() => {
     const unsub = getRecentMeals(user.username, (snapshot) => {
       if (snapshot.exists()) {
-        setMeals(Object.values(snapshot.val()));
+        setMeals([...Object.values(snapshot.val())]);
       }
     });
 
     return unsub;
-  }, [user.username]);
+  });
+
+  const addMealHandler = (newMeal) => {
+    addMealToDB(user.username, { ...newMeal, createdOn: formatDateToString(new Date()), dateVal: Date.parse(formatDateToString(new Date())) });
+    setMeals([...meals, { ...newMeal, createdOn: formatDateToString(new Date()), dateVal: Date.parse(formatDateToString(new Date())) } ]);
+    newMeal.foods.forEach((food) => {
+      updateDailyCalsGetter(user.username)
+        .then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error));
+      updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
+    });
+  };
 
 
   return(
@@ -47,7 +71,7 @@ function Meals () {
           
           <Grid container item direction="column-reverse" gap={1.5} justifyContent='center'>
             {meals.length
-              ? meals.map((meal, i)=> <SingleMeal key={i} meal={meal}></SingleMeal>) 
+              ? meals.map((meal, i)=> <SingleMeal key={i} addMealHandler={addMealHandler} meal={meal}></SingleMeal>) 
               : 'No meals yet'}
           </Grid>
         </Grid>
@@ -65,21 +89,22 @@ function Meals () {
         //   sx={{ p:4 }}
         //   spacing={4}
         >
-          <Grid item container>
+          <Grid item container  justifyContent="center" direction="column">
             {meals.length? 
-              <BarStackedNutrientsByMeal/> :
+              <BarCaloriesByMeal data={calData}/> :
               <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
                 <Typography variant='h4' >No data here yet...🥺 </Typography> </Grid>
             }
-          </Grid>
-          <Grid container item spacing={4}>            
-            {meals.length? <PieNutrientsDistribution/> : 
+            {meals.length? <PieMealsDistribution meals={typeData}/> : 
               <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
                 <Typography variant='h4' >No data here yet...🥺 </Typography> </Grid>}
+          </Grid>
+          {/* <Grid container item spacing={4}>            
+            
             {meals.length? <PieNutrientsDistribution/> : 
               <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px',  m: '2rem' }}>
                 <Typography variant='h4' >No data here yet...🥺</Typography></Grid>}
-          </Grid>
+          </Grid> */}
         </Grid>
         
       </Grid>

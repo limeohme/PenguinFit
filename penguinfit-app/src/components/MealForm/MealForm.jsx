@@ -187,13 +187,13 @@ function MealForm () {
               />
               <FormControlLabel
                 key="Second Breakfast"
-                value="Second Breakfast"
+                value={'Second\nBreakfast'}
                 control={<Radio size="small" />}
                 label="Second Breakfast"
               />
               <FormControlLabel
-                key="Elevenses "
-                value="Elevenses "
+                key="Elevenses"
+                value="Elevenses"
                 control={<Radio size="small" />}
                 label="Elevenses"
               />
@@ -204,8 +204,8 @@ function MealForm () {
                 label="Luncheon"
               />
               <FormControlLabel
-                key="Afternoon Tea"
-                value="Afternoon Tea"
+                key="AfternoonTea"
+                value={'Afternoon\nTea'}
                 control={<Radio size="small" />}
                 label="Afternoon Tea"
               />

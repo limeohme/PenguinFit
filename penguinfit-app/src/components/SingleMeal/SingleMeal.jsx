@@ -1,20 +1,11 @@
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import { useContext } from 'react';
 import AppState from '../../providers/app-state';
-import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';
 
 
-export default function SingleMeal({ meal }) {
-  const { appState:{ user } } = useContext(AppState);
+export default function SingleMeal({ addMealHandler, meal }) {
+  const { appState:{ _user } } = useContext(AppState);
   
-  const addMealHandler = (newMeal) => {
-    addMealToDB(user.username, newMeal);
-    newMeal.foods.forEach((food) => {
-      updateDailyCalsGetter(user.username)
-        .then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error));
-      updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
-    });
-  };
 
   return (
     <Paper sx={{ display: 'flex' , backgroundColor: '#6633ff10', p: 2 }}>

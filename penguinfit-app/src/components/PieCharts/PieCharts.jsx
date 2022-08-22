@@ -26,6 +26,30 @@ export function PieNutrientsDistribution ({ nutrients }) {
     </Grid>
   );
 }
+export function PieMealsDistribution ({ meals }) {
+  
+
+  return (
+    <Grid item xs={12} sm={12} md={6} sx={style.pieChartStyle}>
+      <Typography variant='h5'>meals by type %</Typography>
+      <VictoryPie
+        labelRadius={({ innerRadius }) => innerRadius + 24 }
+        animate={{
+          duration: 2000,
+          easing: 'bounce',
+          onEnter: {
+
+          }
+        }}
+        colorScale={['#a3e2f7', '#8dc4d6', '#729fad', '#3c6f80', '#2a5d6e', '#0e4152', '#042b38' ]}
+        innerRadius={60}
+        data={meals}
+        labels={({ datum }) => datum.y > 80?  datum.x : ''}
+        labelComponent={<VictoryLabel angle={5} style={{ fill: '#FFF' }}/> }
+      />
+    </Grid>
+  );
+}
 
 export function PieGoalAchievement ({ goals }) {
 

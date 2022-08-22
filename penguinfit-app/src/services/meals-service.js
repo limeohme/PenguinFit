@@ -3,7 +3,6 @@ import {
   ref,
   query,
   orderByChild,
-  limitToLast,
   update,
   get,
   set,
@@ -20,7 +19,7 @@ export const addMealToDB = (user, meal) => {
 };
 
 export const getRecentMeals = (user, listen) => {
-  return onValue(query(ref(db, `meals/${user}`), orderByChild('dateVal'), limitToLast(7)), listen);
+  return onValue(query(ref(db, `meals/${user}`), orderByChild('dateVal')), listen);
 };
 
 export const getFoodItemData = async (foodItem, grams) => {
@@ -64,7 +63,7 @@ export const updateUserNutrients = (user, protein, carbs, fats) => {
 
 export const updateDailyCalsGetter = (user, listen) => {
   const date = formatDateToString(new Date()).split(' ').slice(0, 4).join(' ');
-  return get(query(ref(db, `users/${user}/dataByDay`),
+  return onValue(query(ref(db, `users/${user}/dataByDay`),
     orderByChild('date'), equalTo(date)), listen);
 };
 
@@ -128,22 +127,15 @@ export function createNewDataByDay () {
 //     }).catch(console.error);
 // };
 
-export const getMealByType = (user, type) => {
-  return get(ref(db, `meals/${user}/`))
-    .then((snapshot) => {
-      if (snapshot.exists()){
-        const data = Object.values(snapshot.val())
-          .filter(el => el.type === type)
-          .map(el => el.cal);
-        return data.reduce((acc, el) => acc += el, 0);
-      }
-      return []; 
-    }).catch(console.error);
+export const getMealCalsByType = (meals, type) => {
+  const data = meals
+    .filter(el => el.type === type)
+    .map(el => el.cal);
+  return data.reduce((acc, el) => acc += el/data.length, 0);
 };
-export const getAllMealTypes = (user) => {
-  const allTypes = [];
-  MEAL_TYPES.forEach((mealT) => getMealByType(user, mealT).then((res) => {
-    allTypes.push({ x: mealT, y: res });
-  }));
-  return allTypes;
+
+export const getMealByType = (meals, type) => {
+  const data = meals
+    .filter(el => el.type === type);
+  return data.length;
 };
