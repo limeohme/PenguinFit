@@ -26,7 +26,7 @@ export default function SingleActivityView({ activity }) {
         <Grid item container justifyContent='space-between' alignItems='centre' sx={{ color:'#00000050' }}>
 
           <Grid item xs={6} sm={6}>
-            <Typography>{`${activity.distance} km, ${activity.type}`}</Typography>
+            <Typography>{`${activity.details.distance} km, ${activity.type}`}</Typography>
           </Grid>
 
           <Grid item xs={6} sm={6}>
@@ -38,7 +38,7 @@ export default function SingleActivityView({ activity }) {
         <Grid item container justifyContent='space-between'  alignItems='center'>
 
           <Grid item xs={8} sm={8}>
-            <Typography variant="h6">{`${activity.duration} min, ${activity.calories.toFixed(0)} kcal`}</Typography>
+            <Typography variant="h6">{`${activity.duration} min, ${activity.details.caloriesBurned.toFixed(0)} kcal`}</Typography>
           </Grid>
 
           <Grid container item xs={4} sm={4} justifyContent='right'>
