@@ -1,8 +1,9 @@
 import {  VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import { Box } from '@mui/material';
-import * as style from './BarChartsDashStyles.js';
+import * as style from './BarChartsStyles.js';
 import { getCalorieDifferenceByDate, getExerciseDurationByDate } from '../../services/dashboard-service.js';
-import { useEffect, useState } from 'react';
+import { _useContext, useEffect, useState } from 'react';
+
 
 export function BarActivityDurationByDay () {
   const [exerciseDuration, setExerciseDuration] = useState([]);
@@ -77,7 +78,7 @@ export function BarCalorieBalanceByDay () {
         dependentAxis />
         <VictoryAxis label={'calorie balance by day,\nAugust 2022'}  style={{
           axis: { stroke: '#c5e1a5', padding: 5 },
-          axisLabel: { fontSize: 12, padding: 120 },
+          axisLabel: { fontSize: 12, padding: 90 },
           ticks: { stroke: 'grey', size: 5 },
           tickLabels: { fontSize: 12, padding: 0, marginBottom: 2, fill: '#000000' }
         }} crossAxis />
@@ -102,5 +103,51 @@ export function BarCalorieBalanceByDay () {
         />
       </VictoryChart>
     </Box>
+  );
+}
+
+export function BarCaloriesByMeal ({ data }) {
+  
+  return (
+    
+    <VictoryChart domainPadding={{ x: 5 }} minDomain={{ y: 0, x: 0 }} maxDomain={{ y: 2000, x: 7 }}>
+      <VictoryAxis style={{
+        ticks: { stroke: 'grey', size: 5 },
+        tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
+      }}
+      dependentAxis />
+      <VictoryAxis label={'average calorie intake by meal,\nAugust 2022'}  style={{
+        axis: { stroke: '#c5e1a5', padding: 5 },
+        axisLabel: { fontSize: 12, padding: -220 },
+        ticks: { stroke: 'grey', size: 5 },
+        tickLabels: { fontSize: 8, padding: 0, marginBottom: 2, fill: '#000000' }
+      }} crossAxis />
+      <VictoryBar
+        barRatio={0.8}
+        style={{
+          data: {
+            fill: ({ datum }) => datum.y > 300 ? '#f2c324' : '#c5e1a5',
+            stroke: ({ datum }) => datum.y > 300 ? '#f2c324' : '#c5e1a5',
+            fillOpacity: 0.7,
+            strokeWidth: 1
+          },
+          labels: {
+            fontSize: 10,
+            padding: 14,
+            fill:'#000000'
+          }
+        }}
+        data={data}
+        animate={{
+          duration: 2000,
+          easing: 'bounce',
+          onLoad: {
+            duration: 2000,
+            before: () => ({ _y: 0 }),
+            after: (datum) => ({ _y: datum._y })
+          } }}
+      />
+    </VictoryChart>
+
   );
 }

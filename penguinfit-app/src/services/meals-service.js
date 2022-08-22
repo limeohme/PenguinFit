@@ -3,14 +3,13 @@ import {
   ref,
   query,
   orderByChild,
-  limitToLast,
   update,
   get,
   set,
   equalTo,
   onValue,
 } from 'firebase/database';
-import { EDAMAM_APP_ID, EDAMAM_APP_KEY } from '../common/constants';
+import { EDAMAM_APP_ID, EDAMAM_APP_KEY, MEAL_TYPES } from '../common/constants';
 
 import { db } from '../config/firebase-config';
 import { formatDateToString } from '../utils/utils';
@@ -20,7 +19,7 @@ export const addMealToDB = (user, meal) => {
 };
 
 export const getRecentMeals = (user, listen) => {
-  return onValue(query(ref(db, `meals/${user}`), orderByChild('dateVal'), limitToLast(7)), listen);
+  return onValue(query(ref(db, `meals/${user}`), orderByChild('dateVal')), listen);
 };
 
 export const getFoodItemData = async (foodItem, grams) => {
@@ -64,7 +63,7 @@ export const updateUserNutrients = (user, protein, carbs, fats) => {
 
 export const updateDailyCalsGetter = (user, listen) => {
   const date = formatDateToString(new Date()).split(' ').slice(0, 4).join(' ');
-  return get(query(ref(db, `users/${user}/dataByDay`),
+  return onValue(query(ref(db, `users/${user}/dataByDay`),
     orderByChild('date'), equalTo(date)), listen);
 };
 
@@ -78,7 +77,8 @@ export const updateDailyCalsUpdater = (snapshot, user, cals) => {
   }
 };
 
-function createNewDataByDay () {
+
+export function createNewDataByDay () {
   return {
     date: formatDateToString(new Date()).split(' ').slice(0, 4).join(' '),
     dateVal: Date.parse(formatDateToString(new Date()).split(' ').slice(0, 4)),
@@ -91,3 +91,51 @@ function createNewDataByDay () {
     totalActivityDuration: 0
   };
 }
+
+// chart funcs
+
+// export const getMealByType = (user, type) => {
+//   return get(ref(db, `meals/${user}/`))
+//     .then((snapshot) => {
+//       if (snapshot.exists()){
+//         const data = Object.values(snapshot.val())
+//           .filter(el => el.type === type)
+//           .map(el => el.foods)
+//           .map((el) => {
+//             return el.reduce((acc, meal) => {
+//               if (acc['protein']){
+//                 acc.protein += meal.nutrients.protein;
+//               } else {
+//                 acc['protein'] = meal.nutrients.protein;
+//               }
+//               if (acc['fats']){
+//                 acc.fats += meal.nutrients.fats;
+//               } else {
+//                 acc['fats'] = meal.nutrients.fats;
+//               }
+//               if (acc['carbs']){
+//                 acc.carbs += meal.nutrients.carbs;
+//               } else {
+//                 acc['carbs'] = meal.nutrients.carbs;
+//               }
+//               return acc;
+//             }, {});
+//           });
+//         return data.map((el) => Object.entries(el).map(([name, val]) => ({ y: name, x: +val })));
+//       }
+//       return []; 
+//     }).catch(console.error);
+// };
+
+export const getMealCalsByType = (meals, type) => {
+  const data = meals
+    .filter(el => el.type === type)
+    .map(el => el.cal);
+  return data.reduce((acc, el) => acc += el/data.length, 0);
+};
+
+export const getMealByType = (meals, type) => {
+  const data = meals
+    .filter(el => el.type === type);
+  return data.length;
+};
