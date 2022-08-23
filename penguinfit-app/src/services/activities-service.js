@@ -1,4 +1,5 @@
 import { get, ref, onValue, update, remove, push, limitToLast, orderByChild, query } from 'firebase/database';
+import { activitiesTypes } from '../common/activities-types';
 import { activitiesMET } from '../common/activitiesMET';
 import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 // import { query, orderByChild, equalTo, onChildAdded, limitToLast, limitToFirst, startAfter, endBefore } from 'firebase/database';
@@ -7,17 +8,17 @@ import { db } from '../config/firebase-config';
 import { formatString, getActivityTotalCalBurned, getDateAsString, getTimeAsString } from '../utils/utils';
 import { updateGoalsByTarget } from './goals-service';
 
-// move t activitiesMET
+// TODO: move to activitiesMET
 export const createActivityObject = (user = {}, input = {}) => {
   const { username, weight } = user;
-  const { title, duration, type, distance, kg, sets, reps, buddy } = input;
-  const caloriesBurned = getActivityTotalCalBurned(activitiesMET[title], weight, duration);
-
-  // calculate steps if any
+  const { activity, duration, distance, kg, sets, reps, buddy } = input;
+  const caloriesBurned = getActivityTotalCalBurned(activitiesMET[activity], weight, duration);
+  const type = activitiesTypes[activity];
+  // TODO: calculate steps if any
 
   return {
     creator: username,
-    title,
+    activity,
     duration,
     type,
     details: {
@@ -32,8 +33,8 @@ export const createActivityObject = (user = {}, input = {}) => {
     dateValue: Date.now(),
     createdOn: getDateAsString(new Date()),
     createdAt: getTimeAsString(new Date()),
-    searchTitle: formatString(input.title)
-    // allKeywords: titleKeywordsToObject(input.title),
+    searchActivity: formatString(activity)
+    // allKeywords: activityKeywordsToObject(activity),
   };
 };
 

@@ -1,5 +1,7 @@
 // encapsulate here createactivity
 
+import { getSortedKeys, objectContainsKey } from '../utils/utils';
+
 export const activitiesMET = {
   bicycling: 7.5,
   'circuit training': 6,
@@ -55,3 +57,6 @@ export const activitiesMET = {
   coding: 28,
   'soft skills session': 48
 };
+
+export const sortedActivities = getSortedKeys(activitiesMET);
+export const isActivityInList = (activity) => objectContainsKey(activitiesMET, activity);

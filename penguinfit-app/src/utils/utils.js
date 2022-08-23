@@ -3,6 +3,14 @@ import { KEYWORD_PREFIX } from '../common/constants';
 //BEWARE! NEW FUNCTIONS
 // divide utils on topics
 
+export const objectContainsKey = (obj, key) => {
+  return Object.keys(obj).includes(key);
+};
+
+export const getSortedKeys = (obj) => {
+  return Object.keys(obj).sort();
+};
+
 const getCaloriesPerMinute = (MET = 0, userWeight = 0) => {
   const result = (MET * 3.5 * userWeight) / 200;
   return result;

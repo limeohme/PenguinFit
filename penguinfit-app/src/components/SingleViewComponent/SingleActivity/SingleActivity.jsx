@@ -13,7 +13,7 @@ export default function SingleActivityView({ activity }) {
         <Grid item container justifyContent='space-between' alignItems='center'>
 
           <Grid item xs={5.5} sm={4} >
-            <Typography variant='h5'>{activity.title}</Typography>
+            <Typography variant='h5'>{activity.activity}</Typography>
           </Grid>
 
           <Grid item xs={6.5} sm={8}>
