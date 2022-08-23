@@ -41,8 +41,8 @@ function Dashboard () {
   }, []);
 
   useEffect(() => {
-    const unsub =  getStatsToday((snapshot) => {
-      setWater(Object.values(snapshot.val())[0].waterIntake);
+    const unsub =  getStatsToday(appState.user.username, (snapshot) => {
+      if (snapshot.exists()) setWater(Object.values(snapshot.val())[0].waterIntake);
     });
     return unsub;
   });

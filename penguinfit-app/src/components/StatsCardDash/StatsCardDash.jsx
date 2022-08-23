@@ -1,17 +1,21 @@
 import { CardContent, Typography, Card } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import AppState from '../../providers/app-state.js';
 
 import { getStatsToday } from '../../services/dashboard-service.js';
 import * as style from './StatsCardDashStyles.js';
 
 export default function StatsCardDash ({ type, IconComponent, water }) {
+  const { appState:{ user } } = useContext(AppState);
   const [cals, setCals] = useState(0);
   const [steps, setSteps] = useState(0);
 
   useEffect(() => {
-    const unsub =  getStatsToday((snapshot) => {
-      setSteps(Object.values(snapshot.val())[0].steps);
-      setCals(Object.values(snapshot.val())[0].cal.consumed);
+    const unsub =  getStatsToday(user.username, (snapshot) => {
+      if (snapshot.exists()) {
+        setSteps(Object.values(snapshot.val())[0].steps);
+        setCals(Math.floor(Object.values(snapshot.val())[0].cal.consumed));
+      }
     });
     return unsub;
   });
