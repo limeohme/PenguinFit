@@ -11,6 +11,7 @@ import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserN
 import { formatDateToString } from '../../utils/utils';
 import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import { updateDailyWaterGetter, updateDailyWaterUpdater } from '../../services/meals-service';
+import { getStatsToday } from '../../services/dashboard-service';
 
 function Meals () {
 
@@ -18,6 +19,7 @@ function Meals () {
   const [meals, setMeals] = useState([]);
   const [calData, setCalData] = useState([]);
   const [typeData, setTypeData] = useState([]);
+  const [water, setWater] = useState(0);
 
   useEffect(() => {
     const allTypes = [];
@@ -40,6 +42,10 @@ function Meals () {
     return unsub;
   });
 
+  useEffect(() => {
+    getStatsToday(user.username, (snapshot) => setWater(Object.values(snapshot.val())[0].waterIntake));
+  }, []);
+
   const addMealHandler = (newMeal) => {
     const theDate = formatDateToString(new Date());
     addMealToDB(user.username, { ...newMeal, createdOn: theDate, dateVal: Date.parse(theDate) });
@@ -51,7 +57,6 @@ function Meals () {
   };
 
   const AddWaterHandler = () => {
-    console.log('what');
     const unsub = updateDailyWaterGetter(user.username).then((snapshot) => updateDailyWaterUpdater(snapshot, user.username).catch(console.error));
     return unsub;
 
@@ -76,11 +81,15 @@ function Meals () {
         </Grid>
         <Grid container item direction="column">
           <Grid item container direction="row" sx={{ backgroundColor: '#ffffff75', mb: '1rem', p: '1rem', boxShadow: 1, }}>
-            <Grid item xs={2}><LocalDrinkIcon sx={{ fontSize: '2rem' }}/></Grid>
-            <Grid item xs={6}><Typography variant='h6'>Add Water</Typography></Grid>
+            <Grid item xs={1}><LocalDrinkIcon sx={{ fontSize: '2rem' }}/></Grid>
+            <Grid item xs={2}><Typography variant='h6'>Add Water</Typography></Grid>
+            <Grid item xs={3}></Grid>
+            
+            <Grid item xs={2}><Typography variant='h6'>{water} ml</Typography></Grid>
             <Grid item xs={4}>
-              <Button variant="contained" color="primary" sx={{ width: '100%', boxSizing: 'border-box' }}
+              <Button variant="contained" color="primary" sx={{ boxSizing:'border-box', width: '100%' }}
                 onClick={AddWaterHandler}>+ 250 ml</Button>
+            
             </Grid>
           </Grid>
           <Typography variant='h5' sx={{ pb:2 }}>Recent meals:</Typography>
