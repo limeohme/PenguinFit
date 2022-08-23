@@ -1,10 +1,9 @@
 
 import { Grid } from '@mui/material';
 import { useState } from 'react';
-import TextEditor from '../../components/FormsComponents/TextEditor/TextEditor.jsx';
-
 import * as style from './ThoughtsStyles.js';
-import ThoughtCarousel from '../../components/ThoughtCarousel/ThoughtCarousel.jsx';
+import ThoughtCarousel from '../../components/Navigation/ThoughtCarousel/ThoughtCarousel.jsx';
+import CreateNewThought from '../../components/FormsComponents/CreateNewThought/CreateNewThought.jsx';
 
 function Thoughts () {
   const [colour, setColour] = useState('');
@@ -12,7 +11,7 @@ function Thoughts () {
   return (
     <Grid container direction="row" >
       <Grid item xs sx={style.midiContainerStyle}>
-        <TextEditor colour={colour} setColour={setColour}></TextEditor>
+        <CreateNewThought colour={colour} setColour={setColour}></CreateNewThought>
       </Grid>
       <Grid item xs sx={style.midiContainerStyle}>
         <ThoughtCarousel colour={colour} />

@@ -20,11 +20,7 @@ const styles = {
 
 };
 function MealForm () {
-  const { appState:{ user } } = useContext(AppState);
-  
-
-  // const [formError, setFormError] = useState({ title : '', duration : '', type : '' });
-
+  const { appState: { user } } = useContext(AppState);
   const [foods, setFoods] = useState([]);
   const [item, setItem] = useState('');
   const [grams, setGrams] = useState('');
@@ -42,28 +38,24 @@ function MealForm () {
 
   const handleFoodItemChange = (e) => {
     const val = e.target.value;
-    if (val) setItem(val);
+    setItem(val);
   };
 
   const handleQuantityChange = (e) => {
     const val = e.target.value;
-    if (val) setGrams(+val);
+    setGrams(+val);
   };
 
   const handleTypeChange  = (e) => {
     const val = e.target.value;
-    if (val) {
-      setType(val);
-      setMealObj({ ...mealObj, type: val });
-    } 
+    setType(val);
+    setMealObj({ ...mealObj, type: val });    
   };
 
   const handleTitleChange  = (e) => {
     const val = e.target.value;
-    if (val) {
-      setTitle(val);
-      setMealObj({ ...mealObj, title: val });
-    }
+    setTitle(val);
+    setMealObj({ ...mealObj, title: val });    
   };
 
   const setMessageHandler = (mes) => {
@@ -120,43 +112,24 @@ function MealForm () {
 
   return (
     <Grid 
-      container 
-      direction="column" 
-      justifyContent="space-between" 
-      alignItems="center" 
-      alignSelf="left" 
-      sx={styles.form} 
-    >
-
+      container direction="column" justifyContent="space-between" 
+      alignItems="center" alignSelf="left" sx={styles.form}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <TextField
-            id="foods-input"
-            name="foods"
-            label="food item"
-            value={item}
-            type="text"
-            onChange={handleFoodItemChange}
-            fullWidth
-            variant="standard" 
-            size="small"
+            id="foods-input" name="foods" size="small" label="food item" value={item}
+            type="text" onChange={handleFoodItemChange} fullWidth variant="standard" 
           />
           <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{!message.includes('food')? null : <em>{message}</em>}</FormHelperText>
         </Grid>
         <Grid item xs={4}>
           <TextField
-            id="quantity-input"
-            name="quantity"
-            label="quantity"
-            type="number"
-            value={grams}
-            onChange={handleQuantityChange}
+            id="quantity-input" name="quantity" label="quantity" type="number"
+            value={grams} onChange={handleQuantityChange}
             InputProps={{
               endAdornment: <InputAdornment position="end">gr</InputAdornment>,
             }}
-            fullWidth
-            variant="standard" 
-            size="small"
+            fullWidth variant="standard" size="small"
           />
           <FormHelperText id="quantity-error-text" sx={{ color:'#D81159' }}>{!message.includes('quantity')? null : <em>{message}</em>}</FormHelperText>
         </Grid>
@@ -185,15 +158,9 @@ function MealForm () {
       <Grid container spacing={2}>
         <Grid item xs={8}>
           <TextField
-            id="title-input"
-            name="title"
-            label="title"
-            value={title}
-            type="text"
-            onChange={handleTitleChange}
-            fullWidth
-            variant="standard" 
-            size="small"
+            id="title-input" name="title" label="title" type="text"
+            value={title} onChange={handleTitleChange}
+            fullWidth variant="standard" size="small"
           />
           <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{!message.includes('title')? null: <em>{message}</em>}</FormHelperText>
         </Grid>

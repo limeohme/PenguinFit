@@ -4,8 +4,9 @@ import { moods } from '../../../common/moods.js';
 import AppState from '../../../providers/app-state.js';
 import { createThought } from '../../../services/thoughts-service.js';
 import { validateThought } from '../../../utils/validations.js';
-import * as style from './TextEditorStyles.js';
-function TextEditor ({ colour, setColour }) {
+import * as style from './CreateNewThoughtStyles.js';
+
+function CreateNewThought ({ colour, setColour }) {
   const { appState, _setState } = useContext(AppState);
   const [textInput, setTextInput] = useState('');
   const [title, setTitle] = useState('');
@@ -65,4 +66,4 @@ function TextEditor ({ colour, setColour }) {
 
 }
 
-export default TextEditor;
+export default CreateNewThought;
