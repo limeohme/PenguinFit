@@ -2,7 +2,7 @@ import { Button, Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { MEAL_TYPES } from '../../common/constants';
 import { BarCaloriesByMeal } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
-import MealForm from '../../components/FormsComponents/MealForm/MealForm';
+import MealForm from '../../components/FormsComponents/CreateMealForm/CreateMealForm';
 import { PieMealsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
 import SingleMeal from '../../components/SingleViewComponent/SingleMeal/SingleMeal';
 import AppState from '../../providers/app-state';
