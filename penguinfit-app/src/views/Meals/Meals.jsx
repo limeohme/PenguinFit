@@ -6,7 +6,7 @@ import MealForm from '../../components/FormsComponents/MealForm/MealForm';
 import { PieMealsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
 import SingleMeal from '../../components/SingleViewComponent/SingleMeal/SingleMeal';
 import AppState from '../../providers/app-state';
-import { getMealByType, getMealCalsByType, _getRecentMeals } from '../../services/meals-service';
+import { getMealByType, getMealCalsByType, getRecentMeals } from '../../services/meals-service';
 import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';
 import { formatDateToString } from '../../utils/utils';
 import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
@@ -33,15 +33,15 @@ function Meals () {
 
   }, [meals]);
 
-  // useEffect(() => {
-  //   const unsub = getRecentMeals(user.username, (snapshot) => {
-  //     if (snapshot.exists()) {
-  //       setMeals([...Object.values(snapshot.val())]);
-  //     }
-  //   });
+  useEffect(() => {
+    const unsub = getRecentMeals(user.username, (snapshot) => {
+      if (snapshot.exists()) {
+        setMeals([...Object.values(snapshot.val())]);
+      }
+    });
 
-  //   return unsub;
-  // });
+    return unsub;
+  });
 
   useEffect(() => {
     getStatsToday(user.username, (snapshot) => setWater(Object.values(snapshot.val())[0].waterIntake));
