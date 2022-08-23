@@ -1,8 +1,8 @@
 import { Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { ACTIVITIES_REQUEST_LIMIT } from '../../common/constants';
-import CreateActivityForm from '../../components/CreateActivityForm/CreateActivityForm';
-import SingleActivityView from '../../components/SingleActivity/SingleActivity';
+import CreateActivityForm from '../../components/FormsComponents/CreateActivityForm/CreateActivityForm';
+import SingleActivityView from '../../components/SingleViewComponent/SingleActivity/SingleActivity';
 import AppState from '../../providers/app-state';
 import { getLiveUserActivities, getMostRecentUserActivities } from '../../services/activities-service';
 // import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';

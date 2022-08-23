@@ -1,7 +1,7 @@
 import {  VictoryBar, VictoryChart, VictoryAxis } from 'victory';
 import { Box } from '@mui/material';
 import * as style from './BarChartsStyles.js';
-import { getCalorieDifferenceByDate, getExerciseDurationByDate } from '../../services/dashboard-service.js';
+import { getCalorieDifferenceByDate, getExerciseDurationByDate } from '../../../services/dashboard-service.js';
 import { _useContext, useEffect, useState } from 'react';
 
 

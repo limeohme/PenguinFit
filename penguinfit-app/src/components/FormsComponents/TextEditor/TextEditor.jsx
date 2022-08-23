@@ -1,9 +1,9 @@
 import { Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
-import { moods } from '../../common/moods.js';
-import AppState from '../../providers/app-state.js';
-import { createThought } from '../../services/thoughts-service.js';
-import { validateThought } from '../../utils/validations.js';
+import { moods } from '../../../common/moods.js';
+import AppState from '../../../providers/app-state.js';
+import { createThought } from '../../../services/thoughts-service.js';
+import { validateThought } from '../../../utils/validations.js';
 import * as style from './TextEditorStyles.js';
 function TextEditor ({ colour, setColour }) {
   const { appState, _setState } = useContext(AppState);

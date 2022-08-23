@@ -1,6 +1,6 @@
 // import { Avatar, Chip } from '@mui/material';
 import { Stack } from '@mui/system';
-import SingleFriendView from '../SingleFriendView/SingleFriendView';
+import SingleFriendView from '../../SingleViewComponent/SingleFriendView/SingleFriendView';
 
 export default function DisplayFriends({ friends, username }) {
 

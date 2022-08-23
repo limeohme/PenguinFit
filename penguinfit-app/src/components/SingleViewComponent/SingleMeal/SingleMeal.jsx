@@ -1,6 +1,6 @@
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import { useContext } from 'react';
-import AppState from '../../providers/app-state';
+import AppState from '../../../providers/app-state';
 
 
 export default function SingleMeal({ addMealHandler, meal }) {

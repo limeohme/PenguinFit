@@ -1,10 +1,10 @@
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { ACTIVITIES_REQUEST_LIMIT, MEAL_TYPES } from '../../common/constants';
-import { BarCaloriesByMeal } from '../../components/BarCharts/BarCharts';
-import MealForm from '../../components/MealForm/MealForm';
-import { PieMealsDistribution } from '../../components/PieCharts/PieCharts';
-import SingleMeal from '../../components/SingleMeal/SingleMeal';
+import { BarCaloriesByMeal } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
+import MealForm from '../../components/FormsComponents/MealForm/MealForm';
+import { PieMealsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
+import SingleMeal from '../../components/SingleViewComponent/SingleMeal/SingleMeal';
 import AppState from '../../providers/app-state';
 import { getMealByType, getMealCalsByType, getRecentMeals } from '../../services/meals-service';
 import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';

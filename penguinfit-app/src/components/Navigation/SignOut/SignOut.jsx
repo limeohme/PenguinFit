@@ -2,9 +2,9 @@
 import { Typography } from '@mui/material';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router';
-import AppState from '../../providers/app-state';
-import { signOutUser } from '../../services/auth-service';
-import { removeUserFromStorage } from '../../services/local-storage-service';
+import AppState from '../../../providers/app-state';
+import { signOutUser } from '../../../services/auth-service';
+import { removeUserFromStorage } from '../../../services/local-storage-service';
 
 function SignOut() {
   // useContext

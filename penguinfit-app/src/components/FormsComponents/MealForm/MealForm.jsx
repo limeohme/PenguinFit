@@ -1,8 +1,8 @@
 import { Button, FormControl, FormControlLabel, FormHelperText, Grid, InputAdornment, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
-import AppState from '../../providers/app-state';
-import { addMealToDB, getFoodItemData, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';
-import { formatDateToString } from '../../utils/utils';
+import AppState from '../../../providers/app-state';
+import { addMealToDB, getFoodItemData, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../../services/meals-service';
+import { formatDateToString } from '../../../utils/utils';
 
 
 const styles = {

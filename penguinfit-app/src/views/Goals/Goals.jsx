@@ -1,6 +1,6 @@
 import { Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';
+import CreateGoalForm from '../../components/FormsComponents/CreateGoalForm/CreateGoalForm';
 import DetailedGoalsStepper from '../../components/Navigation/DetailedGoalsStepper/DetailedGoalsStepper';
 // import FriendsComparisonStepper from '../../components/FriendsComparisonStepper/FriendsComparisonStepper';
 import AppState from '../../providers/app-state';
