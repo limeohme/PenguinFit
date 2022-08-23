@@ -7,6 +7,7 @@ import { db } from '../config/firebase-config';
 import { formatString, getActivityTotalCalBurned, getDateAsString, getTimeAsString } from '../utils/utils';
 import { updateGoalsByTarget } from './goals-service';
 
+// move t activitiesMET
 export const createActivityObject = (user = {}, input = {}) => {
   const { username, weight } = user;
   const { title, duration, type, distance, kg, sets, reps, buddy } = input;

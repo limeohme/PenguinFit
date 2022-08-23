@@ -5,8 +5,8 @@ import { Route, Routes } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import AppState from './providers/app-state';
 
-import Navbar from './components/Navbar/Navbar';
-import Footer from './components/Footer/Footer';
+import Navbar from './components/Navigation/Navbar/Navbar';
+import Footer from './components/Navigation/Footer/Footer';
 
 import { getLoggedUser, getLoggedUserAuth } from './services/local-storage-service';
 import Authenticated from './hoc/Authenticated';

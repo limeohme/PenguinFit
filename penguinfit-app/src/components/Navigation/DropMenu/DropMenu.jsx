@@ -2,8 +2,8 @@ import { KeyboardDoubleArrowDown } from '@mui/icons-material';
 import { Avatar, Box, Button, Menu, MenuItem, MenuList } from '@mui/material';
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import AppState from '../../providers/app-state';
-import SignOut from '../SignOut/SignOut';
+import AppState from '../../../providers/app-state';
+import SignOut from '../../SignOut/SignOut';
 
 
 function DropMenu () {

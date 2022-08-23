@@ -1,3 +1,5 @@
+// encapsulate here createactivity
+
 export const activitiesMET = {
   bicycling: 7.5,
   'circuit training': 6,

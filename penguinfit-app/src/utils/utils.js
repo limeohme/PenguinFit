@@ -1,6 +1,7 @@
 import { KEYWORD_PREFIX } from '../common/constants';
 
 //BEWARE! NEW FUNCTIONS
+// divide utils on topics
 
 const getCaloriesPerMinute = (MET = 0, userWeight = 0) => {
   const result = (MET * 3.5 * userWeight) / 200;

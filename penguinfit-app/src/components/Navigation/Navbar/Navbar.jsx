@@ -1,10 +1,10 @@
 // import './Navbar.css';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import AppState from '../../providers/app-state';
+import AppState from '../../../providers/app-state';
 import { AppBar, IconButton, Button, Toolbar, Typography } from '@mui/material';
 import DropMenu from '../DropMenu/DropMenu';
-import NotificationsPopover from '../NotificationsPopover/NotificationsPopover';
+import NotificationsPopover from '../../NotificationsPopover/NotificationsPopover';
 // import MenuIcon from '@mui/icons-material/Menu';
 
 // import { APP_TITLE } from '../../common/constants';

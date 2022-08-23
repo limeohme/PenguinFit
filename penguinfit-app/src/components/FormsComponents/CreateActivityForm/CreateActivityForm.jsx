@@ -168,11 +168,13 @@ const CreateActivityForm = () => {
       .catch(console.error);
   };
 
+  // put in activitiesMET
   // unite with validateInputs()
   const validateTitle = (title) => {
     return Object.keys(activitiesMET).includes(title);
   };
 
+  // 
   // unite with validateInputs()
   const validateBuddy = (fr, buddy) => {
     return fr.includes(buddy);
@@ -245,6 +247,7 @@ const CreateActivityForm = () => {
 
         <Grid item xs={8}>
 
+          {/* separate component */}
           <Autocomplete
             id="title-input"
             value={formValues.title} 

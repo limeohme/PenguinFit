@@ -96,6 +96,7 @@ export const updateUserProfilePicture = (username, url) => {
   }).catch(console.error);
 };
 
+//information hiding
 export const getUserDataOfDay = (username, date) => {
   return get(query(ref(db, `users/${username}/dataByDay`), orderByChild('date'), equalTo(date)));
 };
