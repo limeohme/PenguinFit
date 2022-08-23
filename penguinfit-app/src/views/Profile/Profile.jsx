@@ -103,6 +103,10 @@ function Profile () {
       phoneNumber: newForm.phoneNumber || user.phoneNumber,
     });
   };
+
+  const calculateBMI = () => {
+    return (Number(user.weight)/((Number(user.height)/100)**2));
+  };
   
   
   return (
@@ -164,8 +168,8 @@ function Profile () {
           <Grid item xs md sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
             <Box sx={ style.sideBoxStyleGreen }>
               <Typography sx={ style.BMIStyle}>BMI </Typography>
-              <Typography sx={ style.BMINumberStyle}>{Number((Number(user.weight)/((Number(user.height)/100)**2)).toFixed(0))}</Typography>
-              <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage((Number(user.weight)/((Number(user.height)/100)**2)))}</Typography>
+              <Typography sx={ style.BMINumberStyle}>{calculateBMI().toFixed(0)}</Typography>
+              <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage(calculateBMI())}</Typography>
               <Typography sx={style.rangeStyle}>Healthy Range:</Typography>
               <Slider sx={style.sliderStyle} disabled={true} marks={BMIMarks} step={0.5} valueLabelDisplay="auto" defaultValue={[18.5, 25]} min={13.5} max={30} />
             </Box>
