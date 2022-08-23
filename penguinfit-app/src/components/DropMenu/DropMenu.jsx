@@ -30,6 +30,7 @@ function DropMenu () {
         endIcon={<KeyboardDoubleArrowDown />}
       >{user?<Avatar alt={user.username} src={user.avatarURL}></Avatar>: ''}</Button>
       <Menu
+        
         id='drop-menu'
         anchorOrigin={{
           vertical: 'bottom',
@@ -48,6 +49,7 @@ function DropMenu () {
         sx={{ maxHeight: 1,
           width: 1, top: 0, left: 0 }}
       > <MenuList  sx={{ width: '6rem' }}>
+          <MenuItem component={Link} to='home'>Home</MenuItem>
           <MenuItem component={Link} to='private/dashboard'>Dash</MenuItem>
           <MenuItem component={Link} to='private/profile'>Profile</MenuItem>
           <MenuItem><SignOut/></MenuItem>
