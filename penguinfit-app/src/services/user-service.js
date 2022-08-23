@@ -103,23 +103,25 @@ export const getUserDataOfDay = (username, date) => {
 export const updateUserActivitiesDataByDay = (username, data) => {
   const today = new Date();
   const date = getDateAsString(today);
-  console.log(date);
+  // console.log(date);
 
   return getUserDataOfDay(username, date)
     .then((snapshot) => {
-      console.log('FROM GET DATA BY DAY');
-      console.log(snapshot.val());
+      // console.log('FROM GET DATA BY DAY');
+      // console.log(snapshot.val());
 
       if (snapshot.exists()) {
-        const obj = Object.entries(snapshot.val());
+        const [dateHandle, prevData] = Object.entries(snapshot.val())[0];
 
-        const dateHandle = obj[0];
-        const prevData = obj[1];
+        // const dateHandle = obj[0][0];
+        // const prevData = obj[0][1];
+
+        // console.log('prevData');
+        // console.log(prevData);
 
         return updateTodaysActivitiesData(username, data, dateHandle, prevData);
       }
 
-      // return null;
       return setTodaysActivitiesData(username, data);
     })
     .catch(console.error);
@@ -148,17 +150,20 @@ const fillActivityData = (data) => {
   };
 };
 
-export const updateTodaysActivitiesData = (username, dateHandle, data, prevData) => {
+export const updateTodaysActivitiesData = (username, data, dateHandle, prevData) => {
   const {
     totalActivityDuration,
     cal: { burned },
     steps
   } = prevData;
 
+  // console.log('dateHandle');
+  // console.log(dateHandle);
+
   const { caloriesBurned, duration } = data;
   const stepsMade = data.steps ? data.steps : 0;
 
-  const path = `users/${username}/dataByDay/${dateHandle}`;
+  const path = `users/${username}/dataByDay/${dateHandle}/`;
 
   const updates = {
     [path + `totalActivityDuration`]: totalActivityDuration + duration,

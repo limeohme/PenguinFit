@@ -54,8 +54,8 @@ const extractGoals = (obj) => {
 
 const getSteps = (obj) => {
   if(!obj) return [];
-  console.log(obj);
-  return [...extractGoals(obj.general), ...extractGoals(obj.byExercise)].flat();
+  // console.log([...Object.values(obj).map(el => extractGoals(el))].flat(2));
+  return [...Object.values(obj).map(el => extractGoals(el))].flat(2);
 };
 
 function Goals() {

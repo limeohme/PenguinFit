@@ -3,7 +3,7 @@ import AppState from '../../providers/app-state';
 import { activitiesMET } from '../../common/activitiesMET';
 import { activityTypes } from '../../common/activity-types';
 // import { getActivityTotalCalBurned } from '../../utils/utils';
-import { getUserDataOfDay, listenToFriends, updateUserActivitiesDataByDay } from '../../services/user-service';
+import { listenToFriends, updateUserActivitiesDataByDay } from '../../services/user-service';
 import { addActivity, createActivityObject, updateRelatedGoals } from '../../services/activities-service';
 import { 
   Autocomplete, 
@@ -108,11 +108,11 @@ const CreateActivityForm = () => {
     // const today = new Date();
     // console.log(getDateAsString(today));
     
-    getUserDataOfDay(user.username, 'Sat Aug 6 2022').then((snapshot)=>{
+    // getUserDataOfDay(user.username, 'Sat Aug 6 2022').then((snapshot)=>{
       
-      console.log('FROM CREATE ACTIVITY FORM');
-      console.log(snapshot.val());
-    });
+    //   console.log('FROM CREATE ACTIVITY FORM');
+    //   console.log(snapshot.val());
+    // });
 
     // validations -> optimize -> in validateInputs() + setError()
 
