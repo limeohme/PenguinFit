@@ -20,7 +20,7 @@ export function PieNutrientsDistribution ({ nutrients }) {
         innerRadius={60}
         data={nutrients}
         labels={({ datum }) => datum.x}
-        labelComponent={<VictoryLabel angle={5} style={{ fill: 'navy' }}/> }
+        labelComponent={<VictoryLabel angle={5} style={{ fill: '#000' }}/> }
       />
       <Typography sx={style.chartNamesStyle} variant='h7'>nutrients distribution %</Typography>
     </Grid>
@@ -69,7 +69,7 @@ export function PieGoalAchievement ({ goals }) {
         innerRadius={60}
         data={goals}
         labels={({ datum }) => datum.x}
-        labelComponent={<VictoryLabel angle={5} style={{ fill: 'navy' }}/> }
+        labelComponent={<VictoryLabel angle={5} style={{ fill: '#000' }}/> }
       />
       <Typography sx={style.chartNamesStyle} variant='h7'>goal achievement %</Typography>
     </Grid>

@@ -1,10 +1,10 @@
 import {  VictoryBar, VictoryChart, VictoryAxis } from 'victory';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import * as style from './BarChartsStyles.js';
 import { getCalorieDifferenceByDate, getExerciseDurationByDate } from '../../../services/dashboard-service.js';
-import { _useContext, useEffect, useState } from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AppState from '../../../providers/app-state.js';
+import NoDataYet from '../../NoDataYet/NoDataYet.jsx';
 
 
 export function BarActivityDurationByDay () {
@@ -13,12 +13,15 @@ export function BarActivityDurationByDay () {
 
   useEffect(() => {
     getExerciseDurationByDate(user.username).then((res) => setExerciseDuration(res), console.error);
-  }, []);
+  }, [user.username]);
 
   return (
     <Box sx={style.barChartStyle}>
       { !exerciseDuration.length?
-        <Typography variant='h4' >No data here yet...🥺 </Typography> :
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+          flexDirection: 'column', height: '400px', my: '2rem' }}>
+          <NoDataYet/>  
+        </Box> :
         <>
           <VictoryChart minDomain={{ x: 0, y: 0 }} style={{ padding: 10, width: 'fit-content' }}>
             <VictoryAxis label={'minutes in activities'}  style={{
@@ -73,11 +76,15 @@ export function BarCalorieBalanceByDay () {
 
   useEffect(() => {
     getCalorieDifferenceByDate(user.username).then((res) => setCalorieDifference(res), console.error);
-  }, []);
+  }, [user.username]);
+
   return (
     <Box sx={style.barChartStyle}>
       { !calorieDifference.length?
-        <Typography variant='h4' >No data here yet...🥺 </Typography> :
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+          flexDirection: 'column', height: '400px', my: '2rem' }}>
+          <NoDataYet/>  
+        </Box> :
         <>
           <VictoryChart domainPadding={{ x: 4 }} minDomain={{ x: 0,  y: -1000 }}>
             <VictoryAxis style={{

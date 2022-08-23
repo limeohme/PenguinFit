@@ -17,8 +17,6 @@ export const pieChartStyle = {
 
 export const chartNamesStyle = {
   fontWeight: 700,
-  fontFamily: 'Monospace',
   letterSpacing: 1,
-  color: blue,
   mx: '1rem'
 };

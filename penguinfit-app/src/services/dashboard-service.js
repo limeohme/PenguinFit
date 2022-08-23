@@ -1,4 +1,4 @@
-import { equalTo, get, onValue, orderByChild, query, ref, } from 'firebase/database';
+import { equalTo, get, limitToLast, onValue, orderByChild, query, ref, } from 'firebase/database';
 import { db } from '../config/firebase-config';
 import { getDateAsString } from '../utils/utils';
 
@@ -32,7 +32,7 @@ export const getStatsToday = (user, listen) => {
 };
   
 export const getExerciseDurationByDate = (user) => {
-  return get(query(ref(db, `users/${user}/dataByDay`)), orderByChild('dateVal'))
+  return get(query(ref(db, `users/${user}/dataByDay`), orderByChild('dateVal'), limitToLast(30)),)
     .then((snapshot) => {
       if (snapshot.exists()) {
         return Object.values(snapshot.val()).map((el) => {
@@ -46,7 +46,7 @@ export const getExerciseDurationByDate = (user) => {
 };
   
 export const getCalorieDifferenceByDate = (user) => {
-  return get(query(ref(db, `users/${user}/dataByDay`)), orderByChild('dateVal'))
+  return get(query(ref(db, `users/${user}/dataByDay`), orderByChild('dateVal'), limitToLast(30)))
     .then((snapshot) => {
       if (snapshot.exists()) {
         return Object.values(snapshot.val()).map((el) => {

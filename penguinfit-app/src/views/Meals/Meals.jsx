@@ -6,12 +6,13 @@ import MealForm from '../../components/FormsComponents/MealForm/MealForm';
 import { PieMealsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
 import SingleMeal from '../../components/SingleViewComponent/SingleMeal/SingleMeal';
 import AppState from '../../providers/app-state';
-import { getMealByType, getMealCalsByType, getRecentMeals } from '../../services/meals-service';
+import { getMealByType, getMealCalsByType, _getRecentMeals } from '../../services/meals-service';
 import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';
 import { formatDateToString } from '../../utils/utils';
 import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import { updateDailyWaterGetter, updateDailyWaterUpdater } from '../../services/meals-service';
 import { getStatsToday } from '../../services/dashboard-service';
+import NoDataYet from '../../components/NoDataYet/NoDataYet';
 
 function Meals () {
 
@@ -32,19 +33,19 @@ function Meals () {
 
   }, [meals]);
 
-  useEffect(() => {
-    const unsub = getRecentMeals(user.username, (snapshot) => {
-      if (snapshot.exists()) {
-        setMeals([...Object.values(snapshot.val())]);
-      }
-    });
+  // useEffect(() => {
+  //   const unsub = getRecentMeals(user.username, (snapshot) => {
+  //     if (snapshot.exists()) {
+  //       setMeals([...Object.values(snapshot.val())]);
+  //     }
+  //   });
 
-    return unsub;
-  });
+  //   return unsub;
+  // });
 
   useEffect(() => {
     getStatsToday(user.username, (snapshot) => setWater(Object.values(snapshot.val())[0].waterIntake));
-  }, []);
+  }, [user.username]);
 
   const addMealHandler = (newMeal) => {
     const theDate = formatDateToString(new Date());
@@ -118,12 +119,16 @@ function Meals () {
           <Grid item container  justifyContent="center" direction="column">
             {meals.length? 
               <BarCaloriesByMeal data={calData}/> :
-              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
-                <Typography variant='h4' >No data here yet...🥺 </Typography> </Grid>
+              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+                flexDirection: 'column', height: '400px', my: '2rem' }}>
+                <NoDataYet/>  
+              </Grid>
             }
             {meals.length? <PieMealsDistribution meals={typeData}/> : 
-              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
-                <Typography variant='h4' >No data here yet...🥺 </Typography> </Grid>}
+              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column',
+                alignItems: 'center', height: '400px', my: '2rem' }}>
+                <NoDataYet/>
+              </Grid>}
           </Grid>
         </Grid>
         

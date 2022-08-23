@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { BarActivityDurationByDay, BarCalorieBalanceByDay } from '../../components/DataVisualisationComponents/BarCharts/BarCharts.jsx';
 import { PieGoalAchievement, PieNutrientsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts.jsx';
 import StatsCardsDash from '../../components/SingleViewComponent/StatsCardDash/StatsCardDash.jsx';
+import NoDataYet from '../../components/NoDataYet/NoDataYet.jsx';
 
 function Dashboard () {
 
@@ -29,13 +30,13 @@ function Dashboard () {
     getGoalsDistribution(appState.user.username).then((res) => { 
       if (res) setGoals(res);
     }, console.error);
-  }, []);
+  }, [appState.user.username]);
 
   useEffect(() => {
     getNutrientDistribution(appState.user.username).then((res) => { 
       if (res) setNutrients(res);
     }, console.error);
-  }, []);
+  }, [appState.user.username]);
 
   useEffect(() => {
     setInterval(() => {
@@ -78,14 +79,16 @@ function Dashboard () {
         <Grid container direction='row-reverse' sx={style.piessContainerStyle}>      
           {goals.length? 
             <PieGoalAchievement goals={goals}/> :
-            <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
-              <Typography variant='h4' >No data here yet...🥺 </Typography> 
+            <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+              flexDirection: 'column', height: '400px', m: '2rem' }}>              
+              <NoDataYet/>
             </Grid>
           }
           { nutrients.length?
             <PieNutrientsDistribution nutrients={nutrients}/> :
-            <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
-              <Typography variant='h4' >No data here yet...🥺 </Typography> 
+            <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+              flexDirection: 'column', height: '400px', m: '2rem' }}>
+              <NoDataYet/> 
             </Grid>
           }
 
