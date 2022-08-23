@@ -26,11 +26,15 @@ function Dashboard () {
   const [goals, setGoals] = useState([]);
 
   useEffect(() => {
-    getGoalsDistribution().then((res) => setGoals(res), console.error);
+    getGoalsDistribution(appState.user.username).then((res) => { 
+      if (res) setGoals(res);
+    }, console.error);
   }, []);
 
   useEffect(() => {
-    getNutrientDistribution().then((res) => setNutrients(res), console.error);
+    getNutrientDistribution(appState.user.username).then((res) => { 
+      if (res) setNutrients(res);
+    }, console.error);
   }, []);
 
   useEffect(() => {
@@ -71,9 +75,20 @@ function Dashboard () {
         <Grid item xs>
           <Typography sx={style.dateStyle} variant='h5'>{date? formatDateToString(date): ''}</Typography>
         </Grid>
-        <Grid container direction='row-reverse' sx={style.piessContainerStyle}>
-          <PieGoalAchievement goals={goals}/>
-          <PieNutrientsDistribution nutrients={nutrients}/>
+        <Grid container direction='row-reverse' sx={style.piessContainerStyle}>      
+          {goals.length? 
+            <PieGoalAchievement goals={goals}/> :
+            <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
+              <Typography variant='h4' >No data here yet...🥺 </Typography> 
+            </Grid>
+          }
+          { nutrients.length?
+            <PieNutrientsDistribution nutrients={nutrients}/> :
+            <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
+              <Typography variant='h4' >No data here yet...🥺 </Typography> 
+            </Grid>
+          }
+
         </Grid>
         {/* right chart*/}
         <BarCalorieBalanceByDay/>

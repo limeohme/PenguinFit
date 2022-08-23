@@ -1,6 +1,6 @@
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { ACTIVITIES_REQUEST_LIMIT, MEAL_TYPES } from '../../common/constants';
+import { MEAL_TYPES } from '../../common/constants';
 import { BarCaloriesByMeal } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
 import MealForm from '../../components/FormsComponents/MealForm/MealForm';
 import { PieMealsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
@@ -125,12 +125,6 @@ function Meals () {
               <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
                 <Typography variant='h4' >No data here yet...🥺 </Typography> </Grid>}
           </Grid>
-          {/* <Grid container item spacing={4}>            
-            
-            {meals.length? <PieNutrientsDistribution/> : 
-              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px',  m: '2rem' }}>
-                <Typography variant='h4' >No data here yet...🥺</Typography></Grid>}
-          </Grid> */}
         </Grid>
         
       </Grid>
