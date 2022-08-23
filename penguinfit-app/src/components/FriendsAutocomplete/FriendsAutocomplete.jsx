@@ -2,7 +2,8 @@ import { Autocomplete, Checkbox, TextField } from '@mui/material';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { useState } from 'react';
-import { addUserFriends } from '../../services/user-service';
+import { sendFriendRequest } from '../../services/friends-service';
+// import { addUserFriends } from '../../services/user-service';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -17,7 +18,8 @@ export default function FriendsAutocomplete({ username, notFriends }) {
       // Prevent's default 'Enter' behavior.
       event.defaultMuiPrevented = true;
       // console.log(selectedOptions);  
-      addUserFriends(username, selectedOptions);
+      // addUserFriends(username, selectedOptions);
+      selectedOptions.forEach(el => sendFriendRequest(username, el));
       setSelectedOptions([]);
     }
   };

@@ -17,6 +17,8 @@ export const midiContainerStyle = {
 };
 
 export const cardsContainerStyle = {
+  mt: '4rem',
+  mb: '8rem',
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-around',

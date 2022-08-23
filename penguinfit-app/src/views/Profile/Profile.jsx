@@ -17,6 +17,9 @@ import { storage } from '../../config/firebase-config.js';
 import { Stack } from '@mui/system';
 import RenderFriendsManagement from '../../components/RenderFriendsManagement/RenderFriendsManagement.jsx';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import DoneOutlineRoundedIcon from '@mui/icons-material/DoneOutlineRounded';
+import CancelIcon from '@mui/icons-material/Cancel';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 
 
 function Profile () {
@@ -25,7 +28,7 @@ function Profile () {
   const [edit, setEdit] = useState(false);
   const [upload, setUpload] = useState(false);
   const fileInput = useRef();
-  // const [BMI, setBMI] = useState(0);
+  const [user, setUser] = useState(appState.user);
   const [form, setForm] = useState({
     age: '',
     height: '',
@@ -40,10 +43,6 @@ function Profile () {
     { value: 25, label:'25' },
   ];
   
-  // function refreshPage() {
-  //   window.location.reload(false);
-  // }
-
   function editDetailsHandler(newForm) {
     try {
       validateProfileUpdates(newForm);
@@ -63,31 +62,30 @@ function Profile () {
           );
       }
       
-      updateUserInfoDB(appState.user.username, newForm);
-      setMessage('Details changed successfully\nRefresh to see your changes 😊');
-      // refreshPage();
+      updateUserInfoDB(user.username, newForm);
+      updateLocalUser(newForm);
+      setMessage('Details changed successfully! 😊');
       setTimeout(() => {setMessage('');}, 4000);
     } catch (err) {
       setMessage(err.message);
     }
   }
-  // const handleFileUploadError = () => {
-  //   // Do something...
-  // };
-  
+ 
   const handleFilesChange = (e) => {
     const file = e.target.files[0];
     if (!file) {
       setMessage('Please select an image.');
       return;
     }
-    uploadBytes(ref(storage, `images/${appState.user.username}/avatar`), file)
+    setUpload(false);
+    uploadBytes(ref(storage, `images/${user.username}/avatar`), file)
       .then((snapshot) => {
         return getDownloadURL(snapshot.ref)
           .then((url) => {
-            updateUserProfilePicture(appState.user.username, url).then(() => {
-              updateUserInfo({ ...appState.user, avatarURL: url });
-              setMessage('Yay, success!\nPlease refresh to see your changes.');
+            updateUserProfilePicture(user.username, url).then(() => {
+              updateUserInfo({ ...user, avatarURL: url });
+              setUser({ ...user, avatarURL: url });
+              setMessage('Yay, success!');
               
             });
           }
@@ -95,6 +93,20 @@ function Profile () {
       }).catch(console.error);
   };
 
+  const updateLocalUser = (newForm) => {
+    setUser({
+      ...user,
+      age: newForm.age || user.age,
+      height: newForm.height || user.height,
+      weight: newForm.weight || user.weight,
+      email: newForm.email || user.email,
+      phoneNumber: newForm.phoneNumber || user.phoneNumber,
+    });
+  };
+
+  const calculateBMI = () => {
+    return (Number(user.weight)/((Number(user.height)/100)**2));
+  };
   
   
   return (
@@ -102,13 +114,13 @@ function Profile () {
       <Grid item container xs md>
         <Grid container direction="row">
           <Grid item xs md sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'center', alignItems: 'center' }}>
-            <Avatar sx={style.avatarStyle} alt={appState.user.username} src={appState.user.avatarURL || getRandomAvatar(appState.user.username)} />
+            <Avatar sx={style.avatarStyle} alt={user} src={user.avatarURL || getRandomAvatar(user.username)} />
             {!edit ? 
-              <SettingsRoundedIcon onClick={() => setEdit(!edit)} sx={{ alignSelf: 'center', ml: 10, mt: 0 }}/>:
+              <SettingsRoundedIcon onClick={() => setEdit(true)} sx={{ alignSelf: 'center', ml: 10, mt: 0 }}/>:
               <Box sx={style.buttonBoxStyle}>
-                <Button onClick={() => editDetailsHandler(form)}>DONE</Button>
-                <Button onClick={() => {setMessage(''); setEdit(!edit); setUpload(false);}}>X</Button>
-                <Button onClick={() => {setUpload(true);}}>{'UPLOAD\nAVATAR'}</Button>
+                <Button onClick={() => {editDetailsHandler(form); setUpload(false);}}><DoneOutlineRoundedIcon/></Button>
+                <Button onClick={() => {setMessage(''); setEdit(!edit); setUpload(false);}}><CancelIcon/></Button>
+                <Button onClick={() => {setUpload(!upload);}}><InsertPhotoIcon/></Button>
               </Box>
           
             }
@@ -122,28 +134,28 @@ function Profile () {
             }
             <Typography sx={style.messageStyle}>{message? message : ''}</Typography>
             
-            <Typography sx={{ ...style.nameStyle }}>{appState.user.username}</Typography>
+            <Typography sx={{ ...style.nameStyle }}>{user.username}</Typography>
             {edit? '' :
               <>
-                <Typography  sx={{ ...style.infoBoxStyle }}>{`${appState.user.age} yrs`}</Typography>
-                <Typography sx={{ ...style.infoBoxStyle }}>{`${appState.user.email}`}</Typography>
-                <Typography sx={{ ...style.infoBoxStyle }}>{`${appState.user.phoneNumber}`}</Typography>
-                <Typography sx={{ ...style.infoBoxStyle }}>{`${appState.user.height} cm`}</Typography>
-                <Typography sx={{ ...style.infoBoxStyle }}>{`${appState.user.weight} kg`}</Typography>
+                <Typography  sx={{ ...style.infoBoxStyle }}>{`${user.age} yrs`}</Typography>
+                <Typography sx={{ ...style.infoBoxStyle }}>{`${user.email}`}</Typography>
+                <Typography sx={{ ...style.infoBoxStyle }}>{`${user.phoneNumber}`}</Typography>
+                <Typography sx={{ ...style.infoBoxStyle }}>{`${user.height} cm`}</Typography>
+                <Typography sx={{ ...style.infoBoxStyle }}>{`${user.weight} kg`}</Typography>
               </>
             }
 
             { edit === true ?
               <Box sx={{ display: 'flex', flexDirection: 'column', my: '1rem' }}>
-                <TextField variant="standard" placeholder={appState.user.age + ' years'} type='text'  
+                <TextField variant="standard" placeholder={user.age + ' years'} type='text'  
                   onChange={(e) => setForm({ ...form, age: e.target.value })}/>
-                <TextField variant="standard" placeholder={appState.user.email} type='text' 
+                <TextField variant="standard" placeholder={user.email} type='text' 
                   onChange={(e) => setForm({ ...form, email: e.target.value })}/>
-                <TextField variant="standard" placeholder={appState.user.phoneNumber} type='text'  
+                <TextField variant="standard" placeholder={user.phoneNumber} type='text'  
                   onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}/>
-                <TextField variant="standard" placeholder={appState.user.height + ' cm'} type='text'  
+                <TextField variant="standard" placeholder={user.height + ' cm'} type='text'  
                   onChange={(e) => setForm({ ...form, height: e.target.value })}/>
-                <TextField variant="standard" placeholder={appState.user.weight + ' kg'} type='text' 
+                <TextField variant="standard" placeholder={user.weight + ' kg'} type='text' 
                   onChange={(e) => setForm({ ...form, weight: e.target.value })}/>
                 <TextField variant="standard" placeholder='New password' value={form.password} type='password' 
                   onChange={(e) => setForm({ ...form, password: e.target.value })}/>            
@@ -156,13 +168,13 @@ function Profile () {
           <Grid item xs md sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'space-between' }}>
             <Box sx={ style.sideBoxStyleGreen }>
               <Typography sx={ style.BMIStyle}>BMI </Typography>
-              <Typography sx={ style.BMINumberStyle}>{Number((Number(appState.user.weight)/((Number(appState.user.height)/100)**2)).toFixed(0))}</Typography>
-              <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage((Number(appState.user.weight)/((Number(appState.user.height)/100)**2)))}</Typography>
+              <Typography sx={ style.BMINumberStyle}>{calculateBMI().toFixed(0)}</Typography>
+              <Typography sx={style.BMIMsgStyle}>{calculateBMIMessage(calculateBMI())}</Typography>
               <Typography sx={style.rangeStyle}>Healthy Range:</Typography>
               <Slider sx={style.sliderStyle} disabled={true} marks={BMIMarks} step={0.5} valueLabelDisplay="auto" defaultValue={[18.5, 25]} min={13.5} max={30} />
             </Box>
             <Box sx={style.sideBoxStyleBlue}>
-              <Typography sx={ style.activityStyle}>{activityStatus[appState.user.activityStatus]}</Typography>
+              <Typography sx={ style.activityStyle}>{activityStatus[user.activityStatus]}</Typography>
             </Box>
           </Grid>
         
@@ -177,7 +189,7 @@ function Profile () {
               alignItems="center"
               spacing={2}>
               <Typography align="center" variant='h5'>Friends</Typography>
-              <RenderFriendsManagement username={ appState.user.username }></RenderFriendsManagement>
+              <RenderFriendsManagement username={ user.username }></RenderFriendsManagement>
             </Stack>
           </Paper>
         </Box>

@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { BarActivityDurationByDay, BarCalorieBalanceByDay } from '../../components/DataVisualisationComponents/BarCharts/BarCharts.jsx';
 import { PieGoalAchievement, PieNutrientsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts.jsx';
 import StatsCardsDash from '../../components/SingleViewComponent/StatsCardDash/StatsCardDash.jsx';
+import NoDataYet from '../../components/NoDataYet/NoDataYet.jsx';
 
 function Dashboard () {
 
@@ -26,12 +27,16 @@ function Dashboard () {
   const [goals, setGoals] = useState([]);
 
   useEffect(() => {
-    getGoalsDistribution().then((res) => setGoals(res), console.error);
-  }, []);
+    getGoalsDistribution(appState.user.username).then((res) => { 
+      if (res) setGoals(res);
+    }, console.error);
+  }, [appState.user.username]);
 
   useEffect(() => {
-    getNutrientDistribution().then((res) => setNutrients(res), console.error);
-  }, []);
+    getNutrientDistribution(appState.user.username).then((res) => { 
+      if (res) setNutrients(res);
+    }, console.error);
+  }, [appState.user.username]);
 
   useEffect(() => {
     setInterval(() => {
@@ -71,9 +76,22 @@ function Dashboard () {
         <Grid item xs>
           <Typography sx={style.dateStyle} variant='h5'>{date? formatDateToString(date): ''}</Typography>
         </Grid>
-        <Grid container direction='row-reverse' sx={style.piessContainerStyle}>
-          <PieGoalAchievement goals={goals}/>
-          <PieNutrientsDistribution nutrients={nutrients}/>
+        <Grid container direction='row-reverse' sx={style.piessContainerStyle}>      
+          {goals.length? 
+            <PieGoalAchievement goals={goals}/> :
+            <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+              flexDirection: 'column', height: '400px', m: '2rem' }}>              
+              <NoDataYet/>
+            </Grid>
+          }
+          { nutrients.length?
+            <PieNutrientsDistribution nutrients={nutrients}/> :
+            <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+              flexDirection: 'column', height: '400px', m: '2rem' }}>
+              <NoDataYet/> 
+            </Grid>
+          }
+
         </Grid>
         {/* right chart*/}
         <BarCalorieBalanceByDay/>

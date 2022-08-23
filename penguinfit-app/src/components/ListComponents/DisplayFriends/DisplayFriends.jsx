@@ -1,15 +1,17 @@
 // import { Avatar, Chip } from '@mui/material';
 import { Stack } from '@mui/system';
-import SingleFriendView from '../../SingleViewComponent/SingleFriendView/SingleFriendView';
+import { removeUserFriend } from '../../../services/user-service';
+import SingleFriendContainerView from '../../SingleViewComponent/SingleFriendView/SingleFriendView';
 
 export default function DisplayFriends({ friends, username }) {
 
   return (
     <Stack direction="column" spacing={1}>
-      {friends.map(el => <SingleFriendView
+      {friends.map(el => <SingleFriendContainerView
         key={el.username}
-        friend={el}
-        user={username}
+        avatar={ el.avatarURL }
+        text={ el.username}
+        handleDelete={() => removeUserFriend(username, el.username)}
       />)}
     </Stack>
   );

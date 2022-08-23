@@ -1,8 +1,8 @@
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { ACTIVITIES_REQUEST_LIMIT, MEAL_TYPES } from '../../common/constants';
+import { MEAL_TYPES } from '../../common/constants';
 import { BarCaloriesByMeal } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
-import MealForm from '../../components/FormsComponents/MealForm/MealForm';
+import MealForm from '../../components/FormsComponents/CreateMealForm/CreateMealForm';
 import { PieMealsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
 import SingleMeal from '../../components/SingleViewComponent/SingleMeal/SingleMeal';
 import AppState from '../../providers/app-state';
@@ -12,6 +12,7 @@ import { formatDateToString } from '../../utils/utils';
 import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import { updateDailyWaterGetter, updateDailyWaterUpdater } from '../../services/meals-service';
 import { getStatsToday } from '../../services/dashboard-service';
+import NoDataYet from '../../components/NoDataYet/NoDataYet';
 
 function Meals () {
 
@@ -44,7 +45,7 @@ function Meals () {
 
   useEffect(() => {
     getStatsToday(user.username, (snapshot) => setWater(Object.values(snapshot.val())[0].waterIntake));
-  }, []);
+  }, [user.username]);
 
   const addMealHandler = (newMeal) => {
     const theDate = formatDateToString(new Date());
@@ -118,19 +119,17 @@ function Meals () {
           <Grid item container  justifyContent="center" direction="column">
             {meals.length? 
               <BarCaloriesByMeal data={calData}/> :
-              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
-                <Typography variant='h4' >No data here yet...🥺 </Typography> </Grid>
+              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
+                flexDirection: 'column', height: '400px', my: '2rem' }}>
+                <NoDataYet/>  
+              </Grid>
             }
             {meals.length? <PieMealsDistribution meals={typeData}/> : 
-              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px', m: '2rem' }}>
-                <Typography variant='h4' >No data here yet...🥺 </Typography> </Grid>}
+              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column',
+                alignItems: 'center', height: '400px', my: '2rem' }}>
+                <NoDataYet/>
+              </Grid>}
           </Grid>
-          {/* <Grid container item spacing={4}>            
-            
-            {meals.length? <PieNutrientsDistribution/> : 
-              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff75', height: '400px',  m: '2rem' }}>
-                <Typography variant='h4' >No data here yet...🥺</Typography></Grid>}
-          </Grid> */}
         </Grid>
         
       </Grid>

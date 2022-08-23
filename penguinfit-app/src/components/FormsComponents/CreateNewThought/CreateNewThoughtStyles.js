@@ -52,7 +52,6 @@ export const sideBoxStyle = {
 export const messageStyle = {
   fontSize: 16,
   fontWeight: 'bold',
-  fontFamily: 'Monospace',
   letterSpacing: 1,
   color: pink[600],
   alignSelf: 'center'
