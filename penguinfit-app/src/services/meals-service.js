@@ -8,6 +8,7 @@ import {
   set,
   equalTo,
   onValue,
+  limitToLast,
 } from 'firebase/database';
 import { EDAMAM_APP_ID, EDAMAM_APP_KEY, MEAL_TYPES } from '../common/constants';
 
@@ -19,7 +20,7 @@ export const addMealToDB = (user, meal) => {
 };
 
 export const getRecentMeals = (user, listen) => {
-  return onValue(query(ref(db, `meals/${user}`), orderByChild('dateVal')), listen);
+  return onValue(query(ref(db, `meals/${user}`), orderByChild('dateVal'), limitToLast(7)), listen);
 };
 
 export const getFoodItemData = async (foodItem, grams) => {

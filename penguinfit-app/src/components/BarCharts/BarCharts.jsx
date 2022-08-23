@@ -116,7 +116,7 @@ export function BarCaloriesByMeal ({ data }) {
         tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
       }}
       dependentAxis />
-      <VictoryAxis label={'average calorie intake by meal,\nAugust 2022'}  style={{
+      <VictoryAxis label={'average calorie intake by meal,\nlast 7 days'}  style={{
         axis: { stroke: '#c5e1a5', padding: 5 },
         axisLabel: { fontSize: 12, padding: -220 },
         ticks: { stroke: 'grey', size: 5 },
