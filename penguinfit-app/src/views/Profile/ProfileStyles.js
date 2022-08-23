@@ -106,7 +106,7 @@ export const avatarStyle = {
   width: '8rem',
   height: '8rem',
   alignSelf: 'center',
-  p: '0.3rem',
+  p: '0.5rem',
   mt: '1rem',
   bgcolor: 'transparent',
   boxSizing: 'border-box'
