@@ -14,7 +14,7 @@ export default function NotificationsPopover() {
   };
   
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const id = open ? 'notifications-popover' : undefined;
   
   return (
     <Box sx={{ mr: 1 }}>
