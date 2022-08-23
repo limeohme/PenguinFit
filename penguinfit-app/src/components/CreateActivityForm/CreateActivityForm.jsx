@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import AppState from '../../providers/app-state';
 import { activitiesMET } from '../../common/activitiesMET';
-import { activityTypes } from '../../common/activity-types';
+import { typesDetails } from '../../common/types-details';
 // import { getActivityTotalCalBurned } from '../../utils/utils';
 import { listenToFriends, updateUserActivitiesDataByDay } from '../../services/user-service';
 import { addActivity, createActivityObject, updateRelatedGoals } from '../../services/activities-service';
@@ -307,7 +307,7 @@ const CreateActivityForm = () => {
               row
               sx={{ justifyContent: 'space-between', alignSelf:'centre' }}
             >
-              {renderTypeOptions(activityTypes)}
+              {renderTypeOptions(typesDetails)}
             </RadioGroup>
           </FormControl>
 
@@ -320,7 +320,7 @@ const CreateActivityForm = () => {
       </Grid>
 
       <Grid container spacing={2}>
-        {renderTypeDetails(activityTypes, formValues, handleInputChange)}
+        {renderTypeDetails(typesDetails, formValues, handleInputChange)}
       </Grid>
 
       <Grid container spacing={2}>
