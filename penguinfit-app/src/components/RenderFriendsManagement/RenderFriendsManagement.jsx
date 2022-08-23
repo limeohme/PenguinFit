@@ -2,6 +2,8 @@ import DisplayFriends from '../ListComponents/DisplayFriends/DisplayFriends';
 import { useEffect, useState } from 'react';
 import { getAllUsers, listenToFriends, getUserFriends } from '../../services/user-service';
 import FriendsAutocomplete from '../FriendsAutocomplete/FriendsAutocomplete';
+// import { getUserRequest } from '../../services/friends-service';
+// import DisplayRequests from '../ListComponents/DisplayFriends/DisplaysetRequests';
 
 
 
@@ -17,12 +19,15 @@ const getAddFriendsOptions = (friends, users, username) => {
 export default function RenderFriendsManagement({ username }) {
   const [ users, setUsers ] = useState([]);
   const [ friends, setFriends ] = useState([]);
+  // const [ requests, setRequests ] = useState([]);
 
   useEffect(() => {
     getAllUsers()
       .then((snapshot) => setUsers(snapshot.val()));
     getUserFriends(username)
       .then((UserFriends) => setFriends(UserFriends));
+    // getUserRequest(username)
+    //   .then((snapshot) => setRequests(snapshot.val()));
   }, []);
 
   useEffect(() => {
@@ -32,7 +37,6 @@ export default function RenderFriendsManagement({ username }) {
     });
     return () => unsubscribe();
   }, []);
-
   return (
     <>
       <FriendsAutocomplete 
@@ -44,6 +48,9 @@ export default function RenderFriendsManagement({ username }) {
         friends={ friends }
         username={username} >
       </DisplayFriends>
+      {/* <DisplayRequests>
+        requests={Object.values(requests)}
+      </DisplayRequests> */}
     </>
   );
 };
