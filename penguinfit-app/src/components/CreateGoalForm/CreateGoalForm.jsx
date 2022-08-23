@@ -17,7 +17,7 @@ const defaultValues = {
 
 const CreateGoalForm = ({ username }) => {
   const [formValues, setFormValues] = useState(defaultValues);
-
+  const [ formType, setFormType ] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +27,11 @@ const CreateGoalForm = ({ username }) => {
     });
   };
   
+  const handleFormTypeChange = (e) => {
+    const { value } = e.target;
+    setFormType(value);
+    if(value === 'general') setFormValues({ ...formValues, type:'general' });
+  };
   
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -82,8 +87,8 @@ const CreateGoalForm = ({ username }) => {
               >
                 <RadioGroup
                   name="type"
-                  value={formValues.type}
-                  onChange={handleInputChange}
+                  value={formType}
+                  onChange={handleFormTypeChange}
                   row
                   sx={{ justifyContent: 'space-between', alignSelf:'centre' }}
                 >
@@ -103,6 +108,7 @@ const CreateGoalForm = ({ username }) => {
               </FormControl>
             </Grid>
             <Grid item xs={4}>
+              {formType === 'general' &&
               <FormControl 
                 disabled={!formValues.type}
                 sx={{ m: 1, minWidth: 120 }}
@@ -118,30 +124,58 @@ const CreateGoalForm = ({ username }) => {
                   variant="standard" 
                   size="small" 
                 >
-                  {formValues.type === 'general' && 
-                   <MenuItem key="caloriesBurned" value="caloriesBurned">
-                     <em>Calories burned</em>
-                   </MenuItem>
-                  }
-                  {formValues.type === 'general' && 
-                   <MenuItem key="duration" value="duration">
-                     <em>Duration</em>
-                   </MenuItem>
-                  }
-                  {formValues.type === 'byExercise' && 
-                   Object.keys(activitiesMET).sort().map((el) => {
-                     return(
-                       <MenuItem key={el} value={el}>
-                         <em>{el}</em>
-                       </MenuItem>
-                     );
-                   })
-                  }
-                
+                  <MenuItem key="caloriesBurned" value="caloriesBurned">
+                    <em>Calories burned</em>
+                  </MenuItem>
+                  
+                  <MenuItem key="duration" value="duration">
+                    <em>Duration</em>
+                  </MenuItem>
                 </Select>
               </FormControl>
+              }
+              {formType === 'byExercise' &&
+              <FormControl 
+                disabled={!formValues.type}
+                sx={{ m: 1, minWidth: 120 }}
+              >
+                <InputLabel id="target">Exercise</InputLabel>
+                <Select
+                  name="type"
+                  label='Exercise'
+                  id='type'
+                  value={formValues.type}
+                  onChange={handleInputChange}
+                  fullWidth
+                  variant="standard" 
+                  size="small" 
+                > 
+                  { Object.keys(activitiesMET).sort().map((el) => {
+                    return(
+                      <MenuItem key={el} value={el}>
+                        <em>{el}</em>
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+              } 
             </Grid>
-        
+            {formType === 'byExercise' &&
+            <Grid item xs={12}>
+              <TextField
+                id="target-input"
+                name="target"
+                label="Target"
+                type="text"
+                value={formValues.target}
+                onChange={handleInputChange}
+                fullWidth
+                variant="standard" 
+                size="small" 
+              />
+            </Grid>
+            }
           </Grid>
           <Grid container spacing={2} alignItems="flex-end">
             <Grid item xs={8}>
