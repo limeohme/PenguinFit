@@ -57,7 +57,9 @@ function Meals () {
   };
 
   const AddWaterHandler = () => {
-    const unsub = updateDailyWaterGetter(user.username).then((snapshot) => updateDailyWaterUpdater(snapshot, user.username).catch(console.error));
+    const unsub = updateDailyWaterGetter(user.username).then((snapshot) => {
+      if (snapshot.exists()) updateDailyWaterUpdater(snapshot, user.username).catch(console.error);
+    });
     return unsub;
 
   };

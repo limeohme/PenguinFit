@@ -1,5 +1,6 @@
 import { equalTo, get, onValue, orderByChild, query, ref, } from 'firebase/database';
 import { db } from '../config/firebase-config';
+import { getDateAsString } from '../utils/utils';
 
 export const getGoalsDistribution = () => {
   return get(ref(db, `users/BabyPenguin78/goalsStatus`))
@@ -41,8 +42,8 @@ export const getNutrientDistribution = () => {
   
 // };
   
-export const getStatsToday = (listen) => {
-  return onValue(query(ref(db, `users/BabyPenguin78/dataByDay`), orderByChild('dateVal'), equalTo(1660078800000)), listen);
+export const getStatsToday = (user, listen) => {
+  return onValue(query(ref(db, `users/${user}/dataByDay`), orderByChild('date'), equalTo(getDateAsString(new Date()))), listen);
 };
   
 export const getExerciseDurationByDate = () => {
