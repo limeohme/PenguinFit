@@ -1,9 +1,10 @@
-import DisplayFriends from '../DisplayFriends/DisplayFriends';
+import DisplayFriends from '../ListComponents/DisplayFriends/DisplayFriends';
 import { useEffect, useState } from 'react';
 import { getAllUsers, listenToFriends, getUserFriends } from '../../services/user-service';
 import FriendsAutocomplete from '../FriendsAutocomplete/FriendsAutocomplete';
 // import { getUserRequest } from '../../services/friends-service';
 // import DisplayRequests from '../ListComponents/DisplayFriends/DisplaysetRequests';
+
 
 
 const getAddFriendsOptions = (friends, users, username) => {

@@ -13,9 +13,9 @@ import {
 } from '../../services/dashboard-service.js';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { BarActivityDurationByDay, BarCalorieBalanceByDay } from '../../components/BarCharts/BarCharts.jsx';
-import { PieGoalAchievement, PieNutrientsDistribution } from '../../components/PieCharts/PieCharts.jsx';
-import StatsCardsDash from '../../components/StatsCardDash/StatsCardDash.jsx';
+import { BarActivityDurationByDay, BarCalorieBalanceByDay } from '../../components/DataVisualisationComponents/BarCharts/BarCharts.jsx';
+import { PieGoalAchievement, PieNutrientsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts.jsx';
+import StatsCardsDash from '../../components/SingleViewComponent/StatsCardDash/StatsCardDash.jsx';
 
 function Dashboard () {
 

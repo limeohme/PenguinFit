@@ -1,8 +1,8 @@
 import { CardContent, Typography, Card } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import AppState from '../../providers/app-state.js';
+import AppState from '../../../providers/app-state.js';
 
-import { getStatsToday } from '../../services/dashboard-service.js';
+import { getStatsToday } from '../../../services/dashboard-service.js';
 import * as style from './StatsCardDashStyles.js';
 
 export default function StatsCardDash ({ type, IconComponent, water }) {

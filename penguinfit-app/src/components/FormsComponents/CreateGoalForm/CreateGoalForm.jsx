@@ -1,7 +1,7 @@
 import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material';
 import { useState } from 'react';
-import { createGoal } from '../../services/goals-service';
-import { activitiesMET } from '../../common/activitiesMET';
+import { createGoal } from '../../../services/goals-service';
+import { activitiesMET } from '../../../common/activitiesMET';
 
 
 const defaultValues = {

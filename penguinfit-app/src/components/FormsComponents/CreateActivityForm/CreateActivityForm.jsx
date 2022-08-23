@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
-import AppState from '../../providers/app-state';
-import { activitiesMET } from '../../common/activitiesMET';
-import { typesDetails } from '../../common/types-details';
+import AppState from '../../../providers/app-state';
+import { activitiesMET } from '../../../common/activitiesMET';
+import { typesDetails } from '../../../common/types-details';
 // import { getActivityTotalCalBurned } from '../../utils/utils';
-import { listenToFriends, updateUserActivitiesDataByDay } from '../../services/user-service';
-import { addActivity, createActivityObject, updateRelatedGoals } from '../../services/activities-service';
+import { listenToFriends, updateUserActivitiesDataByDay } from '../../../services/user-service';
+import { addActivity, createActivityObject, updateRelatedGoals } from '../../../services/activities-service';
 import { 
   Autocomplete, 
   Button, 

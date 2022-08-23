@@ -1,7 +1,7 @@
 import { Box } from '@mui/system';
 import { Route, Routes } from 'react-router';
 import { DRAWER_WIDTH } from '../../common/constants';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import Sidebar from '../../components/Navigation/Sidebar/Sidebar';
 import Activities from '../Activities/Activities';
 import Dashboard from '../Dashboard/Dashboard';
 import Goals from '../Goals/Goals';

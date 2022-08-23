@@ -1,5 +1,5 @@
 import { Avatar, Grid, Paper, Typography, Box, Button  } from '@mui/material';
-import { removeUserFriend } from '../../services/user-service';
+import { removeUserFriend } from '../../../services/user-service';
 
 export default function SingleFriendView({ friend, user }) {
   

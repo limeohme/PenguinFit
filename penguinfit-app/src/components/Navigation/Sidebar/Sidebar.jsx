@@ -4,7 +4,7 @@
 // import AppState from '../../providers/app-state';
 import { Drawer, List, ListItem, ListItemText, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { sidebarPages } from '../../common/sidebar-pages';
+import { sidebarPages } from '../../../common/sidebar-pages';
 // import MenuIcon from '@mui/icons-material/Menu';
 
 function Sidebar({ classes, toggleDrawer, open, isMdUp }) {

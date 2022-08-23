@@ -1,8 +1,11 @@
-import { Button, FormControl, FormControlLabel, FormHelperText, Grid, InputAdornment, Radio, RadioGroup, TextField, Typography } from '@mui/material';
+import { Button, FormHelperText, Grid, InputAdornment, TextField, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
-import AppState from '../../providers/app-state';
-import { addMealToDB, getFoodItemData, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';
-import { formatDateToString } from '../../utils/utils';
+import { MEAL_TYPES } from '../../../common/constants';
+import AppState from '../../../providers/app-state';
+import { addMealToDB, getFoodItemData, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../../services/meals-service';
+import { formatDateToString } from '../../../utils/utils';
+import CustomRadioGroupForm from '../../CustomRadioGroupForm/CustomRadioGroupForm';
+import { validateMeal } from './meal-form-validations';
 
 
 const styles = {
@@ -16,15 +19,8 @@ const styles = {
   }
 
 };
-
 function MealForm () {
-  const { appState:{ user } } = useContext(AppState);
-  
-
-  // const [formError, setFormError] = useState({ title : '', duration : '', type : '' });
-
-  const [_titleError, _setTitleError] = useState(null);
-  const [_foodError, _setfoodError] = useState(null);
+  const { appState: { user } } = useContext(AppState);
   const [foods, setFoods] = useState([]);
   const [item, setItem] = useState('');
   const [grams, setGrams] = useState('');
@@ -42,28 +38,31 @@ function MealForm () {
 
   const handleFoodItemChange = (e) => {
     const val = e.target.value;
-    if (val) setItem(val);
+    setItem(val);
   };
 
   const handleQuantityChange = (e) => {
     const val = e.target.value;
-    if (val) setGrams(+val);
+    setGrams(+val);
   };
 
   const handleTypeChange  = (e) => {
     const val = e.target.value;
-    if (val) {
-      setType(val);
-      setMealObj({ ...mealObj, type: val });
-    } 
+    setType(val);
+    setMealObj({ ...mealObj, type: val });    
   };
 
   const handleTitleChange  = (e) => {
     const val = e.target.value;
-    if (val) {
-      setTitle(val);
-      setMealObj({ ...mealObj, title: val });
-    }
+    setTitle(val);
+    setMealObj({ ...mealObj, title: val });    
+  };
+
+  const setMessageHandler = (mes) => {
+    setMessage(mes);
+    setTimeout(() => {
+      setMessage('');
+    }, 4000);
   };
 
   const handleAdd = async (event) => {
@@ -74,14 +73,13 @@ function MealForm () {
         const zeID = foods.length;
         setFoods([...foods, { ...foodItemObject, quantity: grams, id: zeID }]);
         setMealObj({ ...mealObj, foods: [...foods, { ...foodItemObject, quantity: grams, id: zeID }], cal: mealObj.cal + foodItemObject.cal });
-        console.log(mealObj.foods);
         setItem(''); setGrams('');
       } catch (err) {
         console.error(err);
-        setMessage(err.message);
+        setMessageHandler('Ooops... We don\'t recognize this food item!');
       }      
     } else {
-      setMessage('Please enter food item name and quantity!');
+      setMessageHandler('Please enter food item name and quantity!');
     }
   };
 
@@ -90,7 +88,8 @@ function MealForm () {
   };
 
   const handleAddtoDB = (meal) => {
-    if (meal.title && meal.type && meal.foods.length) {
+    try {
+      validateMeal(meal);
       addMealToDB(user.username, meal);
       meal.foods.forEach((food) => {
         updateDailyCalsGetter(user.username).then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error));
@@ -106,50 +105,33 @@ function MealForm () {
         dateVal: Date.parse(formatDateToString(new Date())),
         createdOn: formatDateToString(new Date()) 
       });
-    } 
+    } catch (err) {
+      setMessageHandler(err.message);
+    }
   };
 
   return (
     <Grid 
-      container 
-      direction="column" 
-      justifyContent="space-between" 
-      alignItems="center" 
-      alignSelf="left" 
-      sx={styles.form} 
-    >
-
+      container direction="column" justifyContent="space-between" 
+      alignItems="center" alignSelf="left" sx={styles.form}>
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <TextField
-            id="foods-input"
-            name="foods"
-            label="food item"
-            value={item}
-            type="text"
-            onChange={handleFoodItemChange}
-            fullWidth
-            variant="standard" 
-            size="small"
+            id="foods-input" name="foods" size="small" label="food item" value={item}
+            type="text" onChange={handleFoodItemChange} fullWidth variant="standard" 
           />
-          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{item? null : <em>{}</em>}</FormHelperText>
+          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{!message.includes('food')? null : <em>{message}</em>}</FormHelperText>
         </Grid>
         <Grid item xs={4}>
           <TextField
-            id="quantity-input"
-            name="quantity"
-            label="quantity"
-            type="number"
-            value={grams}
-            onChange={handleQuantityChange}
+            id="quantity-input" name="quantity" label="quantity" type="number"
+            value={grams} onChange={handleQuantityChange}
             InputProps={{
               endAdornment: <InputAdornment position="end">gr</InputAdornment>,
             }}
-            fullWidth
-            variant="standard" 
-            size="small"
+            fullWidth variant="standard" size="small"
           />
-          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{grams? null : <em>{}</em>}</FormHelperText>
+          <FormHelperText id="quantity-error-text" sx={{ color:'#D81159' }}>{!message.includes('quantity')? null : <em>{message}</em>}</FormHelperText>
         </Grid>
         <Grid item xs={4} sx={{ display:'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Button variant="contained" color="primary" onClick={handleAdd} sx={{ width: '100%', boxSizing: 'border-box' }}>
@@ -158,7 +140,6 @@ function MealForm () {
         </Grid>
       </Grid>
 
-      {/* optimize and use enums */}
       <Grid container direction="column-reverse" spacing={2}>
         {foods.map((el, index) => {
           return ( <Grid item xs key={index}>
@@ -169,77 +150,19 @@ function MealForm () {
           );
         })}
         <Grid item xs={12}>
-          <FormControl>
-            {/* <FormLabel>Type</FormLabel> */}
-            <RadioGroup
-              name="type"
-              value={type}
-              onChange={handleTypeChange}
-              row
-              sx={{ justifyContent: 'left', alignSelf:'center' }}
-            >
-              <FormControlLabel
-                key="Breakfast"
-                value="Breakfast"
-                control={<Radio size="small" />}
-                label="Breakfast"
-              />
-              <FormControlLabel
-                key="Second Breakfast"
-                value={'Second\nBreakfast'}
-                control={<Radio size="small" />}
-                label="Second Breakfast"
-              />
-              <FormControlLabel
-                key="Elevenses"
-                value="Elevenses"
-                control={<Radio size="small" />}
-                label="Elevenses"
-              />
-              <FormControlLabel
-                key="Luncheon"
-                value="Luncheon"
-                control={<Radio size="small" />}
-                label="Luncheon"
-              />
-              <FormControlLabel
-                key="AfternoonTea"
-                value={'Afternoon\nTea'}
-                control={<Radio size="small" />}
-                label="Afternoon Tea"
-              />
-              <FormControlLabel
-                key="Dinner"
-                value="Dinner"
-                control={<Radio size="small" />}
-                label="Dinner"
-              />
-              <FormControlLabel
-                key="Supper"
-                value="Supper"
-                control={<Radio size="small" />}
-                label="Supper"
-              />
-            </RadioGroup>
-          </FormControl>
-          <FormHelperText id="type-error-text" sx={{ color:'#D81159' }}>{title? null : <em>{}</em>}</FormHelperText>
+          <CustomRadioGroupForm name={'type'} value={type} 
+            onChangeFunc={handleTypeChange} labels={MEAL_TYPES} error={!message.includes('type')? null: message}/>
         </Grid>
                         
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={8}>
           <TextField
-            id="title-input"
-            name="title"
-            label="title"
-            value={title}
-            type="text"
-            onChange={handleTitleChange}
-            fullWidth
-            variant="standard" 
-            size="small"
+            id="title-input" name="title" label="title" type="text"
+            value={title} onChange={handleTitleChange}
+            fullWidth variant="standard" size="small"
           />
-          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{mealObj.title? null : <em>{message}</em>}</FormHelperText>
+          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{!message.includes('title')? null: <em>{message}</em>}</FormHelperText>
         </Grid>
         <Grid item xs={4} sx={{ display:'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Button variant="contained" color="primary" onClick={() => handleAddtoDB(mealObj)} sx={{ width: '100%', boxSizing: 'border-box' }}>
