@@ -9,7 +9,7 @@ import { validateMeal } from './meal-form-validations';
 
 
 const styles = {
-  inputs:{
+  inputs: {
     minWidth: '100%',
   },
   form:{
@@ -21,11 +21,8 @@ const styles = {
 };
 function MealForm () {
   const { appState: { user } } = useContext(AppState);
-  const [foods, setFoods] = useState([]);
   const [item, setItem] = useState('');
   const [grams, setGrams] = useState('');
-  const [title, setTitle] = useState('');
-  const [type, setType] = useState('');
   const [message, setMessage] = useState('');
   const [mealObj, setMealObj] = useState({
     title: '',
@@ -46,16 +43,10 @@ function MealForm () {
     setGrams(+val);
   };
 
-  const handleTypeChange  = (e) => {
+  const handleMealDetailsChange  = (e) => {
     const val = e.target.value;
-    setType(val);
-    setMealObj({ ...mealObj, type: val });    
-  };
-
-  const handleTitleChange  = (e) => {
-    const val = e.target.value;
-    setTitle(val);
-    setMealObj({ ...mealObj, title: val });    
+    const prop = e.target.name;
+    setMealObj({ ...mealObj, [prop]: val });    
   };
 
   const setMessageHandler = (mes) => {
@@ -70,9 +61,8 @@ function MealForm () {
     if (item && grams) {
       try {
         const foodItemObject = await getFoodItemData(item, grams);
-        const zeID = foods.length;
-        setFoods([...foods, { ...foodItemObject, quantity: grams, id: zeID }]);
-        setMealObj({ ...mealObj, foods: [...foods, { ...foodItemObject, quantity: grams, id: zeID }], cal: mealObj.cal + foodItemObject.cal });
+        const zeID = mealObj.foods.length;
+        setMealObj({ ...mealObj, foods: [...mealObj.foods, { ...foodItemObject, quantity: grams, id: zeID }], cal: mealObj.cal + foodItemObject.cal });
         setItem(''); setGrams('');
       } catch (err) {
         console.error(err);
@@ -83,10 +73,7 @@ function MealForm () {
     }
   };
 
-  const handleRemove = (e) => {
-    setFoods(foods.filter( el => `${el.foodItem + el.id}` !== e.target.name));
-  };
-
+  
   const handleAddtoDB = (meal) => {
     try {
       validateMeal(meal);
@@ -96,7 +83,7 @@ function MealForm () {
         updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
       });
       
-      setFoods([]); setTitle(''); setType('');
+      setMealObj({ ...mealObj, title: '', type: '', foods: [] });
       setMealObj({
         title: '',
         type: '',
@@ -109,7 +96,11 @@ function MealForm () {
       setMessageHandler(err.message);
     }
   };
-
+  
+  const handleRemove = (e) => {
+    setMealObj({ ...mealObj, foods: mealObj.foods.filter( el => `${el.foodItem + el.id}` !== e.target.name) });
+  };
+  
   return (
     <Grid 
       container direction="column" justifyContent="space-between" 
@@ -141,7 +132,7 @@ function MealForm () {
       </Grid>
 
       <Grid container direction="column-reverse" spacing={2}>
-        {foods.map((el, index) => {
+        {mealObj.foods.map((el, index) => {
           return ( <Grid item xs key={index}>
             <Typography key={index}>{`${el.foodItem} | ${el.quantity} gr.` }
               <Button variant='text' size='small' name={el.foodItem+el.id} onClick={handleRemove}>x</Button>
@@ -150,8 +141,8 @@ function MealForm () {
           );
         })}
         <Grid item xs={12}>
-          <CustomRadioGroupForm name={'type'} value={type} 
-            onChangeFunc={handleTypeChange} labels={MEAL_TYPES} error={!message.includes('type')? null: message}/>
+          <CustomRadioGroupForm name={'type'} value={mealObj.type} 
+            onChangeFunc={handleMealDetailsChange} labels={MEAL_TYPES} error={!message.includes('type')? null: message}/>
         </Grid>
                         
       </Grid>
@@ -159,7 +150,7 @@ function MealForm () {
         <Grid item xs={8}>
           <TextField
             id="title-input" name="title" label="title" type="text"
-            value={title} onChange={handleTitleChange}
+            value={mealObj.title} onChange={handleMealDetailsChange}
             fullWidth variant="standard" size="small"
           />
           <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{!message.includes('title')? null: <em>{message}</em>}</FormHelperText>
