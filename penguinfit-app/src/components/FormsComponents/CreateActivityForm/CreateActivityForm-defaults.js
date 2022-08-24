@@ -4,7 +4,7 @@ export const defaultValues = {
   activity: null,
   duration: 0,
   distance: 0,
-  kg: 0,
+  weights: 0,
   sets: 0,
   reps: 0,
   buddy: ''

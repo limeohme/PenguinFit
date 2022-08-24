@@ -1,4 +1,4 @@
-import { isActivityInList } from '../../../common/activitiesMET';
+import { isActivityInList } from '../../../utils/activities-utils';
 import { errorMassages, errorTypesObj } from './CreateActivityForm-errors';
 
 const validateActivity = (activity, type) => {
@@ -34,6 +34,7 @@ export const isValidActivityInput = (input, friendsArr, errorSetter, defaultErro
     validateActivityInput(input, friendsArr);
     return true;
   } catch (err) {
+    // console.log(err);
     errorSetter({ ...defaultErrors, [err.cause]: { msg: err.message } });
     return false;
   }
