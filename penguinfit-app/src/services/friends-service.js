@@ -1,4 +1,4 @@
-import { get, ref, remove, set } from 'firebase/database';
+import { get, onValue, ref, remove, set, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
 export const sendFriendRequest = (sender, receiver) => {
@@ -6,12 +6,12 @@ export const sendFriendRequest = (sender, receiver) => {
   
   get(ref(db, `requests/${sender}/${receiver}`)).then((snapshot) => {
     const sentRequests = snapshot.val() || {};
-    set(ref(db, `requests/${sender}/${receiver}`), { ...sentRequests, ...request });
+    update(ref(db, `requests/${sender}/${receiver}`), { ...sentRequests, ...request });
   });
 
   get(ref(db, `requests/${receiver}/${sender}`)).then((snapshot) => {
     const receivedRequests = snapshot.val() || {};
-    set(ref(db, `requests/${receiver}/${sender}`), { ...receivedRequests, ...request });
+    update(ref(db, `requests/${receiver}/${sender}`), { ...receivedRequests, ...request });
   });
 };
 
@@ -34,6 +34,10 @@ const addFriend = (handle, friend) => {
   });
 };
 
+export const listenToRequests = (handle, listen) => {
+  // console.log(`requests/${handle}`);
+  return onValue(ref(db, `requests/${handle}`), listen);
+};
 
 const createFriendRequest = (sender, receiver) => {
   return{
@@ -41,6 +45,20 @@ const createFriendRequest = (sender, receiver) => {
     sender,
     receiver,
   };
+};
+
+export const removeFromFriends = (sender, receiver) => {
+  removeFriend(sender, receiver);
+  removeFriend(receiver, sender);
+};
+
+const removeFriend = (handle, friend) => {
+  get(ref(db, `users/${handle}/friends`)).then((snapshot) => {
+    const userFriends = snapshot.val();
+    const { [friend]: _remove, ...updatedFriends } = userFriends;
+
+    set(ref(db, `users/${handle}/friends`), updatedFriends);
+  });
 };
 
 export const getUserRequest = (handle) => {

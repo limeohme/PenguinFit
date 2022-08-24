@@ -2,19 +2,25 @@ import DisplayFriends from '../ListComponents/DisplayFriends/DisplayFriends';
 import { useEffect, useState } from 'react';
 import { getAllUsers, listenToFriends, getUserFriends } from '../../services/user-service';
 import FriendsAutocomplete from '../FriendsAutocomplete/FriendsAutocomplete';
-import { getUserRequest } from '../../services/friends-service';
+import {  listenToRequests } from '../../services/friends-service';
 import DisplaySentRequests from '../ListComponents/DisplaySentRequests/DisplaySentRequests';
-import { Divider } from '@mui/material';
+import { Divider, Grid } from '@mui/material';
 import DisplayReceivedRequests from '../ListComponents/DisplayReceivedRequests/DisplayReceivedRequests';
 
 
 
-const getAddFriendsOptions = (friends, users, username) => {
+const getAddFriendsOptions = (requests ,friends, users, username) => {
   // eslint-disable-next-line no-unused-vars
   const { [username]:remove , ...usersCopy } = users;
   for (const friend of friends){
     delete usersCopy[friend.username];
   }
+  // for (const request of requests.send){
+  //   delete usersCopy[request.receiver];
+  // }
+  // for (const request of requests.received){
+  //   delete usersCopy[request.sender];
+  // }
   return Object.keys(usersCopy);
 };
 
@@ -42,8 +48,13 @@ export default function RenderFriendsManagement({ username }) {
       .then((snapshot) => setUsers(snapshot.val()));
     getUserFriends(username)
       .then((UserFriends) => setFriends(UserFriends));
-    getUserRequest(username)
-      .then((snapshot) => setRequests(sortRequests(snapshot.val(), username)));
+  }, []);
+  
+  useEffect(() => {
+    const unsubscribe = listenToRequests(username, (snapshot) => {
+      setRequests(sortRequests(snapshot.val(), username));
+    });
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -53,33 +64,44 @@ export default function RenderFriendsManagement({ username }) {
     });
     return () => unsubscribe();
   }, []);
+
   return (
-    <>
-      <FriendsAutocomplete 
-        notFriends={getAddFriendsOptions(friends, users, username)}
-        username={username} 
-      >
-      </FriendsAutocomplete>
-      <DisplayFriends 
-        friends={ friends }
-        username={ username } 
-      />
+    <Grid
+      container
+      direction="column"
+      justifyContent="space-between"
+      alignItems="center"
+      spacing={1.5}
+    
+    >
+      <Grid item xs={12} sm={12}>
+        <FriendsAutocomplete 
+          notFriends={getAddFriendsOptions(requests ,friends, users, username)}
+          username={username} 
+        />
+      </Grid>
+      <Grid item xs={12} sm={12}>
+        <DisplayFriends 
+          friends={ friends }
+          username={ username } 
+        />
+      </Grid>
       {requests && requests.sent.length > 0 &&
-      <>
+      <Grid item xs={12} sm={12}>
         <Divider>Sent requests</Divider>
         <DisplaySentRequests
           requests={requests.sent}
         />
-      </> 
+      </Grid> 
       }
       {requests && requests.received.length > 0 &&
-      <>
+      <Grid item xs={12} sm={12}>
         <Divider>Received requests</Divider>
         <DisplayReceivedRequests
           requests={requests.received}
         />
-      </> 
+      </Grid> 
       }
-    </>
+    </Grid>
   );
 };
