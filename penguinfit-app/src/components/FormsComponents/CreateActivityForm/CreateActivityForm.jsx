@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import AppState from '../../../providers/app-state';
 import { getSortedKeys } from '../../../utils/utils';
-import { listenToFriends, updateUserActivitiesDataByDay } from '../../../services/user-service';
-import { addActivity, updateRelatedGoals } from '../../../services/activities-service';
-import { createActivityObject, getActivityTypeDetails, sortedActivities } from '../../../utils/activities-utils';
+import { listenToFriends, _updateUserActivitiesDataByDay } from '../../../services/user-service';
+import { _addActivity, _updateRelatedGoals } from '../../../services/activities-service';
+import { _createActivityObject, getActivityTypeDetails, sortedActivities } from '../../../utils/activities-utils';
 
 import { activityFromStyles as styles } from './CreateActivityForm-styles';
 import { defaultErrors, defaultValues } from './CreateActivityForm-defaults';
@@ -55,31 +55,31 @@ const CreateActivityForm = () => {
       return;
     }
     
-    const activityObj = createActivityObject(user, formValues);
+    // const activityObj = createActivityObject(user, formValues);
 
-    addActivity(user.username, activityObj)
-      .then(() => {
+    // addActivity(user.username, activityObj)
+    //   .then(() => {
 
-        return updateUserActivitiesDataByDay(user.username, activityObj.details)
-          .then(() => {
-          // TODO: refactor updateRelatedGoals
+    //     return updateUserActivitiesDataByDay(user.username, activityObj.details)
+    //       .then(() => {
+    //       // TODO: refactor updateRelatedGoals
 
-            return updateRelatedGoals(user.username, activityObj)
-              .then((result) => {
+    //         return updateRelatedGoals(user.username, activityObj)
+    //           .then((result) => {
 
-                console.log(result);
-                
-                setFormValues(defaultValues);
-                setFormErrors(defaultErrors);
-              });
-          });
-      })
-      .catch(console.error);
+    //             console.log(result);
 
-    if(activityObj.buddy){
-      const activityObjOfBuddy = { ...activityObj, buddy: user.username };
-      addActivity(activityObj.buddy, activityObjOfBuddy).catch(console.error);
-    };
+    //             setFormValues(defaultValues);
+    //             setFormErrors(defaultErrors);
+    //           });
+    //       });
+    //   })
+    //   .catch(console.error);
+
+    // if(activityObj.buddy){
+    //   const activityObjOfBuddy = { ...activityObj, buddy: user.username };
+    //   addActivity(activityObj.buddy, activityObjOfBuddy).catch(console.error);
+    // };
 
   };
 
