@@ -1,44 +1,18 @@
-import { get, ref, onValue, update, remove, push, limitToLast, orderByChild, query } from 'firebase/database';
-import { activitiesTypes } from '../common/activities-types';
-import { activitiesMET } from '../common/activitiesMET';
-import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
-// import { query, orderByChild, equalTo, onChildAdded, limitToLast, limitToFirst, startAfter, endBefore } from 'firebase/database';
-// import { POST_REQUEST_LIMIT } from '../common/constants';
 import { db } from '../config/firebase-config';
-import { formatString, getActivityTotalCalBurned, getDateAsString, getSteps, getTimeAsString } from '../utils/utils';
+import { get, ref, onValue, update, remove, push, query, limitToLast, orderByChild } from 'firebase/database';
+import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 import { updateGoalsByTarget } from './goals-service';
 
-// TODO: move to activitiesMET
-export const createActivityObject = (user = {}, input = {}) => {
-  const { username, weight } = user;
-  const { activity, duration, distance, kg, sets, reps, buddy } = input;
-  const caloriesBurned = getActivityTotalCalBurned(activitiesMET[activity], weight, duration);
-  const type = activitiesTypes[activity];
-  // TODO: calculate steps if any
+export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_REQUEST_LIMIT) => {
+  return get(query(ref(db, `activities/${username}`), orderByChild(`dateValue`), limitToLast(limit)))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return Object.entries(snapshot.val());
+      }
 
-  const steps = getSteps(activity, duration);
-
-  return {
-    creator: username,
-    activity,
-    duration,
-    type,
-    details: {
-      caloriesBurned,
-      duration,
-      distance,
-      kg,
-      sets,
-      reps,
-      steps
-    },
-    buddy,
-    dateValue: Date.now(),
-    createdOn: getDateAsString(new Date()),
-    createdAt: getTimeAsString(new Date()),
-    searchActivity: formatString(activity)
-    // allKeywords: activityKeywordsToObject(activity),
-  };
+      return [];
+    })
+    .catch(console.error);
 };
 
 export const addActivity = (username, activityObj) => {
@@ -50,10 +24,7 @@ export const getLiveUserActivities = (username, listen) => {
 };
 
 export const updateRelatedGoals = (username, activity) => {
-  //   console.log(activity.details);
   const existingTargets = Object.entries(activity.details).filter((det) => det[1] !== 0);
-
-  //   console.log(existingTargets);
 
   return Promise.all(
     existingTargets.map(([key, value]) => {
@@ -69,18 +40,6 @@ export const updateRelatedGoals = (username, activity) => {
 // export const getSingleLiveUserActivity = (username, listen) => {
 //   return onChildAdded(query(ref(db, `activities/${username}`), orderByChild('duration')), listen);
 // };
-
-export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_REQUEST_LIMIT) => {
-  return get(query(ref(db, `activities/${username}`), orderByChild(`dateValue`), limitToLast(limit)))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        return Object.entries(snapshot.val());
-      }
-
-      return [];
-    })
-    .catch(console.error);
-};
 
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
