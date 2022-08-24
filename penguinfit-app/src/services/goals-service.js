@@ -33,8 +33,8 @@ export const getUserGoals = (username) => {
     .catch(console.error);
 };
 
-export const getGoalsByTarget = (username, type, target) => {
-  return get(ref(db, `goals/${username}/${type}/${target}`))
+export const getActivityGoalsByTarget = (username, activity, target) => {
+  return get(ref(db, `goals/${username}/${activity}/${target}`))
     .then((snapshot) => {
       if (!snapshot.val()) {
         return [];
@@ -44,22 +44,28 @@ export const getGoalsByTarget = (username, type, target) => {
     .catch(console.error);
 };
 
-export const updateGoalsByTarget = (username, type, target, newTargetValue) => {
-  return getGoalsByTarget(username, type, target)
-    .then((goals) => {
-      // if (!goals.length) return null;
+export const getGeneralGoalsByTarget = (username, target) => {
+  return get(ref(db, `goals/${username}/general/${target}`))
+    .then((snapshot) => {
+      if (!snapshot.val()) {
+        return [];
+      }
+      return snapshot.val();
+    })
+    .catch(console.error);
+};
 
+export const updateActivityGoalsByTarget = (username, activity, target, newTargetValue) => {
+  return getActivityGoalsByTarget(username, activity, target)
+    .then((goals) => {
       const notYetGoalHandles = Object.entries(goals)
         .filter((goal) => goal[1].status !== 'achieved')
         .map(([key, goal]) => {
           return { handle: key, currentValue: goal.currentValue };
         });
 
-      // console.log('notYetGoalHandles');
-      // console.log(notYetGoalHandles);
-
       const updates = notYetGoalHandles.reduce((upd, { handle, currentValue }) => {
-        const path = `${username}/${type}/${target}/${handle}`;
+        const path = `${username}/${activity}/${target}/${handle}`;
 
         return {
           ...upd,
@@ -67,14 +73,30 @@ export const updateGoalsByTarget = (username, type, target, newTargetValue) => {
         };
       }, {});
 
-      // console.log('updates');
-      // console.log(updates);
-
       return update(ref(db), updates);
     })
     .catch(console.error);
 };
 
-// const updates = {};
-//   updates['/posts/' + newPostKey] = postData;
-//   updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+export const updateGeneralGoalsByTarget = (username, target, newTargetValue) => {
+  return getGeneralGoalsByTarget(username, target)
+    .then((goals) => {
+      const notYetGoalHandles = Object.entries(goals)
+        .filter((goal) => goal[1].status !== 'achieved')
+        .map(([key, goal]) => {
+          return { handle: key, currentValue: goal.currentValue };
+        });
+
+      const updates = notYetGoalHandles.reduce((upd, { handle, currentValue }) => {
+        const path = `${username}/general/${target}/${handle}`;
+
+        return {
+          ...upd,
+          [`goals/${path}/currentValue`]: currentValue + newTargetValue
+        };
+      }, {});
+
+      return update(ref(db), updates);
+    })
+    .catch(console.error);
+};
