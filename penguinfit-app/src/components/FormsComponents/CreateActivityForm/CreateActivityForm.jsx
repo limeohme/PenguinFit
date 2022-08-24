@@ -61,8 +61,6 @@ const CreateActivityForm = () => {
     //   return;
     // }
     
-    // TODO: refactor createActivityObject to calculate steps based on duration if walking
-    // TODO: add type
     const activityObj = createActivityObject(user, formValues);
 
     addActivity(user.username, activityObj)
@@ -77,17 +75,17 @@ const CreateActivityForm = () => {
             return updateRelatedGoals(user.username, activityObj)
               .then(() => {
 
+                if(activityObj.buddy){
+                  const activityObjOfBuddy = { ...activityObj, buddy: user.username };
+                  addActivity(activityObj.buddy, activityObjOfBuddy).catch(console.error);
+                };
+
                 setFormValues(defaultValues);
                 setFormErrors(defaultErrors);
               });
           });
       })
       .catch(console.error);
-
-    if(activityObj.buddy){
-      const activityObjOfBuddy = { ...activityObj, buddy: user.username };
-      addActivity(activityObj.buddy, activityObjOfBuddy).catch(console.error);
-    };
 
   };
 

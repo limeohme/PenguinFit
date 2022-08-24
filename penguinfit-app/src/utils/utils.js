@@ -3,6 +3,14 @@ import { KEYWORD_PREFIX } from '../common/constants';
 //BEWARE! NEW FUNCTIONS
 // divide utils on topics
 
+export const getSteps = (activity, duration) => {
+  if (activity.includes('walking')) {
+    return duration * 100;
+  }
+
+  return 0;
+};
+
 export const objectContainsKey = (obj, key) => {
   return Object.keys(obj).includes(key);
 };
