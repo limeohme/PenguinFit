@@ -5,7 +5,7 @@ import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 // import { query, orderByChild, equalTo, onChildAdded, limitToLast, limitToFirst, startAfter, endBefore } from 'firebase/database';
 // import { POST_REQUEST_LIMIT } from '../common/constants';
 import { db } from '../config/firebase-config';
-import { formatString, getActivityTotalCalBurned, getDateAsString, getTimeAsString } from '../utils/utils';
+import { formatString, getActivityTotalCalBurned, getDateAsString, getSteps, getTimeAsString } from '../utils/utils';
 import { updateGoalsByTarget } from './goals-service';
 
 // TODO: move to activitiesMET
@@ -15,6 +15,8 @@ export const createActivityObject = (user = {}, input = {}) => {
   const caloriesBurned = getActivityTotalCalBurned(activitiesMET[activity], weight, duration);
   const type = activitiesTypes[activity];
   // TODO: calculate steps if any
+
+  const steps = getSteps(activity, duration);
 
   return {
     creator: username,
@@ -27,7 +29,8 @@ export const createActivityObject = (user = {}, input = {}) => {
       distance,
       kg,
       sets,
-      reps
+      reps,
+      steps
     },
     buddy,
     dateValue: Date.now(),
