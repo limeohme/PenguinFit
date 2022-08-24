@@ -25,7 +25,7 @@ export default function DetailedGoalsStepper({ steps }) {
   };
   
   return (
-    <Box sx={{ minWidth: 500, minHeight: '100%' ,flexGrow: 1 }}>
+    <Box sx={{ minWidth:{ xs: 'auto', sm:500 }, minHeight: '100%' ,flexGrow: 1 }}>
       { steps.length > 0 ? <>
         <Stack 
           spacing={1}
