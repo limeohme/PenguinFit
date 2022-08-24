@@ -3,20 +3,15 @@ import { KEYWORD_PREFIX } from '../common/constants';
 //BEWARE! NEW FUNCTIONS
 // divide utils on topics
 
+// activities-utils
+
+// formulas elements to go to constants?? (no magic numbers)
 export const getSteps = (activity, duration) => {
   if (activity.includes('walking')) {
     return duration * 100;
   }
 
   return 0;
-};
-
-export const objectContainsKey = (obj, key) => {
-  return Object.keys(obj).includes(key);
-};
-
-export const getSortedKeys = (obj) => {
-  return Object.keys(obj).sort();
 };
 
 const getCaloriesPerMinute = (MET = 0, userWeight = 0) => {
@@ -40,12 +35,26 @@ export function calculateBMIMessage(BMI) {
   }
 }
 
+const adornments = {
+  duration: 'min',
+  distance: 'km',
+  weights: 'kg'
+};
+
+export const getAdornment = (field) => {
+  return adornments[field] ?? '';
+};
+
+// date-utils
+
 export const formatDateToString = (date) => `
 ${date.toDateString()} ${date.toLocaleTimeString()} `;
 
 export const getDateAsString = (date) => date.toDateString();
 
 export const getTimeAsString = (date) => date.toLocaleTimeString();
+
+// navigation-utils
 
 export const mapPages = (pages = null, mapperFn = () => null) => {
   if (!pages) return null;
@@ -61,7 +70,7 @@ export const renderUserLinks = (user = null, login = null, pages = null, mapperF
   return mapPages(pages, mapperFn);
 };
 
-// string formatting
+// string formatting utils
 
 export const formatString = (string) => {
   return (
@@ -119,6 +128,16 @@ export const titleKeywordsToObject = (title) => {
 
   const titleAsKeyword = KEYWORD_PREFIX + title;
   return { [titleAsKeyword]: true };
+};
+
+// object utils
+
+export const objectContainsKey = (obj, key) => {
+  return Object.keys(obj).includes(key);
+};
+
+export const getSortedKeys = (obj) => {
+  return Object.keys(obj).sort();
 };
 
 export const tagsToObject = (tags) => {
