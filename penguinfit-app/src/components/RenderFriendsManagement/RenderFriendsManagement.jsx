@@ -47,6 +47,8 @@ export default function RenderFriendsManagement({ username }) {
   useEffect(() => {
     getAllUsers()
       .then((snapshot) => setUsers(snapshot.val()));
+    getUserFriends(username)
+      .then((UserFriends) => setFriends(UserFriends));
   }, []);
   
   useEffect(() => {
