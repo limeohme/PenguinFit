@@ -8,19 +8,20 @@ import { Divider, Grid } from '@mui/material';
 import DisplayReceivedRequests from '../ListComponents/DisplayReceivedRequests/DisplayReceivedRequests';
 
 
+const deleteProperties = (obj, properties) => {
+  for (const property of properties){
+    delete obj[property];
+  }
+};
 
 const getAddFriendsOptions = (requests ,friends, users, username) => {
   // eslint-disable-next-line no-unused-vars
   const { [username]:remove , ...usersCopy } = users;
-  for (const friend of friends){
-    delete usersCopy[friend.username];
-  }
-  // for (const request of requests.send){
-  //   delete usersCopy[request.receiver];
-  // }
-  // for (const request of requests.received){
-  //   delete usersCopy[request.sender];
-  // }
+  deleteProperties(usersCopy, friends.map(el => el.username));
+  if(requests){
+    deleteProperties(usersCopy, requests.sent.map(el => el.receiver));
+    deleteProperties(usersCopy, requests.received.map(el => el.sender));
+  };
   return Object.keys(usersCopy);
 };
 
@@ -46,8 +47,6 @@ export default function RenderFriendsManagement({ username }) {
   useEffect(() => {
     getAllUsers()
       .then((snapshot) => setUsers(snapshot.val()));
-    getUserFriends(username)
-      .then((UserFriends) => setFriends(UserFriends));
   }, []);
   
   useEffect(() => {
