@@ -1,9 +1,10 @@
 import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material';
 import { useState } from 'react';
 import { createGoal } from '../../../services/goals-service';
-import { activitiesMET } from '../../../common/activitiesMET';
+import { sortedActivities } from '../../../utils/activities-utils';
+// import { activitiesMET } from '../../../common/activitiesMET';
 
-
+// include toActivity to give to value of autocomplete/select comp
 const defaultValues = {
   title: '',
   status: 'Not there yet', 
@@ -150,7 +151,7 @@ const CreateGoalForm = ({ username }) => {
                   variant="standard" 
                   size="small" 
                 > 
-                  { Object.keys(activitiesMET).sort().map((el) => {
+                  { sortedActivities.map((el) => {
                     return(
                       <MenuItem key={el} value={el}>
                         <em>{el}</em>
