@@ -100,3 +100,5 @@ export const updateGeneralGoalsByTarget = (username, target, newTargetValue) => 
     })
     .catch(console.error);
 };
+
+export const updateGoalsByTarget = () => {};
