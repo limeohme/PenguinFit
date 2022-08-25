@@ -1,54 +1,37 @@
-import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material';
+import { Button, FormControl, FormControlLabel, Grid, Radio, RadioGroup } from '@mui/material';
 import { useState } from 'react';
 import { createGoal } from '../../../services/goals-service';
-import { sortedActivities } from '../../../utils/activities-utils';
-// import { activitiesMET } from '../../../common/activitiesMET';
-
-// include toActivity to give to value of autocomplete/select comp
-const defaultValues = {
-  title: '',
-  status: 'Not there yet', 
-  dueDate: null,
-  createdOn: new Date(),
-  type: '',
-  target: '',
-  targetValue: '',
-  currentValue: 0,
-};
+import { getTargets, sortedActivities } from '../../../utils/activities-utils';
+import { defaultErrors, defaultValues } from './CreateGoalForm-defaults';
+import CustomAutocomplete from '../CustomAutocomplete/CustomAutocomplete';
+import CustomNumberInput from '../CustomInput/CustomInput';
+import { isValidGoalInput } from './CreateGoalForm-validations';
+import { goalFromStyles } from './CreateGoalForm-styles';
 
 const CreateGoalForm = ({ username }) => {
   const [formValues, setFormValues] = useState(defaultValues);
-  const [ formType, setFormType ] = useState(null);
+  const [formErrors, setFormErrors] = useState(defaultErrors);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (e, name, value) => {
+    e?.preventDefault();
     setFormValues({
       ...formValues,
-      [name]: value,
+      [name]: value
     });
   };
-  
-  const handleFormTypeChange = (e) => {
-    const { value } = e.target;
-    setFormType(value);
-    if(value === 'general') setFormValues({ ...formValues, type:'general' });
+
+  const handleRadioForm = (e, value) => {
+    e?.preventDefault();
+    handleInputChange(e,e.target.name, value );
   };
-  
+ 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createGoal(username, formValues);
-  };
-
-  const styles = {
-    inputs:{
-      minWidth: '100%',
-    },
-    form:{
-      gap:'16px',
-      p: 2,
-      boxSizing: 'border-box'
+    // validations - 
+    if(!isValidGoalInput(formValues, setFormErrors, defaultErrors)){
+      return;
     }
-  
+    createGoal(username, formValues);
   };
 
   return (
@@ -61,140 +44,88 @@ const CreateGoalForm = ({ username }) => {
           alignItems="center" 
           alignSelf="left" 
           gap={2}
-          sx={styles.form} 
+          sx={goalFromStyles.form} 
         >
 
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                id="title-input"
+              <CustomNumberInput 
+                type="text"
                 name="title"
                 label="Title"
-                type="text"
                 value={formValues.title}
-                onChange={handleInputChange}
-                fullWidth
-                variant="standard" 
-                size="small" 
+                handler={handleInputChange}
+                error={formErrors.title}
               />
             </Grid>
           </Grid>
 
           <Grid container spacing={2} alignItems="flex-end">
-            <Grid item xs={8}>
+            <Grid item xs={6}>
 
-              <FormControl
-              // sx={{ margin: 2 }}
-              >
+              <FormControl>
                 <RadioGroup
-                  name="type"
-                  value={formType}
-                  onChange={handleFormTypeChange}
+                  value={formValues.type}
+                  onChange={handleRadioForm}
+                  name='type'
                   row
                   sx={{ justifyContent: 'space-between', alignSelf:'centre' }}
                 >
                   <FormControlLabel
                     key="general"
                     value="general"
+                    name='type'
                     control={<Radio size="small" />}
                     label="General"
                   />
                   <FormControlLabel
                     key="byExercise"
-                    value="byExercise"
+                    value=""
+                    checked={formValues.type !== 'general'}
+                    name="type"
                     control={<Radio size="small" />}
                     label="By exercise"
                   />
                 </RadioGroup>
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
-              {formType === 'general' &&
-              <FormControl 
-                disabled={!formValues.type}
-                sx={{ m: 1, minWidth: 120 }}
-              >
-                <InputLabel id="target">Target</InputLabel>
-                <Select
-                  name="target"
-                  label='Target'
-                  id='target'
-                  value={formValues.target}
-                  onChange={handleInputChange}
-                  fullWidth
-                  variant="standard" 
-                  size="small" 
-                >
-                  <MenuItem key="caloriesBurned" value="caloriesBurned">
-                    <em>Calories burned</em>
-                  </MenuItem>
-                  
-                  <MenuItem key="duration" value="duration">
-                    <em>Duration</em>
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              }
-              {formType === 'byExercise' &&
-              <FormControl 
-                disabled={!formValues.type}
-                sx={{ m: 1, minWidth: 120 }}
-              >
-                <InputLabel id="target">Exercise</InputLabel>
-                <Select
-                  name="type"
-                  label='Exercise'
-                  id='type'
-                  value={formValues.type}
-                  onChange={handleInputChange}
-                  fullWidth
-                  variant="standard" 
-                  size="small" 
-                > 
-                  { sortedActivities.map((el) => {
-                    return(
-                      <MenuItem key={el} value={el}>
-                        <em>{el}</em>
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+            <Grid item xs={6}>
+            
+              {formValues.type !== 'general' &&
+              <CustomAutocomplete 
+                name="type" 
+                label="Exercise"
+                value={formValues.type}
+                options={sortedActivities}
+                handler={handleInputChange}
+                error={formErrors.type}
+              />
               } 
             </Grid>
-            {formType === 'byExercise' &&
-            <Grid item xs={12}>
-              <TextField
-                id="target-input"
-                name="target"
-                label="Target"
-                type="text"
-                value={formValues.target}
-                onChange={handleInputChange}
-                fullWidth
-                variant="standard" 
-                size="small" 
-              />
-            </Grid>
-            }
           </Grid>
           <Grid container spacing={2} alignItems="flex-end">
-            <Grid item xs={8}>
-              <TextField
-                id="targetValue-input"
+            <Grid item xs={4}>
+              <CustomAutocomplete 
+                name="target" 
+                label="Target"
+                value={formValues.target}
+                options={getTargets(formValues.type)}
+                handler={handleInputChange}
+                error={formErrors.target}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <CustomNumberInput 
+                type="number"
                 name="targetValue"
                 label="Target value"
-                type="number"
                 value={formValues.targetValue}
-                onChange={handleInputChange}
-                sx={{ margin: 1 }}
-                fullWidth
-                variant="standard" 
-                size="small" 
+                handler={handleInputChange}
+                error={formErrors.targetValue}
               />
             </Grid>
             <Grid item xs={4} sx={{ display:'flex', alignItems: 'right', justifyContent: 'right' }}>
-              <Button variant="contained" color="primary" type="submit" sx={styles.btn}>
+              <Button variant="contained" color="primary" type="submit" sx={goalFromStyles.btn}>
             Add goal
               </Button>
             </Grid>

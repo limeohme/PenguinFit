@@ -1,3 +1,4 @@
+import { typesTargets } from '../common/types-targets';
 import { formatString, getActivityTotalCalBurned, getDateAsString, getSortedKeys, getSteps, getTimeAsString } from './utils';
 
 // encapsulated activities data obj
@@ -249,6 +250,10 @@ const activityDetailsByType = {
 };
 
 const getActivityObj = (activity) => activities[activity];
+
+export const getTargets = (activity) => {
+  return typesTargets[activities[activity]?.type || 'general'];
+};
 
 const getActivityType = (activity) => {
   return getActivityObj(activity)?.type;

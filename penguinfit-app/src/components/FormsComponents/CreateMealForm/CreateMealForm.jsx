@@ -43,10 +43,14 @@ function MealForm () {
     setGrams(+val);
   };
 
-  const handleMealDetailsChange  = (e) => {
-    const val = e.target.value;
-    const prop = e.target.name;
-    setMealObj({ ...mealObj, [prop]: val });    
+  const handleMealDetailsChange  = (e, name, val) => {
+    e?.preventDefault();
+    if(e.target.name === 'title'){
+      val = e.target.value;
+      name = e.target.name;
+    }
+    
+    setMealObj({ ...mealObj, [name]: val });    
   };
 
   const setMessageHandler = (mes) => {
