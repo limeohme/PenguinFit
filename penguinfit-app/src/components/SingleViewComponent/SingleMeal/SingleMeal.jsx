@@ -12,15 +12,9 @@ export default function SingleMeal({ addMealHandler, meal }) {
 
       <Grid container direction='column' spacing={1} justifyContent='space-between' alignItems='center'>
         <Grid item container spacing={2} justifyContent='space-between' alignItems='center'>
-          <Grid item xs={6} sm={6} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-
-            <Typography variant='h5'>{meal.title}</Typography>
-            <Typography variant='h6' sx={{ color:'#00000050', px: '0.6em' }}>{meal.type}</Typography>
-           
-          </Grid>
-          <Grid item xs={6} sm={6}>
-            <Typography sx={{ textAlign:'right' }}>{meal.createdOn}</Typography>
-          </Grid>
+          <Grid item xs={4} sm={4}><Typography variant='h5'>{meal.title}</Typography></Grid>
+          <Grid item xs={4} sm={4}><Typography sx={{ color:'#00000050' }}>{meal.type}</Typography></Grid>
+          <Grid item xs={4} sm={4}> <Typography sx={{ textAlign:'right' }}>{meal.createdOn}</Typography></Grid>
         </Grid>
 
         <Grid item container direction="row" spacing={2} justifyContent='left' alignItems='center' sx={{ color:'#00000050' }}>
