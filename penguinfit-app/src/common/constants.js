@@ -2,7 +2,10 @@ export const DRAWER_WIDTH = 280;
 export const APP_TITLE = 'PenguinFit';
 export const KEYWORD_PREFIX = 'keyword-';
 export const ACTIVITIES_REQUEST_LIMIT = 7;
-
+export const GOAL_TITLE_LENGTH_MIN = 6;
+export const GOAL_TITLE_LENGTH_MAX = 50;
+export const GOAL_TARGET_VALUE_MIN = 1;
+export const GOAL_TARGET_VALUE_MAX = 10000;
 // export const LIKE = 'like';
 // export const DISLIKE = 'dislike';
 // export const LIKE_ICON = '🍓';
