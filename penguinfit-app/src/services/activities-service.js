@@ -2,6 +2,7 @@ import { db } from '../config/firebase-config';
 import { get, ref, onValue, update, remove, push, query, limitToLast, orderByChild } from 'firebase/database';
 import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 import { updateGoalsByTarget } from './goals-service';
+import { toSnakeCase } from '../utils/utils';
 
 export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_REQUEST_LIMIT) => {
   return get(query(ref(db, `activities/${username}`), orderByChild(`dateValue`), limitToLast(limit)))
@@ -23,14 +24,30 @@ export const getLiveUserActivities = (username, listen) => {
   return onValue(ref(db, `activities/${username}`), listen);
 };
 
-export const updateRelatedGoals = (username, activity) => {
-  const existingTargets = Object.entries(activity.details).filter((det) => det[1] !== 0);
+export const updateRelatedGoals = (username, activityObj) => {
+  return get(ref(db, `goals/${username}`))
+    .then((snapshot) => {
+      // check if any goals exist
+      if (snapshot.exists()) {
+        console.log('GOALS EXIST');
 
-  return Promise.all(
-    existingTargets.map(([key, value]) => {
-      return updateGoalsByTarget(username, activity.type, key, value);
+        const targetsWithValue = Object.entries(activityObj.details).filter((det) => det[1] !== 0);
+
+        return Promise.all(
+          targetsWithValue.map(([target, newTargetValue]) => {
+            // format goals names for DB
+            const activityNameFormatted = toSnakeCase(activityObj.activity);
+
+            // add ${newTargetValue} to the currentValue of all goals targeting ${target}
+            return updateGoalsByTarget(username, activityNameFormatted, target, newTargetValue);
+          })
+        );
+      }
+
+      console.log('NO GOALS EXIST');
+      return null;
     })
-  ).catch(console.error);
+    .catch(console.error);
 };
 
 // export const getSingleLiveUserActivity = (username) => {

@@ -7,11 +7,15 @@ import {
   onValue
 } from 'firebase/database';
 import { db } from '../config/firebase-config';
+import { toSnakeCase } from '../utils/utils';
 
-export const createGoal = (user, goal) =>
-  push(ref(db, `goals/${user}/${goal.type}/${goal.target}`), goal).then((path) =>
+export const createGoal = (user, goal) => {
+  const goalTypeFormatted = toSnakeCase(goal.type);
+
+  return push(ref(db, `goals/${user}/${goalTypeFormatted}/${goal.target}`), goal).then((path) =>
     update(ref(db, `goals/${user}/${goal.type}/${goal.target}/${path.key}`), { ...goal, id: path.key })
   );
+};
 
 export const goalsListener = (username, listen) => {
   return onValue(ref(db, `goals/${username}`), listen);
@@ -33,72 +37,65 @@ export const getUserGoals = (username) => {
     .catch(console.error);
 };
 
-export const getActivityGoalsByTarget = (username, activity, target) => {
-  return get(ref(db, `goals/${username}/${activity}/${target}`))
+// add query for status - not there yet
+export const getGoalTypeByTarget = (username, target, type = 'general') => {
+  return get(ref(db, `goals/${username}/${type}/${target}`))
     .then((snapshot) => {
       if (!snapshot.val()) {
-        return [];
+        return null;
       }
       return snapshot.val();
     })
     .catch(console.error);
 };
 
-export const getGeneralGoalsByTarget = (username, target) => {
-  return get(ref(db, `goals/${username}/general/${target}`))
-    .then((snapshot) => {
-      if (!snapshot.val()) {
-        return [];
+export const updateGoalTypeByTarget = (username, target, newTargetValue, type = 'general') => {
+  return getGoalTypeByTarget(username, target, type)
+    .then((goals) => {
+      // console.log('goals');
+      // console.log(goals);
+      if (goals) {
+        // maybe a better name - especially if we filter on DB
+        const notYetGoalHandles = Object.entries(goals)
+          .filter((goal) => goal[1].status === 'Not there yet')
+          .map(([key, goal]) => {
+            return { handle: key, currentValue: goal.currentValue };
+          });
+
+        const updates = notYetGoalHandles.reduce((upd, { handle, currentValue }) => {
+          const path = `goals/${username}/${type}/${target}/${handle}`;
+
+          // console.log('currentValue');
+          // console.log(+currentValue);
+
+          // console.log('changed value');
+          // console.log(+currentValue + newTargetValue);
+
+          return {
+            ...upd,
+            [`${path}/currentValue`]: currentValue + newTargetValue
+          };
+        }, {});
+
+        return update(ref(db), updates).then(() => {
+          const successMsg = `updated goals at '...${type}/${target}'`;
+          console.log(successMsg);
+          return successMsg;
+        });
       }
-      return snapshot.val();
+
+      const noGoalsMsg = `no goals at '...${type}/${target}' yet`;
+      console.log(noGoalsMsg);
+      return noGoalsMsg;
     })
     .catch(console.error);
 };
 
-export const updateActivityGoalsByTarget = (username, activity, target, newTargetValue) => {
-  return getActivityGoalsByTarget(username, activity, target)
-    .then((goals) => {
-      const notYetGoalHandles = Object.entries(goals)
-        .filter((goal) => goal[1].status !== 'achieved')
-        .map(([key, goal]) => {
-          return { handle: key, currentValue: goal.currentValue };
-        });
+export const updateGoalsByTarget = (username, activity, target, newTargetValue) => {
+  // use promise all for parallel change of general and activity target
 
-      const updates = notYetGoalHandles.reduce((upd, { handle, currentValue }) => {
-        const path = `${username}/${activity}/${target}/${handle}`;
+  console.log('initiate updates');
 
-        return {
-          ...upd,
-          [`goals/${path}/currentValue`]: currentValue + newTargetValue
-        };
-      }, {});
-
-      return update(ref(db), updates);
-    })
-    .catch(console.error);
+  // use goalTypes enum + map and one fn for get + one for update with diff goalType
+  return Promise.all([updateGoalTypeByTarget(username, target, newTargetValue), updateGoalTypeByTarget(username, target, newTargetValue, activity)]).catch(console.error);
 };
-
-export const updateGeneralGoalsByTarget = (username, target, newTargetValue) => {
-  return getGeneralGoalsByTarget(username, target)
-    .then((goals) => {
-      const notYetGoalHandles = Object.entries(goals)
-        .filter((goal) => goal[1].status !== 'achieved')
-        .map(([key, goal]) => {
-          return { handle: key, currentValue: goal.currentValue };
-        });
-
-      const updates = notYetGoalHandles.reduce((upd, { handle, currentValue }) => {
-        const path = `${username}/general/${target}/${handle}`;
-
-        return {
-          ...upd,
-          [`goals/${path}/currentValue`]: currentValue + newTargetValue
-        };
-      }, {});
-
-      return update(ref(db), updates);
-    })
-    .catch(console.error);
-};
-
-export const updateGoalsByTarget = () => {};
