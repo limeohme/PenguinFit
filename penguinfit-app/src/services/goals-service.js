@@ -13,7 +13,7 @@ export const createGoal = (user, goal) => {
   const goalTypeFormatted = toSnakeCase(goal.type);
 
   return push(ref(db, `goals/${user}/${goalTypeFormatted}/${goal.target}`), goal).then((path) =>
-    update(ref(db, `goals/${user}/${goal.type}/${goal.target}/${path.key}`), { ...goal, id: path.key })
+    update(ref(db, `goals/${user}/${goalTypeFormatted}/${goal.target}/${path.key}`), { ...goal, id: path.key })
   );
 };
 
@@ -92,10 +92,7 @@ export const updateGoalTypeByTarget = (username, target, newTargetValue, type = 
 };
 
 export const updateGoalsByTarget = (username, activity, target, newTargetValue) => {
-  // use promise all for parallel change of general and activity target
-
   console.log('initiate updates');
 
-  // use goalTypes enum + map and one fn for get + one for update with diff goalType
   return Promise.all([updateGoalTypeByTarget(username, target, newTargetValue), updateGoalTypeByTarget(username, target, newTargetValue, activity)]).catch(console.error);
 };
