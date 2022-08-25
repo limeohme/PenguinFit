@@ -1,4 +1,4 @@
-import { Button, Grid, Paper, Typography } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { MEAL_TYPES } from '../../common/constants';
 import { BarCaloriesByMeal } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
@@ -9,10 +9,10 @@ import AppState from '../../providers/app-state';
 import { getMealByType, getMealCalsByType, getRecentMeals } from '../../services/meals-service';
 import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';
 import { formatDateToString } from '../../utils/utils';
-import LocalDrinkIcon from '@mui/icons-material/LocalDrink';
 import { updateDailyWaterGetter, updateDailyWaterUpdater } from '../../services/meals-service';
 import { getStatsToday } from '../../services/dashboard-service';
 import NoDataYet from '../../components/NoDataYet/NoDataYet';
+import AddWater from '../../components/AddWater/AddWater';
 
 function Meals () {
 
@@ -87,24 +87,18 @@ function Meals () {
             <MealForm></MealForm>
           </Paper>
         </Grid>
+        <Grid item>
+          <Typography variant='h5' sx={{ pb:2 }}>Add water:</Typography>
+          <Paper sx={{ backgroundColor: '#ffffff75' }}>
+            <AddWater water={water} AddWaterHandler={AddWaterHandler}></AddWater>
+          </Paper>
+        </Grid>
         <Grid container item direction="column">
-          <Grid item container direction="row" gap={2} justifyContent='space-between' alignItems='center'
-            sx={{ backgroundColor: '#ffffff75', mb: '1rem', p: '1rem', boxShadow: 1, }}>
-            <Grid item xs={1}><LocalDrinkIcon sx={{ fontSize: '2rem' }}/></Grid>
-            <Grid item xs={2}><Typography variant='h6'>Add Water</Typography></Grid>
-            
-            <Grid item xs={2}><Typography variant='h6'>{water} ml</Typography></Grid>
-            <Grid item xs={4}>
-              <Button variant="contained" color="primary" sx={{ boxSizing:'border-box', width: '100%' }}
-                onClick={AddWaterHandler}>+ 250 ml</Button>
-            
-            </Grid>
-          </Grid>
           <Typography variant='h5' sx={{ pb:2 }}>Recent meals:</Typography>
           
           <Grid container item direction="column-reverse" gap={1.5} justifyContent='center'>
             {meals.length
-              ? meals.map((meal, i)=> <SingleMeal key={i} addMealHandler={addMealHandler} meal={meal}></SingleMeal>) 
+              ? meals.slice(meals.length-7).map((meal, i)=> <SingleMeal key={i} addMealHandler={addMealHandler} meal={meal}></SingleMeal>) 
               : 'No meals yet'}
           </Grid>
         </Grid>
