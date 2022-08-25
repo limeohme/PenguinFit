@@ -88,10 +88,10 @@ function Meals () {
           </Paper>
         </Grid>
         <Grid container item direction="column">
-          <Grid item container direction="row" sx={{ backgroundColor: '#ffffff75', mb: '1rem', p: '1rem', boxShadow: 1, }}>
+          <Grid item container direction="row" gap={2} justifyContent='space-between' alignItems='center'
+            sx={{ backgroundColor: '#ffffff75', mb: '1rem', p: '1rem', boxShadow: 1, }}>
             <Grid item xs={1}><LocalDrinkIcon sx={{ fontSize: '2rem' }}/></Grid>
             <Grid item xs={2}><Typography variant='h6'>Add Water</Typography></Grid>
-            <Grid item xs={3}></Grid>
             
             <Grid item xs={2}><Typography variant='h6'>{water} ml</Typography></Grid>
             <Grid item xs={4}>
