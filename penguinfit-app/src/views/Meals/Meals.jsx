@@ -44,7 +44,11 @@ function Meals () {
   });
 
   useEffect(() => {
-    getStatsToday(user.username, (snapshot) => setWater(Object.values(snapshot.val())[0].waterIntake));
+    getStatsToday(user.username, (snapshot) => {
+      if (snapshot.exists()) {
+        setWater(Object.values(snapshot.val())[0].waterIntake);
+      }
+    } );
   }, [user.username]);
 
   const addMealHandler = (newMeal) => {
@@ -52,17 +56,17 @@ function Meals () {
     addMealToDB(user.username, { ...newMeal, createdOn: theDate, dateVal: Date.parse(theDate) });
     setMeals([...meals, { ...newMeal, createdOn: theDate, dateVal: Date.parse(theDate) } ]);
     newMeal.foods.forEach((food) => {
-      updateDailyCalsGetter(user.username).then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error));
+      updateDailyCalsGetter(user.username)
+        .then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error))
+        .catch(console.error);
       updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
     });
   };
 
   const AddWaterHandler = () => {
-    const unsub = updateDailyWaterGetter(user.username).then((snapshot) => {
-      if (snapshot.exists()) updateDailyWaterUpdater(snapshot, user.username).catch(console.error);
-    });
-    return unsub;
-
+    updateDailyWaterGetter(user.username).then((snapshot) => {
+      updateDailyWaterUpdater(snapshot, user.username).catch(console.error);
+    }).catch(console.error);  
   };
 
 
