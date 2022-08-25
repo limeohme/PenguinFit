@@ -62,7 +62,10 @@ function MealForm () {
       try {
         const foodItemObject = await getFoodItemData(item, grams);
         const zeID = mealObj.foods.length;
-        setMealObj({ ...mealObj, foods: [...mealObj.foods, { ...foodItemObject, quantity: grams, id: zeID }], cal: mealObj.cal + foodItemObject.cal });
+        setMealObj({ 
+          ...mealObj, 
+          foods: [...mealObj.foods, 
+            { ...foodItemObject, quantity: grams, id: zeID }], cal: mealObj.cal + foodItemObject.cal });
         setItem(''); setGrams('');
       } catch (err) {
         console.error(err);
@@ -78,8 +81,8 @@ function MealForm () {
     try {
       validateMeal(meal);
       addMealToDB(user.username, meal);
+      updateDailyCalsGetter(user.username).then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, meal.cal).catch(console.error));
       meal.foods.forEach((food) => {
-        updateDailyCalsGetter(user.username).then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error));
         updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
       });
       

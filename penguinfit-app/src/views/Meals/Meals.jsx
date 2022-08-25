@@ -55,10 +55,11 @@ function Meals () {
     const theDate = formatDateToString(new Date());
     addMealToDB(user.username, { ...newMeal, createdOn: theDate, dateVal: Date.parse(theDate) });
     setMeals([...meals, { ...newMeal, createdOn: theDate, dateVal: Date.parse(theDate) } ]);
+    updateDailyCalsGetter(user.username)
+      .then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, newMeal.cal).catch(console.error))
+      .catch(console.error);
     newMeal.foods.forEach((food) => {
-      updateDailyCalsGetter(user.username)
-        .then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error))
-        .catch(console.error);
+      console.log(food);
       updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
     });
   };
