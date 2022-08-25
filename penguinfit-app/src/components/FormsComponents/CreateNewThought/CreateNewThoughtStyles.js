@@ -6,10 +6,9 @@ export const blue = indigo[400];
 export const deepBlue = indigo[800];
 
 export const textAreaStyle = {
-  minWidth: '20rem',
   minHeight: '16rem',
   resize: 'none',
-  margin: '1rem',
+  m: '1rem',
   alignSelf: 'center', 
   borderRadius: '5px' 
 };

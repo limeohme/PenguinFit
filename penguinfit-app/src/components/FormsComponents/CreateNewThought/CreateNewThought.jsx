@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, Grid, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, FormHelperText, Grid, TextField, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
 import { moods } from '../../../common/moods.js';
 import AppState from '../../../providers/app-state.js';
@@ -33,6 +33,9 @@ function CreateNewThought ({ colour, setColour }) {
       }, 2600);
     } catch (e) {
       setMessage(e.message);
+      setTimeout(() =>{
+        setMessage('');
+      }, 2600);
     }
     
   };
@@ -42,16 +45,17 @@ function CreateNewThought ({ colour, setColour }) {
       <Grid item xs sx={style.midiContainerStyle}>
         <Typography variant='h5' sx={style.pageTitleStyle}>New thought</Typography>
         <Box sx={style.sideBoxStyle}>
-          <TextField placeholder="what's your thought called..." value={title} onChange={(e) => setTitle(e.target.value)}></TextField>
+          <TextField placeholder="what's your thought called..." fullWidth value={title} onChange={(e) => setTitle(e.target.value)}></TextField>
+          <FormHelperText sx={{ color: '#d81b60' }}>{message}</FormHelperText>
           <Button onClick={() => {setColour(colour? '':'#d81b60'); colourHandler();}}>{colour? 'REMOVE COLOUR':'COLOUR IT'}</Button>
-          <Typography sx={style.messageStyle}>{message}</Typography>
-          <textarea style={style.textAreaStyle} placeholder='spill some thoughts here...' value={textInput} onChange={(e) => setTextInput(e.target.value)}></textarea>
+          <TextField fullWidth multiline  minRows={8} maxRows={16} style={style.textAreaStyle} placeholder='spill some thoughts here...' 
+            value={textInput} onChange={(e) => setTextInput(e.target.value)}></TextField>
           <Autocomplete
             disablePortal
             options={moods}
             value={mood}
-            sx={{ width: '6rem' }}
-            onInputChange={(event, newInputValue) => {
+            sx={{ width: '7rem', my: '1rem' }}
+            onInputChange={(_, newInputValue) => {
               setMood(newInputValue);
             }}
             renderInput={(params) => <TextField {...params} label="Mood" />}
