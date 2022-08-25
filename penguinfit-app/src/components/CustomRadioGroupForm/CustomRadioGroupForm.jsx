@@ -4,13 +4,18 @@ import { FormControl, FormControlLabel, FormHelperText, Radio, RadioGroup } from
 
 export default function CustomRadioGroupForm ({ name, value, onChangeFunc, labels = [], error }) {
 
+  const handleChange  = (e) => {
+    const val = e.target.value;
+    onChangeFunc(e, name, val);    
+  };
+
   return ( 
     <FormControl>
       {/* <FormLabel>Type</FormLabel> */}
       <RadioGroup
         name={name}
         value={value}
-        onChange={onChangeFunc}
+        onChange={handleChange}
         row
         sx={{ justifyContent: 'left', alignSelf:'center' }}
       >
