@@ -21,3 +21,4 @@ export const EDAMAM_APP_KEY = '75b855ef26da036c00d9fc07c053f84e';
 // `https://api.edamam.com/api/food-database/v2/parser?app_id=${EDAMAM_APP_ID}&app_key=${EDAMAM_APP_KEY}&ingr=${FOOD_NAME}&nutrition-type=cooking`
 
 export const MEAL_TYPES = ['Breakfast', 'Second\nBreakfast', 'Elevenses', 'Luncheon', 'Afternoon\nTea', 'Dinner', 'Supper'];
+export const FAKE_BMR = 1532;

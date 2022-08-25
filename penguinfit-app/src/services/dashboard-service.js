@@ -1,4 +1,5 @@
 import { equalTo, get, limitToLast, onValue, orderByChild, query, ref, } from 'firebase/database';
+import { FAKE_BMR } from '../common/constants';
 import { db } from '../config/firebase-config';
 import { getDateAsString } from '../utils/utils';
 
@@ -50,7 +51,7 @@ export const getCalorieDifferenceByDate = (user) => {
     .then((snapshot) => {
       if (snapshot.exists()) {
         return Object.values(snapshot.val()).map((el) => {
-          return { x: el.date.split(' ')[2], y: el.cal.consumed - el.cal.burned };
+          return { x: el.date.split(' ')[2], y: el.cal.consumed - el.cal.burned - FAKE_BMR };
         });
       } else {
         return [];

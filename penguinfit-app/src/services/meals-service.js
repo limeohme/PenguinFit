@@ -20,7 +20,7 @@ export const addMealToDB = (user, meal) => {
 };
 
 export const getRecentMeals = (user, listen) => {
-  return onValue(query(ref(db, `meals/${user}`), orderByChild('dateVal'), limitToLast(7)), listen);
+  return onValue(query(ref(db, `meals/${user}`), orderByChild('dateVal'), limitToLast(21)), listen);
 };
 
 export const getFoodItemData = async (foodItem, grams) => {
@@ -31,11 +31,11 @@ export const getFoodItemData = async (foodItem, grams) => {
   const data = await response.json();
   const foodObject = {};
   foodObject['foodItem'] = foodItem;
-  foodObject['cal'] = +data.parsed[0].food.nutrients.ENERC_KCAL/+data.hints[0].measures[0].weight * grams;
+  foodObject['cal'] = +data.parsed[0].food.nutrients.ENERC_KCAL/100 * grams;
   foodObject['nutrients'] = {};
-  foodObject['nutrients']['carbs'] = data.parsed[0].food.nutrients.CHOCDF;
-  foodObject['nutrients']['protein'] = data.parsed[0].food.nutrients.PROCNT;
-  foodObject['nutrients']['fats'] = data.parsed[0].food.nutrients.FAT;
+  foodObject['nutrients']['carbs'] = data.parsed[0].food.nutrients.CHOCDF/100 * grams;
+  foodObject['nutrients']['protein'] = data.parsed[0].food.nutrients.PROCNT/100 * grams;
+  foodObject['nutrients']['fats'] = data.parsed[0].food.nutrients.FAT/100 * grams;
 
   return foodObject;
 };

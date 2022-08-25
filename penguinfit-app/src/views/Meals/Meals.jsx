@@ -44,25 +44,30 @@ function Meals () {
   });
 
   useEffect(() => {
-    getStatsToday(user.username, (snapshot) => setWater(Object.values(snapshot.val())[0].waterIntake));
+    getStatsToday(user.username, (snapshot) => {
+      if (snapshot.exists()) {
+        setWater(Object.values(snapshot.val())[0].waterIntake);
+      }
+    } );
   }, [user.username]);
 
   const addMealHandler = (newMeal) => {
     const theDate = formatDateToString(new Date());
     addMealToDB(user.username, { ...newMeal, createdOn: theDate, dateVal: Date.parse(theDate) });
     setMeals([...meals, { ...newMeal, createdOn: theDate, dateVal: Date.parse(theDate) } ]);
+    updateDailyCalsGetter(user.username)
+      .then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, newMeal.cal).catch(console.error))
+      .catch(console.error);
     newMeal.foods.forEach((food) => {
-      updateDailyCalsGetter(user.username).then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, food.cal).catch(console.error));
+      console.log(food);
       updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
     });
   };
 
   const AddWaterHandler = () => {
-    const unsub = updateDailyWaterGetter(user.username).then((snapshot) => {
-      if (snapshot.exists()) updateDailyWaterUpdater(snapshot, user.username).catch(console.error);
-    });
-    return unsub;
-
+    updateDailyWaterGetter(user.username).then((snapshot) => {
+      updateDailyWaterUpdater(snapshot, user.username).catch(console.error);
+    }).catch(console.error);  
   };
 
 
@@ -83,10 +88,10 @@ function Meals () {
           </Paper>
         </Grid>
         <Grid container item direction="column">
-          <Grid item container direction="row" sx={{ backgroundColor: '#ffffff75', mb: '1rem', p: '1rem', boxShadow: 1, }}>
+          <Grid item container direction="row" gap={2} justifyContent='space-between' alignItems='center'
+            sx={{ backgroundColor: '#ffffff75', mb: '1rem', p: '1rem', boxShadow: 1, }}>
             <Grid item xs={1}><LocalDrinkIcon sx={{ fontSize: '2rem' }}/></Grid>
             <Grid item xs={2}><Typography variant='h6'>Add Water</Typography></Grid>
-            <Grid item xs={3}></Grid>
             
             <Grid item xs={2}><Typography variant='h6'>{water} ml</Typography></Grid>
             <Grid item xs={4}>

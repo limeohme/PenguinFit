@@ -32,7 +32,7 @@ export function BarActivityDurationByDay () {
               tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
             }}
             dependentAxis />
-            <VictoryAxis label={'minutes spent in activities by day,\n\nAugust 2022'}  style={{
+            <VictoryAxis label={'minutes spent in activities by day,\n\nlast 30 days'}  style={{
               axis: { stroke: '#5c6bc0', padding: 5 },
               axisLabel: { fontSize: 12, padding: -240 },
               ticks: { stroke: 'grey', size: 5 },
@@ -94,7 +94,7 @@ export function BarCalorieBalanceByDay () {
               tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
             }}
             dependentAxis />
-            <VictoryAxis label={'calorie balance by day,\nAugust 2022'}  style={{
+            <VictoryAxis label={'calorie balance by day,\nlast 30 days'}  style={{
               axis: { stroke: '#c5e1a5', padding: 5 },
               axisLabel: { fontSize: 12, padding: 90 },
               ticks: { stroke: 'grey', size: 5 },
