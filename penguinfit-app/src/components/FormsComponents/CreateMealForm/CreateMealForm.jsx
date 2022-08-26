@@ -5,7 +5,9 @@ import AppState from '../../../providers/app-state';
 import { addMealToDB, getFoodItemData, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../../services/meals-service';
 import { formatDateToString } from '../../../utils/utils';
 import CustomRadioGroupForm from '../../CustomRadioGroupForm/CustomRadioGroupForm';
+import CustomAutocomplete from '../CustomAutocomplete/CustomAutocomplete';
 import { validateMeal } from './meal-form-validations';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 const styles = {
@@ -22,6 +24,7 @@ const styles = {
 function MealForm () {
   const { appState: { user } } = useContext(AppState);
   const [item, setItem] = useState('');
+  const [itemState, setItemState] = useState('');
   const [grams, setGrams] = useState('');
   const [message, setMessage] = useState('');
   const [mealObj, setMealObj] = useState({
@@ -43,9 +46,11 @@ function MealForm () {
     setGrams(+val);
   };
 
+  const handleFoodStateChange = (_e, _name, val) => {
+    setItemState(val);
+  };
   const handleMealDetailsChange  = (e, name, val) => {
-    e?.preventDefault();
-    if(e.target.name === 'title'){
+    if (e.target.name === 'title'){
       val = e.target.value;
       name = e.target.name;
     }
@@ -64,13 +69,13 @@ function MealForm () {
     event.preventDefault();
     if (item && grams) {
       try {
-        const foodItemObject = await getFoodItemData(item, grams);
+        const foodItemObject = await getFoodItemData(`${itemState} ${item}`, grams);
         const zeID = mealObj.foods.length;
         setMealObj({ 
           ...mealObj, 
           foods: [...mealObj.foods, 
             { ...foodItemObject, quantity: grams, id: zeID }], cal: mealObj.cal + foodItemObject.cal });
-        setItem(''); setGrams('');
+        setItem(''); setGrams(''); setItemState('');
       } catch (err) {
         console.error(err);
         setMessageHandler('Ooops... We don\'t recognize this food item!');
@@ -113,14 +118,19 @@ function MealForm () {
       container direction="column" justifyContent="space-between" 
       alignItems="center" alignSelf="left" sx={styles.form}>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs={3.5}>
+          <CustomAutocomplete name={'food-state'} label={'raw or cooked'} value={itemState}
+            handler={handleFoodStateChange} options={['raw', 'cooked']} 
+            error={!itemState? { msg: 'All items are considered raw unless otherwise specified.' }: null}/>
+        </Grid>
+        <Grid item xs={3.5}>
           <TextField
             id="foods-input" name="foods" size="small" label="food item" value={item}
             type="text" onChange={handleFoodItemChange} fullWidth variant="standard" 
           />
           <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{!message.includes('food')? null : <em>{message}</em>}</FormHelperText>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3.5}>
           <TextField
             id="quantity-input" name="quantity" label="quantity" type="number"
             value={grams} onChange={handleQuantityChange}
@@ -131,10 +141,8 @@ function MealForm () {
           />
           <FormHelperText id="quantity-error-text" sx={{ color:'#D81159' }}>{!message.includes('quantity')? null : <em>{message}</em>}</FormHelperText>
         </Grid>
-        <Grid item xs={4} sx={{ display:'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Button variant="contained" color="primary" onClick={handleAdd} sx={{ width: '100%', boxSizing: 'border-box' }}>
-            ADD ITEM
-          </Button>
+        <Grid item xs={1.5} sx={{ display:'flex', alignItems: 'start', justifyContent: 'center' }}>
+          <AddCircleIcon variant="contained" color="primary" onClick={handleAdd} sx={{ width: '100%', mt: 2 }} />
         </Grid>
       </Grid>
 
@@ -163,7 +171,7 @@ function MealForm () {
           <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{!message.includes('title')? null: <em>{message}</em>}</FormHelperText>
         </Grid>
         <Grid item xs={4} sx={{ display:'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Button variant="contained" color="primary" onClick={() => handleAddtoDB(mealObj)} sx={{ width: '100%', boxSizing: 'border-box' }}>
+          <Button variant='contained' color="primary" onClick={() => handleAddtoDB(mealObj)} sx={{ width: '100%', boxSizing: 'border-box' }}>
             ADD MEAL
           </Button>
         </Grid>
