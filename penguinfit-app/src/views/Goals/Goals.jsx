@@ -111,7 +111,7 @@ function Goals() {
         >
           <Grid item >
             <Paper sx={{ backgroundColor: '#ffffff75' }}>
-              <DetailedGoalsStepper steps={getSteps(goals)}></DetailedGoalsStepper>
+              <DetailedGoalsStepper username={user.username} steps={getSteps(goals)}></DetailedGoalsStepper>
             </Paper>
           </Grid>
         </Grid>

@@ -8,12 +8,13 @@ const stylesNumInput = {
     fontStyle: 'italic'
   }
 };
+const MAX_INPUT_LENGTH = 10;
   
-const CustomNumberInput = ({ type, name, label, value, handler, error, adornment }) => {
+const CustomNumberInput = ({ type, name, label, value, handler, error, adornment, maxInputLength = MAX_INPUT_LENGTH }) => {
   // add strError, rename negativeErr to numError 
   // - better use only one depending which one gets validated
   const [inputErr, setInputErr] = useState(null);
-  const maxStrLength = 10;
+  const maxStrLength = maxInputLength;
 
   const validateNum = (num) => {
     if(num < 0){

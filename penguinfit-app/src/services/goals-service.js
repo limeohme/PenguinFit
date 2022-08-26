@@ -4,17 +4,32 @@ import {
   get,
   update,
   // onChildChanged,
+  remove,
   onValue
 } from 'firebase/database';
 import { db } from '../config/firebase-config';
-import { toSnakeCase } from '../utils/utils';
+import { toCamelCase, toSnakeCase } from '../utils/utils';
 
 export const createGoal = (user, goal) => {
   const goalTypeFormatted = toSnakeCase(goal.type);
+  goal.target = toCamelCase(goal.target);
 
   return push(ref(db, `goals/${user}/${goalTypeFormatted}/${goal.target}`), goal).then((path) =>
     update(ref(db, `goals/${user}/${goalTypeFormatted}/${goal.target}/${path.key}`), { ...goal, id: path.key })
   );
+};
+
+export const deleteGoal = (username, type, target, id) => {
+  remove(ref(db, `goals/${username}/${type}/${target}/${id}`));
+  
+  
+  // get(ref(db, `goals/${username}/${type}/${target}`))
+  //   .then(snapshot => {
+  //     const userGoals = snapshot.val();
+  //     // eslint-disable-next-line no-unused-vars
+  //     const { [id]:remove, updatedGoals } = userGoals;
+  //     set(ref(db, `goals/${username}/${type}/${target}`), updatedGoals || null);
+  //   });
 };
 
 export const goalsListener = (username, listen) => {
@@ -59,6 +74,7 @@ export const updateGoalTypeByTarget = (username, target, newTargetValue, type = 
         const notYetGoalHandles = Object.entries(goals)
           .filter((goal) => goal[1].status === 'Not there yet')
           .map(([key, goal]) => {
+            //cqb obekt
             return { handle: key, currentValue: goal.currentValue };
           });
 
