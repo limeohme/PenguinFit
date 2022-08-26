@@ -38,7 +38,7 @@ const useStyles = (theme) => ({
   drawer: {
     flexShrink: 0,
     color: 'white',
-    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH, backgroundColor: '#6633ff90', pl: 6 }
+    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH, backgroundColor: '#FED101', pl: 6 }
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -73,6 +73,7 @@ const useStyles = (theme) => ({
   }
 });
 
+// 🔥⌛⚡🍦
 function App() {
   const [appState, setState] = useState({
     user: getLoggedUser(),
