@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import AppState from '../../../providers/app-state';
 import { getSortedKeys } from '../../../utils/utils';
 import { listenToFriends } from '../../../services/user-service';
-import { addAndUpdateActivityInfo, getUserActivityByHandle } from '../../../services/activities-service';
+import { addAndUpdateActivityInfo, sendActivityRequest } from '../../../services/activities-service';
 import { createActivityObject, getActivityTypeDetails, sortedActivities } from '../../../utils/activities-utils';
 
 import { activityFromStyles as styles } from './CreateActivityForm-styles';
@@ -60,25 +60,20 @@ const CreateActivityForm = () => {
 
     // update DB
     addAndUpdateActivityInfo(user.username, activityObj)
-      .then((response) => {
+      .then((activityHandle) => {
 
-        getUserActivityByHandle(user.username, response).then(console.log);
+        if(activityHandle){
 
-        if(response){
+          if(activityObj.buddy){
+            sendActivityRequest(user.username, activityHandle, activityObj.buddy )
+              .catch(console.error);
+          };
+
           setFormValues(defaultValues);
           setFormErrors(defaultErrors);
         }
       })
       .catch(console.error);
-
-
-    // send obj handle to activity requests of buddy:
-    
-    // if(activityObj.buddy){
-    //   const activityObjOfBuddy = { ...activityObj, buddy: user.username };
-    //   addAndUpdateActivityInfo(activityObj.buddy, activityObjOfBuddy).catch(console.error);
-    // };
-
   };
 
   return (
@@ -118,7 +113,6 @@ const CreateActivityForm = () => {
       </Grid>
 
       <Grid container spacing={2}>
-        {/* {renderTypeDetails(formValues, handleInputChange)} */}
         <RenderMultipleInputs 
           array={getActivityTypeDetails(formValues.activity)}
           gridItemXS={4}

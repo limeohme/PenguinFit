@@ -308,3 +308,21 @@ export const createActivityObject = (user = {}, input = {}) => {
     // allKeywords: activityKeywordsToObject(activity),
   };
 };
+
+export const createActivityRequest = (sender, activityHandle, receiver) => {
+  return {
+    sender,
+    activityHandle,
+    receiver
+  };
+};
+
+export const formatRequestedActivity = (activityObj) => {
+  return {
+    ...activityObj,
+    buddy: activityObj.creator,
+    createdOn: getDateAsString(new Date()),
+    createdAt: getTimeAsString(new Date()),
+    handle: null
+  };
+};

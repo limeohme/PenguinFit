@@ -4,6 +4,7 @@ import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 import { updateGoalsByTarget } from './goals-service';
 import { toSnakeCase } from '../utils/utils';
 import { updateUserActivitiesDataByDay } from './user-service';
+import { createActivityRequest } from '../utils/activities-utils';
 
 export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_REQUEST_LIMIT) => {
   return get(query(ref(db, `activities/${username}`), orderByChild(`dateValue`), limitToLast(limit)))
@@ -30,7 +31,32 @@ export const getUserActivityByHandle = (username, handle) => {
     .catch(console.error);
 };
 
-const addActivity = (username, activityObj) => {
+export const getUserActivitiesFromRequests = (requestsArr) => {
+  return Promise.all(
+    requestsArr.map(({ sender, activityHandle }) => {
+      return getUserActivityByHandle(sender, activityHandle).then((activityObj) => {
+        return { ...activityObj, handle: activityHandle };
+      });
+    })
+  ).catch(console.error);
+};
+
+export const sendActivityRequest = (sender, activityHandle, receiver) => {
+  const activityRequest = createActivityRequest(sender, activityHandle, receiver);
+  return push(ref(db, `users/${receiver}/activityRequests`), activityRequest);
+};
+
+// needs another handle OR doc in DB OR query
+export const declineActivityRequest = (activityHandle, receiver) => {
+  return remove(ref(db, `users/${receiver}/activityRequests/${activityHandle}`));
+};
+
+export const getLiveActivityRequests = (username, listen) => {
+  return onValue(ref(db, `activities/${username}/activityRequests`), listen);
+};
+
+// see if sth needs to change in activityObj and use to handle add
+export const addActivity = (username, activityObj) => {
   return push(ref(db, `activities/${username}`), activityObj)
     .then((res) => res.key)
     .catch(console.error);
