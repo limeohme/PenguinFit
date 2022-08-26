@@ -1,9 +1,10 @@
-import { VictoryPie, VictoryLabel } from 'victory';
+import { VictoryPie, VictoryLabel, VictoryLegend } from 'victory';
 import { Typography, Grid } from '@mui/material';
 import * as style from './PieChartsStyles.js';
+import { MEAL_TYPES } from '../../../common/constants.js';
 
 export function PieNutrientsDistribution ({ nutrients }) {
-  
+
 
   return (
     <Grid item xs={12} sm={12} md={6} sx={style.pieChartStyle}>
@@ -22,12 +23,15 @@ export function PieNutrientsDistribution ({ nutrients }) {
         labels={({ datum }) => datum.x}
         labelComponent={<VictoryLabel angle={5} style={{ fill: '#000' }}/> }
       />
-      <Typography sx={style.chartNamesStyle} variant='h7'>nutrients distribution %</Typography>
+      <Typography sx={style.chartNamesStyle} variant='h7'>nutrients distribution %,</Typography>
     </Grid>
   );
 }
+
+const colors = ['#a3e2f7', '#8dc4d6', '#729fad', '#3c6f80', '#2a5d6e', '#0e4152', '#042b38'];
 export function PieMealsDistribution ({ meals }) {
   
+
 
   return (
     <Grid item xs={12} sm={12} md={6} sx={style.pieChartStyle}>
@@ -41,11 +45,24 @@ export function PieMealsDistribution ({ meals }) {
 
           }
         }}
-        colorScale={['#a3e2f7', '#8dc4d6', '#729fad', '#3c6f80', '#2a5d6e', '#0e4152', '#042b38' ]}
+        colorScale={colors}
         innerRadius={60}
         data={meals}
-        labels={({ datum }) => datum.y > 80?  datum.x : ''}
+        labels={() => ''}
         labelComponent={<VictoryLabel angle={5} style={{ fill: '#FFF' }}/> }
+      />
+      <VictoryLegend x={125} y={0}
+        centerTitle
+        orientation="horizontal"
+        itemsPerRow={3}
+        gutter={16}
+        style={{ labels: { fontSize: 10, } }}
+        data={MEAL_TYPES.map((type, i) => {
+          return {
+            name: type,
+            symbol: { fill: colors[i] }
+          };
+        })}
       />
     </Grid>
   );
