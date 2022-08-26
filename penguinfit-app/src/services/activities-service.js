@@ -3,6 +3,7 @@ import { get, ref, onValue, update, remove, push, query, limitToLast, orderByChi
 import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 import { updateGoalsByTarget } from './goals-service';
 import { toSnakeCase } from '../utils/utils';
+import { updateUserActivitiesDataByDay } from './user-service';
 
 export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_REQUEST_LIMIT) => {
   return get(query(ref(db, `activities/${username}`), orderByChild(`dateValue`), limitToLast(limit)))
@@ -16,15 +17,26 @@ export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_R
     .catch(console.error);
 };
 
-export const addActivity = (username, activityObj) => {
-  return push(ref(db, `activities/${username}`), activityObj);
-};
-
 export const getLiveUserActivities = (username, listen) => {
   return onValue(ref(db, `activities/${username}`), listen);
 };
 
-export const updateRelatedGoals = (username, activityObj) => {
+export const getUserActivityByHandle = (username, handle) => {
+  return get(ref(db, `activities/${username}/${handle}`))
+    .then((snapshot) => {
+      console.log(snapshot);
+      return snapshot.val();
+    })
+    .catch(console.error);
+};
+
+const addActivity = (username, activityObj) => {
+  return push(ref(db, `activities/${username}`), activityObj)
+    .then((res) => res.key)
+    .catch(console.error);
+};
+
+const updateRelatedGoals = (username, activityObj) => {
   return get(ref(db, `goals/${username}`))
     .then((snapshot) => {
       // check if any goals exist
@@ -46,6 +58,19 @@ export const updateRelatedGoals = (username, activityObj) => {
 
       console.log('NO GOALS EXIST');
       return null;
+    })
+    .catch(console.error);
+};
+
+export const addAndUpdateActivityInfo = (username, activityObj) => {
+  return addActivity(username, activityObj)
+    .then((activityHandle) => {
+      return updateUserActivitiesDataByDay(username, activityObj.details).then(() => {
+        // TODO: refactor updateRelatedGoals to update goals status and achieved date
+        return updateRelatedGoals(username, activityObj).then(() => {
+          return activityHandle;
+        });
+      });
     })
     .catch(console.error);
 };

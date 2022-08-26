@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import AppState from '../../../providers/app-state';
 import { getSortedKeys } from '../../../utils/utils';
-import { listenToFriends, updateUserActivitiesDataByDay } from '../../../services/user-service';
-import { addActivity, updateRelatedGoals } from '../../../services/activities-service';
+import { listenToFriends } from '../../../services/user-service';
+import { addAndUpdateActivityInfo, getUserActivityByHandle } from '../../../services/activities-service';
 import { createActivityObject, getActivityTypeDetails, sortedActivities } from '../../../utils/activities-utils';
 
 import { activityFromStyles as styles } from './CreateActivityForm-styles';
@@ -50,35 +50,33 @@ const CreateActivityForm = () => {
   const handleAdd = (e) => {
     e.preventDefault();
 
-    // validations - 
+    // validate
     if(!isValidActivityInput(formValues, friends, setFormErrors, defaultErrors)){
       return;
     }
     
+    // create object
     const activityObj = createActivityObject(user, formValues);
 
-    addActivity(user.username, activityObj)
-      .then(() => {
+    // update DB
+    addAndUpdateActivityInfo(user.username, activityObj)
+      .then((response) => {
 
-        return updateUserActivitiesDataByDay(user.username, activityObj.details)
-          .then(() => {
-          // TODO: refactor updateRelatedGoals
+        getUserActivityByHandle(user.username, response).then(console.log);
 
-            return updateRelatedGoals(user.username, activityObj)
-              .then((result) => {
-
-                console.log(result);
-
-                setFormValues(defaultValues);
-                setFormErrors(defaultErrors);
-              });
-          });
+        if(response){
+          setFormValues(defaultValues);
+          setFormErrors(defaultErrors);
+        }
       })
       .catch(console.error);
 
+
+    // send obj handle to activity requests of buddy:
+    
     // if(activityObj.buddy){
     //   const activityObjOfBuddy = { ...activityObj, buddy: user.username };
-    //   addActivity(activityObj.buddy, activityObjOfBuddy).catch(console.error);
+    //   addAndUpdateActivityInfo(activityObj.buddy, activityObjOfBuddy).catch(console.error);
     // };
 
   };
