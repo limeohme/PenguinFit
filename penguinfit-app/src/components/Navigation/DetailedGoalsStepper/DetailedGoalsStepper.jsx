@@ -3,9 +3,10 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { MobileStepper, Button, Typography, Chip, Stack, Divider, Box } from '@mui/material';
 import { useState } from 'react';
 import { VictoryPie, VictoryLabel } from 'victory';
+import { getDisplayTarget } from '../../../common/types-targets';
+import { deleteGoal } from '../../../services/goals-service';
 
-
-export default function DetailedGoalsStepper({ steps }) {
+export default function DetailedGoalsStepper({ steps, username }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;
@@ -23,6 +24,11 @@ export default function DetailedGoalsStepper({ steps }) {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  const handleDelete = (type, target, id) => {
+    console.log(id);
+    deleteGoal(username, type, target, id);
+  };
   
   return (
     <Box sx={{ minWidth:{ xs: 'auto', sm:500 }, minHeight: '100%' ,flexGrow: 1 }}>
@@ -30,11 +36,12 @@ export default function DetailedGoalsStepper({ steps }) {
         <Stack 
           spacing={1}
         >
-          <Typography align="center" >{steps[activeStep].title}</Typography>
+          <Typography align="center" >{`${steps[activeStep].type} : ${steps[activeStep].title}`}</Typography>
           <Chip label={'Status:' + steps[activeStep].status}/>
           <svg viewBox="0 0 400 400">
             <VictoryPie
               innerRadius={120}
+              cornerRadius={120}
               standalone={false}
               width={400}
               height={400}
@@ -45,19 +52,26 @@ export default function DetailedGoalsStepper({ steps }) {
               animate={{
                 duration: 2000,
               }}
-              colorScale={[ 'navy', 'black' ]}
+              colorScale={[ 'navy', 'transparent' ]}
             >
             </VictoryPie>
             <VictoryLabel
               textAnchor="middle"
               style={{ fontSize: 20 }}
               x={200} y={200}
-              text={`${Number(steps[activeStep].currentValue)}/${Number(steps[activeStep].targetValue)}`}
+              text={`${Number(steps[activeStep].currentValue)}/${Number(steps[activeStep].targetValue)}\n${getDisplayTarget[steps[activeStep].target]}`}
             />
           </svg>
-          <Stack direction="row" spacing={2}   divider={<Divider orientation="vertical" flexItem />}>
-            <Typography align="center" >{'Created on: ' + formatDate(steps[activeStep].createdOn)}</Typography>
-            <Typography align="center" >{'Due date:' + (formatDate(steps[activeStep].dueDate) || 'Not set')}</Typography>
+          <Stack 
+            direction="row" 
+            justifyContent="space-around"
+            alignItems="center"
+            spacing={2}   
+            divider={<Divider orientation="vertical" flexItem />}
+          >
+            <Typography >{'Created on: ' + formatDate(steps[activeStep].createdOn)}</Typography>
+            {/* <Typography >{'Due date:' + (formatDate(steps[activeStep].dueDate) || 'Not set')}</Typography> */}
+            <Button onClick={() => handleDelete(steps[activeStep].type, steps[activeStep].target, steps[activeStep].id)}>Delete goal</Button>
           </Stack>
         </Stack>
         <MobileStepper
