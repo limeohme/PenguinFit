@@ -6,12 +6,21 @@ export const GOAL_TITLE_LENGTH_MIN = 6;
 export const GOAL_TITLE_LENGTH_MAX = 50;
 export const GOAL_TARGET_VALUE_MIN = 1;
 export const GOAL_TARGET_VALUE_MAX = 10000;
+export const USER_AGE_MIN = 18;
+export const USER_AGE_MAX = 122;
+export const USER_USERNAME_MIN = 3;
+export const USER_USERNAME_MAX = 15;
+export const USER_EMAIL_MAX = 40;
+export const PASSWORD_MIN = 6;
+
+
 // export const LIKE = 'like';
 // export const DISLIKE = 'dislike';
 // export const LIKE_ICON = '🍓';
 // export const DISLIKE_ICON = '🍋';
 
-export const mailRE = /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i;
+// eslint-disable-next-line no-useless-escape
+export const mailRE = '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
 export const BODY_METRICS_RE = /^[0-9]*$/;
 
 export const FOODDATACENTRAL_API_KEY = 'oVhEojYF4Or8pY5R7QqfYh4IfZyD28zdSmIF1ORj';

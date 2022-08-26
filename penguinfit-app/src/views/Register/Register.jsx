@@ -1,7 +1,6 @@
 
 import {
   Grid,
-  TextField,
   Slider,
   Button,
   Paper,
@@ -13,72 +12,57 @@ import React, { useState } from 'react';
 import { useContext } from 'react';
 import { registerUser, userUpdate } from '../../services/auth-service';
 import { createUserHandle, getUserByHandle } from '../../services/user-service';
-import { validateRegistration } from '../../utils/validations';
 import { Link, useNavigate } from 'react-router-dom';
 import { getRandomAvatar } from '../../services/avatar-service';
+import CustomNumberInput from '../../components/FormsComponents/CustomInput/CustomInput';
+import { defaultErrors, defaultValues } from './registerForm-defaults';
+import { isValidRegisterInput } from './registerForm-validations';
+import { USER_EMAIL_MAX } from '../../common/constants';
+import { registerFromStyles } from './registerForm-styles';
 
-const defaultValues = {
-  username: '',
-  password: '',
-  passwordCheck: '',
-  age: '',
-  email: '',
-  weight: '',
-  height: '',
-  phoneNumber: '',
-  activityStatus: 1,
-  BMI: '',
-
-};
 const Register = () => {
   const { appState, setState } = useContext(AppState);
   const [formValues, setFormValues] = useState(defaultValues);
-  const [errors, setErrors] = useState(null);
+  const [formErrors, setFormErrors] = useState(defaultErrors);
   const navigate = useNavigate();
-
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (e, name, value) => {
+    e?.preventDefault();
+    // console.log(name, value);
     setFormValues({
       ...formValues,
-      [name]: value,
+      [name]: value
     });
   };
-  const handleSliderChange = (name) => (e, value) => {
+
+
+  const handleSliderChange = () => (e, value) => {
     setFormValues({
       ...formValues,
-      [name]: value,
+      activityStatus: value,
     });
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    setErrors(null);
-    try {
-      validateRegistration(formValues, errorSetter);
-      regHandler(formValues);
-    } catch (err) {
-      // errorSetter(err.message);
-      console.log(errors);
+    
+    if(!isValidRegisterInput(formValues, setFormErrors, defaultErrors)){
+      return;
     }
+    
+    console.log(formValues);
+    regHandler(formValues);
   };
   
-  function errorSetter(prop, value) {
-    setErrors({
-      ...errors,
-      [prop]: value,
-    });
-  }
 
   const regHandler = (form) => {
     getUserByHandle(form.username)
       // eslint-disable-next-line consistent-return
       .then((snapshot) => {
-        if (snapshot.exists()) {
-          return errorSetter(
-            'username',
-            `User with username ${form.username} already exists!`,
-          );
+        if (snapshot.val()) {
+          setFormErrors({ ...defaultErrors, username: { msg:'Username already taken' } });
+          throw new Error('Username already taken');
         }
+        console.log(snapshot.val());
       }).then(() => {
         registerUser(form.email, form.password)
           .then(() => {
@@ -86,11 +70,11 @@ const Register = () => {
 
             const userData = {
               username: form.username,
-              age: form.age,
+              age: +form.age,
               email: form.email,
-              weight: form.weight,
-              height: form.height,
-              phoneNumber: form.phoneNumber,
+              weight: +form.weight,
+              height: +form.height,
+              phoneNumber: +form.phoneNumber,
               activityStatus: form.activityStatus,
               BMI: (Number(form.weight)/((Number(form.height)/100)**2)),
               avatarURL: getRandomAvatar(form.username)
@@ -104,130 +88,115 @@ const Register = () => {
             navigate('/dashboard');
           });
 
-      });
+      }).catch(console.error);
 
   };
+
   return (
     <>
       <Grid
         container
-        spacing={0}
+        spacing={20}
         direction="column"
         alignItems="center"
         justifyContent="center"
-        style={{ minHeight: '100vh' }}
+        style={registerFromStyles.main}
       >
-  
+
         <Grid item xs={3}>
-          <Paper sx={{ p: '3rem', my: '4rem', boxSizing: 'border-box', width: '100%', bgcolor: 'rgb(255, 255, 255, 0.8)' }}>
+          <Paper sx={registerFromStyles.paper}>
             <form onSubmit={handleSubmit}>
               <Grid container alignItems="center" justifyContent="center" direction="column">
-                <Grid item>
+                <Grid item >
+
                   <h3>Register</h3>
                 </Grid>
-                <Grid item>
-                  <TextField
-                    id="username-input"
+                <Grid item >
+                  <CustomNumberInput 
+                    type="username"
                     name="username"
                     label="Username"
-                    type="text"
                     value={formValues.username}
-                    onChange={handleInputChange}
-                    sx={{ margin: 1, }}
-                    required
-                    error={!!errors?.username}
-                    helperText={errors?.username}
+                    handler={handleInputChange}
+                    error={formErrors.username}
                   />
                 </Grid>
-                <Grid item>
-                  <TextField
-                    id="password-input"
+                <Grid item >
+                  <CustomNumberInput 
+                    type="password"
                     name="password"
                     label="Password"
-                    type="password"
                     value={formValues.password}
-                    onChange={handleInputChange}
-                    required
-                    sx={{ margin: 1, }}
-                    error={!!errors?.password}
-                    helperText={errors?.password}
+                    handler={handleInputChange}
+                    error={formErrors.password}
                   />
                 </Grid>
-                <Grid item>
-                  <TextField
-                    id="passwordCheck-input"
+                <Grid item >
+                  <CustomNumberInput 
+                    type="password"
                     name="passwordCheck"
                     label="Repeat password"
-                    type="password"
                     value={formValues.passwordCheck}
-                    onChange={handleInputChange}
-                    sx={{ margin: 1, }}
-                    required
-                    error={!!errors?.password}
-                    helperText={errors?.password}
+                    handler={handleInputChange}
+                    error={formErrors.passwordCheck}
                   />
                 </Grid>
-                <Grid item>
-                  <TextField
-                    id="age-input"
+                <Grid item >
+                  <CustomNumberInput 
+                    type="number"
                     name="age"
                     label="Age"
-                    type="number"
                     value={formValues.age}
-                    onChange={handleInputChange}
-                    sx={{ margin: 1, }}
+                    handler={handleInputChange}
+                    error={formErrors.age}
                   />
                 </Grid>
-                <Grid item>
-                  <TextField
-                    id="email-input"
+                <Grid item >
+
+                  <CustomNumberInput 
+                    type="text"
                     name="email"
                     label="Email"
-                    type="text"
                     value={formValues.email}
-                    onChange={handleInputChange}
-                    sx={{ margin: 1, }}
-                    required
-                    error={!!errors?.email}
-                    helperText={errors?.email}
+                    handler={handleInputChange}
+                    error={formErrors.email}
+                    maxInputLength={USER_EMAIL_MAX}
                   />
                 </Grid>
-                <Grid item>
-                  <TextField
-                    id="height-input"
+                <Grid item >
+
+                  <CustomNumberInput 
+                    type="number"
                     name="height"
                     label="Height"
-                    type="number"
                     value={formValues.height}
-                    onChange={handleInputChange}
-                    sx={{ margin: 1, }}
+                    handler={handleInputChange}
+                    error={formErrors.height}
                   />
                 </Grid>
-                <Grid item>
-                  <TextField
-                    id="weight-input"
+                <Grid item >
+                  <CustomNumberInput 
+                    type="number"
                     name="weight"
                     label="Weight"
-                    type="number"
                     value={formValues.weight}
-                    onChange={handleInputChange}
-                    sx={{ margin: 1, }}
+                    handler={handleInputChange}
+                    error={formErrors.weight}
                   />
                 </Grid>
-                <Grid item>
-                  <TextField
-                    id="phoneNumber-input"
+                <Grid item >
+                  <CustomNumberInput 
+                    type="number"
                     name="phoneNumber"
                     label="Phone number"
-                    type="number"
                     value={formValues.phoneNumber}
-                    onChange={handleInputChange}
-                    sx={{ margin: 1, }}
+                    handler={handleInputChange}
+                    error={formErrors.phoneNumber}
                   />
                 </Grid>
                 
-                <Grid item>
-                  <div style={{ display: 'flex', flexDirection: 'column',  justifyContent: 'center', alignItems: 'center' }}>
+                <Grid item >
+                  <div style={registerFromStyles.center}>
               How active are you ?
                     <Slider
                       value={formValues.activityStatus}
@@ -255,11 +224,11 @@ const Register = () => {
                     />
                   </div>
                 </Grid>
-                <Button variant="contained" color="primary" type="submit" sx={{ margin: 2, }}>
+                <Button variant="contained" color="primary" type="submit" >
             Submit
                 </Button>
-                <Grid item sx={{ display: 'flex', flexDirection: 'column',  justifyContent: 'center', alignItems: 'center' }}>
-                  <Typography  sx={{ margin: 1, }}> You have an account ?
+                <Grid item sx={registerFromStyles.center}>
+                  <Typography > You have an account ?
                     <Button variant='text' component={Link} to='/login'>Login</Button>
                   </Typography>
                 </Grid>
