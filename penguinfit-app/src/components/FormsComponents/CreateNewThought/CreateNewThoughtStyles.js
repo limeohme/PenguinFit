@@ -18,7 +18,6 @@ export const wrapperContainerStyle = {
   alignSelf: 'center',
   display: 'flex',
   boxSizing: 'border-box',
-  my: '2rem'
 };
 
 export const midiContainerStyle = {

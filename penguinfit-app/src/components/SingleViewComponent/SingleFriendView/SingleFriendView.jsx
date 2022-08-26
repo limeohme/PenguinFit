@@ -5,7 +5,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 export default function SingleFriendContainerView({ avatar, text, handleDelete, handleAdd }) {
   return (
-    <Box sx={{ width: '350px', maxWidth: '100%' }}>
+    <Box sx={{ width: '280px', maxWidth: '100%' }}>
       <Paper sx={{ display: 'flex' , backgroundColor: '#6633ff10', p: 2 }}>
         <Grid 
           container
@@ -18,7 +18,7 @@ export default function SingleFriendContainerView({ avatar, text, handleDelete, 
             <Avatar alt={text} src={avatar} />
           </Grid>
           <Grid item xs={5} sm={5} >
-            <Typography variant='h5'>{text}</Typography>
+            <Typography variant='h6'>{text}</Typography>
           </Grid>
           <Grid item container xs={4} sm={4} alignItems="center" justifyContent="flex-end">
             <Grid item xs={6} sm={6}>

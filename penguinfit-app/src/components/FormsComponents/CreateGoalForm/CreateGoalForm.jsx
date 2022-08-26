@@ -7,6 +7,7 @@ import CustomAutocomplete from '../CustomAutocomplete/CustomAutocomplete';
 import CustomNumberInput from '../CustomInput/CustomInput';
 import { isValidGoalInput } from './CreateGoalForm-validations';
 import { goalFromStyles } from './CreateGoalForm-styles';
+import { GOAL_TITLE_LENGTH_MAX } from '../../../common/constants';
 
 const CreateGoalForm = ({ username }) => {
   const [formValues, setFormValues] = useState(defaultValues);
@@ -31,7 +32,11 @@ const CreateGoalForm = ({ username }) => {
     if(!isValidGoalInput(formValues, setFormErrors, defaultErrors)){
       return;
     }
-    createGoal(username, formValues);
+    createGoal(username, formValues)
+      .then(() => {
+        setFormValues(defaultValues);
+        setFormErrors(defaultErrors);
+      });
   };
 
   return (
@@ -56,6 +61,7 @@ const CreateGoalForm = ({ username }) => {
                 value={formValues.title}
                 handler={handleInputChange}
                 error={formErrors.title}
+                maxInputLength={GOAL_TITLE_LENGTH_MAX}
               />
             </Grid>
           </Grid>
