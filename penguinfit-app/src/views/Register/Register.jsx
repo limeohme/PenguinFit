@@ -25,6 +25,7 @@ const Register = () => {
   const [formValues, setFormValues] = useState(defaultValues);
   const [formErrors, setFormErrors] = useState(defaultErrors);
   const navigate = useNavigate();
+  
   const handleInputChange = (e, name, value) => {
     e?.preventDefault();
     // console.log(name, value);
@@ -62,7 +63,6 @@ const Register = () => {
           setFormErrors({ ...defaultErrors, username: { msg:'Username already taken' } });
           throw new Error('Username already taken');
         }
-        console.log(snapshot.val());
       }).then(() => {
         registerUser(form.email, form.password)
           .then(() => {
@@ -85,7 +85,7 @@ const Register = () => {
               ...appState,
               user: userData,
             });
-            navigate('/dashboard');
+            navigate('private/dashboard');
           });
 
       }).catch(console.error);

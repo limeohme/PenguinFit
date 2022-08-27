@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import AppState from '../../../providers/app-state';
 import { getSortedKeys } from '../../../utils/utils';
-import { listenToFriends, updateUserActivitiesDataByDay } from '../../../services/user-service';
-import { addActivity, updateRelatedGoals } from '../../../services/activities-service';
+import { listenToFriends } from '../../../services/user-service';
+import { addAndUpdateActivityInfo, sendActivityRequest } from '../../../services/activities-service';
 import { createActivityObject, getActivityTypeDetails, sortedActivities } from '../../../utils/activities-utils';
 
 import { activityFromStyles as styles } from './CreateActivityForm-styles';
@@ -50,37 +50,30 @@ const CreateActivityForm = () => {
   const handleAdd = (e) => {
     e.preventDefault();
 
-    // validations - 
+    // validate
     if(!isValidActivityInput(formValues, friends, setFormErrors, defaultErrors)){
       return;
     }
     
+    // create object
     const activityObj = createActivityObject(user, formValues);
 
-    addActivity(user.username, activityObj)
-      .then(() => {
+    // update DB
+    addAndUpdateActivityInfo(user.username, activityObj)
+      .then((activityHandle) => {
 
-        return updateUserActivitiesDataByDay(user.username, activityObj.details)
-          .then(() => {
-          // TODO: refactor updateRelatedGoals
+        if(activityHandle){
 
-            return updateRelatedGoals(user.username, activityObj)
-              .then((result) => {
+          if(activityObj.buddy){
+            sendActivityRequest(user.username, activityHandle, activityObj.buddy )
+              .catch(console.error);
+          };
 
-                console.log(result);
-
-                setFormValues(defaultValues);
-                setFormErrors(defaultErrors);
-              });
-          });
+          setFormValues(defaultValues);
+          setFormErrors(defaultErrors);
+        }
       })
       .catch(console.error);
-
-    // if(activityObj.buddy){
-    //   const activityObjOfBuddy = { ...activityObj, buddy: user.username };
-    //   addActivity(activityObj.buddy, activityObjOfBuddy).catch(console.error);
-    // };
-
   };
 
   return (
@@ -120,7 +113,6 @@ const CreateActivityForm = () => {
       </Grid>
 
       <Grid container spacing={2}>
-        {/* {renderTypeDetails(formValues, handleInputChange)} */}
         <RenderMultipleInputs 
           array={getActivityTypeDetails(formValues.activity)}
           gridItemXS={4}
