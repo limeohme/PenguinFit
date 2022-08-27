@@ -86,7 +86,7 @@ const CreateGoalForm = ({ username }) => {
                   />
                   <FormControlLabel
                     key="byExercise"
-                    value=""
+                    value=''
                     checked={formValues.type !== 'general'}
                     name="type"
                     control={<Radio size="small" />}

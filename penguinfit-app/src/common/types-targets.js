@@ -1,7 +1,8 @@
 export const typesTargets = {
   cardio: ['Duration', 'Calories burned', 'Distance'],
   strength: ['Duration', 'Calories burned', 'Weight', 'Sets', 'Reps'],
-  general:['Calories burned', 'Duration']
+  general:['Calories burned', 'Duration'],
+  other:['Calories burned', 'Duration']
 };
 
 export const getDisplayTarget = {
