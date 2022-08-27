@@ -9,6 +9,7 @@ import {
 } from 'firebase/database';
 import { db } from '../config/firebase-config';
 import { getDateAsString, toCamelCase, toSnakeCase } from '../utils/utils';
+import { updateUserGoalsStatus } from './user-service';
 
 export const createGoal = (user, goal) => {
   goal.type = toSnakeCase(goal.type);
@@ -91,6 +92,8 @@ export const updateGoalTypeByTarget = (username, target, newTargetValue, type = 
               [`${path}/status`]: 'achieved',
               [`${path}/achievedOn`]: getDateAsString(new Date())
             };
+
+            updateUserGoalsStatus(username).catch(console.error);
           }
 
           return upd;
