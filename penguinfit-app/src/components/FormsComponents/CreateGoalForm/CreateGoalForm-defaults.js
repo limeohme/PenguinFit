@@ -9,6 +9,8 @@ export const defaultValues = {
   target: '',
   targetValue: '',
   currentValue: 0,
+  achievedOn: '',
+  
 };
 
 export const defaultErrors = errorTypes.reduce((defObj, errT) => {

@@ -11,7 +11,7 @@ const parseDate = (date) => new Date(date).toLocaleDateString('en-uk', { year:'n
 export default function SingleAchievedGoalView({ goal , username }) {
 
   const handleQuickAdd = ( user, values ) => {
-    const newGoal = { ...values, currentValue:0, createdOn:Date.now() };
+    const newGoal = { ...values, currentValue:0, createdOn:Date.now(), status:'Not there yet', achievedOn:'' };
     createGoal(user, newGoal);
   };
 
