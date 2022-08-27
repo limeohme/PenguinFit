@@ -8,7 +8,7 @@ import {
   onValue
 } from 'firebase/database';
 import { db } from '../config/firebase-config';
-import { toCamelCase, toSnakeCase } from '../utils/utils';
+import { getDateAsString, toCamelCase, toSnakeCase } from '../utils/utils';
 
 export const createGoal = (user, goal) => {
   goal.type = toSnakeCase(goal.type);
@@ -67,25 +67,16 @@ export const getGoalTypeByTarget = (username, target, type = 'general') => {
 export const updateGoalTypeByTarget = (username, target, newTargetValue, type = 'general') => {
   return getGoalTypeByTarget(username, target, type)
     .then((goals) => {
-      // console.log('goals');
-      // console.log(goals);
       if (goals) {
         // maybe a better name - especially if we filter on DB
         const notYetGoalHandles = Object.entries(goals)
           .filter((goal) => goal[1].status === 'Not there yet')
           .map(([key, goal]) => {
-            //cqb obekt
             return { handle: key, currentValue: goal.currentValue, targetValue: goal.targetValue };
           });
 
         const updates = notYetGoalHandles.reduce((upd, { handle, currentValue, targetValue }) => {
           const path = `goals/${username}/${type}/${target}/${handle}`;
-
-          // console.log('currentValue');
-          // console.log(+currentValue);
-
-          // console.log('changed value');
-          // console.log(+currentValue + newTargetValue);
 
           const increasedValue = currentValue + newTargetValue;
 
@@ -97,7 +88,8 @@ export const updateGoalTypeByTarget = (username, target, newTargetValue, type = 
           if (increasedValue >= parseInt(targetValue)) {
             upd = {
               ...upd,
-              [`${path}/status`]: 'achieved'
+              [`${path}/status`]: 'achieved',
+              [`${path}/achievedOn`]: getDateAsString(new Date())
             };
           }
 
