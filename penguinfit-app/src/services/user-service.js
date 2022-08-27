@@ -104,21 +104,11 @@ export const getUserDataOfDay = (username, date) => {
 export const updateUserActivitiesDataByDay = (username, data) => {
   const today = new Date();
   const date = getDateAsString(today);
-  // console.log(date);
 
   return getUserDataOfDay(username, date)
     .then((snapshot) => {
-      // console.log('FROM GET DATA BY DAY');
-      // console.log(snapshot.val());
-
       if (snapshot.exists()) {
         const [dateHandle, prevData] = Object.entries(snapshot.val())[0];
-
-        // const dateHandle = obj[0][0];
-        // const prevData = obj[0][1];
-
-        // console.log('prevData');
-        // console.log(prevData);
 
         return updateTodaysActivitiesData(username, data, dateHandle, prevData);
       }
@@ -157,9 +147,6 @@ export const updateTodaysActivitiesData = (username, data, dateHandle, prevData)
     cal: { burned },
     steps
   } = prevData;
-
-  // console.log('dateHandle');
-  // console.log(dateHandle);
 
   const { caloriesBurned, duration } = data;
   const stepsMade = data.steps ? data.steps : 0;
