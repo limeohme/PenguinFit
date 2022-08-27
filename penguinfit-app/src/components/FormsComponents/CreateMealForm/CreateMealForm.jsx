@@ -121,7 +121,7 @@ function MealForm () {
         <Grid item xs={3.5}>
           <CustomAutocomplete name={'food-state'} label={'raw or cooked'} value={itemState}
             handler={handleFoodStateChange} options={['raw', 'cooked']} 
-            error={!itemState? { msg: 'All items are considered raw unless otherwise specified.' }: null}/>
+            error={!itemState? { msg: 'raw unless specified.' }: null}/>
         </Grid>
         <Grid item xs={3.5}>
           <TextField
