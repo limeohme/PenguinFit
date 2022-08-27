@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import AppState from '../../providers/app-state';
 
-import { ACTIVITIES_REQUEST_LIMIT } from '../../common/constants';
 import { getActivityRequestsArray } from '../../utils/activities-utils';
 import { getLiveUserActivities, getMostRecentUserActivities, getLiveActivityRequests,  getUserActivitiesFromRequests } from '../../services/activities-service';
 
@@ -78,8 +77,10 @@ function Activities() {
   useEffect(() => {
     const unsubscribe = getLiveUserActivities(user.username, async () => {
       try{
-        const recent = await getMostRecentUserActivities(user.username, ACTIVITIES_REQUEST_LIMIT);
+        const recent = await getMostRecentUserActivities(user.username);
+
         setActivities(recent);
+
       }catch(err){
         console.error(err);
       }
@@ -90,22 +91,21 @@ function Activities() {
 
   useEffect(() => {
     const unsubscribe = getLiveActivityRequests(user.username, async (snapshot) => {
-      if (snapshot.exists()) {
-        const requestsArr = getActivityRequestsArray(snapshot);
-        getUserActivitiesFromRequests(requestsArr)
-          .then((result)=>{
-            setActivityRequests(result);
-          });
-      } else {
-        setActivityRequests([]);
-      }
 
-      // try{
-      //   const recent = await getMostRecentUserActivities(user.username, ACTIVITIES_REQUEST_LIMIT);
-      //   setActivities(recent);
-      // }catch(err){
-      //   console.error(err);
-      // }
+      try{
+        if (snapshot.exists()) {
+          const requestsArr = getActivityRequestsArray(snapshot);
+          const requested = await getUserActivitiesFromRequests(requestsArr);
+  
+          setActivityRequests(requested);
+          
+        } else {
+  
+          setActivityRequests([]);
+        }
+      }catch(err){
+        console.error(err);
+      }
     });
 
     return () => unsubscribe();
@@ -140,7 +140,7 @@ function Activities() {
 
       <Grid item xs={12} sm={6.5}>
         <Typography variant='h5' sx={{ pb:2 }}>Statistics:</Typography>
-        {/* <DetailedGoalsStepper steps={ steps }></DetailedGoalsStepper> */}
+        
         <Grid 
           container
           item

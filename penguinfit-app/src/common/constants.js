@@ -1,7 +1,5 @@
 export const DRAWER_WIDTH = 280;
 export const APP_TITLE = 'PenguinFit';
-export const KEYWORD_PREFIX = 'keyword-';
-export const ACTIVITIES_REQUEST_LIMIT = 7;
 export const GOAL_TITLE_LENGTH_MIN = 6;
 export const GOAL_TITLE_LENGTH_MAX = 32;
 export const GOAL_TARGET_VALUE_MIN = 1;
@@ -13,14 +11,13 @@ export const USER_USERNAME_MAX = 15;
 export const USER_EMAIL_MAX = 40;
 export const PASSWORD_MIN = 6;
 
-
 // export const LIKE = 'like';
 // export const DISLIKE = 'dislike';
 // export const LIKE_ICON = '🍓';
 // export const DISLIKE_ICON = '🍋';
 
 // eslint-disable-next-line no-useless-escape
-export const mailRE = '/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
+export const mailRE = '/^(([^<>()[]\\.,;:s@"]+(.[^<>()[]\\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/';
 export const BODY_METRICS_RE = /^[0-9]*$/;
 
 export const FOODDATACENTRAL_API_KEY = 'oVhEojYF4Or8pY5R7QqfYh4IfZyD28zdSmIF1ORj';

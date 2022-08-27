@@ -161,3 +161,24 @@ export const updateTodaysActivitiesData = (username, data, dateHandle, prevData)
 
   return update(ref(db), updates);
 };
+
+const getUserGoalsStatus = (username) => {
+  return get(ref(db, `users/${username}/goalsStatus`))
+    .then((snapshot) => {
+      return snapshot.val();
+    })
+    .catch(console.error);
+};
+
+export const updateUserGoalsStatus = (username) => {
+  return getUserGoalsStatus(username)
+    .then((goalsStatus) => {
+      const updates = {
+        [`users/${username}/goalsStatus/achieved`]: ++goalsStatus.achieved,
+        [`users/${username}/goalsStatus/notYet`]: --goalsStatus.notYet
+      };
+
+      return update(ref(db), updates);
+    })
+    .catch(console.error);
+};
