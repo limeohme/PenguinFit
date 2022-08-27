@@ -309,6 +309,14 @@ export const createActivityObject = (user = {}, input = {}) => {
   };
 };
 
+export const updateActivityDateAndTime = (activityObj) => {
+  return {
+    ...activityObj,
+    createdOn: getDateAsString(new Date()),
+    createdAt: getTimeAsString(new Date())
+  };
+};
+
 export const createActivityRequest = (sender, activityHandle, receiver) => {
   return {
     sender,
@@ -317,12 +325,21 @@ export const createActivityRequest = (sender, activityHandle, receiver) => {
   };
 };
 
-export const formatRequestedActivity = (activityObj) => {
+export const updateRequestedActivity = (activityObj) => {
   return {
     ...activityObj,
     buddy: activityObj.creator,
     createdOn: getDateAsString(new Date()),
     createdAt: getTimeAsString(new Date()),
-    handle: null
+    requestHandle: null
   };
+};
+
+export const getActivityRequestsArray = (requestsSnapshot) => {
+  const requestsData = Object.entries(requestsSnapshot.val());
+
+  return requestsData.map(([requestHandle, request]) => {
+    console.log(request);
+    return { ...request, requestHandle };
+  });
 };
