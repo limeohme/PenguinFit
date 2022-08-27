@@ -73,7 +73,7 @@ const useStyles = (theme) => ({
   }
 });
 
-// 🔥⌛⚡🍦
+// 🔥 ⌛ ⚡ 💥
 function App() {
   const [appState, setState] = useState({
     user: getLoggedUser(),
