@@ -6,24 +6,30 @@ import { getDateAsString } from '../utils/utils';
 export const getGoalsDistribution = (user) => {
   return get(ref(db, `users/${user}/goalsStatus`))
     .then((snapshot) => {
-      const goalsCount = snapshot.val();
-      const data = [
-        { x: 'achieved', y: goalsCount.achieved },
-        { x: 'not yet', y: goalsCount.notYet }
-      ];
-      return data;
+      if (snapshot.exists()) {
+        const goalsCount = snapshot.val();
+        const data = [
+          { x: 'achieved', y: goalsCount.achieved },
+          { x: 'not yet', y: goalsCount.notYet }
+        ];
+        return data;
+      }
+      return [];
     }).catch(console.error);
 };
 export const getNutrientDistribution = (user) => {
   return get(ref(db, `users/${user}/nutrients`))
     .then((snapshot) => {
-      const nutrientsCount = snapshot.val();
-      const data = [
-        { x: 'carbs', y: nutrientsCount.carbs },
-        { x: 'fats', y: nutrientsCount.fats },
-        { x: 'protein', y: nutrientsCount.protein },
-      ];
-      return data;
+      if (snapshot.exists()) {
+        const nutrientsCount = snapshot.val();
+        const data = [
+          { x: 'carbs', y: nutrientsCount.carbs },
+          { x: 'fats', y: nutrientsCount.fats },
+          { x: 'protein', y: nutrientsCount.protein },
+        ];
+        return data;
+      }
+      return [];
     }).catch(console.error);
   
 };

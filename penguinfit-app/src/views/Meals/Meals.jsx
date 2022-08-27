@@ -1,9 +1,9 @@
 import { Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { MEAL_TYPES } from '../../common/constants';
-import { BarCaloriesByMeal } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
+import { BarCalorieIntake, BarCaloriesByMeal } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
 import MealForm from '../../components/FormsComponents/CreateMealForm/CreateMealForm';
-import { PieMealsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
+// import { PieMealsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
 import SingleMeal from '../../components/SingleViewComponent/SingleMeal/SingleMeal';
 import AppState from '../../providers/app-state';
 import { getMealByType, getMealCalsByType, getRecentMeals } from '../../services/meals-service';
@@ -18,17 +18,21 @@ function Meals () {
 
   const { appState:{ user } } = useContext(AppState);
   const [meals, setMeals] = useState([]);
-  const [calData, setCalData] = useState([]);
   const [typeData, setTypeData] = useState([]);
   const [water, setWater] = useState(0);
+  const [maxima, setMaxima] = useState([]);
 
   useEffect(() => {
     const allTypes = [];
-    MEAL_TYPES.forEach((mealT) => allTypes.push({ x: mealT, y: getMealCalsByType(meals, mealT) }));
-    setCalData(allTypes);
+    const allCals = [];
+    MEAL_TYPES.forEach((mealT) => allCals.push({ x: mealT, y: getMealCalsByType(meals, mealT) }));
 
     MEAL_TYPES.forEach((mealT) => allTypes.push({ x: mealT, y: getMealByType(meals, mealT) }));
-    setTypeData(allTypes);
+    setTypeData([allTypes, allCals]);
+
+    setMaxima([allTypes, allCals].map(
+      (dataset) => Math.max(...dataset.map((d) => d.y))
+    ));
 
 
   }, [meals]);
@@ -117,13 +121,13 @@ function Meals () {
         >
           <Grid item container  justifyContent="center" direction="column">
             {meals.length? 
-              <BarCaloriesByMeal data={calData}/> :
+              <BarCaloriesByMeal data={typeData} maxima={maxima}/> :
               <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
                 flexDirection: 'column', height: '400px', my: '2rem' }}>
                 <NoDataYet/>  
               </Grid>
             }
-            {meals.length? <PieMealsDistribution meals={typeData}/> : 
+            {meals.length? <BarCalorieIntake/> : 
               <Grid item xs sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column',
                 alignItems: 'center', height: '400px', my: '2rem' }}>
                 <NoDataYet/>

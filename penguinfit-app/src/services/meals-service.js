@@ -43,7 +43,6 @@ export const getFoodItemData = async (foodItem, grams) => {
 export const updateUserNutrients = (user, protein, carbs, fats) => {
   return get(ref(db, `users/${user}/nutrients`)).then((snapshot) => {
     if (snapshot.exists()) {
-      console.log(snapshot.val());
       update(ref(db, `users/${user}/nutrients`), { ...snapshot.val(), carbs: snapshot.val().carbs + +carbs })
         .catch(console.error);
       update(ref(db, `users/${user}/nutrients`), { ...snapshot.val(), protein: snapshot.val().protein + +protein } )
@@ -69,7 +68,6 @@ export const updateDailyCalsGetter = (user, listen) => {
 
 export const updateDailyCalsUpdater = (snapshot, user, cals) => {
   if (snapshot.exists()) {
-    console.log(snapshot.val());
     const key = Object.keys(snapshot.val())[0];
     return update(ref(db, `users/${user}/dataByDay/${String(key)}`),
       { ...Object.values(snapshot.val())[0], cal: { ...Object.values(snapshot.val())[0].cal, consumed: Object.values(snapshot.val())[0].cal.consumed + cals }  });
@@ -157,4 +155,18 @@ export const getMealByType = (meals, type) => {
   const data = meals
     .filter(el => el.type === type);
   return data.length;
+};
+
+export const getCalorieIntakeByDate = (user) => {
+  return get(query(ref(db, `users/${user}/dataByDay`), orderByChild('dateVal'), limitToLast(30)))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return Object.values(snapshot.val()).map((el) => {
+          return { x: el.date.split(' ')[2], y: el.cal.consumed };
+        });
+      } else {
+        return [];
+      }
+    }).catch(console.error);
+  
 };
