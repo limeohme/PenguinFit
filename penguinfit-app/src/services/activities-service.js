@@ -1,5 +1,5 @@
 import { db } from '../config/firebase-config';
-import { get, ref, onValue, update, remove, push, query, limitToLast, orderByChild } from 'firebase/database';
+import { get, ref, onValue, remove, push, query, limitToLast, orderByChild } from 'firebase/database';
 import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 import { updateGoalsByTarget } from './goals-service';
 import { toSnakeCase } from '../utils/utils';
@@ -33,9 +33,9 @@ export const getUserActivityByHandle = (username, handle) => {
 
 export const getUserActivitiesFromRequests = (requestsArr) => {
   return Promise.all(
-    requestsArr.map(({ sender, activityHandle }) => {
-      return getUserActivityByHandle(sender, activityHandle).then((activityObj) => {
-        return { ...activityObj, handle: activityHandle };
+    requestsArr.map((requestObj) => {
+      return getUserActivityByHandle(requestObj.sender, requestObj.activityHandle).then((activityObj) => {
+        return { ...activityObj, requestHandle: requestObj.requestHandle, sender: requestObj.sender };
       });
     })
   ).catch(console.error);
@@ -46,17 +46,15 @@ export const sendActivityRequest = (sender, activityHandle, receiver) => {
   return push(ref(db, `users/${receiver}/activityRequests`), activityRequest);
 };
 
-// needs another handle OR doc in DB OR query
-export const declineActivityRequest = (activityHandle, receiver) => {
-  return remove(ref(db, `users/${receiver}/activityRequests/${activityHandle}`));
+export const deleteActivityRequest = (requestHandle, receiver) => {
+  return remove(ref(db, `users/${receiver}/activityRequests/${requestHandle}`));
 };
 
 export const getLiveActivityRequests = (username, listen) => {
-  return onValue(ref(db, `activities/${username}/activityRequests`), listen);
+  return onValue(ref(db, `users/${username}/activityRequests`), listen);
 };
 
-// see if sth needs to change in activityObj and use to handle add
-export const addActivity = (username, activityObj) => {
+const addActivity = (username, activityObj) => {
   return push(ref(db, `activities/${username}`), activityObj)
     .then((res) => res.key)
     .catch(console.error);
@@ -100,178 +98,3 @@ export const addAndUpdateActivityInfo = (username, activityObj) => {
     })
     .catch(console.error);
 };
-
-// export const getSingleLiveUserActivity = (username) => {
-//   return get(query(ref(db, `activities/${username}`), orderByChild('duration')));
-// };
-
-// export const getSingleLiveUserActivity = (username, listen) => {
-//   return onChildAdded(query(ref(db, `activities/${username}`), orderByChild('duration')), listen);
-// };
-
-///////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
-
-export const getPostByHandle = (postId) => {
-  return get(ref(db, `posts/${postId}`));
-};
-
-export const getSingleLivePost = (listen, postId) => {
-  return onValue(ref(db, `posts/${postId}`), listen);
-};
-
-// TODO pagination
-
-export const getAllPosts = (snapshot) => {
-  if (!snapshot?.val()) return null;
-  const postsAll = Object.values(snapshot.val());
-  return postsAll;
-};
-
-export const getPostsCount = (snapshot) => {
-  const postsCount = snapshot.size;
-  return postsCount;
-};
-
-export const updatePosts = (postId, titleValue, contentValue) => {
-  if (contentValue) update(ref(db, `posts/`), { [`${postId}/content`]: contentValue }).catch(console.error);
-  if (titleValue) update(ref(db, `posts/`), { [`${postId}/title`]: titleValue }).catch(console.error);
-};
-
-export const updatePostLikes = (postId, likes) => {
-  update(ref(db, `posts/`), { [`${postId}/likes`]: likes }).catch(console.error);
-};
-
-export const updatePostDislikes = (postId, dislikes) => {
-  update(ref(db, `posts/`), { [`${postId}/dislikes`]: dislikes }).catch(console.error);
-};
-export const updatePostLikesCount = (postId, likesCount) => {
-  update(ref(db, `posts/`), { [`${postId}/likesCount`]: likesCount }).catch(console.error);
-};
-export const updatePostDislikesCount = (postId, dislikesCount) => {
-  update(ref(db, `posts/`), {
-    [`${postId}/dislikesCount`]: dislikesCount
-  }).catch(console.error);
-};
-
-export const updatePostPopularity = (postId, popularity) => {
-  update(ref(db, `posts/`), { [`${postId}/popularity`]: popularity }).catch(console.error);
-};
-
-export const deletePost = (postId) => {
-  const confirmAction = window.confirm('This post will be permanently deleted. Do you want to continue?');
-
-  if (!confirmAction) return;
-
-  remove(ref(db, `posts/${postId}`))
-    .then()
-    .catch(console.error);
-};
-
-// sort, search and filter posts:
-
-// export const sortPostsBy = (sortTerm, limit = POST_REQUEST_LIMIT) => {
-//   let sorted = [];
-
-//   onChildAdded(query(ref(db, 'posts'), orderByChild(`${sortTerm}`), sortTerm === 'searchTitle' ? limitToFirst(limit) : limitToLast(limit)), (snapshot) => {
-//     if (sortTerm === 'searchTitle') {
-//       sorted = [...sorted, snapshot.val()];
-//     } else {
-//       sorted = [snapshot.val(), ...sorted];
-//     }
-//   });
-
-//   return sorted;
-// };
-
-// export const filterPostsBy = (filterTerm, value, limit = POST_REQUEST_LIMIT) => {
-//   let filtered = [];
-
-//   onChildAdded(query(ref(db, 'posts'), orderByChild(`${filterTerm}`), equalTo(value), limitToFirst(limit)), (snapshot) => {
-//     filtered = [snapshot.val(), ...filtered];
-//   });
-
-//   return filtered;
-// };
-
-/// UNUSED
-
-// export const searchPostsByTitleKeyword = (title) => {
-//   return get(query(ref(db, `posts`), orderByChild(`${title}`), equalTo(true)));
-// };
-
-// export const filterPostsByTag = (tagname) => {
-//   return get(
-//     query(ref(db, `posts`), orderByChild(`${tagname}`), equalTo(true)),
-//   );
-// };
-
-// export const filterPostsByUsername = (username) => {
-//   return get(
-//     query(ref(db, `posts`), orderByChild(`author`), equalTo(`${username}`)),
-//   );
-// };
-
-// export const filterPostsByAlphabet = (boolean) => {
-//   return get(
-//     query(ref(db, `posts`), orderByChild(`cyrillic`), equalTo(boolean)),
-//   );
-// };
-
-export const documentToArr = (snapshot) => {
-  const value = snapshot.val();
-  const arr = Object.values(value);
-  const last = arr[arr.length - 1];
-
-  return { arr, last };
-};
-
-// export const getOrderedPostsBy = (dbLocation = '', criteria = '', action = '', value = null, index = '', limit = POST_REQUEST_LIMIT) => {
-//   const ordered = [];
-//   let queryRef;
-
-//   const search = criteria === 'searchTitle';
-//   let at, by, sameAs, start, lim;
-
-//   at = ref(db, dbLocation);
-//   by = orderByChild(criteria);
-//   sameAs = equalTo(value);
-//   start = search ? startAfter(index) : endBefore(index);
-//   lim = search ? limitToFirst(limit) : limitToLast(limit);
-
-//   // lim = index ? limitToFirst(limit) : limitToLast(limit);
-
-//   index
-//     ? (queryRef = action === 'filter' ? query(at, by, sameAs, start, lim) : query(at, by, start, lim))
-//     : (queryRef = action === 'filter' ? query(at, by, sameAs, lim) : query(at, by, lim));
-
-//   // return get(queryRef);
-//   // return onValue(queryRef, fn);
-
-//   onChildAdded(queryRef, (snapshot) => {
-//     console.log(snapshot.val()[criteria] + snapshot.val()['createdOn'] + snapshot.val()['searchTitle']);
-
-//     ordered.push(snapshot.val());
-//   });
-
-//   return ordered;
-// };
-
-// export const lastTry = (sortCriteria, index, limit = POST_REQUEST_LIMIT) => {
-//   const sorted = [];
-
-//   onChildAdded(query(ref(db, 'posts'), orderByChild(sortCriteria), startAfter(index), limitToFirst(limit)), (snapshot) => {
-//     sorted.push(snapshot.val());
-//     // sorted = [snapshot.val(), ...sorted];
-//   });
-
-//   return sorted;
-// };
-
-// export const lastTry2 = (sortCriteria, index, limit = POST_REQUEST_LIMIT) => {
-//   return get(query(ref(db, 'posts'), orderByChild(sortCriteria), endBefore(index), limitToLast(limit)));
-// };
