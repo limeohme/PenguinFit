@@ -1,13 +1,15 @@
-import { Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
-import { ACTIVITIES_REQUEST_LIMIT } from '../../common/constants';
-import CreateActivityForm from '../../components/FormsComponents/CreateActivityForm/CreateActivityForm';
-import SingleActivityView from '../../components/SingleViewComponent/SingleActivity/SingleActivity';
 import AppState from '../../providers/app-state';
-import { getLiveUserActivities, getMostRecentUserActivities } from '../../services/activities-service';
-// import CreateGoalForm from '../../components/CreateGoalForm/CreateGoalForm';
-// import DetailedGoalsStepper from '../../components/DetailedGoalsStepper/DetailedGoalsStepper';
-// import FriendsComparisonStepper from '../../components/FriendsComparisonStepper/FriendsComparisonStepper';
+
+import { ACTIVITIES_REQUEST_LIMIT } from '../../common/constants';
+import { getActivityRequestsArray } from '../../utils/activities-utils';
+import { getLiveUserActivities, getMostRecentUserActivities, getLiveActivityRequests,  getUserActivitiesFromRequests } from '../../services/activities-service';
+
+import { Grid, Paper, Typography } from '@mui/material';
+import CreateActivityForm from '../../components/FormsComponents/CreateActivityForm/CreateActivityForm';
+import DisplayActivities from '../../components/ListComponents/DisplayActivities/DisplayActivities';
+import DisplayActivityRequests from '../../components/ListComponents/DisplayActivityRequests/DisplayActivityRequests';
+
 
 // // user goals
 // const steps = [
@@ -68,8 +70,10 @@ import { getLiveUserActivities, getMostRecentUserActivities } from '../../servic
 // },];
 
 function Activities() {
-  const [activities, setActivities] = useState([]);
+  
   const { appState:{ user } } = useContext(AppState);
+  const [activities, setActivities] = useState([]);
+  const [activityRequests, setActivityRequests] = useState([]);
 
   useEffect(() => {
     const unsubscribe = getLiveUserActivities(user.username, async () => {
@@ -79,6 +83,29 @@ function Activities() {
       }catch(err){
         console.error(err);
       }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = getLiveActivityRequests(user.username, async (snapshot) => {
+      if (snapshot.exists()) {
+        const requestsArr = getActivityRequestsArray(snapshot);
+        getUserActivitiesFromRequests(requestsArr)
+          .then((result)=>{
+            setActivityRequests(result);
+          });
+      } else {
+        setActivityRequests([]);
+      }
+
+      // try{
+      //   const recent = await getMostRecentUserActivities(user.username, ACTIVITIES_REQUEST_LIMIT);
+      //   setActivities(recent);
+      // }catch(err){
+      //   console.error(err);
+      // }
     });
 
     return () => unsubscribe();
@@ -94,23 +121,19 @@ function Activities() {
       spacing={4}
     >
       <Grid container item direction="column" gap={4} xs={12} sm={5.5}>
-        <Grid item>
+        <Grid container item direction="column">
           <Typography variant='h5' sx={{ pb:2 }}>New activity:</Typography>
-          {/* <Divider></Divider> */}
-          <Paper sx={{ backgroundColor: '#ffffff75' }}>
-            <CreateActivityForm></CreateActivityForm>
+          <Paper sx={{ backgroundColor: '#ffffff' }}>
+            <CreateActivityForm />
           </Paper>
         </Grid>
 
-        <Grid container item direction="column">
-          <Typography variant='h5' sx={{ pb:2 }}>Recent activities:</Typography>
-          
-          <Grid container item direction="column-reverse" gap={1.5} justifyContent='centre'>
-            {activities.length
-              ? activities.map(([id, activity])=> <SingleActivityView key={id} activity={activity}></SingleActivityView>) 
-              : 'No activities yet'}
-          </Grid>
+        <Grid container item direction="column" >
+          <DisplayActivityRequests requests={activityRequests} username={user.username}/>
+        </Grid>
 
+        <Grid container item direction="column">
+          <DisplayActivities activities={activities} username={user.username}/>
         </Grid>
 
       </Grid>
