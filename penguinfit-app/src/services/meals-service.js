@@ -40,21 +40,26 @@ export const getFoodItemData = async (foodItem, grams) => {
   return foodObject;
 };
 
-export const updateUserNutrients = (user, protein, carbs, fats) => {
+export const updateUserNutrients = (user, foods) => {
+  const carbs = foods.reduce((acc, food) => acc += food.nutrients.carbs , 0);
+  const protein = foods.reduce((acc, food) => acc += food.nutrients.protein , 0);
+  const fats = foods.reduce((acc, food) => acc += food.nutrients.fats , 0);
+  const up = {};
   return get(ref(db, `users/${user}/nutrients`)).then((snapshot) => {
     if (snapshot.exists()) {
-      update(ref(db, `users/${user}/nutrients`), { ...snapshot.val(), carbs: snapshot.val().carbs + +carbs })
+      up['carbs'] = snapshot.val().carbs + carbs;
+      up['protein'] = snapshot.val().protein + protein;
+      up['fats'] = snapshot.val().fats + fats;
+
+      set(ref(db, `users/${user}/nutrients/`), up)
         .catch(console.error);
-      update(ref(db, `users/${user}/nutrients`), { ...snapshot.val(), protein: snapshot.val().protein + +protein } )
-        .catch(console.error);
-      update(ref(db, `users/${user}/nutrients`), { ...snapshot.val(), fats: snapshot.val().fats + +fats })
-        .catch(console.error);
+    
     } else {
-      set(ref(db, `users/${user}/nutrients/carbs`), +carbs)
-        .catch(console.error);
-      set(ref(db, `users/${user}/nutrients/protein`), +protein)
-        .catch(console.error);
-      set(ref(db, `users/${user}/nutrients/fats`), +fats)
+      up['carbs'] = carbs;
+      up['protein'] = protein;
+      up['fats'] = fats;
+      
+      set(ref(db, `users/${user}/nutrients/`), up)
         .catch(console.error);
     }
   }).catch(console.error);

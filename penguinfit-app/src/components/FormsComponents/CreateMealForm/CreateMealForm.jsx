@@ -91,9 +91,9 @@ function MealForm () {
       validateMeal(meal);
       addMealToDB(user.username, meal);
       updateDailyCalsGetter(user.username).then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, meal.cal).catch(console.error));
-      meal.foods.forEach((food) => {
-        updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
-      });
+      
+      updateUserNutrients(user.username, meal.foods).catch(console.error);
+
       
       setMealObj({ ...mealObj, title: '', type: '', foods: [] });
       setMealObj({

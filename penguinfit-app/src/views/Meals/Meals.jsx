@@ -21,6 +21,7 @@ function Meals () {
   const [typeData, setTypeData] = useState([]);
   const [water, setWater] = useState(0);
   const [maxima, setMaxima] = useState([]);
+  const [visible, setVisible] = useState(0);
 
   useEffect(() => {
     const allTypes = [];
@@ -41,6 +42,7 @@ function Meals () {
     const unsub = getRecentMeals(user.username, (snapshot) => {
       if (snapshot.exists()) {
         setMeals([...Object.values(snapshot.val())]);
+        meals.length - 7 > 7? setVisible(meals.length - 7) : setVisible(0);
       }
     });
 
@@ -62,9 +64,9 @@ function Meals () {
     updateDailyCalsGetter(user.username)
       .then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, newMeal.cal).catch(console.error))
       .catch(console.error);
-    newMeal.foods.forEach((food) => {
-      updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
-    });
+    
+    updateUserNutrients(user.username, newMeal.foods).catch(console.error);
+
   };
 
   const AddWaterHandler = () => {
@@ -101,7 +103,7 @@ function Meals () {
           
           <Grid container item direction="column-reverse" gap={1.5} justifyContent='center'>
             {meals.length
-              ? meals.slice(meals.length-7).map((meal, i)=> <SingleMeal key={i} addMealHandler={addMealHandler} meal={meal}></SingleMeal>) 
+              ? meals.slice(visible).map((meal, i)=> <SingleMeal key={i} addMealHandler={addMealHandler} meal={meal}></SingleMeal>) 
               : 'No meals yet'}
           </Grid>
         </Grid>
