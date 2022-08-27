@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import AppState from '../../providers/app-state';
 
-import { ACTIVITIES_REQUEST_LIMIT } from '../../common/constants';
 import { getActivityRequestsArray } from '../../utils/activities-utils';
 import { getLiveUserActivities, getMostRecentUserActivities, getLiveActivityRequests,  getUserActivitiesFromRequests } from '../../services/activities-service';
 
@@ -78,7 +77,7 @@ function Activities() {
   useEffect(() => {
     const unsubscribe = getLiveUserActivities(user.username, async () => {
       try{
-        const recent = await getMostRecentUserActivities(user.username, ACTIVITIES_REQUEST_LIMIT);
+        const recent = await getMostRecentUserActivities(user.username);
         setActivities(recent);
       }catch(err){
         console.error(err);

@@ -1,11 +1,17 @@
-import { KEYWORD_PREFIX } from '../common/constants';
+const KEYWORD_PREFIX = 'keyword-';
 
-//BEWARE! NEW FUNCTIONS
-// divide utils on topics
+const adornments = {
+  duration: 'min',
+  distance: 'km',
+  weights: 'kg'
+};
 
-// activities-utils
+export const getAdornment = (field) => {
+  return adornments[field] ?? '';
+};
 
 // formulas elements to go to constants?? (no magic numbers)
+
 export const getSteps = (activity, duration) => {
   if (activity.includes('walking')) {
     return duration * 100;
@@ -35,24 +41,14 @@ export function calculateBMIMessage(BMI) {
   }
 }
 
-const adornments = {
-  duration: 'min',
-  distance: 'km',
-  weights: 'kg'
-};
-
-export const getAdornment = (field) => {
-  return adornments[field] ?? '';
-};
-
 // date-utils
-
-export const formatDateToString = (date) => `
-${date.toDateString()} ${date.toLocaleTimeString()} `;
 
 export const getDateAsString = (date) => date.toDateString();
 
 export const getTimeAsString = (date) => date.toLocaleTimeString();
+
+export const formatDateToString = (date) => `
+${date.toDateString()} ${date.toLocaleTimeString()} `;
 
 // navigation-utils
 
@@ -72,17 +68,6 @@ export const renderUserLinks = (user = null, login = null, pages = null, mapperF
 
 // string formatting utils
 
-export const formatString = (string) => {
-  return (
-    string
-      .replace(/[^a-zA-Zа-яА-ЯЁё0-9 ]/gi, '')
-      // .replace(/[^a-zA-Z0-9\u0400-\u04FF]/gi, ' ')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .toLowerCase()
-  );
-};
-
 export const toSnakeCase = (string) => {
   string = formatString(string);
 
@@ -94,13 +79,22 @@ export const toSnakeCase = (string) => {
 };
 
 export function toCamelCase(str) {
-  return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+  return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
     if (+match === 0) return ''; // or if (/\s+/.test(match)) for white spaces
     return index === 0 ? match.toLowerCase() : match.toUpperCase();
   });
 }
 
-
+export const formatString = (string) => {
+  return (
+    string
+      .replace(/[^a-zA-Zа-яА-ЯЁё0-9 ]/gi, '')
+      // .replace(/[^a-zA-Z0-9\u0400-\u04FF]/gi, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .toLowerCase()
+  );
+};
 export const isCyrillic = (string) => {
   return /[а-яА-ЯЁё]/.test(string);
 };
@@ -140,12 +134,12 @@ export const titleKeywordsToObject = (title) => {
 
 // object utils
 
-export const objectContainsKey = (obj, key) => {
-  return Object.keys(obj).includes(key);
-};
-
 export const getSortedKeys = (obj) => {
   return Object.keys(obj).sort();
+};
+
+export const objectContainsKey = (obj, key) => {
+  return Object.keys(obj).includes(key);
 };
 
 export const tagsToObject = (tags) => {

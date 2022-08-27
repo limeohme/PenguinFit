@@ -1,10 +1,11 @@
 import { db } from '../config/firebase-config';
 import { get, ref, onValue, remove, push, query, limitToLast, orderByChild } from 'firebase/database';
-import { ACTIVITIES_REQUEST_LIMIT } from '../common/constants';
 import { updateGoalsByTarget } from './goals-service';
 import { toSnakeCase } from '../utils/utils';
 import { updateUserActivitiesDataByDay } from './user-service';
 import { createActivityRequest } from '../utils/activities-utils';
+
+const ACTIVITIES_REQUEST_LIMIT = 7;
 
 export const getMostRecentUserActivities = async (username, limit = ACTIVITIES_REQUEST_LIMIT) => {
   return get(query(ref(db, `activities/${username}`), orderByChild(`dateValue`), limitToLast(limit)))
