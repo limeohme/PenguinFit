@@ -152,7 +152,7 @@ export function BarCaloriesByMeal ({ data , maxima }) {
       // Re-scale ticks by multiplying by correct maxima
       tickFormat={(t) => Math.floor(t * maxima[1])} 
       dependentAxis />
-      <VictoryAxis label={'average calorie intake/ meal count by meal type,\nlast 7 days'}  style={{
+      <VictoryAxis label={'meal count/average calorie intake by meal type,\nlast 7 days'}  style={{
         axis: { stroke: '#c5e1a5', padding: 5 },
         axisLabel: { fontSize: 12, padding: -240 },
         ticks: { stroke: 'grey', size: 5 },
