@@ -1,7 +1,7 @@
-import { Button, Grid, Paper, Typography } from '@mui/material';
+import {  Grid, Paper, Typography } from '@mui/material';
 import { useContext } from 'react';
 import AppState from '../../../providers/app-state';
-
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default function SingleMeal({ addMealHandler, meal }) {
   const { appState:{ _user } } = useContext(AppState);
@@ -27,7 +27,7 @@ export default function SingleMeal({ addMealHandler, meal }) {
             <Typography>{`${meal.cal.toFixed(2)} kcal`}</Typography>
           </Grid>
           <Grid item container xs={6} sm={6} justifyContent='center'>
-            <Button variant="text" color="primary" size='small' sx={{ ml:'auto' }} onClick={() => addMealHandler(meal)}>ADD</Button>
+            <AddCircleIcon variant="contained" color="primary" fontSize="large" sx={{ ml:'auto', cursor: 'pointer' }} onClick={() => addMealHandler(meal)} />
           </Grid>
         </Grid>
       </Grid>
