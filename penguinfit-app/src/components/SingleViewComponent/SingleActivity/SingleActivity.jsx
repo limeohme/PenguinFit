@@ -1,12 +1,27 @@
-import { Button, Grid, Paper, Typography } from '@mui/material';
-// import { Card, CardActionArea, CardContent } from '@mui/material';
+import { addAndUpdateActivityInfo, sendActivityRequest } from '../../../services/activities-service';
+import { updateActivityDateAndTime } from '../../../utils/activities-utils';
+import { ButtonBase, Grid, Paper, Typography } from '@mui/material';
+import CustomTooltip from '../../CustomTooltip/CustomTooltip';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-export default function SingleActivityView({ activity }) {
+export default function SingleActivity({ activity, username }) {
   
+  const handleReuse = () => {
+    const updatedActivityObj = updateActivityDateAndTime(activity);
+
+    addAndUpdateActivityInfo(username, updatedActivityObj)
+      .then((activityHandle)=>{
+        
+        if(activity.buddy){
+          sendActivityRequest( username, activityHandle, activity.buddy )
+            .catch(console.error);
+        }
+      })
+      .catch(console.error);
+  };
+
   return (
-    <Paper sx={{ 
-      display: 'flex' ,
-      backgroundColor: '#ffffff90', p: 2, minHeight: '11em' }}>
+    <Paper sx={{ display: 'flex', backgroundColor: '#ffffff', p: 2, minHeight: '11em' }}>
 
       <Grid container direction='column' columnGap={0} justifyContent='space-between' alignItems='center'>
 
@@ -38,12 +53,16 @@ export default function SingleActivityView({ activity }) {
 
         <Grid item container justifyContent='space-between'  alignItems='center'>
 
-          <Grid item xs={8} sm={8}>
+          <Grid item xs={11} sm={11}>
             <Typography variant="h6">{`${activity.duration} min, ${activity.details.caloriesBurned.toFixed(0)} kcal`}</Typography>
           </Grid>
 
-          <Grid container item xs={4} sm={4} justifyContent='right'>
-            <Button variant="text" color="primary" size='small' sx={{ ml:'auto' }}>ADD</Button>
+          <Grid container item xs={1} sm={1} justifyContent='right'>
+            <CustomTooltip title="re-log" arrow>
+              <ButtonBase sx={{ width: '100%' }}>
+                <AddCircleIcon variant="contained" color="primary" fontSize="large" onClick={handleReuse}/>
+              </ButtonBase>
+            </CustomTooltip>
           </Grid>
 
         </Grid>
