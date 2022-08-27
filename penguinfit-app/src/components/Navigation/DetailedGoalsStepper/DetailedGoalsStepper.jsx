@@ -1,10 +1,10 @@
 import { useTheme } from '@emotion/react';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-import { MobileStepper, Button, Typography, Chip, Stack, Divider, Box } from '@mui/material';
+import { MobileStepper, Button, Typography, Chip, Stack, Divider, Box, } from '@mui/material';
 import { useState } from 'react';
 import { VictoryPie, VictoryLabel } from 'victory';
 import { getDisplayTarget } from '../../../common/types-targets';
-import { deleteGoal } from '../../../services/goals-service';
+import { deleteGoal, updateGoalStatus } from '../../../services/goals-service';
 
 export default function DetailedGoalsStepper({ steps, username }) {
   const theme = useTheme();
@@ -26,10 +26,13 @@ export default function DetailedGoalsStepper({ steps, username }) {
   };
 
   const handleDelete = (type, target, id) => {
-    console.log(id);
     deleteGoal(username, type, target, id);
   };
   
+  const handleCelebrate = (type, target, id) => {
+    updateGoalStatus(username, type, target, id, 'celebrated');
+
+  };
   return (
     <Box sx={{ minWidth:{ xs: 'auto', sm:500 }, minHeight: '100%' ,flexGrow: 1 }}>
       { steps.length > 0 ? <>
@@ -59,7 +62,9 @@ export default function DetailedGoalsStepper({ steps, username }) {
               textAnchor="middle"
               style={{ fontSize: 20 }}
               x={200} y={200}
-              text={`${Number(steps[activeStep].currentValue)}/${Number(steps[activeStep].targetValue)}\n${getDisplayTarget[steps[activeStep].target]}`}
+              text={steps[activeStep].status !== 'Not there yet' ? 'Achieved !' :
+                `${Number(steps[activeStep].currentValue)}/${Number(steps[activeStep].targetValue)}
+                    ${getDisplayTarget[steps[activeStep].target]}`}
             />
           </svg>
           <Stack 
@@ -70,8 +75,17 @@ export default function DetailedGoalsStepper({ steps, username }) {
             divider={<Divider orientation="vertical" flexItem />}
           >
             <Typography >{'Created on: ' + formatDate(steps[activeStep].createdOn)}</Typography>
-            {/* <Typography >{'Due date:' + (formatDate(steps[activeStep].dueDate) || 'Not set')}</Typography> */}
-            <Button onClick={() => handleDelete(steps[activeStep].type, steps[activeStep].target, steps[activeStep].id)}>Delete goal</Button>
+            {steps[activeStep].status !== 'Not there yet' ? <Button
+              onClick={() => handleCelebrate(steps[activeStep].type, steps[activeStep].target, steps[activeStep].id)}
+            >
+              Celebrate !
+            </Button> 
+              : <Button
+                onClick={() => handleDelete(steps[activeStep].type, steps[activeStep].target, steps[activeStep].id)}
+              >
+              Delete goal
+              </Button>
+            }
           </Stack>
         </Stack>
         <MobileStepper
