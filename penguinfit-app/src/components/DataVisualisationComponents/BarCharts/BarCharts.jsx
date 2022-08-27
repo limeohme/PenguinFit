@@ -143,7 +143,7 @@ export function BarCaloriesByMeal ({ data , maxima }) {
       tickFormat={(t) => t * maxima[0]}
       dependentAxis />
       <VictoryAxis style={{
-        axis: { stroke: 'purple',  },
+        axis: { stroke: '#5c6bc0',  },
         ticks: { stroke: 'grey', size: 5 },
         tickLabels: { fontSize: 10, padding: -7, fill: '#000000', textAnchor: 'start' }
       }}
@@ -168,8 +168,8 @@ export function BarCaloriesByMeal ({ data , maxima }) {
             y={(datum) => datum.y / maxima[i]}
             style={{
               data: {
-                fill: () => i === 0? '#c5e1a5' : 'purple',
-                stroke: () => i === 0? '#c5e1a5' : 'purple',
+                fill: () => i === 0? '#c5e1a5' : '#5c6bc0',
+                stroke: () => i === 0? '#c5e1a5' : '#5c6bc0',
                 fillOpacity: 0.7,
                 strokeWidth: 1
               },
@@ -205,7 +205,7 @@ export function BarCalorieIntake () {
       }}
       dependentAxis />
       <VictoryAxis label={'average calorie intake in kcal, by date,\nlast 30 days'}  style={{
-        axis: { stroke: '#c5e1a5', padding: 5 },
+        axis: { stroke: '#000', padding: 5 },
         axisLabel: { fontSize: 12, padding: -240 },
         ticks: { stroke: 'grey', size: 5 },
         tickLabels: { fontSize: 8, padding: 0, marginBottom: 2, fill: '#000000' }
