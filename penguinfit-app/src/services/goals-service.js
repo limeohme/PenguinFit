@@ -11,11 +11,12 @@ import { db } from '../config/firebase-config';
 import { toCamelCase, toSnakeCase } from '../utils/utils';
 
 export const createGoal = (user, goal) => {
-  const goalTypeFormatted = toSnakeCase(goal.type);
+  goal.type = toSnakeCase(goal.type);
   goal.target = toCamelCase(goal.target);
-
-  return push(ref(db, `goals/${user}/${goalTypeFormatted}/${goal.target}`), goal).then((path) =>
-    update(ref(db, `goals/${user}/${goalTypeFormatted}/${goal.target}/${path.key}`), { ...goal, id: path.key })
+  //creates initial random id for react key
+  goal.id =  String(Math.random());
+  return push(ref(db, `goals/${user}/${goal.type}/${goal.target}`), goal).then((path) =>
+    update(ref(db, `goals/${user}/${goal.type}/${goal.target}/${path.key}`), { ...goal, id: path.key })
   );
 };
 
