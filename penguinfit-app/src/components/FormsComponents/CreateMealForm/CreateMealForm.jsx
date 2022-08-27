@@ -168,7 +168,7 @@ function MealForm () {
             value={mealObj.title} onChange={handleMealDetailsChange}
             fullWidth variant="standard" size="small"
           />
-          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{!message.includes('title')? null: <em>{message}</em>}</FormHelperText>
+          <FormHelperText id="duration-error-text" sx={{ color:'#D81159' }}>{!message.toLowerCase().includes('title')? null: <em>{message}</em>}</FormHelperText>
         </Grid>
         <Grid item xs={4} sx={{ display:'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Button variant='contained' color="primary" onClick={() => handleAddtoDB(mealObj)} sx={{ width: '100%', boxSizing: 'border-box' }}>

@@ -42,12 +42,12 @@ function Meals () {
     const unsub = getRecentMeals(user.username, (snapshot) => {
       if (snapshot.exists()) {
         setMeals([...Object.values(snapshot.val())]);
-        meals.length - 7 > 7? setVisible(meals.length - 7) : setVisible(0);
       }
     });
-
+    
+    meals.length - 7 > 6? setVisible(meals.length - 7) : setVisible(0);
     return unsub;
-  });
+  }, [meals, user]);
 
   useEffect(() => {
     getStatsToday(user.username, (snapshot) => {
