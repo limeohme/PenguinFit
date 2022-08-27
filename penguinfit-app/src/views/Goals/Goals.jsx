@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from 'react';
 import CreateGoalForm from '../../components/FormsComponents/CreateGoalForm/CreateGoalForm';
 import DisplayAchievedGoals from '../../components/ListComponents/DisplayAchievedGoals/DisplayAchievedGoals';
 import DetailedGoalsStepper from '../../components/Navigation/DetailedGoalsStepper/DetailedGoalsStepper';
-// import FriendsComparisonStepper from '../../components/FriendsComparisonStepper/FriendsComparisonStepper';
 import AppState from '../../providers/app-state';
 import { goalsListener } from '../../services/goals-service';
 
@@ -14,20 +13,34 @@ const extractGoals = (obj) => {
 
 
 const getSteps = (obj) => {
-  if(!obj) return [];
-  // console.log([...Object.values(obj).map(el => extractGoals(el))].flat(2));
-  return [...Object.values(obj).map(el => extractGoals(el))].flat(2);
+  if(!obj) return { celebrated:[], other:[] };
+  return divideSteps ([...Object.values(obj).map(el => extractGoals(el))].flat(2));
 };
+
+const divideSteps = (arr) => {
+  const other = [];
+  const celebrated = [];
+  arr.forEach(el => {
+    if(el.status === 'celebrated'){
+      celebrated.push(el);
+      return;
+    }
+    other.push(el);
+  });
+  return { celebrated, other };
+};
+
+
 
 function Goals() {
   const { appState } = useContext(AppState);
-  const [ goals, setGoals ] = useState({});
+  const [ goals, setGoals ] = useState(getSteps(null));
   const user = appState.user;
 
 
   useEffect(() => {
     const unsubscribe = goalsListener(user.username, (snapshot) => {
-      setGoals(snapshot.val());
+      setGoals(getSteps(snapshot.val()));
     });
     return () => unsubscribe();
   }, []);
@@ -52,7 +65,7 @@ function Goals() {
           <Typography variant='h5' sx={{ pb:2 }}>Achieved goals:</Typography>
           
           <Grid container item direction="column" gap={1.5} justifyContent='centre'>
-            <DisplayAchievedGoals username={user.username} goals={getSteps(goals)} />
+            <DisplayAchievedGoals username={user.username} goals={goals.celebrated} />
           </Grid>
           
         </Grid>
@@ -70,7 +83,7 @@ function Goals() {
         >
           <Grid item >
             <Paper sx={{ backgroundColor: '#ffffff75' }}>
-              <DetailedGoalsStepper username={user.username} steps={getSteps(goals)}></DetailedGoalsStepper>
+              <DetailedGoalsStepper username={user.username} steps={goals.other}></DetailedGoalsStepper>
             </Paper>
           </Grid>
         </Grid>

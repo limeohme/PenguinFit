@@ -3,6 +3,7 @@ import {
   ref,
   get,
   update,
+  set,
   // onChildChanged,
   remove,
   onValue
@@ -31,6 +32,11 @@ export const deleteGoal = (username, type, target, id) => {
   //     const { [id]:remove, updatedGoals } = userGoals;
   //     set(ref(db, `goals/${username}/${type}/${target}`), updatedGoals || null);
   //   });
+};
+
+export const updateGoalStatus = (username, type, target, id, status) => {
+  console.log(`goals/${username}/${type}/${target}/${id}/status`);
+  set(ref(db, `goals/${username}/${type}/${target}/${id}/status`), status );
 };
 
 export const goalsListener = (username, listen) => {
