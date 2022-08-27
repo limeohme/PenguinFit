@@ -14,7 +14,7 @@ export const createGoal = (user, goal) => {
   goal.type = toSnakeCase(goal.type);
   goal.target = toCamelCase(goal.target);
   //creates initial random id for react key
-  goal.id =  String(Math.random());
+  goal.id = String(Math.random());
   return push(ref(db, `goals/${user}/${goal.type}/${goal.target}`), goal).then((path) =>
     update(ref(db, `goals/${user}/${goal.type}/${goal.target}/${path.key}`), { ...goal, id: path.key })
   );
@@ -22,8 +22,7 @@ export const createGoal = (user, goal) => {
 
 export const deleteGoal = (username, type, target, id) => {
   remove(ref(db, `goals/${username}/${type}/${target}/${id}`));
-  
-  
+
   // get(ref(db, `goals/${username}/${type}/${target}`))
   //   .then(snapshot => {
   //     const userGoals = snapshot.val();
@@ -76,10 +75,10 @@ export const updateGoalTypeByTarget = (username, target, newTargetValue, type = 
           .filter((goal) => goal[1].status === 'Not there yet')
           .map(([key, goal]) => {
             //cqb obekt
-            return { handle: key, currentValue: goal.currentValue };
+            return { handle: key, currentValue: goal.currentValue, targetValue: goal.targetValue };
           });
 
-        const updates = notYetGoalHandles.reduce((upd, { handle, currentValue }) => {
+        const updates = notYetGoalHandles.reduce((upd, { handle, currentValue, targetValue }) => {
           const path = `goals/${username}/${type}/${target}/${handle}`;
 
           // console.log('currentValue');
@@ -88,10 +87,21 @@ export const updateGoalTypeByTarget = (username, target, newTargetValue, type = 
           // console.log('changed value');
           // console.log(+currentValue + newTargetValue);
 
-          return {
+          const increasedValue = currentValue + newTargetValue;
+
+          upd = {
             ...upd,
             [`${path}/currentValue`]: currentValue + newTargetValue
           };
+
+          if (increasedValue >= parseInt(targetValue)) {
+            upd = {
+              ...upd,
+              [`${path}/status`]: 'achieved'
+            };
+          }
+
+          return upd;
         }, {});
 
         return update(ref(db), updates).then(() => {
