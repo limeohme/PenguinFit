@@ -87,7 +87,7 @@ export function BarCalorieBalanceByDay () {
           <NoDataYet/>  
         </Box> :
         <>
-          <VictoryChart domainPadding={{ x: 4 }} minDomain={{ x: 0,  y: -2000 }}>
+          <VictoryChart domainPadding={{ x: 4 }} minDomain={{ x: 0,  }}>
             <VictoryAxis style={{
               axis: { stroke: '#c5e1a5', padding: 5 },
               axisLabel: { fontSize: 12, padding: 100 },
