@@ -1,21 +1,23 @@
-// import { Avatar, Chip } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import { addActivity, declineActivityRequest } from '../../../services/activities-service';
-// import { acceptFriendRequest, deleteFriendRequest } from '../../../services/friends-service';
 import SingleActivityRequest from '../../SingleViewComponent/SingleActivityRequest/SingleActivityRequest';
 
+export default function DisplayActivityRequests({ requests, username }) {
 
-export default function DisplayActivityRequests({ requests }) {
+  return requests.length
 
-  // use ternary, listen in Activities.jsx
-  return (
-    <Stack direction="column" spacing={1.5}>
-      { requests.map(el => <SingleActivityRequest
-        key={el.handle}
-        request={el}
-        handleDelete={() => declineActivityRequest(el.sender, el.receiver)}
-        handleAdd={() => addActivity(el.sender, el.receiver)}
-      />) }
-    </Stack>
-  );
+    ? <>
+      <Typography variant='h5' sx={{ pb:2 }}>Activity Requests:</Typography>
+      <Stack direction="column-reverse" spacing={1.5}>
+        { requests.map(req => (
+          <SingleActivityRequest
+            key={req.requestHandle}
+            activity={req}
+            username={username}
+          />
+        )) }
+      </Stack>
+    </>
+
+    : null;
 }
