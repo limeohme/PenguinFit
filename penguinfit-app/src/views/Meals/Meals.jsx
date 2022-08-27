@@ -63,7 +63,6 @@ function Meals () {
       .then((snapshot) => updateDailyCalsUpdater(snapshot, user.username, newMeal.cal).catch(console.error))
       .catch(console.error);
     newMeal.foods.forEach((food) => {
-      console.log(food);
       updateUserNutrients(user.username, food.nutrients.protein, food.nutrients.carbs, food.nutrients.fats).catch(console.error);
     });
   };
