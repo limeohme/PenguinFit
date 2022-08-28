@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import CustomNumberInput from '../CustomInput/CustomInput';
+import CustomInput from '../CustomInput/CustomInput';
 
 const RenderMultipleInputs = ( { array, gridItemXS, form, handler, error } ) => {
 
@@ -8,7 +8,7 @@ const RenderMultipleInputs = ( { array, gridItemXS, form, handler, error } ) => 
       ? array.map((el)=>{
         return (
           <Grid item xs={gridItemXS} key={el.name}>
-            <CustomNumberInput 
+            <CustomInput 
               type={el.type}
               name={el.name}
               label={el.label}

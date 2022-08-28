@@ -11,7 +11,7 @@ import { isValidActivityInput } from './CreateActivityForm-validations';
 
 import { Button, Grid } from '@mui/material';
 import CustomAutocomplete from '../CustomAutocomplete/CustomAutocomplete';
-import CustomNumberInput from '../CustomInput/CustomInput';
+import CustomInput from '../CustomInput/CustomInput';
 import RenderMultipleInputs from '../RenderMultipleInputs/RenderMultipleInputs';
 
 
@@ -100,7 +100,7 @@ const CreateActivityForm = () => {
         </Grid>
 
         <Grid item xs={4}>
-          <CustomNumberInput 
+          <CustomInput 
             type="number"
             name="duration"
             label="Duration"
