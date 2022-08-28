@@ -3,11 +3,16 @@ const KEYWORD_PREFIX = 'keyword-';
 const adornments = {
   duration: 'min',
   distance: 'km',
-  weights: 'kg'
+  weights: 'kg',
+  caloriesBurned: 'kcal'
 };
 
 export const getAdornment = (field) => {
-  return adornments[field] ?? '';
+  return adornments[field] ?? `${field}`;
+};
+
+export const getDetailWithAdornment = (detailKey, detailValue) => {
+  return `${detailValue} ${getAdornment(detailKey)}`;
 };
 
 // formulas elements to go to constants?? (no magic numbers)

@@ -1,8 +1,9 @@
 import { addAndUpdateActivityInfo, sendActivityRequest } from '../../../services/activities-service';
-import { updateActivityDateAndTime } from '../../../utils/activities-utils';
+import { activityDetailsToString, updateActivityDateAndTime } from '../../../utils/activities-utils';
 import { ButtonBase, Grid, Paper, Typography } from '@mui/material';
 import CustomTooltip from '../../CustomTooltip/CustomTooltip';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { getDetailWithAdornment } from '../../../utils/utils';
 
 export default function SingleActivity({ activity, username }) {
   
@@ -42,7 +43,7 @@ export default function SingleActivity({ activity, username }) {
 
           <Grid item xs={6} sm={6}>
             {/* TODO: make dynamic */}
-            <Typography>{`${activity.details.distance} km, ${activity.type}`}</Typography>
+            <Typography>{`${activityDetailsToString(activity.details)} ${activity.type}`}</Typography>
           </Grid>
 
           <Grid item xs={6} sm={6}>
@@ -54,7 +55,10 @@ export default function SingleActivity({ activity, username }) {
         <Grid item container justifyContent='space-between'  alignItems='center'>
 
           <Grid item xs={11} sm={11}>
-            <Typography variant="h6">{`${activity.duration} min, ${activity.details.caloriesBurned.toFixed(0)} kcal`}</Typography>
+            <Typography variant="h6">
+              {`${getDetailWithAdornment('duration', activity.details.duration)}, 
+              ${getDetailWithAdornment('caloriesBurned', activity.details.caloriesBurned.toFixed(0))}`}
+            </Typography>
           </Grid>
 
           <Grid container item xs={1} sm={1} justifyContent='right'>

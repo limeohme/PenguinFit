@@ -1,5 +1,5 @@
 import { typesTargets } from '../common/types-targets';
-import { formatString, getActivityTotalCalBurned, getDateAsString, getSortedKeys, getSteps, getTimeAsString } from './utils';
+import { formatString, getActivityTotalCalBurned, getDateAsString, getDetailWithAdornment, getSortedKeys, getSteps, getTimeAsString } from './utils';
 
 // encapsulated activities data obj
 const activities = {
@@ -289,7 +289,6 @@ export const createActivityObject = (user = {}, input = {}) => {
   return {
     creator,
     activity,
-    duration,
     type,
     details: {
       caloriesBurned,
@@ -342,4 +341,21 @@ export const getActivityRequestsArray = (requestsSnapshot) => {
     console.log(request);
     return { ...request, requestHandle };
   });
+};
+
+export const activityDetailsToString = (activityDetails) => {
+  const detailsAsString = Object.entries(activityDetails)
+    .filter(([key, value]) => {
+      return key !== 'duration' && key !== 'caloriesBurned' && value !== 0;
+    })
+    .map(([key, value]) => {
+      return getDetailWithAdornment(key, value);
+    })
+    .join(', ');
+
+  if (detailsAsString) {
+    return detailsAsString + ', ';
+  }
+
+  return detailsAsString;
 };
