@@ -98,8 +98,9 @@ export const updateUserProfilePicture = (username, url) => {
 
 // user/dataByDay service
 
-const getUserDataOfDay = (username, date) => {
-  return get(query(ref(db, `users/${username}/dataByDay`), orderByChild('date'), equalTo(date)));
+export const getUserDataOfDay = (username) => {
+  const today = getDateAsString(new Date());
+  return get(query(ref(db, `users/${username}/dataByDay`), orderByChild('date'), equalTo(today)));
 };
 
 const setUserDataOfDay = (username, data) => {
@@ -161,10 +162,7 @@ const updateTodaysActivities = (username, newActivityData, dateHandle, prevActiv
 };
 
 export const updateUserActivitiesDataByDay = (username, data) => {
-  const today = new Date();
-  const date = getDateAsString(today);
-
-  return getUserDataOfDay(username, date)
+  return getUserDataOfDay(username)
     .then((snapshot) => {
       if (snapshot.exists()) {
         const [dateHandle, prevData] = Object.entries(snapshot.val())[0];
