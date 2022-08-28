@@ -31,7 +31,7 @@ export const getFoodItemData = async (foodItem, grams) => {
   const data = await response.json();
   const foodObject = {};
   foodObject['foodItem'] = foodItem;
-  foodObject['cal'] = +data.parsed[0].food.nutrients.ENERC_KCAL/100 * grams;
+  foodObject['cal'] = data.parsed[0].food.nutrients.ENERC_KCAL/100 * grams;
   foodObject['nutrients'] = {};
   foodObject['nutrients']['carbs'] = data.parsed[0].food.nutrients.CHOCDF/100 * grams;
   foodObject['nutrients']['protein'] = data.parsed[0].food.nutrients.PROCNT/100 * grams;
