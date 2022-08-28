@@ -8,6 +8,17 @@ import { createGoal, deleteGoal } from '../../../services/goals-service';
 
 const parseDate = (date) => new Date(date).toLocaleDateString('en-uk', { year:'numeric', month:'short', day:'numeric' }); 
 
+const millisecondsToDHM = (ms) => {
+  const days = Math.floor(ms / (24*60*60*1000));
+  const daysms = ms % (24*60*60*1000);
+  const hours = Math.floor(daysms / (60*60*1000));
+  const hoursms = ms % (60*60*1000);
+  const minutes = Math.floor(hoursms / (60*1000));
+  const minutesms = ms % (60*1000);
+  const sec = Math.floor(minutesms / 1000);
+  return `${days} days, ${hours} hrs, ${minutes} min, ${sec} sec`;
+};
+
 export default function SingleAchievedGoalView({ goal , username }) {
 
   const handleQuickAdd = ( user, values ) => {
@@ -52,7 +63,10 @@ export default function SingleAchievedGoalView({ goal , username }) {
             {`Created on: ${parseDate(goal.createdOn) }`}
           </Typography>
           <Typography sx={{ fontSize: 11 }} xs={6} color="text.secondary" gutterBottom>
-            {`Completed in: 6 days `}
+            {'Completed in:'}
+          </Typography>
+          <Typography sx={{ fontSize: 11 }} xs={6} color="text.secondary" gutterBottom>
+            {`${millisecondsToDHM(goal.achievedOn - goal.createdOn)}`}
           </Typography>
         </Stack>
 
