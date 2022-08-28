@@ -4,7 +4,7 @@ export const defaultValues = {
   title: '',
   status: 'Not there yet', 
   dueDate: null,
-  createdOn: new Date(),
+  createdOn: Date.now(),
   type: 'general',
   target: '',
   targetValue: '',
