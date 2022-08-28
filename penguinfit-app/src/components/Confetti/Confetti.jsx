@@ -20,11 +20,12 @@ export default function DisplayConfetti() {
 
   // sx={{ overflow: 'hidden' }}
   return (
-    <Box component="div" sx={{ maxWidth:'100%', overflow: 'hidden' }}>
+    <Box component="div" sx={{ position:'fixed', zIndex:2000, width:'100vw', height:'100vh' }}>
       <Confetti
+        // numberOfPieces={2}
         recycle={false}
-        width={windowDimensions.width - 50}
-        height={windowDimensions.height*2 }
+        width={windowDimensions.width}
+        height={windowDimensions.height + 200}
       />
     </Box>
   );

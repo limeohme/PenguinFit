@@ -5,6 +5,8 @@ import DisplayAchievedGoals from '../../components/ListComponents/DisplayAchieve
 import DetailedGoalsStepper from '../../components/Navigation/DetailedGoalsStepper/DetailedGoalsStepper';
 import AppState from '../../providers/app-state';
 import { goalsListener } from '../../services/goals-service';
+import DisplayConfetti from '../../components/Confetti/Confetti';
+
 
 const extractGoals = (obj) => {
   if(!obj) return [];
@@ -35,6 +37,7 @@ const divideSteps = (arr) => {
 function Goals() {
   const { appState } = useContext(AppState);
   const [ goals, setGoals ] = useState(getSteps(null));
+  const [showConfetti, setShowConfetti] = useState(false);
   const user = appState.user;
 
 
@@ -54,6 +57,7 @@ function Goals() {
       sx={{ p:3 }}
       spacing={4}
     >
+      {showConfetti ? <DisplayConfetti/> : null}
       <Grid container item direction="column" gap={4} xs={12} sm={5.5}>
         <Grid item>
           <Typography variant='h5' sx={{ pb:2 }}>New goal:</Typography>
@@ -83,7 +87,7 @@ function Goals() {
         >
           <Grid item >
             <Paper sx={{ backgroundColor: '#ffffff75' }}>
-              <DetailedGoalsStepper username={user.username} steps={goals.other}></DetailedGoalsStepper>
+              <DetailedGoalsStepper username={user.username} steps={goals.other} setShowConfetti={setShowConfetti}></DetailedGoalsStepper>
             </Paper>
           </Grid>
         </Grid>
