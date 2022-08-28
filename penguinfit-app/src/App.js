@@ -90,6 +90,13 @@ function App() {
   };
 
   const theme = useTheme();
+
+  theme.palette.primary = {
+    ...theme.palette.primary,
+    main: '#6633ff',
+    dark: '#000'
+  };
+
   const classes = useStyles(theme);
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
