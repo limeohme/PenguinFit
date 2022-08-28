@@ -9,8 +9,8 @@ function Thoughts () {
   const [colour, setColour] = useState('');
     
   return (
-    <Grid container direction="row" gap={40} justifyContent="center" alignItems="end" sx={{ mt: '4rem' }}>
-      <Grid item  sx={style.midiContainerStyle}>
+    <Grid container direction="row" gap={20} justifyContent="center" alignItems="center" sx={{ mt: '2rem' }}>
+      <Grid item sx={style.midiContainerStyle}>
         <CreateNewThought colour={colour} setColour={setColour}></CreateNewThought>
       </Grid>
       <Grid item sx={style.midiContainerStyle}>
