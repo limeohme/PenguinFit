@@ -4,7 +4,7 @@ import { useContext, useRef } from 'react';
 import { useState } from 'react';
 import AppState from '../../providers/app-state.js';
 import { calculateBMIMessage } from '../../utils/utils.js';
-import { activityStatus } from '../../common/activity-status.js';
+// import { activityStatus } from '../../common/activity-status.js';
 import { getRandomAvatar } from '../../services/avatar-service.js';
 
 import * as style from './ProfileStyles.js';
@@ -20,10 +20,11 @@ import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import DoneOutlineRoundedIcon from '@mui/icons-material/DoneOutlineRounded';
 import CancelIcon from '@mui/icons-material/Cancel';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import { userActivityStatus } from '../../common/user-activity-status.js';
 
 
 function Profile () {
-  const { appState, _setState } = useContext(AppState);
+  const { appState } = useContext(AppState);
   const [message, setMessage] = useState('');
   const [edit, setEdit] = useState(false);
   const [upload, setUpload] = useState(false);
@@ -174,7 +175,7 @@ function Profile () {
               <Slider sx={style.sliderStyle} disabled={true} marks={BMIMarks} step={0.5} valueLabelDisplay="auto" defaultValue={[18.5, 25]} min={13.5} max={30} />
             </Box>
             <Box sx={style.sideBoxStyleBlue}>
-              <Typography sx={ style.activityStyle}>{activityStatus[user.activityStatus]}</Typography>
+              <Typography sx={ style.activityStyle}>{userActivityStatus[user.activityStatus]}</Typography>
             </Box>
           </Grid>
         

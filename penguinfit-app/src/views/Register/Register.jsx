@@ -85,7 +85,7 @@ const Register = () => {
               ...appState,
               user: userData,
             });
-            navigate('private/dashboard');
+            navigate('/private/dashboard');
           });
 
       }).catch(console.error);
