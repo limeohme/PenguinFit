@@ -5,10 +5,13 @@ import { useState } from 'react';
 import { VictoryPie, VictoryLabel } from 'victory';
 import { getDisplayTarget } from '../../../common/types-targets';
 import { deleteGoal, updateGoalStatus } from '../../../services/goals-service';
+import DisplayConfetti from '../../Confetti/Confetti';
+
 
 export default function DetailedGoalsStepper({ steps, username }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
   const maxSteps = steps.length;
   
   const formatDate = (date) => {
@@ -31,10 +34,18 @@ export default function DetailedGoalsStepper({ steps, username }) {
   
   const handleCelebrate = (type, target, id) => {
     updateGoalStatus(username, type, target, id, 'celebrated');
+    activateConfetti(setShowConfetti);
+  };
 
+  const activateConfetti = (set) => {
+    set(true);
+    setTimeout(() => {
+      set(false);
+    }, 5000);
   };
   return (
-    <Box sx={{ minWidth:{ xs: 'auto', sm:500 }, minHeight: '100%' ,flexGrow: 1 }}>
+    <Box sx={{ minWidth:{ xs: 'auto', sm:500 }, minHeight: '100%' ,flexGrow: 1 , overflow:'hidden' }}>
+      {showConfetti ? <DisplayConfetti/> : null}
       { steps.length > 0 ? <>
         <Stack 
           spacing={1}
