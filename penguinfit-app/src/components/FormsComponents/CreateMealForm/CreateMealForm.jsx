@@ -69,7 +69,7 @@ function MealForm () {
     event.preventDefault();
     if (item && grams) {
       try {
-        const foodItemObject = await getFoodItemData(`${itemState} ${item}`, grams);
+        const foodItemObject = await getFoodItemData(`${itemState} ${item}`.trim(), grams);
         const zeID = mealObj.foods.length;
         setMealObj({ 
           ...mealObj, 
