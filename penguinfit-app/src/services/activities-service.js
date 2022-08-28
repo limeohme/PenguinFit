@@ -90,8 +90,12 @@ const updateRelatedGoals = (username, activityObj) => {
 export const addAndUpdateActivityInfo = (username, activityObj) => {
   return addActivity(username, activityObj)
     .then((activityHandle) => {
-      return updateUserActivitiesDataByDay(username, activityObj.details).then(() => {
-        // TODO: refactor updateRelatedGoals to update goals status and achieved date
+      const activityData = {
+        ...activityObj.details,
+        activityType: activityObj.type,
+        activityHandle
+      };
+      return updateUserActivitiesDataByDay(username, activityData).then(() => {
         return updateRelatedGoals(username, activityObj).then(() => {
           return activityHandle;
         });

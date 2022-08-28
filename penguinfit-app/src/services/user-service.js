@@ -1,5 +1,5 @@
-import { equalTo, get, onValue, orderByChild, push, query, ref, set, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
+import { get, push, set, update, ref, query, onValue, orderByChild, equalTo } from 'firebase/database';
 import { getDateAsString } from '../utils/utils';
 import { updateUserInfo } from './local-storage-service';
 import { createNewDataByDay } from './meals-service';
@@ -96,29 +96,13 @@ export const updateUserProfilePicture = (username, url) => {
   }).catch(console.error);
 };
 
-//information hiding
-export const getUserDataOfDay = (username, date) => {
+// user/dataByDay service
+
+const getUserDataOfDay = (username, date) => {
   return get(query(ref(db, `users/${username}/dataByDay`), orderByChild('date'), equalTo(date)));
 };
 
-export const updateUserActivitiesDataByDay = (username, data) => {
-  const today = new Date();
-  const date = getDateAsString(today);
-
-  return getUserDataOfDay(username, date)
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const [dateHandle, prevData] = Object.entries(snapshot.val())[0];
-
-        return updateTodaysActivitiesData(username, data, dateHandle, prevData);
-      }
-
-      return setTodaysActivitiesData(username, data);
-    })
-    .catch(console.error);
-};
-
-export const setTodaysActivitiesData = (username, data) => {
+const setUserDataOfDay = (username, data) => {
   const filledData = fillActivityData(data);
 
   return push(ref(db, `users/${username}/dataByDay`), filledData);
@@ -127,7 +111,7 @@ export const setTodaysActivitiesData = (username, data) => {
 const fillActivityData = (data) => {
   const blankDataObj = createNewDataByDay();
 
-  const { caloriesBurned, duration } = data;
+  const { caloriesBurned, duration, activityType, activityHandle } = data;
   const stepsMade = data.steps ? data.steps : 0;
 
   return {
@@ -137,11 +121,12 @@ const fillActivityData = (data) => {
       burned: caloriesBurned
     },
     totalActivityDuration: duration,
-    steps: stepsMade
+    steps: stepsMade,
+    activities: [{ caloriesBurned, duration, activityHandle, activityType }]
   };
 };
 
-export const updateTodaysActivitiesData = (username, data, dateHandle, prevData) => {
+const updateTodaysActivitiesData = (username, data, dateHandle, prevData) => {
   const {
     totalActivityDuration,
     cal: { burned },
@@ -160,6 +145,38 @@ export const updateTodaysActivitiesData = (username, data, dateHandle, prevData)
   };
 
   return update(ref(db), updates);
+};
+
+const updateTodaysActivities = (username, newActivityData, dateHandle, prevActivities) => {
+  const { caloriesBurned, duration, activityType, activityHandle } = newActivityData;
+  const data = { caloriesBurned, duration, activityType, activityHandle };
+
+  if (prevActivities?.length) {
+    return update(ref(db), {
+      [`users/${username}/dataByDay/${dateHandle}/activities`]: [...prevActivities, data]
+    });
+  }
+
+  return set(ref(db, `users/${username}/dataByDay/${dateHandle}/activities`), [data]);
+};
+
+export const updateUserActivitiesDataByDay = (username, data) => {
+  const today = new Date();
+  const date = getDateAsString(today);
+
+  return getUserDataOfDay(username, date)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const [dateHandle, prevData] = Object.entries(snapshot.val())[0];
+
+        return updateTodaysActivitiesData(username, data, dateHandle, prevData).then(() => {
+          return updateTodaysActivities(username, data, dateHandle, prevData.activities);
+        });
+      }
+
+      return setUserDataOfDay(username, data);
+    })
+    .catch(console.error);
 };
 
 const getUserGoalsStatus = (username) => {
