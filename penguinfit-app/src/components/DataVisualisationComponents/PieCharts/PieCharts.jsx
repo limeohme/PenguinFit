@@ -1,7 +1,31 @@
-import { VictoryPie, VictoryLabel, VictoryLegend } from 'victory';
+import { VictoryPie, VictoryLabel, VictoryLegend, VictoryTooltip } from 'victory';
 import { Typography, Grid } from '@mui/material';
 import * as style from './PieChartsStyles.js';
 import { MEAL_TYPES } from '../../../common/constants.js';
+import { activityTypes } from '../../../utils/activities-utils.js';
+// import { activityTypes } from '../../../utils/activities-utils';
+
+function CustomPieTooltip ({ ...props }) {
+  return (
+    <g>
+      <VictoryLabel {...props}/>
+      <VictoryTooltip
+        {...props}
+        x={200} y={250}
+        text={({ datum }) => `# ${datum.y}`}
+        orientation="top"
+        pointerLength={0}
+        cornerRadius={50}
+        flyoutWidth={100}
+        flyoutHeight={100}
+        flyoutStyle={{ fill: 'none', stroke: 'none' }}
+        style={{ fill: 'black' }}
+      />
+    </g>
+  );
+}
+
+CustomPieTooltip.defaultEvents = VictoryTooltip.defaultEvents;
 
 export function PieNutrientsDistribution ({ nutrients }) {
 
@@ -90,5 +114,44 @@ export function PieGoalAchievement ({ goals }) {
       />
       <Typography sx={style.chartNamesStyle} variant='h7'>goal achievement %</Typography>
     </Grid>
+  );
+}
+
+const activityTypesColors = ['#6633ff', '#fed101', '#6633ff75'];
+export function PieChartActivityTypes ({ countByType }) {
+
+  console.log(countByType);
+
+  return (
+    <g>
+      <VictoryPie
+        style={{ labels: { fill: 'white' } }}
+        innerRadius={100}
+        labelRadius={120}
+        colorScale={activityTypesColors}
+        labels={({ datum }) => `# ${datum.x}`}
+        labelComponent={<CustomPieTooltip />}
+        data={[
+          { x: 1, y: 'cardio' },
+          { x: 2, y: 'strength' },
+          { x: 3, y: 'other' }
+        ]}
+      />
+      <VictoryLegend x={10} y={0}
+        centerTitle
+        orientation="horizontal"
+        itemsPerRow={3}
+        gutter={30}
+        height={40}
+        // width={600}
+        style={{ labels: { fontSize: 20, } }}
+        data={activityTypes.map((type, i) => {
+          return {
+            name: `#${i+1} ${type}`,
+            symbol: { fill: activityTypesColors[i] }
+          };
+        })}
+      />
+    </g>
   );
 }
