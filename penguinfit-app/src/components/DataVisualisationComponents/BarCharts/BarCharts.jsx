@@ -216,7 +216,7 @@ export function BarCalorieIntake () {
         data={data}
         style={{
           data: {
-            stroke: 'purple',
+            stroke: '#6633ff',
 
             fillOpacity: 0.7,
             strokeWidth: 1

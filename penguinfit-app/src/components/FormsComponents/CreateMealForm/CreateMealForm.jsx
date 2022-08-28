@@ -8,6 +8,7 @@ import CustomRadioGroupForm from '../../CustomRadioGroupForm/CustomRadioGroupFor
 import CustomAutocomplete from '../CustomAutocomplete/CustomAutocomplete';
 import { validateMeal } from './meal-form-validations';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import CustomTooltip from '../../CustomTooltip/CustomTooltip';
 
 
 const styles = {
@@ -142,7 +143,9 @@ function MealForm () {
           <FormHelperText id="quantity-error-text" sx={{ color:'#D81159' }}>{!message.includes('quantity')? null : <em>{message}</em>}</FormHelperText>
         </Grid>
         <Grid item xs={1.5} sx={{ display:'flex', alignItems: 'start', justifyContent: 'center' }}>
-          <AddCircleIcon variant="contained" color="primary" onClick={handleAdd} sx={{ width: '100%', mt: 2, cursor: 'pointer' }} />
+          <CustomTooltip title="add item" arrow>
+            <AddCircleIcon variant="contained" color="primary" onClick={handleAdd} sx={{ width: '100%', mt: 2, cursor: 'pointer' }} />
+          </CustomTooltip>
         </Grid>
       </Grid>
 
