@@ -1,7 +1,7 @@
 
-import { Grid } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import { useState } from 'react';
-import * as style from './ThoughtsStyles.js';
+import * as _style from './ThoughtsStyles.js';
 import ThoughtCarousel from '../../components/Navigation/ThoughtCarousel/ThoughtCarousel.jsx';
 import CreateNewThought from '../../components/FormsComponents/CreateNewThought/CreateNewThought.jsx';
 
@@ -9,13 +9,24 @@ function Thoughts () {
   const [colour, setColour] = useState('');
     
   return (
-    <Grid container direction="row" gap={20} justifyContent="center" alignItems="center" sx={{ mt: '2rem' }}>
-      <Grid item sx={style.midiContainerStyle}>
-        <CreateNewThought colour={colour} setColour={setColour}></CreateNewThought>
+    <Grid container direction="column"justifyContent="center" gap={2} alignItems="center" sx={{ mt: '2rem' }}>
+      <Grid item>
+        <Typography variant='h5' sx={{ pb:2 }}>New thought:</Typography>
+        <Paper sx={{ backgroundColor: '#ffffff75' }}>
+          <CreateNewThought colour={colour} setColour={setColour}></CreateNewThought>
+
+        </Paper>
       </Grid>
-      <Grid item sx={style.midiContainerStyle}>
-        <ThoughtCarousel colour={colour} />
+      <Grid item>
+        <Paper sx={{ backgroundColor: '#ffffff75' }}>
+          <ThoughtCarousel colour={colour} />
+
+        </Paper>
       </Grid>
+     
+
+     
+     
     </Grid>
     
   );

@@ -28,7 +28,9 @@ export const midiContainerStyle = {
   justifyContent: 'space-around',
   width: 'fit-content',
   alignSelf: 'center',
-  boxSizing: 'border-box'
+  boxSizing: 'border-box',
+  mx: '1rem',
+  py: 1
 };
   
 export const sideBoxStyle = {

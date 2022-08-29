@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, FormHelperText, Grid, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, FormHelperText, Grid, TextField } from '@mui/material';
 import { useContext, useState } from 'react';
 import { moods } from '../../../common/moods.js';
 import AppState from '../../../providers/app-state.js';
@@ -41,16 +41,13 @@ function CreateNewThought ({ colour, setColour }) {
   };
 
   return (
-    <Grid container direction='column' sx={style.wrapperContainerStyle}>
+    <Grid container direction='row' sx={style.wrapperContainerStyle}>
       <Grid item xs sx={style.midiContainerStyle}>
-        <Typography variant='h5' sx={style.pageTitleStyle}>New thought</Typography>
         <Box sx={style.sideBoxStyle}>
           <TextField placeholder="what's your thought called..." fullWidth value={title} onChange={(e) => setTitle(e.target.value)}></TextField>
           <FormHelperText sx={{ color: '#d81b60' }}>{message}</FormHelperText>
-          <Button onClick={() => {setColour(colour? '':'#d81b60'); colourHandler();}}>{colour? 'REMOVE COLOUR':'COLOUR IT'}</Button>
-          <TextField fullWidth multiline  minRows={8} maxRows={16} style={style.textAreaStyle} placeholder='spill some thoughts here...' 
-            value={textInput} onChange={(e) => setTextInput(e.target.value)}></TextField>
           <Autocomplete
+            fullWidth
             disablePortal
             options={moods}
             value={mood}
@@ -64,6 +61,9 @@ function CreateNewThought ({ colour, setColour }) {
         </Box>
       </Grid>
       <Grid item xs sx={style.midiContainerStyle}>
+        <Button onClick={() => {setColour(colour? '':'#d81b60'); colourHandler();}}>{colour? 'REMOVE COLOUR':'COLOUR IT'}</Button>
+        <TextField fullWidth multiline  minRows={8} maxRows={16} style={style.textAreaStyle} placeholder='spill some thoughts here...' 
+          value={textInput} onChange={(e) => setTextInput(e.target.value)}></TextField>
       </Grid>
     </Grid>
   );
