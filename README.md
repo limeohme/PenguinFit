@@ -8,14 +8,18 @@
 
 ## Installation
 To start the application you can clone the repository on your computer, go to the folder, containing the `package.json` file and run `npm install` to install all the dependencies our project needs to become fully functional (that is, if you already have Node.js installed).
+
 After this, you can run the `npm start` script to start the application in the browser. Enjoy! 😊
 
 ***
  There seems to be a problem in the Create React App package and the webpack compiles with warnings. We have researched the problem and decided to not ignore the warnings at this stage.
 
 Here's what our search showed:
+
 [webpack 5: Failed to parse source map](https://github.com/mswjs/msw/issues/1030)
+
 [failed-to-parse-source-map](https://stackoverflow.com/questions/70599784/failed-to-parse-source-map)
+
 [fix: ignore webpack warnings](https://github.com/facebook/create-react-app/pull/11752)
 
 ## Usage
