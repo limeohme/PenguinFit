@@ -38,7 +38,9 @@ Use examples liberally, and show the expected output if you can. It's helpful to
 
 ## Authors 
 Boris Netsov [@bntsv](https://gitlab.com/bntsv)
+
 Liya Milenkova [@limeohme](https://gitlab.com/limeohme)
+
 Martin Shukadarov [@Shukadarov](https://gitlab.com/Shukadarov)
 
 
