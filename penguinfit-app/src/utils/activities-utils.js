@@ -1,7 +1,7 @@
 import { typesTargets } from '../common/types-targets';
 import { formatString, getActivityTotalCalBurned, getDateAsString, getDetailWithAdornment, getSortedKeys, getSteps, getTimeAsString } from './utils';
 
-// encapsulated activities data obj
+// activities data obj
 const activities = {
   'resistance training': {
     type: 'strength',
@@ -250,6 +250,7 @@ const activityDetailsByType = {
 };
 
 const getActivityObj = (activity) => activities[activity];
+const getActivityTypes = () => Object.keys(activityDetailsByType);
 
 export const getTargets = (activity) => {
   return typesTargets[activities[activity]?.type || 'general'];
@@ -264,6 +265,7 @@ const getActivityMET = (activity) => {
 };
 
 export const sortedActivities = getSortedKeys(activities);
+export const activityTypes = getActivityTypes();
 
 export const isActivityInList = (activity) => sortedActivities.includes(activity);
 

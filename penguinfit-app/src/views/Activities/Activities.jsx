@@ -8,6 +8,8 @@ import { Grid, Paper, Typography } from '@mui/material';
 import CreateActivityForm from '../../components/FormsComponents/CreateActivityForm/CreateActivityForm';
 import DisplayActivities from '../../components/ListComponents/DisplayActivities/DisplayActivities';
 import DisplayActivityRequests from '../../components/ListComponents/DisplayActivityRequests/DisplayActivityRequests';
+import { getActivitiesDataByType, getFieldByType, getLiveUserLastNDaysData } from '../../services/data-viz-service';
+import { PieChartActivityTypes } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
 
 
 // // user goals
@@ -73,6 +75,7 @@ function Activities() {
   const { appState:{ user } } = useContext(AppState);
   const [activities, setActivities] = useState([]);
   const [activityRequests, setActivityRequests] = useState([]);
+  const [countByType, setCountByType] = useState({});
 
   useEffect(() => {
     const unsubscribe = getLiveUserActivities(user.username, async () => {
@@ -80,6 +83,25 @@ function Activities() {
         const recent = await getMostRecentUserActivities(user.username);
 
         setActivities(recent);
+
+      }catch(err){
+        console.error(err);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = getLiveUserLastNDaysData(user.username, (snapshot) => {
+      try{
+        const lastNDaysData = Object.values(snapshot.val());
+        const activitiesDataByType = getActivitiesDataByType(lastNDaysData);
+        
+        const typesByCount = getFieldByType(activitiesDataByType, 'countOfType');
+        setCountByType(typesByCount);
+        // console.log(countByType);
+
 
       }catch(err){
         console.error(err);
@@ -152,14 +174,14 @@ function Activities() {
         //   spacing={4}
         >
           <Grid item>
-            <Paper sx={{ height: '400px', backgroundColor: '#ffffff75' }}>
-                graphic
+            <Paper sx={{ height: '380px', backgroundColor: '#ffffff75' }}>
+              calories burned by day (last 30 days)
             </Paper>
           </Grid>
           <Grid container item spacing={4}>
             <Grid item xs={12} sm={6}>
-              <Paper sx={{ height: '300px', backgroundColor: '#ffffff75' }}>
-                graphic
+              <Paper sx={{ backgroundColor: '#ffffff75' }}>
+                <PieChartActivityTypes countByType={countByType}></PieChartActivityTypes>
               </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
