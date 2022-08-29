@@ -1,4 +1,5 @@
 <img alt='pingu' src='https://gitlab.com/limeohme/theoretical-preparation/-/raw/main/images/PinguBlush.png' width='70px'/> 
+
 # PenguinFit
 
 ## Description
@@ -21,11 +22,15 @@ Here's what our search showed:
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
 ## Technologies
-<img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" width="18px">  JavaScript 
+<img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" width="18px">  JavaScript
+
 <img src="https://icon-library.com/images/react-icon/react-icon-29.jpg" width="18px">  React 
+
 <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--bLBBZFjg--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/FormidableLabs/formidable-oss-badges/master/src/assets/featuredLogos/victory.svg%3Fsanitize%3Dtrue" width="18px">   Victory by Formidable 
+
 <img src="https://mui.com/static/logo.png" width="18px">  Material UI 
-<img src="https://www.pngrepo.com/download/303670/firebase-1-logo.png" width="18px">  Firebase 
+
+<img src="https://www.gstatic.com/devrel-devsite/prod/v6bd99c7d8fa6220aea6020b29137b212e2eacdba13242535487f52ab3557b0cb/firebase/images/touchicon-180.png" width="18px">  Firebase 
 
 ## Authors 
 Boris Netsov [@bntsv](https://gitlab.com/bntsv)
