@@ -10,6 +10,7 @@ import DisplayActivities from '../../components/ListComponents/DisplayActivities
 import DisplayActivityRequests from '../../components/ListComponents/DisplayActivityRequests/DisplayActivityRequests';
 import { getActivitiesDataByType, getFieldByType, getLiveUserLastNDaysData } from '../../services/data-viz-service';
 import { PieChartActivityTypes } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
+import { BarCaloriesToActivityDuration } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
 
 
 // // user goals
@@ -185,8 +186,9 @@ function Activities() {
               </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Paper sx={{ height: '300px', backgroundColor: '#ffffff75' }}>
-                graphic
+              <Paper sx={{ backgroundColor: '#ffffff75' }}>
+                
+                <BarCaloriesToActivityDuration ></BarCaloriesToActivityDuration>
               </Paper>
             </Grid>
           </Grid>
