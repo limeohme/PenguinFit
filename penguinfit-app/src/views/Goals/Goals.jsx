@@ -6,33 +6,7 @@ import DetailedGoalsStepper from '../../components/Navigation/DetailedGoalsStepp
 import AppState from '../../providers/app-state';
 import { goalsListener } from '../../services/goals-service';
 import DisplayConfetti from '../../components/Confetti/Confetti';
-
-
-const extractGoals = (obj) => {
-  if(!obj) return [];
-  return Object.values(obj).map(el => Object.values(el) );
-};
-
-
-const getSteps = (obj) => {
-  if(!obj) return { celebrated:[], other:[] };
-  return divideSteps ([...Object.values(obj).map(el => extractGoals(el))].flat(2));
-};
-
-const divideSteps = (arr) => {
-  const other = [];
-  const celebrated = [];
-  arr.forEach(el => {
-    if(el.status === 'celebrated'){
-      celebrated.push(el);
-      return;
-    }
-    other.push(el);
-  });
-  return { celebrated, other };
-};
-
-
+import { getSteps } from '../../utils/goals-utils';
 
 function Goals() {
   const { appState } = useContext(AppState);
@@ -46,7 +20,7 @@ function Goals() {
       setGoals(getSteps(snapshot.val()));
     });
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   return(
     <Grid
