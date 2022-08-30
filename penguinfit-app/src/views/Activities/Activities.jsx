@@ -4,72 +4,14 @@ import AppState from '../../providers/app-state';
 import { getActivityRequestsArray } from '../../utils/activities-utils';
 import { getLiveUserActivities, getMostRecentUserActivities, getLiveActivityRequests,  getUserActivitiesFromRequests } from '../../services/activities-service';
 
-import { Grid, Paper, Typography } from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
 import CreateActivityForm from '../../components/FormsComponents/CreateActivityForm/CreateActivityForm';
 import DisplayActivities from '../../components/ListComponents/DisplayActivities/DisplayActivities';
 import DisplayActivityRequests from '../../components/ListComponents/DisplayActivityRequests/DisplayActivityRequests';
 import { getActivitiesDataByType, getFieldByType, getLiveUserLastNDaysData } from '../../services/data-viz-service';
 import { PieChartActivityTypes } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
-import { BarCaloriesToActivityDuration } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
+import { CaloriesToDurationByActivityTypeBar } from '../../components/DataVisualisationComponents/BarCharts/ActivityBarCharts';
 
-
-// // user goals
-// const steps = [
-//   {
-//     name: 'Da skolasam da zawursha',
-//     status: 'po4ti',
-//     createdOn: new Date(),
-//     dueDate: new Date(),
-//     completed: 90,
-//   },
-//   {
-//     name: 'Da skolasam da si namerq rabota',
-//     status: 'zle e',
-//     createdOn: new Date(),
-//     dueDate: new Date(),
-//     completed: 1,
-//   },
-// ];
-
-// // user friends
-// const friends = [{
-//   title:'exercisesCount',
-//   results: [{ 
-//     name:'Pesho',
-//     data: { x:1 , y:5 }
-//   },
-//   {
-//     name:'Gosho',
-//     data: { x:2 , y:10 }
-//   },
-//   {
-//     name:'Stawri',
-//     data: { x:3 , y:7 }
-//   },
-//   {
-//     name:'Stawri',
-//     data: { x:4 , y:7 }
-//   }]
-// },
-// {
-//   title:'goals',
-//   results: [{ 
-//     name:'Pesho',
-//     data: { x:1 , y:10 }
-//   },
-//   {
-//     name:'Gosho',
-//     data: { x:2 , y:7 }
-//   },
-//   {
-//     name:'Stawri',
-//     data: { x:3 , y:5 }
-//   },
-//   {
-//     name:'Stawri',
-//     data: { x:4 , y:5 }
-//   }]
-// },];
 
 function Activities() {
   
@@ -143,7 +85,7 @@ function Activities() {
       sx={{ p:3 }}
       spacing={4}
     >
-      <Grid container item direction="column" gap={4} xs={12} sm={5.5}>
+      <Grid container item direction="column" gap={4} xs={12} sm={5}>
         <Grid container item direction="column">
           <Typography variant='h5' sx={{ pb:2 }}>New activity:</Typography>
           <Paper sx={{ backgroundColor: '#ffffff' }}>
@@ -161,7 +103,7 @@ function Activities() {
 
       </Grid>
 
-      <Grid item xs={12} sm={6.5}>
+      <Grid item xs={12} sm={7}>
         <Typography variant='h5' sx={{ pb:2 }}>Statistics:</Typography>
         
         <Grid 
@@ -176,19 +118,29 @@ function Activities() {
         >
           <Grid item>
             <Paper sx={{ height: '380px', backgroundColor: '#ffffff75' }}>
-              calories burned by day (last 30 days)
+              calories burned by day (last 14 days)
             </Paper>
           </Grid>
           <Grid container item spacing={4}>
             <Grid item xs={12} sm={6}>
-              <Paper sx={{ backgroundColor: '#ffffff75' }}>
+              <Paper sx={{ backgroundColor: '#ffffff75',  p: 1  }}>
+                <Box>
+                  <Typography sx={{ fontSize: 15 }}> activity types in % </Typography>
+                  <Typography sx={{ fontSize: 10 }}> (last 14 days) </Typography>
+                </Box>
+                
                 <PieChartActivityTypes countByType={countByType}></PieChartActivityTypes>
               </Paper>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Paper sx={{ backgroundColor: '#ffffff75' }}>
+              <Paper sx={{ backgroundColor: '#ffffff75',  p: 1  }}>
                 
-                <BarCaloriesToActivityDuration ></BarCaloriesToActivityDuration>
+                <Box>
+                  <Typography sx={{ fontSize: 15 }}> duration vs. calories burned by type </Typography>
+                  <Typography sx={{ fontSize: 10 }}> (last 14 days) </Typography>
+                </Box>
+                
+                <CaloriesToDurationByActivityTypeBar ></CaloriesToDurationByActivityTypeBar>
               </Paper>
             </Grid>
           </Grid>

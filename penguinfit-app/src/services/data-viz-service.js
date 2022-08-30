@@ -12,7 +12,7 @@ import { activityTypes } from '../utils/activities-utils';
 //   return [];
 // };
 
-const DATA_BY_DAY_REQUEST_LIMIT = 10;
+const DATA_BY_DAY_REQUEST_LIMIT = 14;
 
 const trackedFields = {
   1: 'caloriesBurned',
