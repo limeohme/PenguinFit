@@ -15,8 +15,9 @@ export default function DisplayAchievedGoals ({ username, goals }) {
         alignItems="center" 
         spacing={1} 
         gap={1}>
+        {/* <Typography>{`Total achieved goals ${achievedGoals}`}</Typography> */}
         { goals.map(el =>
-          <Grid item xs={12} sm={5} key={el.id}> 
+          <Grid item xs={12} sm={12} key={el.id}> 
             <SingleAchievedGoalView goal={el} username={username} /> 
           </Grid>) }
       </Grid>

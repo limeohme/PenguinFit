@@ -1,25 +1,14 @@
-// import { Avatar, Grid, Paper, Typography, Box, IconButton  } from '@mui/material';
-// // import { removeUserFriend } from '../../../services/user-service';
-// import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-// import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { Typography, Card, CardContent, CardActions, Button } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Typography, Paper, Grid, ButtonBase } from '@mui/material';
 import { createGoal, deleteGoal } from '../../../services/goals-service';
+import { parseDate, millisecondsToDHM } from '../../../utils/goals-utils';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import CustomTooltip from '../../CustomTooltip/CustomTooltip';
+import CloseIcon from '@mui/icons-material/Close';
+import { Stack } from '@mui/system';
 
-const parseDate = (date) => new Date(date).toLocaleDateString('en-uk', { year:'numeric', month:'short', day:'numeric' }); 
+const secondaryDetailsStyle = { textAlign:'right', color:'#00000050' };
 
-const millisecondsToDHM = (ms) => {
-  const days = Math.floor(ms / (24*60*60*1000));
-  const daysms = ms % (24*60*60*1000);
-  const hours = Math.floor(daysms / (60*60*1000));
-  const hoursms = ms % (60*60*1000);
-  const minutes = Math.floor(hoursms / (60*10000));
-  const minutesms = ms % (60*1000);
-  const sec = Math.floor(minutesms / 1000);
-  return `${days} days, ${hours} hrs, ${minutes} min, ${sec} sec`;
-};
-
-export default function SingleAchievedGoalView({ goal , username }) {
+export default function SingleAchievedGoalView({ goal, username  }) {
 
   const handleQuickAdd = ( user, values ) => {
     const newGoal = { ...values, currentValue:0, createdOn:Date.now(), status:'Not there yet', achievedOn:'' };
@@ -31,58 +20,55 @@ export default function SingleAchievedGoalView({ goal , username }) {
   };
 
   return (
-    <Card sx={{ minWidth: 180, maxWidth:'100%' }} >
-      <CardContent>
-        <Stack 
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={-1}
-        >
-          <Typography sx={{ fontSize: 14 }} color="text.main" gutterBottom>
-            { 'Title:' }
-          </Typography>
-          <Typography sx={{ fontSize: 11 }} color="text.main" gutterBottom>
-            {goal.title}
-          </Typography>
-        </Stack>
-        <Stack 
-          direction="column"
-          justifyContent="flex-end"
-          alignItems="flex-start"
-          spacing={0.5}
-          sx={{ m:2 }}
-        >
-          <Typography sx={{ fontSize: 11 }} xs={6} color="text.secondary" gutterBottom>
-            {`Type: ${goal.type}`}
-          </Typography>
-          <Typography sx={{ fontSize: 11 }} xs={6} color="text.secondary" gutterBottom>
-            {`Target: ${goal.target}`}
-          </Typography>
-          <Typography sx={{ fontSize: 11 }} xs={6} color="text.secondary" gutterBottom>
-            {`Created on: ${parseDate(goal.createdOn) }`}
-          </Typography>
-          <Typography sx={{ fontSize: 11 }} xs={6} color="text.secondary" gutterBottom>
-            {'Completed in:'}
-          </Typography>
-          <Typography sx={{ fontSize: 11 }} xs={6} color="text.secondary" gutterBottom>
-            {`${millisecondsToDHM(goal.achievedOn - goal.createdOn)}`}
-          </Typography>
-        </Stack>
+    <Paper sx={{ display: 'flex', backgroundColor: '#ffffff50', p: 2, minHeight: '8em' }}>
 
-      </CardContent>
-      <CardActions>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          alignItems="flex-start"
-          spacing={2}
-        >
-          <Button size="small" onClick={() => handleQuickAdd(username, goal)}>Quick add</Button>
-          <Button size="small" onClick={() => handleDelete(username, goal)}>Delete</Button>
-        </Stack>
-      </CardActions>
-    </Card>
+      <Grid container direction='column' gap={1.5} justifyContent='space-between' alignItems='center'>
+
+        <Grid item container justifyContent='space-between' alignItems='center'>
+
+          <Grid item xs={6} sm={6} >
+            <Typography variant='h5'>{goal.title}</Typography>
+          </Grid>
+
+          <Grid item xs={5} sm={5}>
+            <Stack>
+              <Typography sx={secondaryDetailsStyle}>{`Type: ${goal.type} `}</Typography>
+              <Typography sx={secondaryDetailsStyle}>{ `Target: ${goal.target}`}</Typography>
+              <Typography sx={secondaryDetailsStyle}> {`Created on: ${parseDate(goal.createdOn) }`}</Typography>
+            </Stack>
+          </Grid>
+
+          <Grid item xs={1} sm={1} >
+            <CustomTooltip title="delete" arrow placement="top">
+              <ButtonBase sx={{ width: '100%' }}>
+                <CloseIcon variant="outlined" fontSize="medium" onClick={() => handleDelete(username, goal)} ></CloseIcon>
+              </ButtonBase>
+            </CustomTooltip>
+          </Grid>
+          
+        </Grid>
+
+        <Grid item container justifyContent='space-between' alignItems='centre' >
+
+          <Grid item xs={11} sm={11}>
+            <Typography  gutterBottom>
+              {`Completed in ${millisecondsToDHM(goal.achievedOn - goal.createdOn)}`}
+            </Typography>
+          </Grid>
+
+          <Grid container item xs={1} sm={1} justifyContent='right'>
+            <CustomTooltip title="re-log" arrow>
+              <ButtonBase sx={{ width: '100%' }}>
+                <AddCircleIcon variant="contained" color="primary" fontSize="large" onClick={() => handleQuickAdd(username, goal)}/>
+              </ButtonBase>
+            </CustomTooltip>
+          </Grid>
+
+        </Grid>
+
+      </Grid>
+      
+    </Paper>
   );
 
 }
