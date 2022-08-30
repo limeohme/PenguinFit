@@ -75,5 +75,5 @@ export const getFieldByType = (dataByType, field) => {
       ...fieldByType,
       [type]: fields[field]
     };
-  });
+  }, {});
 };
