@@ -7,7 +7,7 @@ import SingleAchievedGoalView from '../../SingleViewComponent/SingleAchievedGoal
 export default function DisplayAchievedGoals ({ username, goals }) {
 
   return (
-    <Paper sx={{ p:2 }}>
+    <Paper sx={{ p:2, bgcolor: 'transparent', boxShadow: 'none' }}>
       <Grid 
         container
         direction="row"

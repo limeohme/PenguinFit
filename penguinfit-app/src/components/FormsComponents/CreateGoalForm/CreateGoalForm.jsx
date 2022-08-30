@@ -58,6 +58,7 @@ const CreateGoalForm = ({ username }) => {
                 type="text"
                 name="title"
                 label="Title"
+                adornment={''}
                 value={formValues.title}
                 handler={handleInputChange}
                 error={formErrors.title}
@@ -124,6 +125,7 @@ const CreateGoalForm = ({ username }) => {
               <CustomNumberInput 
                 type="number"
                 name="targetValue"
+                adornment={''}
                 label="Target value"
                 value={formValues.targetValue}
                 handler={handleInputChange}

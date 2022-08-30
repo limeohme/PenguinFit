@@ -10,8 +10,8 @@ export default function SingleDetailedGoalView({ step, handleCelebrate, handleDe
     <Stack 
       spacing={1}
     >
-      <Typography align="center" >{`${step.type} : ${step.title}`}</Typography>
-      <Chip label={'Status:' + step.status}/>
+      <Typography align="center" variant='h5' sx={{ bgcolor: 'transparent', my: 2 }}>{`${step.type} : ${step.title}`}</Typography>
+      <Chip label={'Status: ' + step.status} sx={{ bgcolor: 'transparent', my: 2 }}/>
       <svg viewBox="0 0 400 400">
         <VictoryPie
           innerRadius={120}
@@ -26,7 +26,7 @@ export default function SingleDetailedGoalView({ step, handleCelebrate, handleDe
           animate={{
             duration: 2000,
           }}
-          colorScale={[ 'navy', 'transparent' ]}
+          colorScale={[ '#6633ff', '#6633ff10' ]}
         >
         </VictoryPie>
         <VictoryLabel

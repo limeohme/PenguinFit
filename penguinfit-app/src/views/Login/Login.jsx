@@ -83,6 +83,7 @@ const Login = () => {
                 <CustomNumberInput 
                   type="text"
                   name="email"
+                  adornment={''}
                   label="Email"
                   value={formValues.email}
                   handler={handleInputChange}
@@ -92,6 +93,7 @@ const Login = () => {
                 <CustomNumberInput 
                   type="password"
                   name="password"
+                  adornment={''}
                   label="Password"
                   value={formValues.password}
                   handler={handleInputChange}
