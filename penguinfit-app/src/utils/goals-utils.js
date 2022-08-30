@@ -27,3 +27,16 @@ const divideSteps = (arr) => {
   });
   return { celebrated, other };
 };
+
+export const formatDate = (date) => {
+  if(!date) return null;
+  const dateToSeconds = (new Date(date));
+  return dateToSeconds.toLocaleDateString('en-us', { year:'numeric', month:'short', day:'numeric' });
+};
+
+export const activateConfetti = (set) => {
+  set(true);
+  setTimeout(() => {
+    set(false);
+  }, 6000);
+};
