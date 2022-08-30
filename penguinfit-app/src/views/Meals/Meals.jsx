@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography } from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { MEAL_TYPES } from '../../common/constants';
 import { BarCalorieIntake, BarCaloriesByMeal } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
@@ -120,19 +120,26 @@ function Meals () {
           gap={4}
           spacing={4}
         >
-          <Grid item container  justifyContent="center" direction="column">
-            {meals.length? 
-              <BarCaloriesByMeal data={typeData} maxima={maxima}/> :
-              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
-                flexDirection: 'column', height: '400px', my: '2rem' }}>
+          <Grid item container  justifyContent="center" direction="column" gap={4}>
+            <Paper sx={{ height: '480px', backgroundColor: '#ffffff75', p: 1 }}>
+              <Box>
+                <Typography sx={{ fontSize: 15 }}> meal count/average calorie intake by meal type </Typography>
+                <Typography sx={{ fontSize: 10 }}> (last 21 meals) </Typography>
+              </Box>
+              {meals.length? 
+                <BarCaloriesByMeal data={typeData} maxima={maxima}/> :
                 <NoDataYet/>  
-              </Grid>
-            }
-            {meals.length? <BarCalorieIntake/> : 
-              <Grid item xs sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column',
-                alignItems: 'center', height: '400px', my: '2rem' }}>
-                <NoDataYet/>
-              </Grid>}
+
+              }
+            </Paper>
+            <Paper sx={{ height: '480px', backgroundColor: '#ffffff75', p: 1 }}>
+              <Box>
+                <Typography sx={{ fontSize: 15 }}> average calorie intake in kcal </Typography>
+                <Typography sx={{ fontSize: 10 }}> (last 14 days) </Typography>
+              </Box>
+              {meals.length? <BarCalorieIntake/> : <NoDataYet/>}
+
+            </Paper>
           </Grid>
         </Grid>
         

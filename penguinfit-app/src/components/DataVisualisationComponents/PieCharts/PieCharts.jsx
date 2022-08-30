@@ -48,7 +48,7 @@ export function PieNutrientsDistribution ({ nutrients }) {
         labels={({ datum }) => datum.y > 0 ? datum.x : ''}
         labelComponent={<VictoryLabel angle={5} style={{ fill: '#000', margin: 5 }}/> }
       />
-      <Typography sx={style.chartNamesStyle} variant='h7'>nutrients distribution %,</Typography>
+      <Typography sx={style.chartNamesStyle} variant='h7'>nutrients distribution %</Typography>
     </Grid>
   );
 }
