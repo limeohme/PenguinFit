@@ -39,10 +39,10 @@ export const getStatsToday = (user, listen) => {
 };
   
 export const getExerciseDurationByDate = (user) => {
-  return get(query(ref(db, `users/${user}/dataByDay`), orderByChild('dateVal'), limitToLast(30)),)
+  return get(query(ref(db, `users/${user}/dataByDay`), orderByChild('dateVal'), limitToLast(14)),)
     .then((snapshot) => {
       if (snapshot.exists()) {
-        return Object.values(snapshot.val()).map((el) => {
+        return Object.values(snapshot.val()).sort((a, b) => a.dateVal - b.dateVal).map((el) => {
           return { x: el.date.split(' ')[2], y: el.totalActivityDuration };
         });
       } else {
@@ -53,10 +53,10 @@ export const getExerciseDurationByDate = (user) => {
 };
   
 export const getCalorieDifferenceByDate = (user) => {
-  return get(query(ref(db, `users/${user}/dataByDay`), orderByChild('dateVal'), limitToLast(30)))
+  return get(query(ref(db, `users/${user}/dataByDay`), orderByChild('dateVal'), limitToLast(14)))
     .then((snapshot) => {
       if (snapshot.exists()) {
-        return Object.values(snapshot.val()).map((el) => {
+        return Object.values(snapshot.val()).sort((a, b) => a.dateVal - b.dateVal).map((el) => {
           return { x: el.date.split(' ')[2], y: el.cal.consumed - el.cal.burned - FAKE_BMR };
         });
       } else {
