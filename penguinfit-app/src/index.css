@@ -10,6 +10,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
+  background-image: linear-gradient(-30deg, #6633ff, #6633ff95, #6633ff75, #6633ff50, #6633ff25, #6633ff10, transparent 40%);
   /* background-image: linear-gradient(-45deg, #6633ff 10%, #6633ff75, #6633ff25, transparent, #ffffff90 55%, transparent, #6633ff33, #6633ff66); */
   /* background-color: #faa6ff20; */
   /* background-color: #13c4a320; */
