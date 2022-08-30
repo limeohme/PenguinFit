@@ -180,7 +180,7 @@ export const updateUserActivitiesDataByDay = (username, data) => {
 const getUserGoalsStatus = (username) => {
   return get(ref(db, `users/${username}/goalsStatus`))
     .then((snapshot) => {
-      return snapshot.val();
+      return snapshot.val() || 0;
     })
     .catch(console.error);
 };
@@ -197,3 +197,21 @@ export const updateUserGoalsStatus = (username) => {
     })
     .catch(console.error);
 };
+
+// export const incrementUserGoalsStatus = (username, status) => {
+//   get (ref(db, `users/${username}/goalsStatus/${status}`))
+//     .then((snapshot) => {
+//       let currentCount = snapshot.val() || 0;
+//       set (ref(db, `users/${username}/goalsStatus/${status}`), ++currentCount);
+//     })
+//     .catch(console.error);
+// };
+
+// export const decrementUserGoalsStatus = (username, status) => {
+//   get (ref(db, `users/${username}/goalsStatus/${status}`))
+//     .then((snapshot) => {
+//       let currentCount = snapshot.val() || 0;
+//       set (ref(db, `users/${username}/goalsStatus/${status}`), --currentCount);
+//     })
+//     .catch(console.error);
+// };

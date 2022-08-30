@@ -17,6 +17,7 @@ export const createGoal = (user, goal) => {
   goal.target = toCamelCase(goal.target);
   //creates initial random id for react key
   goal.id = String(Math.random());
+  // incrementUserGoalsStatus(user, 'notYet');
   return push(ref(db, `goals/${user}/${goal.type}/${goal.target}`), goal).then((path) =>
     update(ref(db, `goals/${user}/${goal.type}/${goal.target}/${path.key}`), { ...goal, id: path.key })
   );
@@ -35,7 +36,6 @@ export const deleteGoal = (username, type, target, id) => {
 };
 
 export const updateGoalStatus = (username, type, target, id, status) => {
-  console.log(`goals/${username}/${type}/${target}/${id}/status`);
   set(ref(db, `goals/${username}/${type}/${target}/${id}/status`), status );
 };
 
