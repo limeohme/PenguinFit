@@ -26,7 +26,7 @@ export function BarActivityDurationByDay () {
         <>
           <VictoryChart minDomain={{ x: 0, y: 0 }} style={{ padding: 10, width: 'fit-content' }}>
             <VictoryAxis label={'minutes in activities'}  style={{
-              axis: { stroke: '#5c6bc0', padding: 5 },
+              axis: { stroke: '#6633ff70', padding: 5 },
               axisLabel: { fontSize: 12, padding: 35 },
               grid: { stroke: '#5c6bc0' },
               ticks: { stroke: 'grey', size: 5 },
@@ -34,7 +34,7 @@ export function BarActivityDurationByDay () {
             }}
             dependentAxis />
             <VictoryAxis label={'minutes spent in activities by date,\n\nlast 30 days'}  style={{
-              axis: { stroke: '#5c6bc0', padding: 5 },
+              axis: { stroke: '#6633ff70', padding: 5 },
               axisLabel: { fontSize: 12, padding: -240 },
               ticks: { stroke: 'grey', size: 5 },
               tickLabels: { fontSize: 12, padding: 0, fill: '#000000' }
@@ -44,9 +44,9 @@ export function BarActivityDurationByDay () {
               style={{
       
                 data: {
-                  fill: ({ datum }) => datum.y < 30 ? '#000000' : '#5c6bc0',
-                  stroke: ({ datum }) => datum.y < 30 ? '#000000' : '#5c6bc0',
-                  fillOpacity: 0.7,
+                  fill: ({ datum }) => datum.y < 30 ? '#000000' : '#6633ff',
+                  stroke: ({ datum }) => datum.y < 30 ? '#000000' : '#6633ff',
+                  fillOpacity: 0.6,
                   strokeWidth: 1
                 },
                 labels: {
@@ -89,14 +89,14 @@ export function BarCalorieBalanceByDay () {
         <>
           <VictoryChart domainPadding={{ x: 4 }} minDomain={{ x: 0,  }}>
             <VictoryAxis style={{
-              axis: { stroke: '#c5e1a5', padding: 5 },
+              axis: { stroke: '#6633ff', padding: 5 },
               axisLabel: { fontSize: 12, padding: 100 },
               ticks: { stroke: 'grey', size: 5 },
               tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
             }}
             dependentAxis />
             <VictoryAxis label={'calorie balance in kcal, by date,\nlast 30 days'}  style={{
-              axis: { stroke: '#c5e1a5', padding: 5 },
+              axis: { stroke: '#6633ff', padding: 5 },
               axisLabel: { fontSize: 12, padding: 120 },
               ticks: { stroke: 'grey', size: 5 },
               tickLabels: { fontSize: 12, padding: 0, marginBottom: 2, fill: '#000000' }
@@ -106,8 +106,8 @@ export function BarCalorieBalanceByDay () {
               labels={ ({ datum }) => datum.y.toFixed(0) }
               style={{
                 data: {
-                  fill: ({ datum }) => datum.y < 0 ? '#f2c324' : '#c5e1a5',
-                  stroke: ({ datum }) => datum.y < 0 ? '#f2c324' : '#c5e1a5',
+                  fill: ({ datum }) => datum.y < 0 ? '#f2c324' : '#6633ff80',
+                  stroke: ({ datum }) => datum.y < 0 ? '#f2c324' : '#6633ff80',
                   fillOpacity: 0.7,
                   strokeWidth: 1
                 },
@@ -134,7 +134,7 @@ export function BarCaloriesByMeal ({ data , maxima }) {
     
     <VictoryChart domainPadding={{ x: 5 }} minDomain={{ y: 0, x: 0 }} maxDomain={{ y: 1, }}>
       <VictoryAxis style={{
-        axis: { stroke: '#c5e1a5', padding: 5 },
+        axis: { stroke: '#6633ff', padding: 5 },
         ticks: { stroke: 'grey', size: 5 },
         tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
       }}
@@ -143,7 +143,7 @@ export function BarCaloriesByMeal ({ data , maxima }) {
       tickFormat={(t) => t * maxima[0]}
       dependentAxis />
       <VictoryAxis style={{
-        axis: { stroke: '#5c6bc0',  },
+        axis: { stroke: '#f2c324',  },
         ticks: { stroke: 'grey', size: 5 },
         tickLabels: { fontSize: 10, padding: -7, fill: '#000000', textAnchor: 'start' }
       }}
@@ -153,7 +153,7 @@ export function BarCaloriesByMeal ({ data , maxima }) {
       tickFormat={(t) => Math.floor(t * maxima[1])} 
       dependentAxis />
       <VictoryAxis label={'meal count/average calorie intake by meal type,\nlast 7 days'}  style={{
-        axis: { stroke: '#c5e1a5', padding: 5 },
+        axis: { stroke: '#000', padding: 5 },
         axisLabel: { fontSize: 12, padding: -240 },
         ticks: { stroke: 'grey', size: 5 },
         tickLabels: { fontSize: 8, padding: 0, marginBottom: 2, fill: '#000000' }
@@ -168,8 +168,8 @@ export function BarCaloriesByMeal ({ data , maxima }) {
             y={(datum) => datum.y / maxima[i]}
             style={{
               data: {
-                fill: () => i === 0? '#c5e1a5' : '#5c6bc0',
-                stroke: () => i === 0? '#c5e1a5' : '#5c6bc0',
+                fill: () => i === 0? '#6633ff80' : '#f2c324',
+                stroke: () => i === 0? '#6633ff80' : '#f2c324',
                 fillOpacity: 0.7,
                 strokeWidth: 1
               },

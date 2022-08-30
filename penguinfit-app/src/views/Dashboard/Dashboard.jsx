@@ -20,7 +20,7 @@ import NoDataYet from '../../components/NoDataYet/NoDataYet.jsx';
 
 function Dashboard () {
 
-  const { appState, _setState } = useContext(AppState);
+  const { appState } = useContext(AppState);
   const [water, setWater] = useState(0);
   const [date, setDate] = useState();
   const [nutrients, setNutrients] = useState([]);

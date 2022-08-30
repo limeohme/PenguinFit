@@ -31,20 +31,17 @@ export const piessContainerStyle = {
 };
 
 export const salutationStyle = {
-  color: blue,
-  fontWeight: 900,
-  fontFamily: 'Monospace',
-  letterSpacing: 3,
+  color: '#6633ff',
+  fontWeight: 700,
+  letterSpacing: 2,
   px: '2rem',
   boxSizing: 'border-box'
 
 };
 
 export const dateStyle = {
-  fontWeight: 900,
-  fontFamily: 'Monospace',
+  fontWeight: 700,
   letterSpacing: 3,
-  color: lightGreen[900],
   px: '2rem',
   boxSizing: 'border-box'
 };

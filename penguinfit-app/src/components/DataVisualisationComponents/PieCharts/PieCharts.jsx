@@ -41,11 +41,12 @@ export function PieNutrientsDistribution ({ nutrients }) {
 
           }
         }}
-        colorScale={['#f2c324', '#c5e1a5', '#5c6bc0' ]}
+        style={{ data: { fillOpacity: 0.7, } }}
+        colorScale={['#fed101', '#6633ff', '#0033ff90' ]}
         innerRadius={60}
         data={nutrients}
         labels={({ datum }) => datum.y > 0 ? datum.x : ''}
-        labelComponent={<VictoryLabel angle={5} style={{ fill: '#000' }}/> }
+        labelComponent={<VictoryLabel angle={5} style={{ fill: '#000', margin: 5 }}/> }
       />
       <Typography sx={style.chartNamesStyle} variant='h7'>nutrients distribution %,</Typography>
     </Grid>
@@ -106,8 +107,9 @@ export function PieGoalAchievement ({ goals }) {
             before: () => ({ _y: -50 }),
             after: (datum) => ({ _y: datum._y })
           } }}
-        colorScale={['#c5e1a5', '#f2c324', '#5c6bc0' ]}
+        colorScale={['#6633ff', '#fed101', '#0033ff90' ]}
         innerRadius={60}
+        style={{ data: { fillOpacity: 0.7 } }}
         data={goals}
         labels={({ datum }) => datum.y > 0? datum.x: ''}
         labelComponent={<VictoryLabel angle={5} style={{ fill: '#000' }}/> }
