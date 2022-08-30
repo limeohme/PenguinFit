@@ -38,7 +38,7 @@ const useStyles = (theme) => ({
   drawer: {
     flexShrink: 0,
     color: 'white',
-    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH, backgroundColor: '#FED101', pl: 6 }
+    '& .MuiDrawer-paper': { boxSizing: 'border-box', borderWidth: 0, width: DRAWER_WIDTH, backgroundColor: '#FED101', pl: 6, boxShadow: '0px 3px 10px 3px #00000025' }
   },
   menuButton: {
     marginRight: theme.spacing(2),
