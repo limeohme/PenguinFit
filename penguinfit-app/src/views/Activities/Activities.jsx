@@ -11,6 +11,7 @@ import DisplayActivityRequests from '../../components/ListComponents/DisplayActi
 import { getActivitiesDataByType, getFieldByType, getLiveUserLastNDaysData } from '../../services/data-viz-service';
 import { PieChartActivityTypes } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
 import { CaloriesToDurationByActivityTypeBar } from '../../components/DataVisualisationComponents/BarCharts/ActivityBarCharts';
+import { CaloriesBurnedByDay } from '../../components/DataVisualisationComponents/BarCharts/CaloriesBurnedByDay';
 
 
 function Activities() {
@@ -117,8 +118,14 @@ function Activities() {
         //   spacing={4}
         >
           <Grid item>
-            <Paper sx={{ height: '380px', backgroundColor: '#ffffff75' }}>
-              calories burned by day (last 14 days)
+            <Paper sx={{ backgroundColor: '#ffffff75',  p: 1  }}>
+              
+              <Box>
+                <Typography sx={{ fontSize: 15 }}> calories burned by day </Typography>
+                <Typography sx={{ fontSize: 10 }}> (last 14 days) </Typography>
+              </Box>
+
+              <CaloriesBurnedByDay></CaloriesBurnedByDay>
             </Paper>
           </Grid>
           <Grid container item spacing={4}>
