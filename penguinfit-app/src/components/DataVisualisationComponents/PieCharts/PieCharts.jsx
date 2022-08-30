@@ -2,7 +2,7 @@ import { VictoryPie, VictoryLabel, VictoryLegend, VictoryTooltip } from 'victory
 import { Typography, Grid } from '@mui/material';
 import * as style from './PieChartsStyles.js';
 import { MEAL_TYPES } from '../../../common/constants.js';
-import { activityTypes } from '../../../utils/activities-utils.js';
+// import { activityTypes } from '../../../utils/activities-utils.js';
 // import { activityTypes } from '../../../utils/activities-utils';
 
 function CustomPieTooltip ({ ...props }) {
@@ -12,7 +12,7 @@ function CustomPieTooltip ({ ...props }) {
       <VictoryTooltip
         {...props}
         x={200} y={250}
-        text={({ datum }) => `# ${datum.y}`}
+        text={({ datum }) => `${datum.x}`}
         orientation="top"
         pointerLength={0}
         cornerRadius={50}
@@ -120,7 +120,18 @@ export function PieGoalAchievement ({ goals }) {
 const activityTypesColors = ['#6633ff', '#fed101', '#6633ff75'];
 export function PieChartActivityTypes ({ countByType }) {
 
-  console.log(countByType);
+  
+  const dataFormatted = Object.entries(countByType)
+    .map(([key, value])=>{
+      if(value !== 0){
+        return { x: key, y: value };
+      }
+      return null;
+    }).filter(Boolean);
+
+  // console.log(dataFormatted);
+  const pieData = dataFormatted.length? dataFormatted : [{ x: 'no data', y: '' }];
+  const legendTypes = dataFormatted.map((dataObj)=>dataObj.x);
 
   return (
     <>
@@ -129,25 +140,21 @@ export function PieChartActivityTypes ({ countByType }) {
         innerRadius={100}
         labelRadius={120}
         colorScale={activityTypesColors}
-        labels={({ datum }) => `# ${datum.x}`}
+        labels={({ datum }) => `${datum.y}`}
         labelComponent={<CustomPieTooltip />}
-        data={[
-          { x: 1, y: 'cardio' },
-          { x: 2, y: 'strength' },
-          { x: 3, y: 'other' }
-        ]}
+        data={pieData}
       />
       <VictoryLegend x={10} y={0}
         centerTitle
         orientation="horizontal"
-        itemsPerRow={3}
+        itemsPerRow={legendTypes.length}
         gutter={30}
         height={40}
         // width={600}
         style={{ labels: { fontSize: 20, } }}
-        data={activityTypes.map((type, i) => {
+        data={legendTypes.map((type, i) => {
           return {
-            name: `#${i+1} ${type}`,
+            name: `# ${type}`,
             symbol: { fill: activityTypesColors[i] }
           };
         })}
