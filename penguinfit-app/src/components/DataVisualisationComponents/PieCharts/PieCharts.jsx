@@ -123,7 +123,7 @@ export function PieChartActivityTypes ({ countByType }) {
   console.log(countByType);
 
   return (
-    <g>
+    <>
       <VictoryPie
         style={{ labels: { fill: 'white' } }}
         innerRadius={100}
@@ -152,6 +152,6 @@ export function PieChartActivityTypes ({ countByType }) {
           };
         })}
       />
-    </g>
+    </>
   );
 }
