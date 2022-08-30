@@ -1,4 +1,4 @@
-import { lightGreen, purple, pink, indigo } from '@mui/material/colors';
+import { lightGreen, pink, indigo } from '@mui/material/colors';
 
 export const green = lightGreen[100];
 export const palePink = pink[50];
@@ -40,7 +40,7 @@ export const infoBoxStyle = {
   boxShadow: 2,
   borderRadius: 2,
   border: 1,
-  borderColor: purple[500],
+  borderColor: '#6633ff',
   p: '0.2rem',
   m: '0.2rem',
   minWidth: '12rem',
@@ -134,9 +134,7 @@ export const ageStyle = {
 export const BMIStyle = {
   fontSize: 42,
   fontWeight: 700,
-  fontFamily: 'Monospace',
   letterSpacing: 4,
-  color: purple[900],
   boxSizing: 'border-box' 
 };
 
@@ -145,46 +143,39 @@ export const BMINumberStyle = {
   fontWeight: 700,
   fontFamily: 'Monospace',
   letterSpacing: 4,
-  color: blue  
+  color: '#6633ff'  
 };
 
 export const BMIMsgStyle = {
   my: '0.5rem',
   fontSize: 16,
   fontWeight: 'bold',
-  fontFamily: 'Monospace',
   letterSpacing: 1,
-  color: purple[900]
 };
 
 export const activityStyle = {
-  fontSize: 58,
-  fontWeight: 900,
-  fontFamily: 'Monospace',
-  letterSpacing: 4,
-  color: lightGreen[800]
+  fontSize: 52,
+  fontWeight: 800,
+  letterSpacing: 3,
 };
 
 export const rangeStyle = {
   my: '0.5rem',
   fontSize: 16,
   fontWeight: 'bold',
-  fontFamily: 'Monospace',
   letterSpacing: 1,
-  color: lightGreen[900]
+  color: lightGreen[800]
 };
 
 export const messageStyle = {
-  fontSize: 16,
-  fontWeight: 'bold',
-  fontFamily: 'Monospace',
+  fontSize: 12,
   letterSpacing: 1,
   color: pink[600],
   alignSelf: 'center'
 };
 
 export const sliderStyle = {
-  bgcolor: blue,
+  bgcolor: '#6633ff',
   fontFamily: 'Monospace',
   boxShadow: 1,
   margin: 1
