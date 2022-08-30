@@ -33,7 +33,7 @@ export function BarActivityDurationByDay () {
               tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
             }}
             dependentAxis />
-            <VictoryAxis label={'minutes spent in activities by date,\n\nlast 30 days'}  style={{
+            <VictoryAxis label={'minutes spent in activities by date,\n\nlast 14 days'}  style={{
               axis: { stroke: '#6633ff70', padding: 5 },
               axisLabel: { fontSize: 12, padding: -240 },
               ticks: { stroke: 'grey', size: 5 },
@@ -95,7 +95,7 @@ export function BarCalorieBalanceByDay () {
               tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
             }}
             dependentAxis />
-            <VictoryAxis label={'calorie balance in kcal, by date,\nlast 30 days'}  style={{
+            <VictoryAxis label={'calorie balance in kcal, by date,\nlast 14 days'}  style={{
               axis: { stroke: '#6633ff', padding: 5 },
               axisLabel: { fontSize: 12, padding: 120 },
               ticks: { stroke: 'grey', size: 5 },
@@ -139,8 +139,8 @@ export function BarCaloriesByMeal ({ data , maxima }) {
         tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
       }}
       // Re-scale ticks by multiplying by correct maxima
-      tickValues={[...[...Array(maxima[0]+1).keys()].map(val => val/maxima[0])]}
-      tickFormat={(t) => t * maxima[0]}
+      tickValues={[0.25, 0.5, 0.75, 1]}
+      tickFormat={(t) => Math.floor(t * maxima[0])}
       dependentAxis />
       <VictoryAxis style={{
         axis: { stroke: '#f2c324',  },
@@ -205,7 +205,7 @@ export function BarCalorieIntake () {
         tickLabels: { fontSize: 10, padding: 0, fill: '#000000' }
       }}
       dependentAxis />
-      <VictoryAxis label={'average calorie intake in kcal, by date,\nlast 30 days'}  style={{
+      <VictoryAxis label={'average calorie intake in kcal, by date,\nlast 14 days'}  style={{
         axis: { stroke: '#000', padding: 5 },
         axisLabel: { fontSize: 12, padding: -240 },
         ticks: { stroke: 'grey', size: 5 },
@@ -227,15 +227,7 @@ export function BarCalorieIntake () {
             padding: 14,
             fill:'#000000'
           }
-        }}
-        animate={{
-          duration: 2000,
-          easing: 'bounce',
-          onLoad: {
-            duration: 2000,
-            before: () => ({ _y: 0 }),
-            after: (datum) => ({ _y: datum._y })
-          } }}
+        }}  
       />
     </VictoryChart>
 

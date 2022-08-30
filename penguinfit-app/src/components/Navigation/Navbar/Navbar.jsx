@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import AppState from '../../../providers/app-state';
 import { AppBar, IconButton, Button, Toolbar, Typography } from '@mui/material';
 import DropMenu from '../DropMenu/DropMenu';
-import NotificationsPopover from '../../NotificationsPopover/NotificationsPopover';
+
 // import MenuIcon from '@mui/icons-material/Menu';
 
 // import { APP_TITLE } from '../../common/constants';
@@ -55,7 +55,6 @@ function Navbar({ classes, toggleDrawer }) {
       <Toolbar>
         {renderUserMenuBtn()}
         <Typography variant="h4" sx={{ mr: 'auto' }}>PenguinFit</Typography>
-        <NotificationsPopover/>
         {renderLoginLogout()}
       </Toolbar>
       {/* <Divider variant="middle" sx={{ height: '3px', backgroundColor: '#ffffff' }}></Divider> */}

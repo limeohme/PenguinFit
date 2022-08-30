@@ -119,6 +119,7 @@ const Register = () => {
                   <CustomNumberInput 
                     type="username"
                     name="username"
+                    adornment={''}
                     label="Username"
                     value={formValues.username}
                     handler={handleInputChange}
@@ -130,6 +131,7 @@ const Register = () => {
                     type="password"
                     name="password"
                     label="Password"
+                    adornment={''}
                     value={formValues.password}
                     handler={handleInputChange}
                     error={formErrors.password}
@@ -140,6 +142,7 @@ const Register = () => {
                     type="password"
                     name="passwordCheck"
                     label="Repeat password"
+                    adornment={''}
                     value={formValues.passwordCheck}
                     handler={handleInputChange}
                     error={formErrors.passwordCheck}
@@ -150,6 +153,7 @@ const Register = () => {
                     type="number"
                     name="age"
                     label="Age"
+                    adornment={''}
                     value={formValues.age}
                     handler={handleInputChange}
                     error={formErrors.age}
@@ -161,6 +165,7 @@ const Register = () => {
                     type="text"
                     name="email"
                     label="Email"
+                    adornment={''}
                     value={formValues.email}
                     handler={handleInputChange}
                     error={formErrors.email}
@@ -173,6 +178,7 @@ const Register = () => {
                     type="number"
                     name="height"
                     label="Height"
+                    adornment={''}
                     value={formValues.height}
                     handler={handleInputChange}
                     error={formErrors.height}
@@ -183,6 +189,7 @@ const Register = () => {
                     type="number"
                     name="weight"
                     label="Weight"
+                    adornment={''}
                     value={formValues.weight}
                     handler={handleInputChange}
                     error={formErrors.weight}
@@ -193,6 +200,7 @@ const Register = () => {
                     type="number"
                     name="phoneNumber"
                     label="Phone number"
+                    adornment={''}
                     value={formValues.phoneNumber}
                     handler={handleInputChange}
                     error={formErrors.phoneNumber}
@@ -228,7 +236,7 @@ const Register = () => {
                     />
                   </div>
                 </Grid>
-                <Button variant="contained" color="primary" type="submit" >
+                <Button variant="contained" color="primary" type="submit" sx={{ my: 2 }}>
             Submit
                 </Button>
                 <Grid item sx={registerFromStyles.center}>
