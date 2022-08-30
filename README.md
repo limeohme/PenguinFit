@@ -23,7 +23,19 @@ Here's what our search showed:
 [fix: ignore webpack warnings](https://github.com/facebook/create-react-app/pull/11752)
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### Home
+![home](https://gitlab.com/limeohme/web-training/-/raw/main/images/penguinFit.png)
+### Profile
+![profile](https://gitlab.com/limeohme/web-training/-/raw/main/images/penguinFit2.png)
+### Dashboard
+![dash](https://gitlab.com/limeohme/web-training/-/raw/main/images/penguinFit3.png)
+### Activities
+### Goals
+![goals](https://gitlab.com/limeohme/web-training/-/raw/main/images/penguinFit5.png)
+### Meals
+![meals](https://gitlab.com/limeohme/web-training/-/raw/main/images/penguinFit4.png)
+### Thoughts
+![thoughts](https://gitlab.com/limeohme/web-training/-/raw/main/images/penguinFit6.png)
 
 ## Technologies
 <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" width="18px">  JavaScript
