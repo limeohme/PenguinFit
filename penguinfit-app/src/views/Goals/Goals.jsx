@@ -41,7 +41,7 @@ function Goals() {
         </Grid>
         <Grid container item direction="column">
           <Typography variant='h5' sx={{ pb:2 }}>Achieved goals:</Typography>
-          
+
           <Grid container item direction="column" gap={1.5} justifyContent='centre'>
             <DisplayAchievedGoals username={user.username} goals={goals.celebrated} />
           </Grid>

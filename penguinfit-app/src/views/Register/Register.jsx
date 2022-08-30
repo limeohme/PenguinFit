@@ -74,6 +74,10 @@ const Register = () => {
               email: form.email,
               weight: +form.weight,
               height: +form.height,
+              goalsStatus: {
+                achieved:0,
+                notYet:0,
+              },
               phoneNumber: +form.phoneNumber,
               activityStatus: form.activityStatus,
               BMI: (Number(form.weight)/((Number(form.height)/100)**2)),

@@ -11,6 +11,10 @@ export const defaultValues = {
   phoneNumber: '',
   activityStatus: 1,
   BMI: '',
+  goalsStatus:{
+    achieved:0,
+    notYet:0,
+  }
 };
 
 export const defaultErrors = errorTypes.reduce((defObj, errT) => {
