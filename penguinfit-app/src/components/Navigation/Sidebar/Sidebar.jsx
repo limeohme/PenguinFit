@@ -1,14 +1,11 @@
-// import './Navbar.css';
-// import { useContext } from 'react';
-// import { NavLink } from 'react-router-dom';
-// import AppState from '../../providers/app-state';
-import { Drawer, List, ListItem, ListItemText, Toolbar } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+import { Drawer, List, ListItemButton, ListItemText, Toolbar } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
 import { sidebarPages } from '../../../common/sidebar-pages';
-// import MenuIcon from '@mui/icons-material/Menu';
 
 function Sidebar({ classes, toggleDrawer, open, isMdUp }) {
+  const { pathname } = useLocation();
+  console.log(pathname);
 
   return (
     <Drawer
@@ -19,29 +16,13 @@ function Sidebar({ classes, toggleDrawer, open, isMdUp }) {
       onClose={toggleDrawer}
     >
       <Toolbar />
-      {/* <Divider /> */}
       <List>
         {Object.entries(sidebarPages).map(([key, value]) => (
-          <ListItem button key={key} component={NavLink} to={key}>
+          <ListItemButton button key={key} component={NavLink} to={key} selected={pathname === `/private/${key}`}>
             <ListItemText primary={value} />
-          </ListItem>
+          </ListItemButton>
         ))}
-        {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))} */}
       </List>
-
-      {/* <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List> */}
     </Drawer>
   );
 
