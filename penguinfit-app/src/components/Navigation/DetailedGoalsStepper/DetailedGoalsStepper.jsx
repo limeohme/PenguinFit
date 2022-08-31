@@ -11,11 +11,13 @@ export default function DetailedGoalsStepper({ steps, username, setShowConfetti 
 
   const handleDelete = (type, target, id) => {
     deleteGoal(username, type, target, id);
+    setActiveStep(activeStep > 1 ? activeStep - 1 : 0);
   };
   
   const handleCelebrate = (type, target, id) => {
     updateGoalStatus(username, type, target, id, 'celebrated');
     activateConfetti(setShowConfetti);
+    setActiveStep(activeStep > 1 ? activeStep - 1 : 0);
   };
 
   return (
