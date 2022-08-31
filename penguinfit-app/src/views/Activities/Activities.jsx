@@ -117,14 +117,14 @@ function Activities() {
           container
           item
           direction="column"
-          justifyContent="left"
-          alignItems="left"
+          justifyContent="center"
+          alignItems="center"
           gap={4}
         //   sx={{ p:4 }}
         //   spacing={4}
         >
-          <Grid item>
-            <Paper sx={{ backgroundColor: '#ffffff75',  p: 1, height: '500px'  }}>
+          <Grid container item xs={12} sm={12}>
+            <Paper sx={{ backgroundColor: '#ffffff75',  p: 1, width: '100%' }}>
               
               <Box>
                 <Typography sx={{ fontSize: 15 }}> calories burned by day </Typography>
@@ -134,7 +134,7 @@ function Activities() {
               <CaloriesBurnedByDay></CaloriesBurnedByDay>
             </Paper>
           </Grid>
-          <Grid container item spacing={4}>
+          <Grid container item spacing={4} xs={12} sm={12}>
             <Grid item xs={12} sm={6}>
               <Paper sx={{ backgroundColor: '#ffffff75',  p: 1  }}>
                 <Box>

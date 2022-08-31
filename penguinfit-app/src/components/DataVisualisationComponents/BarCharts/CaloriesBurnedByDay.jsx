@@ -1,4 +1,4 @@
-import { VictoryArea, VictoryAxis, VictoryChart } from 'victory';
+import { LineSegment, VictoryArea, VictoryAxis, VictoryChart, VictoryCursorContainer, VictoryLabel } from 'victory';
 
 const caloriesBurnedByDayStyles = {
   yAxis: {
@@ -8,7 +8,7 @@ const caloriesBurnedByDayStyles = {
   xAxis: {
     axis: { stroke: '#000', padding: 5 },
     ticks: { stroke: 'grey', size: 5 },
-    //   tickLabels: { fontSize: 8 }
+    tickLabels: { fontSize: 10 }
   },
   area: {
     data: { stroke: '#6633ff', fill: 'url(#myGradient)', strokeWidth: 1.5 }
@@ -40,7 +40,7 @@ export function CaloriesBurnedByDay () {
   return (
       
     <>
-      <svg style={{ height: 0 }}>
+      <svg style={{ position: 'absolute', height: 0, width: 0 }}>
         <defs>
           <linearGradient id="myGradient" x1="50%" y1="100%" x2="50%" y2="0%">
             <stop offset="0%" stopColor="#6633ff00" />
@@ -50,17 +50,34 @@ export function CaloriesBurnedByDay () {
             <stop offset="50%" stopColor="#6633ff50" />
             <stop offset="60%" stopColor="#6633ff60" />
             <stop offset="70%" stopColor="#6633ff70" />
-            {/* <stop offset="80%" stopColor="#6633ff80" /> */}
             <stop offset="100%" stopColor="#6633ff" />
           </linearGradient>
         </defs>
       </svg>
+
       <VictoryChart 
         // height={400}
-        width={700}
+        // width={700}
+        padding={{ top: 0, bottom: 50, right: 30, left: 30 }}
+        containerComponent={
+          <VictoryCursorContainer
+            cursorLabel={({ datum }) => `${datum.y.toFixed(2)} kcal`}
+            cursorComponent={
+              <LineSegment
+                style={
+                  { stroke: 'gray' }
+                }
+              />
+            }
+            cursorLabelComponent={
+              <VictoryLabel
+                style={[
+                  { fontSize: 10 },
+                ]}
+              />}
+          />
+        }
       >
-
-        
 
         <VictoryAxis 
           dependentAxis 
