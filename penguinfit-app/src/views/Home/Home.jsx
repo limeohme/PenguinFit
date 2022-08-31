@@ -25,8 +25,12 @@ export default function Home({ isMdUp }) {
           Become a Master Penguin!
         </Typography>
         <Typography sx={{ width: '100%', mt: 2 }}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-          Repellendus nostrum vel, ducimus aspernatur quae laboriosam enim et id similique esse ut dolore sit distinctio quis suscipit explicabo cupiditate. Vitae, ipsum!
+        In our app you can:<br></br>
+         ◾ set goals, based on the type of activities you do<br></br>
+         ◾ log activities to achieve these goals<br></br>
+         ◾ log your meals<br></br>
+        We will visualize your progress and behavior to help you become the best penguin you can be!<br></br>
+        One small step for a man but a big step for penguins!
         </Typography>
         <Button variant="contained" size="large" component={Link} to='/register'
           sx={{ maxWidth: 'fit-content', backgroundColor:'#6633ff', mt: 4 }}>

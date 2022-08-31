@@ -51,7 +51,7 @@ function CreateNewThought ({ colour, setColour }) {
             disablePortal
             options={moods}
             value={mood}
-            sx={{ width: '7rem', my: '1rem' }}
+            sx={{ my: '1rem' }}
             onInputChange={(_, newInputValue) => {
               setMood(newInputValue);
             }}

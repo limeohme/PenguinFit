@@ -9,7 +9,7 @@ function Thoughts () {
   const [colour, setColour] = useState('');
     
   return (
-    <Grid container direction="column"justifyContent="center" gap={2} alignItems="center" sx={{ mt: '2rem' }}>
+    <Grid container direction="column" justifyContent="center" gap={2} alignItems="center" sx={{ mt: '2rem' }}>
       <Grid item>
         <Typography variant='h5' sx={{ pb:2 }}>New thought:</Typography>
         <Paper sx={{ backgroundColor: '#ffffff75' }}>

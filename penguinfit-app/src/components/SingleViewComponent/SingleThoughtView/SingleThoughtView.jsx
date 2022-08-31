@@ -64,7 +64,7 @@ export default function SingleThoughtView ({ thought, activeStep, handleBack }) 
       <Typography sx={style.messageStyle} align="center" >{message}</Typography>
       <Box>
         {!edit?
-          <Typography sx={{ color: thought?.colour }}>{thought?.content}</Typography>:
+          <Typography sx={{ color: thought?.colour, maxWidth: '500px' }}>{thought?.content}</Typography>:
           <textarea style={style.textAreaStyle} placeholder='Some text here'
             defaultValue={thought.content} onChange={(e) => setTextInput(e.target.value)}></textarea>
         }
