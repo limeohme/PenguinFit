@@ -1,7 +1,7 @@
 import { Box, Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { MEAL_TYPES } from '../../common/constants';
-import { BarCalorieIntake, } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
+import { AreaCalorieIntakeByDate } from '../../components/DataVisualisationComponents/AreaCharts/AreaCalorieIntakeByDate';
 import { BarCaloriesAndCountByMealType, } from '../../components/DataVisualisationComponents/BarCharts/MealsBarCharts';
 import MealForm from '../../components/FormsComponents/CreateMealForm/CreateMealForm';
 import SingleMeal from '../../components/SingleViewComponent/SingleMeal/SingleMeal';
@@ -11,7 +11,6 @@ import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserN
 import { formatDateToString } from '../../utils/utils';
 import { updateDailyWaterGetter, updateDailyWaterUpdater } from '../../services/meals-service';
 import { getStatsToday } from '../../services/dashboard-service';
-import NoDataYet from '../../components/NoDataYet/NoDataYet';
 import AddWater from '../../components/AddWater/AddWater';
 
 function Meals () {
@@ -26,7 +25,7 @@ function Meals () {
 
   useEffect(() => {
     getCalorieIntakeByDate(user.username).then((d) => setCalData(d)).catch(console.error);
-  }, [meals]);
+  }, [meals, user]);
 
   useEffect(() => {
     const allTypes = [];
@@ -128,20 +127,15 @@ function Meals () {
               <Box>
                 <Typography sx={{ fontSize: 15 }}> meal count/average calorie intake by meal type </Typography>
                 <Typography sx={{ fontSize: 10 }}> (last 21 meals) </Typography>
-              </Box>
-              {meals.length? 
-                <BarCaloriesAndCountByMealType data={typeData} maxima={maxima}/> :
-                <NoDataYet/>  
-
-              }
+              </Box>              
+              <BarCaloriesAndCountByMealType data={typeData} maxima={maxima}/>             
             </Paper>
             <Paper sx={{ height: '480px', backgroundColor: '#ffffff75', p: 1 }}>
               <Box>
                 <Typography sx={{ fontSize: 15 }}> average calorie intake in kcal </Typography>
                 <Typography sx={{ fontSize: 10 }}> (last 14 days) </Typography>
               </Box>
-              {meals.length? <BarCalorieIntake data={calData}/> : <NoDataYet/>}
-
+              <AreaCalorieIntakeByDate data={calData}/>
             </Paper>
           </Grid>
         </Grid>

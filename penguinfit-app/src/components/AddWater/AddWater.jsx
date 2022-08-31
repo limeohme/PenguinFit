@@ -1,5 +1,6 @@
 import LocalDrink from '@mui/icons-material/LocalDrink';
-import { Button, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default function AddWater ({ water, AddWaterHandler }) {
   return (
@@ -9,10 +10,12 @@ export default function AddWater ({ water, AddWaterHandler }) {
         <LocalDrink sx={{ fontSize: '2rem' }}/>
         <Typography variant='h6'>{water} ml</Typography>
       </Grid>
-      <Grid item xs={4}>
-        <Button variant="contained" color="primary" sx={{ boxSizing:'border-box', width: '100%' }}
-          onClick={AddWaterHandler}>+ 250 ml</Button>
-        
+      <Grid item justifySelf="end" xs={3}>
+        <Typography>+ 250 ml</Typography>        
+      </Grid>
+      <Grid item xs={1}>
+        <AddCircleIcon fontSize="large" color="primary" sx={{ mt: 1, cursor: 'pointer' }}
+          onClick={AddWaterHandler}/>        
       </Grid>
     </Grid>
   );

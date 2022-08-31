@@ -30,6 +30,7 @@ Here's what our search showed:
 ### Dashboard
 ![dash](https://gitlab.com/limeohme/web-training/-/raw/main/images/penguinFit3.png)
 ### Activities
+![activities](https://gitlab.com/limeohme/web-training/-/raw/main/images/penguinFit7.png)
 ### Goals
 ![goals](https://gitlab.com/limeohme/web-training/-/raw/main/images/penguinFit5.png)
 ### Meals

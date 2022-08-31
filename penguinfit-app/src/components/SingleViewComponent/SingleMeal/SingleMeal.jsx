@@ -1,11 +1,9 @@
 import {  Grid, Paper, Typography } from '@mui/material';
-import { useContext } from 'react';
-import AppState from '../../../providers/app-state';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CustomTooltip from '../../CustomTooltip/CustomTooltip';
 
 export default function SingleMeal({ addMealHandler, meal }) {
-  const { appState:{ _user } } = useContext(AppState);
+ 
   
 
   return (
@@ -23,9 +21,9 @@ export default function SingleMeal({ addMealHandler, meal }) {
             <Typography>{meal.foods.map((el) =>  `${el.foodItem} |`).join(' ')}</Typography>
           </Grid>
         </Grid>
-        <Grid item container spacing={2} justifyContent='space-between' alignItems='center' sx={{ color:'#00000050' }}>
+        <Grid item container spacing={2} justifyContent='space-between' alignItems='center'>
           <Grid item xs={6} sm={6}>
-            <Typography>{`${meal.cal.toFixed(2)} kcal`}</Typography>
+            <Typography variant='h6'>{`${meal.cal.toFixed(2)} kcal`}</Typography>
           </Grid>
           <Grid item container xs={6} sm={6} justifyContent='center'>
             <CustomTooltip title="re-log" arrow>

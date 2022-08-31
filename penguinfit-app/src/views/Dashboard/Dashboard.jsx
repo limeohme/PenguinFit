@@ -16,7 +16,6 @@ import { useEffect } from 'react';
 import { BarActivityDurationByDay, BarCalorieBalanceByDay } from '../../components/DataVisualisationComponents/BarCharts/DashboardBarCharts.jsx';
 import { PieGoalAchievement, PieNutrientsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts.jsx';
 import StatsCardsDash from '../../components/SingleViewComponent/StatsCardDash/StatsCardDash.jsx';
-import NoDataYet from '../../components/NoDataYet/NoDataYet.jsx';
 
 function Dashboard () {
 
@@ -54,47 +53,32 @@ function Dashboard () {
 
   return (
     // outer container
-    <Grid container spacing={2} direction="row" justifyContent="center" alignItems="center" sx={style.containerStyle}>
-      {/* left half*/}
-      <Grid item xs sx={style.midiContainerStyle}>
-        
-        <Grid item xs>
+    <Grid container direction="column" alignItems="center" sx={style.containerStyle}>
+
+      <Grid item container gap={1} direction="row" justifyContent="space-between"  sx={style.midiContainerStyle}> 
+        <Grid item xs={12} sm={5} container direction="column" justifyContent="space-around">
           <Typography sx={{ ...style.salutationStyle, color: '#000000' }} variant='h4'>Hello, </Typography>
           <Typography sx={style.salutationStyle} variant='h4'>{appState.user.username}</Typography>
-        </Grid>
-        
+        </Grid>       
+        <Grid item xs={12} sm={6}><Typography sx={style.dateStyle} variant='h5'>{date? formatDateToString(date): ''}</Typography></Grid>  
+      </Grid>
+
+      <Grid item container direction="row" xs sx={style.midiContainerStyle}> 
         {/* three cards box*/}
-        <Grid container direction="row" sx={style.cardsContainerStyle}>
+        <Grid item xs={12} sm={6} container direction="row" sx={style.cardsContainerStyle}>
           <Grid item xs={4}><StatsCardsDash type={'cals'} IconComponent={LunchDiningIcon} /></Grid>
           <Grid item xs={4}><StatsCardsDash type={'water'} IconComponent={LocalDrinkIcon} water={water}/></Grid>
           <Grid item xs={4}><StatsCardsDash type={'steps'} IconComponent={DirectionsWalkIcon} /></Grid>
         </Grid>
-        <BarActivityDurationByDay/>
+        <Grid item xs={12} sm={6} container direction='row-reverse' sx={style.piessContainerStyle}>    
+          <PieGoalAchievement goals={goals}/> 
+          <PieNutrientsDistribution nutrients={nutrients}/> 
+        </Grid>
       </Grid>
-      {/* right half*/}
-      <Grid item xs sx={style.midiContainerStyle}>
-        <Grid item xs>
-          <Typography sx={style.dateStyle} variant='h5'>{date? formatDateToString(date): ''}</Typography>
-        </Grid>
-        <Grid container direction='row-reverse' sx={style.piessContainerStyle}>      
-          {goals.length? 
-            <PieGoalAchievement goals={goals}/> :
-            <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
-              flexDirection: 'column', height: '400px', m: '2rem' }}>              
-              <NoDataYet/>
-            </Grid>
-          }
-          { nutrients.length?
-            <PieNutrientsDistribution nutrients={nutrients}/> :
-            <Grid item xs sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',
-              flexDirection: 'column', height: '400px', m: '2rem' }}>
-              <NoDataYet/> 
-            </Grid>
-          }
 
-        </Grid>
-        {/* right chart*/}
-        <BarCalorieBalanceByDay/>
+      <Grid item container direction="row" xs sx={style.midiContainerStyle}>
+        <Grid item xs={12} sm={6}><BarActivityDurationByDay/></Grid>     
+        <Grid item xs={12} sm={6}><BarCalorieBalanceByDay/></Grid>
       </Grid>
     </Grid>
 
