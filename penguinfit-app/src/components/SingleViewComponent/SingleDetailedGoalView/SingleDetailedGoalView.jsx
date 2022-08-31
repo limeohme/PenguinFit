@@ -11,7 +11,17 @@ export default function SingleDetailedGoalView({ step, handleCelebrate, handleDe
       spacing={1}
     >
       <Typography align="center" variant='h5' sx={{ bgcolor: 'transparent', my: 2 }}>{`${step.type} : ${step.title}`}</Typography>
-      <Chip label={'Status: ' + step.status} sx={{ bgcolor: 'transparent', my: 2 }}/>
+      <Chip 
+        label={
+          step.status !== 'Not there yet' ? 
+            <Button
+              onClick={() => handleCelebrate(step.type, step.target, step.id)}
+            >
+            Add to achieved goals
+            </Button>
+            :'Status: ' + step.status
+        } 
+        sx={{ my: 2, bgcolor: '#6633ff10' }}/>
       <svg viewBox="0 0 400 400">
         <VictoryPie
           innerRadius={120}
@@ -34,7 +44,7 @@ export default function SingleDetailedGoalView({ step, handleCelebrate, handleDe
           style={{ fontSize: 20 }}
           x={200} y={200}
           text={step.status !== 'Not there yet' ? 'Achieved !' :
-            `${Number(step.currentValue)}/${Number(step.targetValue)}
+            `${Math.floor(Number(step.currentValue))}/${Number(step.targetValue)}
                     ${getDisplayTarget[step.target]}`}
         />
       </svg>
@@ -46,17 +56,12 @@ export default function SingleDetailedGoalView({ step, handleCelebrate, handleDe
         divider={<Divider orientation="vertical" flexItem />}
       >
         <Typography >{'Created on: ' + formatDate(step.createdOn)}</Typography>
-        {step.status !== 'Not there yet' ? <Button
-          onClick={() => handleCelebrate(step.type, step.target, step.id)}
+        <Button
+          onClick={() => handleDelete(step.type, step.target, step.id)}
         >
-              Celebrate !
-        </Button> 
-          : <Button
-            onClick={() => handleDelete(step.type, step.target, step.id)}
-          >
               Delete goal
-          </Button>
-        }
+        </Button>
+        
       </Stack>
     </Stack>
   );
