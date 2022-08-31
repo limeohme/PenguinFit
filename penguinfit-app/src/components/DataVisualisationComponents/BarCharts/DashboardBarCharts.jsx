@@ -81,7 +81,7 @@ export function BarCalorieBalanceByDay () {
         dependentAxis />
         <VictoryAxis label={'calorie balance in kcal, by date,\nlast 14 days'}  style={{
           axis: { stroke: '#6633ff', padding: 5 },
-          axisLabel: { fontSize: 12, padding: -240 },
+          axisLabel: { fontSize: 12, padding: 100 },
           ticks: { stroke: 'grey', size: 5 },
           tickLabels: { fontSize: 12, padding: 0, marginBottom: 2, fill: '#000000' }
         }} crossAxis />
