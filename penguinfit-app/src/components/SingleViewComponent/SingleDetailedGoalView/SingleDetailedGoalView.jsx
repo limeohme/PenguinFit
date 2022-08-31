@@ -7,6 +7,9 @@ import { formatDate } from '../../../utils/goals-utils';
 export default function SingleDetailedGoalView({ step, handleCelebrate, handleDelete }) {
 
   return (
+    <>
+      {step &&
+    
     <Stack 
       spacing={1}
     >
@@ -64,6 +67,8 @@ export default function SingleDetailedGoalView({ step, handleCelebrate, handleDe
         
       </Stack>
     </Stack>
+      }
+    </>
   );
 
 }
