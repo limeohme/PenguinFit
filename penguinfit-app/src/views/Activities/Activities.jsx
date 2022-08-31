@@ -40,11 +40,17 @@ function Activities() {
     const unsubscribe = getLiveUserLastNDaysData(user.username, (snapshot) => {
       try{
         const lastNDaysData = Object.values(snapshot.val());
+
+        // obj/activites/countByType
         const activitiesDataByType = getActivitiesDataByType(lastNDaysData);
-        
         const typesByCount = getFieldByType(activitiesDataByType, 'countOfType');
         setCountByType(typesByCount);
         // console.log(countByType);
+
+        // obj/cals/burned
+
+
+        // obj/activites/durationByType & caloriesByType
 
 
       }catch(err){
