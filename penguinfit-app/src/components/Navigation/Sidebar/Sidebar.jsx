@@ -3,7 +3,8 @@
 // import { NavLink } from 'react-router-dom';
 // import AppState from '../../providers/app-state';
 import { Drawer, List, ListItem, ListItemText, Toolbar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { sidebarPages } from '../../../common/sidebar-pages';
 // import MenuIcon from '@mui/icons-material/Menu';
 
@@ -21,7 +22,7 @@ function Sidebar({ classes, toggleDrawer, open, isMdUp }) {
       {/* <Divider /> */}
       <List>
         {Object.entries(sidebarPages).map(([key, value]) => (
-          <ListItem button key={key} component={Link} to={key}>
+          <ListItem button key={key} component={NavLink} to={key}>
             <ListItemText primary={value} />
           </ListItem>
         ))}
