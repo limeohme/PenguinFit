@@ -13,14 +13,15 @@ export default function SingleDetailedGoalView({ step, handleCelebrate, handleDe
     <Stack 
       spacing={1}
     >
-      <Typography align="center" variant='h5' sx={{ bgcolor: 'transparent', my: 2 }}>{`${step.type} : ${step.title}`}</Typography>
+      <Typography align="center" variant='h5' sx={{ bgcolor: 'transparent', mt: 2 }}>{`${step.title}`}</Typography>
+      <Typography align="center"  sx={{ bgcolor: 'transparent' }}>{`${step.type}`}</Typography>
       <Chip 
         label={
           step.status !== 'Not there yet' ? 
             <Button
               onClick={() => handleCelebrate(step.type, step.target, step.id)}
             >
-            Add to achieved goals
+            Add to achieved
             </Button>
             :'Status: ' + step.status
         } 
@@ -62,7 +63,7 @@ export default function SingleDetailedGoalView({ step, handleCelebrate, handleDe
         <Button
           onClick={() => handleDelete(step.type, step.target, step.id)}
         >
-              Delete goal
+              Delete
         </Button>
         
       </Stack>

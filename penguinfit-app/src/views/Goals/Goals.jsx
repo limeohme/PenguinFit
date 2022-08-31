@@ -60,7 +60,7 @@ function Goals() {
           gap={4}
         >
           <Grid item >
-            <Paper sx={{ backgroundColor: '#ffffff75' }}>
+            <Paper sx={{ backgroundColor: '#ffffff75', p:2 }}>
               <DetailedGoalsStepper username={user.username} steps={goals.other} setShowConfetti={setShowConfetti}></DetailedGoalsStepper>
             </Paper>
           </Grid>
