@@ -115,7 +115,7 @@ function Profile () {
       <Grid item container xs md>
         <Grid container direction="row">
           <Grid item xs md sx={{ ...style.midiContainerStyle, bgcolor: 'none', justifyContent: 'center', alignItems: 'center' }}>
-            <Avatar sx={style.avatarStyle} alt={user} src={user.avatarURL || getRandomAvatar(user.username)} />
+            <Avatar sx={style.avatarStyle} alt={user.username} src={user.avatarURL || getRandomAvatar(user.username)} />
             {!edit ? 
               <SettingsRoundedIcon onClick={() => setEdit(true)} sx={{ alignSelf: 'center', ml: 10, mt: 0 }}/>:
               <Box sx={style.buttonBoxStyle}>

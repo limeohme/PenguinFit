@@ -340,7 +340,6 @@ export const getActivityRequestsArray = (requestsSnapshot) => {
   const requestsData = Object.entries(requestsSnapshot.val());
 
   return requestsData.map(([requestHandle, request]) => {
-    console.log(request);
     return { ...request, requestHandle };
   });
 };

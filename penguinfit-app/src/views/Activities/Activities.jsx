@@ -11,7 +11,7 @@ import DisplayActivityRequests from '../../components/ListComponents/DisplayActi
 import { formatCaloriesBurnedByDay, getActivitiesDataByType, getCaloriesBurnedByDay, getFieldByType, getLiveUserLastNDaysData } from '../../services/data-viz-service';
 import { PieChartActivityTypes } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
 import { CaloriesToDurationByActivityTypeBar } from '../../components/DataVisualisationComponents/BarCharts/ActivityBarCharts';
-import { CaloriesBurnedByDay } from '../../components/DataVisualisationComponents/BarCharts/CaloriesBurnedByDay';
+import { CaloriesBurnedByDay } from '../../components/DataVisualisationComponents/AreaCharts/AreaCaloriesBurnedByDay';
 
 
 function Activities() {
@@ -44,14 +44,10 @@ function Activities() {
       try{
         if(snapshot.exists()){
           const lastNDaysData = Object.values(snapshot.val());
-          console.log(lastNDaysData);
-
-          // obj/cals/burned
 
           const caloriesBurnedByDay = getCaloriesBurnedByDay(lastNDaysData);
           const formattedCaloriesBurnedByDay = formatCaloriesBurnedByDay(caloriesBurnedByDay);
           setDailyCaloriesBurned(formattedCaloriesBurnedByDay);
-
 
           const activitiesDataByType = getActivitiesDataByType(lastNDaysData);
 
@@ -62,16 +58,12 @@ function Activities() {
           // obj/activities/durationByType
           const typesByDuration = getFieldByType(activitiesDataByType, 'durationOfType');
           setDurationByType(typesByDuration);
-          console.log(durationByType);
 
           // obj/activities/caloriesByType
           const typesByCalories = getFieldByType(activitiesDataByType, 'caloriesOfType');
           setCaloriesByType(typesByCalories);
-          console.log(caloriesByType);
 
         }
-        
-
 
       }catch(err){
         console.error(err);
