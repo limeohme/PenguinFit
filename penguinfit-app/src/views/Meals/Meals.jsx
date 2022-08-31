@@ -26,7 +26,7 @@ function Meals () {
 
   useEffect(() => {
     getCalorieIntakeByDate(user.username).then((d) => setCalData(d)).catch(console.error);
-  }, [meals]);
+  }, [meals, user]);
 
   useEffect(() => {
     const allTypes = [];

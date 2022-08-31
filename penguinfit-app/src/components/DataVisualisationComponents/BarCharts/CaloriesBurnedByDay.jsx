@@ -55,7 +55,7 @@ export function CaloriesBurnedByDay () {
               <stop offset="50%" stopColor="#6633ff50" />
               <stop offset="60%" stopColor="#6633ff60" />
               <stop offset="70%" stopColor="#6633ff70" />
-              {/* <stop offset="80%" stopColor="#6633ff80" /> */}
+              <stop offset="80%" stopColor="#6633ff80" />
               <stop offset="100%" stopColor="#6633ff" />
             </linearGradient>
           </defs>

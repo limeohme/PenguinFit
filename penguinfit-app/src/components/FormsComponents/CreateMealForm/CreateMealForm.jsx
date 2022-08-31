@@ -150,6 +150,10 @@ function MealForm () {
       </Grid>
 
       <Grid container direction="column-reverse" spacing={2}>
+        <Grid item xs={12}>
+          <CustomRadioGroupForm name={'type'} value={mealObj.type} 
+            onChangeFunc={handleMealDetailsChange} labels={MEAL_TYPES} error={!message.includes('type')? null: message}/>
+        </Grid>
         {mealObj.foods.map((el, index) => {
           return ( <Grid item xs key={index}>
             <Typography key={index}>{`${el.foodItem} | ${el.quantity} gr.` }
@@ -158,10 +162,6 @@ function MealForm () {
           </Grid>
           );
         })}
-        <Grid item xs={12}>
-          <CustomRadioGroupForm name={'type'} value={mealObj.type} 
-            onChangeFunc={handleMealDetailsChange} labels={MEAL_TYPES} error={!message.includes('type')? null: message}/>
-        </Grid>
                         
       </Grid>
       <Grid container spacing={2}>
@@ -175,7 +175,7 @@ function MealForm () {
         </Grid>
         <Grid item xs={4} sx={{ display:'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Button variant='contained' color="primary" onClick={() => handleAddtoDB(mealObj)} sx={{ width: '100%', boxSizing: 'border-box' }}>
-            ADD MEAL
+            ADD
           </Button>
         </Grid>
       </Grid>
