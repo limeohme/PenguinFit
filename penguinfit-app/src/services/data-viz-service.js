@@ -77,3 +77,51 @@ export const getFieldByType = (dataByType, field) => {
     };
   }, {});
 };
+
+export const getCaloriesBurnedByDay = (dataByDay) => {
+  return dataByDay.map((day) => {
+    const dayDate = new Date(day.date);
+    return { [dayDate.getDate()]: +day.cal.burned.toFixed(0) };
+  });
+};
+
+export const findMaxField = (data) => {
+  return data
+    ?.map((obj) => obj.y)
+    .reduce((acc, val) => {
+      if (val > acc) {
+        acc = val;
+      }
+
+      return acc;
+    }, 0);
+};
+
+export const getRoundedMax = (max = 0, round = 1) => {
+  if (!Number.isNaN(round) && round > 0) {
+    return Math.round(max / round) * round;
+  }
+  return NaN;
+};
+
+export const formatCaloriesBurnedByDay = (data) => {
+  return data.map((obj) => {
+    const [day, calories] = Object.entries(obj)[0];
+
+    return {
+      x: day,
+      y: calories
+    };
+  });
+};
+
+export const formatData = (data) => {
+  return Object.entries(data)
+    .map(([key, value]) => {
+      if (value !== 0) {
+        return { x: key, y: value };
+      }
+      return null;
+    })
+    .filter(Boolean);
+};

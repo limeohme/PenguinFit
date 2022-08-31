@@ -1,4 +1,5 @@
 import { LineSegment, VictoryArea, VictoryAxis, VictoryChart, VictoryCursorContainer, VictoryLabel } from 'victory';
+import { findMaxField, getRoundedMax } from '../../../services/data-viz-service';
 
 const caloriesBurnedByDayStyles = {
   yAxis: {
@@ -15,27 +16,15 @@ const caloriesBurnedByDayStyles = {
   }
 };
 
-export function CaloriesBurnedByDay () {
-
-  const maxima = 2000;
-  const ticks = 3;
-
-  const data = [
-    { x: '1', y: 1246 },
-    { x: '2', y: 126 },
-    { x: '3', y: 1400 },
-    { x: '4', y: 768 },
-    { x: '5', y: 912 },
-    { x: '6', y: 503 },
-    { x: '7', y: 678 },
-    { x: '8', y: 835 },
-    { x: '9', y: 917 },
-    { x: '10', y: 324 },
-    { x: '11', y: 98 },
-    { x: '12', y: 245 },
-    { x: '13', y: 678 },
-    { x: '14', y: 150 },
-  ];
+export function CaloriesBurnedByDay ({ caloriesBurnedByDay }) {
+  
+  const ticks = 5;
+  const maxBurned = findMaxField(caloriesBurnedByDay);
+  const maxBurnedRounded = getRoundedMax(maxBurned, 1000) || 200;
+  const defaultData = caloriesBurnedByDay.length
+    ? [...caloriesBurnedByDay, { x: 'tomorrow', y:maxBurned+500 }] 
+    : [{ x: 'today', y:maxBurned }, { x: 'tomorrow', y:maxBurned+500 }];
+  const data = caloriesBurnedByDay.length > 1? caloriesBurnedByDay : defaultData;
 
   return (
       
@@ -82,7 +71,9 @@ export function CaloriesBurnedByDay () {
         <VictoryAxis 
           dependentAxis 
           tickCount={ticks}
-          domain={{ y: [0, maxima] }}
+          //   tickValues={[0, 0.25, 0.5, 0.75, 1]}
+          //   tickFormat={(t) => Math.floor(t * maxima)}
+          domain={{ y: [0, maxBurnedRounded || 1] }}
           style={caloriesBurnedByDayStyles.yAxis}
         />
 
