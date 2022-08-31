@@ -134,7 +134,7 @@ const CreateGoalForm = ({ username }) => {
             </Grid>
             <Grid item xs={4} sx={{ display:'flex', alignItems: 'right', justifyContent: 'right' }}>
               <Button variant="contained" color="primary" type="submit" sx={goalFromStyles.btn}>
-            Add goal
+            Add
               </Button>
             </Grid>
           </Grid>

@@ -49,8 +49,7 @@ export function CaloriesToDurationByActivityTypeBar ({ dataByType }) {
       { x:'strength', y:0 }
     ]
   ];
-
-  console.log(dataFormatted.flat());
+  
   const data = dataFormatted.flat().length? dataFormatted : defaultData;
 
   return (
@@ -82,8 +81,6 @@ export function CaloriesToDurationByActivityTypeBar ({ dataByType }) {
 
         <VictoryAxis 
           crossAxis
-          //   label={'duration to calories burned per activity type\nlast 30 days'}  
-          //   width={330} 
           style={ActivityBarStyles.axisHorizontal} 
         />
 

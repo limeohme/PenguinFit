@@ -7,7 +7,7 @@ export default function SingleMeal({ addMealHandler, meal }) {
   
 
   return (
-    <Paper sx={{ display: 'flex' , backgroundColor: '#ffffff75', p: 2 }}>
+    <Paper sx={{ display: 'flex' , backgroundColor: '#ffffff75', p: 2, minHeight: '14em' }}>
 
       <Grid container direction='column' spacing={1} justifyContent='space-between' alignItems='center'>
         <Grid item container spacing={2} justifyContent='space-between' alignItems='center'>

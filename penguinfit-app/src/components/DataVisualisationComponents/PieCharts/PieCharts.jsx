@@ -3,8 +3,6 @@ import { Typography, Grid } from '@mui/material';
 import * as style from './PieChartsStyles.js';
 import { MEAL_TYPES } from '../../../common/constants.js';
 import { formatData } from '../../../services/data-viz-service.js';
-// import { activityTypes } from '../../../utils/activities-utils.js';
-// import { activityTypes } from '../../../utils/activities-utils';
 
 function CustomPieTooltip ({ ...props }) {
   return (
@@ -122,11 +120,9 @@ export function PieGoalAchievement ({ goals }) {
 
 const activityTypesColors = ['#6633ff', '#fed101', '#6633ff75'];
 export function PieChartActivityTypes ({ countByType }) {
-
   
   const dataFormatted = formatData(countByType);
 
-  // console.log(dataFormatted);
   const pieData = dataFormatted.length? dataFormatted : [{ x: 'no data', y: '' }];
   const legendTypes = dataFormatted.map((dataObj)=>dataObj.x);
 
@@ -147,7 +143,6 @@ export function PieChartActivityTypes ({ countByType }) {
         itemsPerRow={legendTypes.length}
         gutter={30}
         height={40}
-        // width={600}
         style={{ labels: { fontSize: 20, } }}
         data={legendTypes.map((type, i) => {
           return {

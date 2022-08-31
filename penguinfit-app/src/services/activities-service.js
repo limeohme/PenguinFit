@@ -26,7 +26,6 @@ export const getLiveUserActivities = (username, listen) => {
 export const getUserActivityByHandle = (username, handle) => {
   return get(ref(db, `activities/${username}/${handle}`))
     .then((snapshot) => {
-      console.log(snapshot);
       return snapshot.val();
     })
     .catch(console.error);
