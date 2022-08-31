@@ -5,7 +5,7 @@ import { getCalorieDifferenceByDate, getExerciseDurationByDate } from '../../../
 import { useContext, useEffect, useState } from 'react';
 import AppState from '../../../providers/app-state.js';
 import NoDataYet from '../../NoDataYet/NoDataYet.jsx';
-import { getCalorieIntakeByDate } from '../../../services/meals-service.js';
+// import { getCalorieIntakeByDate } from '../../../services/meals-service.js';
 
 
 export function BarActivityDurationByDay () {
@@ -189,14 +189,8 @@ export function BarCaloriesByMeal ({ data , maxima }) {
   );
 }
 
-export function BarCalorieIntake () {
-  const { appState:{ user } } = useContext(AppState);
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    getCalorieIntakeByDate(user.username).then((d) => setData(d)).catch(console.error);
-  }, [user]);
-  
+export function BarCalorieIntake ({ data }) {
+ 
   return (
     
     <VictoryChart domainPadding={{ x: 5 }} minDomain={{ y: 0, x: 0 }} maxDomain={{ y: 3500 }} >

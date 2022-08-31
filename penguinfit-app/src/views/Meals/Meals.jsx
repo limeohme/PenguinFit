@@ -1,12 +1,12 @@
 import { Box, Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { MEAL_TYPES } from '../../common/constants';
-import { BarCalorieIntake, BarCaloriesByMeal } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
+import { BarCalorieIntake, } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
+import { BarCaloriesAndCountByMealType, } from '../../components/DataVisualisationComponents/BarCharts/MealsBarCharts';
 import MealForm from '../../components/FormsComponents/CreateMealForm/CreateMealForm';
-// import { PieMealsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts';
 import SingleMeal from '../../components/SingleViewComponent/SingleMeal/SingleMeal';
 import AppState from '../../providers/app-state';
-import { getMealByType, getMealCalsByType, getRecentMeals } from '../../services/meals-service';
+import { getCalorieIntakeByDate, getMealByType, getMealCalsByType, getRecentMeals } from '../../services/meals-service';
 import { addMealToDB, updateDailyCalsGetter, updateDailyCalsUpdater, updateUserNutrients } from '../../services/meals-service';
 import { formatDateToString } from '../../utils/utils';
 import { updateDailyWaterGetter, updateDailyWaterUpdater } from '../../services/meals-service';
@@ -16,12 +16,17 @@ import AddWater from '../../components/AddWater/AddWater';
 
 function Meals () {
 
-  const { appState:{ user } } = useContext(AppState);
+  const { appState: { user } } = useContext(AppState);
   const [meals, setMeals] = useState([]);
   const [typeData, setTypeData] = useState([]);
   const [water, setWater] = useState(0);
   const [maxima, setMaxima] = useState([]);
   const [visible, setVisible] = useState(0);
+  const [calData, setCalData] = useState([]);
+
+  useEffect(() => {
+    getCalorieIntakeByDate(user.username).then((d) => setCalData(d)).catch(console.error);
+  }, [meals]);
 
   useEffect(() => {
     const allTypes = [];
@@ -34,8 +39,6 @@ function Meals () {
     setMaxima([allTypes, allCals].map(
       (dataset) => Math.max(...dataset.map((d) => d.y))
     ));
-
-
   }, [meals]);
 
   useEffect(() => {
@@ -127,7 +130,7 @@ function Meals () {
                 <Typography sx={{ fontSize: 10 }}> (last 21 meals) </Typography>
               </Box>
               {meals.length? 
-                <BarCaloriesByMeal data={typeData} maxima={maxima}/> :
+                <BarCaloriesAndCountByMealType data={typeData} maxima={maxima}/> :
                 <NoDataYet/>  
 
               }
@@ -137,7 +140,7 @@ function Meals () {
                 <Typography sx={{ fontSize: 15 }}> average calorie intake in kcal </Typography>
                 <Typography sx={{ fontSize: 10 }}> (last 14 days) </Typography>
               </Box>
-              {meals.length? <BarCalorieIntake/> : <NoDataYet/>}
+              {meals.length? <BarCalorieIntake data={calData}/> : <NoDataYet/>}
 
             </Paper>
           </Grid>

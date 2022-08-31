@@ -124,7 +124,7 @@ function Activities() {
         //   spacing={4}
         >
           <Grid item>
-            <Paper sx={{ backgroundColor: '#ffffff75',  p: 1  }}>
+            <Paper sx={{ backgroundColor: '#ffffff75',  p: 1, height: '500px'  }}>
               
               <Box>
                 <Typography sx={{ fontSize: 15 }}> calories burned by day </Typography>
