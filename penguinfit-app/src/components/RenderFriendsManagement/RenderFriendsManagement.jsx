@@ -6,38 +6,8 @@ import {  listenToRequests } from '../../services/friends-service';
 import DisplaySentRequests from '../ListComponents/DisplaySentRequests/DisplaySentRequests';
 import { Divider, Grid } from '@mui/material';
 import DisplayReceivedRequests from '../ListComponents/DisplayReceivedRequests/DisplayReceivedRequests';
+import { getAddFriendsOptions, sortRequests } from '../../utils/friends-utils';
 
-
-const deleteProperties = (obj, properties) => {
-  for (const property of properties){
-    delete obj[property];
-  }
-};
-
-const getAddFriendsOptions = (requests ,friends, users, username) => {
-  // eslint-disable-next-line no-unused-vars
-  const { [username]:remove , ...usersCopy } = users;
-  deleteProperties(usersCopy, friends.map(el => el.username));
-  if(requests){
-    deleteProperties(usersCopy, requests.sent.map(el => el.receiver));
-    deleteProperties(usersCopy, requests.received.map(el => el.sender));
-  };
-  return Object.keys(usersCopy);
-};
-
-const sortRequests = (requests, username) => {
-  if(!requests) return null;
-  const requestsArr = Object.values(requests);
-  const sent = [];
-  const received = [];
-  requestsArr.forEach(el => {
-    if(el.sender === username) {
-      return sent.push(el);
-    } 
-    return received.push(el);
-  });
-  return { received , sent };
-};
 
 export default function RenderFriendsManagement({ username }) {
   const [ users, setUsers ] = useState([]);
@@ -49,14 +19,14 @@ export default function RenderFriendsManagement({ username }) {
       .then((snapshot) => setUsers(snapshot.val()));
     getUserFriends(username)
       .then((UserFriends) => setFriends(UserFriends));
-  }, []);
+  }, [username]);
   
   useEffect(() => {
     const unsubscribe = listenToRequests(username, (snapshot) => {
       setRequests(sortRequests(snapshot.val(), username));
     });
     return () => unsubscribe();
-  }, []);
+  }, [username]);
 
   useEffect(() => {
     const unsubscribe = listenToFriends(username, () => {
@@ -64,7 +34,7 @@ export default function RenderFriendsManagement({ username }) {
         .then((UserFriends) => setFriends(UserFriends));
     });
     return () => unsubscribe();
-  }, []);
+  }, [username]);
 
   return (
     <Grid
@@ -73,7 +43,6 @@ export default function RenderFriendsManagement({ username }) {
       justifyContent="space-between"
       alignItems="center"
       spacing={1.5}
-    
     >
       <Grid item xs={12} sm={12}>
         <FriendsAutocomplete 
