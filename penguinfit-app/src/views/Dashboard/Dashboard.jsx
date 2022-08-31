@@ -13,7 +13,7 @@ import {
 } from '../../services/dashboard-service.js';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { BarActivityDurationByDay, BarCalorieBalanceByDay } from '../../components/DataVisualisationComponents/BarCharts/BarCharts.jsx';
+import { BarActivityDurationByDay, BarCalorieBalanceByDay } from '../../components/DataVisualisationComponents/BarCharts/DashboardBarCharts.jsx';
 import { PieGoalAchievement, PieNutrientsDistribution } from '../../components/DataVisualisationComponents/PieCharts/PieCharts.jsx';
 import StatsCardsDash from '../../components/SingleViewComponent/StatsCardDash/StatsCardDash.jsx';
 import NoDataYet from '../../components/NoDataYet/NoDataYet.jsx';

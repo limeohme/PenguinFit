@@ -41,7 +41,7 @@ export function CaloriesBurnedByDay () {
       
     <>
       <VictoryChart 
-        height={400}
+        // height={360}
         width={700}
       >
 
