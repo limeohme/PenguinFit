@@ -1,7 +1,7 @@
 import { Box, Grid, Paper, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { MEAL_TYPES } from '../../common/constants';
-import { BarCalorieIntake, } from '../../components/DataVisualisationComponents/BarCharts/BarCharts';
+import { AreaCalorieIntakeByDate } from '../../components/DataVisualisationComponents/AreaCharts/AreaCalorieIntakeByDate';
 import { BarCaloriesAndCountByMealType, } from '../../components/DataVisualisationComponents/BarCharts/MealsBarCharts';
 import MealForm from '../../components/FormsComponents/CreateMealForm/CreateMealForm';
 import SingleMeal from '../../components/SingleViewComponent/SingleMeal/SingleMeal';
@@ -140,7 +140,7 @@ function Meals () {
                 <Typography sx={{ fontSize: 15 }}> average calorie intake in kcal </Typography>
                 <Typography sx={{ fontSize: 10 }}> (last 14 days) </Typography>
               </Box>
-              {meals.length? <BarCalorieIntake data={calData}/> : <NoDataYet/>}
+              {meals.length? <AreaCalorieIntakeByDate data={calData}/> : <NoDataYet/>}
 
             </Paper>
           </Grid>
