@@ -198,14 +198,14 @@ export const updateUserGoalsStatus = (username) => {
     .catch(console.error);
 };
 
-// export const incrementUserGoalsStatus = (username, status) => {
-//   get (ref(db, `users/${username}/goalsStatus/${status}`))
-//     .then((snapshot) => {
-//       let currentCount = snapshot.val() || 0;
-//       set (ref(db, `users/${username}/goalsStatus/${status}`), ++currentCount);
-//     })
-//     .catch(console.error);
-// };
+export const incrementUserGoalsStatus = (username, status) => {
+  get (ref(db, `users/${username}/goalsStatus/${status}`))
+    .then((snapshot) => {
+      let currentCount = snapshot.val() || 0;
+      set (ref(db, `users/${username}/goalsStatus/${status}`), ++currentCount);
+    })
+    .catch(console.error);
+};
 
 // export const decrementUserGoalsStatus = (username, status) => {
 //   get (ref(db, `users/${username}/goalsStatus/${status}`))
