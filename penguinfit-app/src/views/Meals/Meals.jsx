@@ -28,11 +28,8 @@ function Meals () {
   }, [meals, user]);
 
   useEffect(() => {
-    const allTypes = [];
-    const allCals = [];
-    MEAL_TYPES.forEach((mealT) => allCals.push({ x: mealT, y: getMealCalsByType(meals, mealT) }));
-
-    MEAL_TYPES.forEach((mealT) => allTypes.push({ x: mealT, y: getMealByType(meals, mealT) }));
+    const allTypes = MEAL_TYPES.map((mealT) => ({ x: mealT, y: getMealByType(meals, mealT) }));
+    const allCals = MEAL_TYPES.map((mealT) => ({ x: mealT, y: getMealCalsByType(meals, mealT) }));    
     setTypeData([allTypes, allCals]);
 
     setMaxima([allTypes, allCals].map(

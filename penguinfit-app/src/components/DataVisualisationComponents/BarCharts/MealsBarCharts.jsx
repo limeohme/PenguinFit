@@ -38,7 +38,7 @@ export function BarCaloriesAndCountByMealType ({ data , maxima }) {
           return <VictoryBar
             key={i}
             barRatio={0.8}
-            y={(datum) => datum.y / maxima[i]} // [[{x y},{x y}],[{x y}]]
+            y={(datum) => datum.y / maxima[i]}
             style={{
               data: {
                 fill: () => i === 0? '#6633ff80' : '#f2c324',
