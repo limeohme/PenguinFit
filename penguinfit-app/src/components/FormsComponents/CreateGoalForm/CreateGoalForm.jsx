@@ -91,7 +91,7 @@ const CreateGoalForm = ({ username }) => {
                     checked={formValues.type !== 'general'}
                     name="type"
                     control={<Radio size="small" />}
-                    label="By exercise"
+                    label="By activity"
                   />
                 </RadioGroup>
               </FormControl>
@@ -101,7 +101,7 @@ const CreateGoalForm = ({ username }) => {
               {formValues.type !== 'general' &&
               <CustomAutocomplete 
                 name="type" 
-                label="Exercise"
+                label="Activity"
                 value={formValues.type}
                 options={sortedActivities}
                 handler={handleInputChange}
