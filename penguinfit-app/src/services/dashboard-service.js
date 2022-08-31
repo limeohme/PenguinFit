@@ -14,7 +14,7 @@ export const getGoalsDistribution = (user) => {
         ];
         return data;
       }
-      return [];
+      return [{ x: 'No data', y: 10 }, { x: 'Log something', y: 50 }];
     }).catch(console.error);
 };
 export const getNutrientDistribution = (user) => {
@@ -29,7 +29,7 @@ export const getNutrientDistribution = (user) => {
         ];
         return data;
       }
-      return [];
+      return [{ x: 'No data', y: 50 }, { x: 'Log something', y: 10 }];
     }).catch(console.error);
   
 };
@@ -46,7 +46,7 @@ export const getExerciseDurationByDate = (user) => {
           return { x: el.date.split(' ')[2], y: el.totalActivityDuration };
         });
       } else {
-        return [];
+        return [{ x: 'No data yet', y: 20 }];
       }
     }).catch(console.error);
   
@@ -60,7 +60,7 @@ export const getCalorieDifferenceByDate = (user) => {
           return { x: el.date.split(' ')[2], y: el.cal.consumed - el.cal.burned - FAKE_BMR };
         });
       } else {
-        return [];
+        return [{ x: 'No data yet', y: 20 }];
       }
     }).catch(console.error);
   

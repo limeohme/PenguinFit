@@ -20,7 +20,7 @@ const CustomAutocomplete = ({ name, label, value, options, handler, error }) => 
         value={value} 
         options={options}
         clearIcon={null}
-        onOpen={(e) => e.target.value = null}
+        onOpen={(e) => e.target.value = ''}
         isOptionEqualToValue={(opt, val) => opt.id === val.id}
         onChange={(event, val) => handler(event, name, val)}
         onInputChange={(event, val) => handler(event, name, val)}

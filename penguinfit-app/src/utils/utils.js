@@ -140,7 +140,7 @@ export const titleKeywordsToObject = (title) => {
 // object utils
 
 export const getSortedKeys = (obj) => {
-  return Object.keys(obj).sort();
+  return obj ? Object.keys(obj).sort() : [];
 };
 
 export const objectContainsKey = (obj, key) => {

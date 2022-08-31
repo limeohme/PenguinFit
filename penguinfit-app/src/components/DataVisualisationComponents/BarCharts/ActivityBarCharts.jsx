@@ -1,4 +1,5 @@
 import { VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryLegend } from 'victory';
+import { findMaxField, formatData, getRoundedMax } from '../../../services/data-viz-service';
 
 const durVSCalColors = ['#6633ff', '#6633ff50'];
 
@@ -26,21 +27,31 @@ const ActivityBarStyles = {
   legend: { labels: { fontSize: 20 } }
 };
 
-export function CaloriesToDurationByActivityTypeBar () {
+export function CaloriesToDurationByActivityTypeBar ({ dataByType }) {
 
-  const maxima = [360,2500];
-  const data = [
+  const dataFormatted = dataByType?.map((fieldByTypeObj)=>formatData(fieldByTypeObj));
+  const maxFieldsByType = dataFormatted?.map((fieldByTypeObj)=>findMaxField(fieldByTypeObj));
+
+  const maxima = [
+    getRoundedMax(maxFieldsByType[0], 100) || 200,
+    getRoundedMax(maxFieldsByType[1], 1000) || 2000
+  ];
+
+  const defaultData = [
     [
-      { x:'cardio', y:230 },
-      { x:'other', y:300 },
-      { x:'strength', y:160 }
+      { x:'cardio', y:0 },
+      { x:'other', y:0 },
+      { x:'strength', y:0 }
     ],
     [
-      { x:'cardio', y:2700 },
-      { x:'other', y:543 },
-      { x:'strength', y:100 }
+      { x:'cardio', y:0 },
+      { x:'other', y:0 },
+      { x:'strength', y:0 }
     ]
   ];
+
+  console.log(dataFormatted.flat());
+  const data = dataFormatted.flat().length? dataFormatted : defaultData;
 
   return (
     
