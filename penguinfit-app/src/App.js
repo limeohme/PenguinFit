@@ -34,7 +34,7 @@ const useStyles = (theme) => ({
     '& .MuiDrawer-paper': { boxSizing: 'border-box', borderWidth: 0, width: DRAWER_WIDTH, backgroundColor: '#FED101', pl: 6, boxShadow: '0px 3px 10px 3px #00000025' }
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: 'auto',
     [theme.breakpoints.up('md')]: {
       display: 'none'
     }
@@ -65,7 +65,6 @@ const useStyles = (theme) => ({
   }
 });
 
-// 🔥 ⌛ ⚡ 💥
 function App() {
   const [appState, setState] = useState({
     user: getLoggedUser(),
@@ -96,7 +95,7 @@ function App() {
     <BrowserRouter>
       <AppState.Provider value={{ appState, setState }}>
         <CssBaseline />
-        <Navbar classes={classes} toggleDrawer={toggleDrawer} />
+        <Navbar classes={classes} toggleDrawer={toggleDrawer} isMdUp={isMdUp} />
 
         <Box component="main" sx={classes.outlet}>
           <Routes>

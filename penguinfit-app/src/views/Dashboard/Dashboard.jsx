@@ -53,7 +53,7 @@ function Dashboard () {
 
   return (
     // outer container
-    <Grid container direction="column" alignItems="center" sx={style.containerStyle}>
+    <Grid container direction="column" alignItems="center" sx={{ p:3, mt: 3 }}>
 
       <Grid item container gap={1} direction="row" justifyContent="space-between"  sx={style.midiContainerStyle}> 
         <Grid item xs={12} sm={5} container direction="column" justifyContent="space-around">

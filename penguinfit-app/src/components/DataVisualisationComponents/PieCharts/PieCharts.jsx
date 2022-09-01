@@ -11,7 +11,7 @@ function CustomPieTooltip ({ ...props }) {
       <VictoryTooltip
         {...props}
         x={200} y={250}
-        text={({ datum }) => `${datum.x}`}
+        text={({ datum }) => `${datum.y}% \n${datum.x}`}
         orientation="top"
         pointerLength={0}
         cornerRadius={50}
@@ -121,7 +121,17 @@ export function PieGoalAchievement ({ goals }) {
 const activityTypesColors = ['#6633ff', '#fed101', '#6633ff75'];
 export function PieChartActivityTypes ({ countByType }) {
   
-  const dataFormatted = formatData(countByType);
+  //data in correct chart format
+  const dataFormattedNumbers = formatData(countByType);
+
+  //get total number of activities
+  const totalActivitiesCount = dataFormattedNumbers.reduce((tot,obj) => tot + obj.y, 0);
+
+  //to percentage
+  const dataFormatted = dataFormattedNumbers.map((obj)=>({ 
+    ...obj, 
+    y: +((obj.y/totalActivitiesCount)*100).toFixed(0) 
+  }));
 
   const pieData = dataFormatted.length? dataFormatted : [{ x: 'no data', y: '' }];
   const legendTypes = dataFormatted.map((dataObj)=>dataObj.x);

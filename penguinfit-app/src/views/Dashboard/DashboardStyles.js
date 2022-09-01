@@ -21,12 +21,12 @@ export const cardsContainerStyle = {
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-around',
-  alignSelf: 'center',
+  alignSelf: 'center'
 };
 
 export const piessContainerStyle = {
   gap: '0rem',
-  alignSelf: 'center',
+  alignSelf: 'center'
 };
 
 export const salutationStyle = {
@@ -35,7 +35,6 @@ export const salutationStyle = {
   letterSpacing: 2,
   px: '2rem',
   boxSizing: 'border-box'
-
 };
 
 export const dateStyle = {
@@ -44,4 +43,3 @@ export const dateStyle = {
   px: '2rem',
   boxSizing: 'border-box'
 };
-

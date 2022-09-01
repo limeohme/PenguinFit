@@ -2,16 +2,6 @@ import { limitToLast, onValue, query, ref } from 'firebase/database';
 import { db } from '../config/firebase-config';
 import { activityTypes } from '../utils/activities-utils';
 
-// const getActivitiesOfDay = async (username) => {
-//   const snapshot = await getUserDataOfDay(username);
-
-//   if (snapshot.exists()) {
-//     return Object.values(snapshot.val()).activities;
-//   }
-
-//   return [];
-// };
-
 const DATA_BY_DAY_REQUEST_LIMIT = 14;
 
 const trackedFields = {
@@ -22,12 +12,6 @@ const trackedFields = {
 export const getLiveUserLastNDaysData = (username, listener, limit = DATA_BY_DAY_REQUEST_LIMIT) => {
   return onValue(query(ref(db, `users/${username}/dataByDay`), limitToLast(limit)), listener);
 };
-
-// export const getUserLastNDaysData = async (username, limit = DATA_BY_DAY_REQUEST_LIMIT) => {
-//   return get(query(ref(db, `users/${username}/dataByDay`), limitToLast(limit))).then((snapshot) => {
-//     console.log(snapshot.val());
-//   });
-// };
 
 const getUserActivitiesFromLastNDays = (lastNDaysData) => {
   return lastNDaysData.map((day) => day.activities);

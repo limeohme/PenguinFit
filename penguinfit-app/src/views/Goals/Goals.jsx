@@ -28,7 +28,7 @@ function Goals() {
       direction="row"
       justifyContent="left"
       alignItems="left"
-      sx={{ p:3 }}
+      sx={{ p:3, mt: 3 }}
       spacing={4}
     >
       {showConfetti ? <DisplayConfetti/> : null}

@@ -5,8 +5,9 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import CustomTooltip from '../../CustomTooltip/CustomTooltip';
 import CloseIcon from '@mui/icons-material/Close';
 import { Stack } from '@mui/system';
+import { targetIcons } from '../../../common/targets-icons';
 
-const secondaryDetailsStyle = { textAlign:'right', color:'#00000050' };
+const secondaryDetailsStyle = { color:'#00000050' };
 
 export default function SingleAchievedGoalView({ goal, username  }) {
 
@@ -26,17 +27,12 @@ export default function SingleAchievedGoalView({ goal, username  }) {
 
         <Grid item container justifyContent='space-between' alignItems='center'>
 
-          <Grid item xs={6} sm={6} >
-            <Typography variant='h5'>{goal.title}</Typography>
+          <Grid item xs={11} sm={11} >
+            <Typography variant='h5'>{`${targetIcons[goal.target]??''}`} {goal.title}</Typography>
+            
           </Grid>
 
-          <Grid item xs={5} sm={5}>
-            <Stack>
-              <Typography sx={secondaryDetailsStyle}>{`Type: ${goal.type} `}</Typography>
-              <Typography sx={secondaryDetailsStyle}>{ `Target: ${goal.target}`}</Typography>
-              <Typography sx={secondaryDetailsStyle}> {`Created on: ${parseDate(goal.createdOn) }`}</Typography>
-            </Stack>
-          </Grid>
+          
 
           <Grid item xs={1} sm={1} >
             <CustomTooltip title="delete" arrow placement="top">
@@ -46,6 +42,14 @@ export default function SingleAchievedGoalView({ goal, username  }) {
             </CustomTooltip>
           </Grid>
           
+        </Grid>
+
+        <Grid item container justifyContent='space-between' alignItems='centre' >
+          <Stack>
+            <Typography sx={secondaryDetailsStyle}>{`Type: ${goal.type} `}</Typography>
+            <Typography sx={secondaryDetailsStyle}>{ `Target: ${goal.target}`}</Typography>
+            <Typography sx={secondaryDetailsStyle}> {`Created on: ${parseDate(goal.createdOn) }`}</Typography>
+          </Stack>
         </Grid>
 
         <Grid item container justifyContent='space-between' alignItems='centre' >

@@ -4,7 +4,7 @@ import AppState from '../../../providers/app-state';
 import { AppBar, IconButton, Button, Toolbar, Typography } from '@mui/material';
 import DropMenu from '../DropMenu/DropMenu';
 
-function Navbar({ classes, toggleDrawer }) {
+function Navbar({ classes, toggleDrawer, isMdUp }) {
   const { appState:{ user } } = useContext(AppState);
   
   const renderUserMenuBtn = () => {
@@ -39,7 +39,8 @@ function Navbar({ classes, toggleDrawer }) {
     <AppBar position="fixed" sx={classes.appBar} elevation={0}>
       <Toolbar>
         {renderUserMenuBtn()}
-        <Typography variant="h4" sx={{ mr: 'auto' }}>PenguinFit</Typography>
+        {isMdUp? <Typography variant="h4" sx={{ mr: 'auto' }}>PenguinFit</Typography> : null}
+        
         {renderLoginLogout()}
       </Toolbar>
     </AppBar>
