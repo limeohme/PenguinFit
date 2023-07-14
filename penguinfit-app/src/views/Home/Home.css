@@ -1,0 +1,110 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  margin: var(--navbar-height) 0;
+}
+
+.counters-text,
+h2,
+h3 {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+.welcome-msg > h2 {
+  color: var(--element-background-color);
+  letter-spacing: 0.4rem;
+}
+
+span.welcome-user-name {
+  color: var(--btn-background-color);
+  letter-spacing: 0.4rem;
+}
+
+.counters-container {
+  box-sizing: border-box;
+  min-width: var(--element-width);
+  font-family: var(--main-font);
+  display: flex;
+  justify-content: right;
+  gap: 1rem;
+  border-radius: var(--element-radius);
+  /* border-radius: calc((var(--btn-height) / 2) + (var(--element-width) / 20)); */
+  padding: calc(var(--element-width) / 20);
+  background-color: var(--post-background-color);
+  box-shadow: var(--box-shadow-sinkIn);
+}
+
+.counters-text {
+  color: var(--text-color-hover);
+  /* letter-spacing: 0.2rem; */
+  /* font-size: 0.9em; */
+  width: 100%;
+  text-align: center;
+  line-height: var(--btn-height);
+  vertical-align: middle;
+  /* background-color: var(--element-background-color); */
+  border-radius: calc(var(--element-radius) / 2);
+  cursor: pointer;
+}
+
+.counters-num {
+  color: var(--btn-hover-color);
+}
+
+.counters-num,
+.counters-icon {
+  text-shadow: var(--text-shadow-active);
+}
+
+.home-posts-menu {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  padding: 0 15rem;
+}
+
+h3.sorting-title {
+  color: var(--element-background-color);
+}
+
+h3.sorting-title:hover {
+  cursor: pointer;
+}
+
+.sorting-title {
+  max-width: calc(var(--element-width) + 5rem);
+  font-family: var(--main-font);
+  color: var(--text-color-hover);
+  font-size: 1.5rem;
+  font-weight: normal;
+  text-align: center;
+  letter-spacing: 0.2rem;
+}
+
+h3.sorting-title.not-active:hover {
+  color: var(--btn-background-color);
+}
+
+h3.sorting-title.active-posts {
+  text-shadow: var(--text-shadow-active);
+}
+
+/* .stripe {
+  color: var(--btn-background-color);
+} */
+
+.home-posts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 0;
+  margin: 0;
+  max-width: calc(var(--element-width) + 5rem);
+}
